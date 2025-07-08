@@ -1,0 +1,35 @@
+# Adds Energy monitoring using the INA228 I2C digital power monitor
+#   Sensors provided: Voltage(V), Power(W) and Energy(wH)
+logger:
+  logs:
+    ina2xx: INFO
+
+time:
+  - platform: homeassistant
+    id: !extend homeassistant_time
+    on_time:
+      - seconds: 0
+        minutes: 0
+        hours: 0
+        then:
+          - lambda: "id(ina228_sensor).reset_energy_counters();"
+
+sensor:
+  - platform: ina2xx_i2c
+    id: ina228_sensor
+    i2c_id: i2c1_bus
+    model: INA228
+    shunt_resistance: 0.150ohm
+    max_current: 3A
+    adc_range: 0
+    update_interval: 60s
+    bus_voltage:
+      name: "Voltage"
+      accuracy_decimals: 2
+    power:
+      name: "Power"
+      accuracy_decimals: 2
+    energy:
+      name: "Energy"
+      accuracy_decimals: 2
+      state_class: total_increasing

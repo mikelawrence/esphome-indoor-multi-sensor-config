@@ -1,0 +1,233 @@
+# common setup for all devices
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  name_add_mac_suffix: true
+  on_boot:
+    - priority: -100
+      then:
+        - script.execute: update_status_led
+  on_shutdown:
+    - priority: 700
+      then:
+        - light.turn_off:
+            id: led_status
+
+# ESP32-S3-WROOM-2-N32R16V
+# should support 32MB, but doesn't seem to work
+esp32:
+  board: esp32s3box
+  variant: ESP32S3
+  flash_size: 16MB
+  cpu_frequency: 240MHz
+  framework:
+    type: esp-idf
+
+# This PSRAM can actually support faster than 80MHz
+psram:
+  mode: octal
+  speed: 80MHz
+
+# To be able to get logs from the device via serial and api
+logger:
+  id: logger_common
+  level: DEBUG
+
+# All but the SEN6X is on this bus
+i2c:
+  - id: i2c1_bus
+    sda: GPIO48
+    scl: GPIO47
+    frequency: 400kHz
+    scan: true
+
+# audio DAC for speaker
+i2s_audio:
+  - id: speaker_i2s
+    i2s_lrclk_pin: GPIO12
+    i2s_bclk_pin: GPIO11
+
+# WiFI AP, required when allowing user to provision WiFi credentials
+wifi:
+  ap:
+
+# Fallback when WiFi configuration fails
+# required when allowing user to provision WiFi credentials using WiFi
+captive_portal:
+
+# Allows user to provision WiFi credentials with Bluetooth using Improv standard
+esp32_improv:
+  authorizer: none
+
+# Allow user to provision WiFi credentials with USB port using Improv standard
+improv_serial:
+
+esp32_ble_tracker:
+  scan_parameters:
+    active: true
+
+bluetooth_proxy:
+  active: true
+
+debug:
+  update_interval: 60s
+
+web_server:
+  port: 80
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+script:
+  - id: update_status_led
+    mode: restart
+    then:
+      lambda: |-
+        static bool last_state;
+        static float last_r, last_g, last_b, last_brightness = ${status_night_brightness};
+        bool state;
+        float r, g, b, brightness = last_brightness;
+        if(last_brightness == ${status_day_brightness}) {
+          // daytime
+          if(id(lux).state < ${status_nighttime_lux}) {
+            brightness = ${status_night_brightness};
+            ESP_LOGD("status", "Status LED switched to nighttime brightness");
+          }
+        } else {
+          // nighttime
+          if(id(lux).state > ${status_daytime_lux}) {
+            brightness = ${status_day_brightness};
+            ESP_LOGD("status", "Status LED switched to daytime brightness");
+          }
+        }
+        if(!id(led_enable).state) {
+          state = false;
+        } else {
+          if (id(presence).state) {
+            state = true;
+            r = 0.0; g = 0.0; b = 1.0;
+          } else {
+            state = false;
+          }
+        }
+        if (state == false) {
+          if (last_state == true) {
+            id(led_status).turn_off().set_transition_length(0).perform();
+            ESP_LOGD("status", "Status LED turned off");
+          }
+        } else {
+          if ((last_state == false) || (last_r != r) || (last_g != g) ||
+              (last_b != b) || (last_brightness != brightness)) {
+            id(led_status).turn_on().set_transition_length(0).
+              set_rgb(r, g, b).set_brightness(brightness).perform();
+            ESP_LOGD("status", "Status LED turned on");
+          }
+        }
+        last_state = state;
+        last_brightness = brightness;
+        last_r = r;
+        last_g = g;
+        last_b = b;
+
+binary_sensor:
+  - platform: template
+    name: Presence
+    id: presence
+    device_class: presence
+    lambda: |-
+      if(id(presence_mmwwave).state or
+        (id(pir_enable).state && id(motion_pir).state)) {
+        return true;
+      } else {
+        return false;
+      }
+    on_state:
+      then:
+        script.execute: update_status_led
+  - platform: gpio
+    id: motion_pir
+    name: PIR Motion
+    device_class: motion
+    pin:
+      number: GPIO38
+    filters:
+      - delayed_off: !lambda "return id(internal_timeout).state;"
+
+button:
+  - platform: restart
+    name: "Restart"
+    entity_category: CONFIG
+
+light:
+  - platform: esp32_rmt_led_strip
+    id: led_status
+    rgb_order: RGB
+    pin: GPIO8
+    num_leds: 1
+    chipset: ws2812
+
+media_player:
+  - platform: speaker
+    name: "Speaker Media Player"
+    id: speaker_media_player_id
+    media_pipeline:
+      speaker: media_spk_resampling_input
+      num_channels: 2
+    announcement_pipeline:
+      speaker: announcement_spk_resampling_input
+      num_channels: 1
+
+power_supply:
+  # Enable audio DAC Power
+  - id: dac_enable
+    pin: GPIO9
+    enable_on_boot: true
+
+sensor:
+  - platform: debug
+    free:
+      name: "Heap Free"
+    block:
+      name: "Heap Max Block"
+    loop_time:
+      name: "Loop Time"
+
+speaker:
+  - platform: i2s_audio
+    id: speaker_id
+    i2s_audio_id: speaker_i2s
+    dac_type: external
+    i2s_dout_pin: GPIO10
+    sample_rate: 48000
+  - platform: mixer
+    id: mixer_speaker_id
+    output_speaker: speaker_id
+    source_speakers:
+      - id: announcement_spk_mixer_input
+      - id: media_spk_mixer_input
+  - platform: resampler
+    id: media_spk_resampling_input
+    output_speaker: media_spk_mixer_input
+    sample_rate: 48000
+  - platform: resampler
+    id: announcement_spk_resampling_input
+    output_speaker: announcement_spk_mixer_input
+    sample_rate: 48000
+
+switch:
+  - platform: template
+    name: PIR Enable
+    id: pir_enable
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+  - platform: template
+    name: LED Enable
+    id: led_enable
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF
+    on_turn_on:
+      script.execute: update_status_led
+    on_turn_off:
+      script.execute: update_status_led

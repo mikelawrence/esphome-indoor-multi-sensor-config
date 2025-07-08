@@ -1,0 +1,67 @@
+# PACKAGE B
+#   Adds SCD41 sensors:
+#     Carbon Dioxide (CO₂)
+#   Not compatible with PACKAGE A package
+# esphome:
+#   on_boot:
+#     - priority: -100
+#       then:
+#         - text_sensor.template.publish:
+#             id: co2_calibration_date
+#             state: ${co2_calibration_date}
+api:
+  on_client_connected:
+    then:
+      - text_sensor.template.publish:
+          id: co2_calibration_date
+          state: ${co2_calibration_date}
+
+sensor:
+  - platform: scd4x
+    id: scd41_sensor
+    i2c_id: i2c1_bus
+    update_interval: 10s
+    automatic_self_calibration: false
+    co2:
+      name: CO₂
+      id: co2
+      accuracy_decimals: 0
+      filters:
+        - filter_out: NAN
+        - throttle_average: 60s
+
+number:
+  - platform: template
+    id: co2_forced_cal_value
+    name: "CO₂ Calibration Value"
+    device_class: carbon_dioxide
+    entity_category: CONFIG
+    optimistic: true
+    max_value: 1200
+    min_value: 400
+    step: 1
+    initial_value: 420
+    set_action:
+      - delay: 1s
+
+button:
+  - platform: template
+    name: "CO₂ Calibrate"
+    id: co2_calibrate
+    entity_category: CONFIG
+    on_press:
+      - scd4x.perform_forced_calibration:
+          value: !lambda |-
+            float value = id(co2_forced_cal_value).state;
+            // ESP_LOGD("scd4x", "CO₂ Calibration executed, CO₂=%0.0f", value);
+            return value;
+          id: scd41_sensor
+
+text_sensor:
+  - platform: template
+    name: "CO₂ Calibration Date"
+    id: co2_calibration_date
+    entity_category: diagnostic
+    update_interval: never
+    lambda: |-
+      return {""};

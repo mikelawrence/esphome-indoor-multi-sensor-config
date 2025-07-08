@@ -1,0 +1,14 @@
+# Adds Absolute Pressure using the BMP581 I2C digital light sensor
+sensor:
+  - platform: bmp581
+    id: bmp581_sensor
+    i2c_id: i2c1_bus
+    address: 0x47
+    update_interval: 2s
+    pressure:
+      name: "Pressure"
+      id: pressure
+      accuracy_decimals: 0
+      oversampling: 128x
+      filters:
+        - throttle_average: 60s

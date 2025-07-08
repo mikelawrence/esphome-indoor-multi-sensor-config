@@ -1,0 +1,209 @@
+# Adds Hi-Link LD2410 mmWave Radar
+#   Not compatible with any other radar package
+api:
+  on_client_connected:
+    then:
+      - text_sensor.template.publish:
+          id: radar_included
+          state: "Hi-Link LD2410"
+
+power_supply:
+  # this enables power the ld2410 module
+  - id: ld2410_enable
+    pin: GPIO4
+    enable_on_boot: true
+
+uart:
+  - id: ld2410_uart
+    tx_pin: GPIO5
+    rx_pin: GPIO6
+    baud_rate: 256000
+
+ld2410:
+  id: ld2410_radar
+  uart_id: ld2410_uart
+  throttle: 1s
+
+button:
+  - platform: ld2410
+    ld2410_id: ld2410_radar
+    factory_reset:
+      name: LD2410 Factory Reset
+    restart:
+      name: LD2410 Restart
+    query_params:
+      name: LD2410 Query Params
+
+number:
+  - platform: ld2410
+    ld2410_id: ld2410_radar
+    timeout:
+      name: Timeout
+      id: timeout
+    # light_threshold:
+    #   name: light threshold
+    max_move_distance_gate:
+      name: Max Move Distance Gate
+    max_still_distance_gate:
+      name: Max Still Distance Gate
+    g0:
+      move_threshold:
+        name: G0 Move Threshold
+      still_threshold:
+        name: G0 Still threshold
+    g1:
+      move_threshold:
+        name: G1 Move Threshold
+      still_threshold:
+        name: G1 Still threshold
+    g2:
+      move_threshold:
+        name: G2 Move Threshold
+      still_threshold:
+        name: G2 Still threshold
+    g3:
+      move_threshold:
+        name: G3 Move Threshold
+      still_threshold:
+        name: G3 Still threshold
+    g4:
+      move_threshold:
+        name: G4 Move Threshold
+      still_threshold:
+        name: G4 Still threshold
+    g5:
+      move_threshold:
+        name: G5 Move Threshold
+      still_threshold:
+        name: G5 Still threshold
+    g6:
+      move_threshold:
+        name: G6 Move Threshold
+      still_threshold:
+        name: G6 Still threshold
+    g7:
+      move_threshold:
+        name: G7 Move Threshold
+      still_threshold:
+        name: G7 Still threshold
+    g8:
+      move_threshold:
+        name: G8 Move Threshold
+      still_threshold:
+        name: G8 Still threshold
+
+select:
+  - platform: ld2410
+    ld2410_id: ld2410_radar
+    distance_resolution:
+      name: Distance Resolution
+    # baud_rate:
+    #   name: LD2410 Baud Rate
+    light_function:
+      name: LD2410 Light Function
+    out_pin_level:
+      name: LD2410 Out Pin Level
+
+switch:
+  - platform: ld2410
+    ld2410_id: ld2410_radar
+    engineering_mode:
+      name: LD2410 Engineering Mode
+    bluetooth:
+      name: LD2410 Bluetooth Enable
+
+binary_sensor:
+  - platform: ld2410
+    ld2410_id: ld2410_radar
+    has_target:
+      name: MMWave Presence
+      id: presence_mmwwave
+      device_class: presence
+    has_moving_target:
+      name: Moving Target
+    has_still_target:
+      name: Still Target
+
+sensor:
+  - platform: ld2410
+    ld2410_id: ld2410_radar
+    moving_distance:
+      name: Moving Distance
+    still_distance:
+      name: Still Distance
+    moving_energy:
+      name: Moving Energy
+    still_energy:
+      name: Still Energy
+    detection_distance:
+      name: Detection Distance
+    g0:
+      move_energy:
+        name: G0 Move Energy
+      still_energy:
+        name: G0 Still Energy
+    g1:
+      move_energy:
+        name: G1 Move Energy
+      still_energy:
+        name: G1 Still Energy
+    g2:
+      move_energy:
+        name: G2 Move Energy
+      still_energy:
+        name: G2 Still Energy
+    g3:
+      move_energy:
+        name: G3 Move Energy
+      still_energy:
+        name: G3 Still Energy
+    g4:
+      move_energy:
+        name: G4 Move Energy
+      still_energy:
+        name: G4 Still Energy
+    g5:
+      move_energy:
+        name: G5 Move Energy
+      still_energy:
+        name: G5 Still Energy
+    g6:
+      move_energy:
+        name: G6 Move Energy
+      still_energy:
+        name: G6 Still Energy
+    g7:
+      move_energy:
+        name: G7 Move Energy
+      still_energy:
+        name: G7 Still Energy
+    g8:
+      move_energy:
+        name: G8 Move Energy
+      still_energy:
+        name: G8 Still Energy
+  - platform: template
+    id: internal_timeout
+    internal: true
+    update_interval: 1s
+    lambda: |-
+      if (id(timeout).state != id(internal_timeout).state) {
+        return id(timeout).state;
+      } else {
+        return {};
+      }
+
+text_sensor:
+  - platform: ld2410
+    ld2410_id: ld2410_radar
+    version:
+      name: LD2410 Firmware
+    mac_address:
+      name: LD2410 BT MAC
+  - platform: template
+    name: "Radar Included"
+    id: radar_included
+    entity_category: diagnostic
+    update_interval: never
+    lambda: |-
+      return {""};

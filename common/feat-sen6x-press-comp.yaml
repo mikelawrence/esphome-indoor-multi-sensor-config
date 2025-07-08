@@ -1,0 +1,16 @@
+# Adds Pressure Compensation to the SEN6X sensor
+# Must have included both indoor-multi-sensor-pkga-sen6x.yaml
+#                     and indoor-multi-sensor-add-bmp581.yaml packages
+sensor:
+  - platform: copy
+    id: pressure_to_sen6x
+    source_id: pressure
+    unit_of_measurement: hPa
+    filters:
+      - lambda: |-
+          // convert Pa to hPa (or mBar)
+          return x / 100.0;
+    on_value:
+      then:
+        - lambda: !lambda |-
+            id(sen66_sensor)->set_ambient_pressure_compensation(x);

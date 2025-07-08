@@ -1,0 +1,16 @@
+# Adds Pressure Compensation to the SCD4X sensor
+# Must have included both indoor-multi-sensor-pkgb-scd4x.yaml
+#                     and indoor-multi-sensor-add-bmp581.yaml packages
+sensor:
+  - platform: copy
+    id: pressure_to_scd4x
+    source_id: pressure
+    unit_of_measurement: hPa
+    filters:
+      - lambda: |-
+          // convert Pa to hPa (or mBar)
+          return x / 100.0;
+    on_value:
+      then:
+        - lambda: !lambda |-
+            id(scd41_sensor)->set_ambient_pressure_compensation(x);

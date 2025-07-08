@@ -1,0 +1,45 @@
+name: Create Pre-release
+
+on:
+  # pull_request:
+  #   branches: [main]
+  #   types: [closed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        with:
+          # ref: ${{ github.head_ref }}
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Calendar Version
+        id: calendar-version
+        uses: harm-matthias-harms/calendar-version@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push tag
+        uses: thejeff77/action-push-tag@v1.0.0
+        with:
+          tag: ${{ steps.calendar-version.outputs.new-version }}
+          message: '"${{ steps.calendar-version.outputs.new-version }}: PR #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}"'
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.calendar-version.outputs.new-version }}
+          generate_release_notes: true
+          prerelease: ${{ github.event_name == 'workflow_dispatch' }}

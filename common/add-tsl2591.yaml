@@ -1,0 +1,34 @@
+# Adds Light Sensor using the TSL2591 I2C digital light sensor
+#   Sensors provided: Lux (lx)
+logger:
+  logs:
+    tsl2591.sensor: INFO
+
+sensor:
+  - platform: tsl2591
+    id: tsl2591_sensor
+    i2c_id: i2c1_bus
+    update_interval: 1s
+    gain: low
+    device_factor: 53
+    integration_time: 500ms
+    calculated_lux:
+      id: lux
+      name: "Lux"
+      accuracy_decimals: 1
+      filters:
+        - round: 1
+        - lambda: |-
+            if (isinf(x) || isnan(x)) {
+              return {};
+            } else if (x == id(lux).state) {
+              return {};
+            } else {
+              return x;
+            }
+        - or:
+            - throttle_average: 60s
+            - delta: 20%
+      on_value:
+        then:
+          script.execute: update_status_led

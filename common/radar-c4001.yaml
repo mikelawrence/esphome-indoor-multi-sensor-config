@@ -1,0 +1,102 @@
+# Adds DFRobot C4001 (SEN0609 or SEN0610) mmWave Radar
+#   Not compatible with any other radar package
+esphome:
+  on_boot:
+    then:
+      - text_sensor.template.publish:
+          id: radar_included
+          state: "DFRobot C4001 (SEN0609 or SEN0610)"
+
+power_supply:
+  # enables power to the C4001 module
+  - id: "c4001_enable"
+    pin: GPIO15
+    enable_on_boot: true
+
+uart:
+  - id: c4001_uart
+    tx_pin: GPIO18
+    rx_pin: GPIO17
+    baud_rate: 9600
+
+dfrobot_c4001:
+  id: c4001_radar
+  uart_id: c4001_uart
+  mode: PRESENCE
+
+button:
+  - platform: template
+    name: Factory Reset
+    on_press:
+      - dfrobot_c4001.factory_reset: c4001_radar
+    entity_category: CONFIG
+  - platform: dfrobot_c4001
+    config_save:
+      name: C4001 Config Save
+      entity_category: CONFIG
+
+number:
+  - platform: dfrobot_c4001
+    dfrobot_c4001_id: c4001_radar
+    max_range:
+      name: Range Max
+      id: max_range
+    min_range:
+      name: Range Min
+      id: min_range
+    trigger_range:
+      name: Range Trigger
+      id:
+    hold_sensitivity:
+      name: Sensitivity Hold
+      id: trigger_range
+    trigger_sensitivity:
+      name: Sensitivity Trigger
+      id: trigger_sensitivity
+    on_latency:
+      name: Latency On
+      id: on_latency
+    off_latency:
+      name: Latency Off
+      id: off_latency
+    inhibit_time:
+      name: Inhibit Time
+      id: inhibit_time
+
+binary_sensor:
+  - platform: gpio
+    name: MMWAVE Presence
+    id: presence_mmwwave
+    device_class: presence
+    pin:
+      number: GPIO16
+  - platform: dfrobot_c4001
+    config_changed:
+      name: C4001 Config Changed
+
+sensor:
+  - platform: template
+    id: internal_timeout
+    internal: true
+    update_interval: 1s
+    lambda: |-
+      if (id(off_latency).state != id(internal_timeout).state) {
+        return id(off_latency).state;
+      } else {
+        return {};
+      }
+
+switch:
+  - platform: dfrobot_c4001
+    dfrobot_c4001_id: c4001_radar
+    led_enable:
+      name: C4001 Enable LED
+
+text_sensor:
+  - platform: template
+    name: "Radar Included"
+    id: radar_included
+    entity_category: diagnostic
+    update_interval: never
+    lambda: |-
+      return {""};

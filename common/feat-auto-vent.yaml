@@ -1,0 +1,267 @@
+# Add Automatic Vent Control
+esphome:
+  on_boot:
+    then:
+      - binary_sensor.template.publish:
+          id: vent_auto_hum
+          state: false
+      - binary_sensor.template.publish:
+          id: vent_auto_co2
+          state: false
+      - binary_sensor.template.publish:
+          id: vent_manual
+          state: false
+
+binary_sensor:
+  - platform: template
+    name: "Vent Auto Hum"
+    id: vent_auto_hum
+  - platform: template
+    name: "Vent Auto CO₂"
+    id: vent_auto_co2
+  - platform: template
+    name: "Vent Manual"
+    id: vent_manual
+
+#   Uses humidity, VOC and CO₂ to control a bathroom vent
+sensor:
+  # Long'ish humidity average
+  - platform: copy
+    id: humidity_long_avg
+    source_id: humidity_internal
+    unit_of_measurement: "%"
+    accuracy_decimals: 2
+    filters:
+      - lambda: |-
+          static bool first = true;
+          static float long_avg;
+          static float alpha = 0.003;
+          // handle initialization
+          if (first) {
+            if (!isnan(x)) {
+              long_avg = x;
+              first = false;
+              ESP_LOGD("auto_vent", "Humidity Long Average, alpha = %f", alpha);
+              return long_avg;
+            } else {
+              return x;
+            }
+          } else if (isnan(x)) {
+            return long_avg;
+          }
+          // compute Exponential Moving Average
+          long_avg = alpha * x + (1 - alpha) * long_avg;
+          return long_avg;
+
+  # Short'ish humidity average
+  - platform: copy
+    id: humidity_short_avg
+    source_id: humidity_internal
+    unit_of_measurement: "%"
+    accuracy_decimals: 2
+    filters:
+      - lambda: |-
+          static bool first = true;
+          static float short_avg;
+          static float alpha = 0.09;
+          // handle initialization
+          if (first) {
+            if (!isnan(x)) {
+              short_avg = x;
+              first = false;
+              ESP_LOGD("auto_vent", "Humidity Short Average, alpha = %f", alpha);
+              return short_avg;
+            } else {
+              return x;
+            }
+          } else if (isnan(x)) {
+            return short_avg;
+          }
+          // compute Exponential Moving Average
+          short_avg = alpha * x + (1 - alpha) * short_avg;
+          id(update_vent_state_machine).execute();
+          return short_avg;
+
+switch:
+  - platform: homeassistant
+    id: ha_vent
+    entity_id: ${vent_ha_entity}
+    on_turn_on:
+      - script.execute: update_vent_state_machine
+    on_turn_off:
+      - script.execute: update_vent_state_machine
+script:
+  - id: update_vent_state_machine
+    mode: restart
+    then:
+      lambda: |-
+        static bool first = true;
+        static int state = 0;
+        static unsigned long start_time;
+        constexpr const char *const ESP_LOG_TAG = "auto_vent";
+        constexpr const char *const ESP_LOG_MSG_HIGH_HUM = "Detected high humidity";
+        constexpr const char *const ESP_LOG_MSG_HIGH_CO₂ = "Detected high CO₂";
+        constexpr const char *const ESP_LOG_MSG_MAN_OFF = "Manually turned off, turning back on";
+        float on_time_seconds;
+        float co2_value = 0;
+        float hum = id(humidity_internal)->state;
+        float hum_long_avg = id(humidity_long_avg)->state;
+        float hum_short_avg = id(humidity_short_avg)->state;
+        // handle initialization
+        if (first) {
+          first = false;
+        }
+        // grab co2 if we are controlling the fan for co2 too
+        if (${vent_use_co2}) {
+          co2_value = id(co2)->state;
+        }
+        if (state != 0) {
+          on_time_seconds = round(static_cast<float>(millis() - start_time) / 1000.0);
+        } else {
+          on_time_seconds = 0.0;
+        }
+        // compute conditions
+        bool humidity_is_high = (hum - hum_long_avg >= ${vent_hum_on_trigger}) && ${vent_use_humidity};
+        bool humidity_is_low = ((hum - hum_long_avg <= ${vent_hum_off_trigger})
+          && (hum_short_avg - hum_long_avg <= ${vent_hum_off_trigger})) || ${vent_use_humidity};
+        bool vent_on_min_time = on_time_seconds >= static_cast<float>(${vent_min_on_time} * 60);
+        bool co2_is_high = co2_value >= ${vent_co2_on_trigger} && ${vent_use_co2};
+        bool co2_is_low = co2_value <= ${vent_co2_off_trigger} || ${vent_use_co2};
+        // State Machine
+        switch (state) {
+        // Idle State
+        case 0:
+          if (humidity_is_high) {
+            ESP_LOGD(ESP_LOG_TAG,  ESP_LOG_MSG_HIGH_HUM);
+            start_time = millis();
+            id(ha_vent).turn_on();
+            id(vent_auto_hum).publish_state(true);
+            state = 10;
+          } else if (co2_is_high) {
+            ESP_LOGD(ESP_LOG_TAG,  "Detected high CO₂");
+            id(ha_vent).turn_on();
+            id(vent_auto_co2).publish_state(true);
+            state = 60;
+          } else if (id(ha_vent).state == true) {
+            ESP_LOGD(ESP_LOG_TAG,  "Manually turned on");
+            start_time = millis();
+            id(vent_manual).publish_state(true);
+            state = 50;
+          } else {
+            if (id(vent_auto_hum).state != false) {
+              id(vent_auto_hum).publish_state(false);
+            }
+            if (id(vent_auto_co2).state != false) {
+              id(vent_auto_co2).publish_state(false);
+            }
+            if (id(vent_manual).state != false) {
+              id(vent_manual).publish_state(false);
+            }
+          }
+          break;
+        // High Humidity and not Minimum On Time
+        case 10:
+          if (humidity_is_low) {
+            ESP_LOGV(ESP_LOG_TAG,  "Humidity normal, wait for min on time");
+            state = 20;
+          } else if (vent_on_min_time) {
+            ESP_LOGV(ESP_LOG_TAG,  "Humidity still high, min on time met");
+            state = 30;
+          } else if (id(ha_vent).state == false) {
+            ESP_LOGV(ESP_LOG_TAG,  ESP_LOG_MSG_MAN_OFF);
+            id(ha_vent).turn_on();
+          }
+          break;
+        // Low Humidity and not Minimum On Time
+        case 20:
+          if (vent_on_min_time) {
+            ESP_LOGV(ESP_LOG_TAG,  "Humidity normal, delaying vent off");
+            start_time = millis();
+            state = 40;
+          } else if (humidity_is_high) {
+            ESP_LOGV(ESP_LOG_TAG,  ESP_LOG_MSG_HIGH_HUM);
+            start_time = millis();
+            state = 10;
+          } else if (id(ha_vent).state == false) {
+            ESP_LOGV(ESP_LOG_TAG,  ESP_LOG_MSG_MAN_OFF);
+            id(ha_vent).turn_on();
+          }
+          break;
+        // High Humidity and Minimum On Time
+        case 30:
+          if (humidity_is_low) {
+            ESP_LOGV(ESP_LOG_TAG,  "Humidity normal, delaying vent off");
+            start_time = millis();
+            state = 40;
+          } else if (id(ha_vent).state == false) {
+            ESP_LOGD(ESP_LOG_TAG,  ESP_LOG_MSG_MAN_OFF);
+            id(ha_vent).turn_on();
+          }
+          break;
+        // Delay off for 5 minutes
+        case 40:
+          if (humidity_is_high) {
+            ESP_LOGD(ESP_LOG_TAG,  ESP_LOG_MSG_HIGH_HUM);
+            start_time = millis();
+            state = 10;
+          } else if (millis() - start_time >= 5 * 60 * 1000) {
+            ESP_LOGD(ESP_LOG_TAG,  "Automatic humidity cycle complete");
+            id(ha_vent).turn_off();
+            id(vent_auto_hum).publish_state(false);
+            if (co2_is_high) {
+              id(vent_auto_co2).publish_state(true);
+              state = 60;
+            } else {
+              state = 0;
+            }
+          }
+          break;
+        // Manual On
+        case 50:
+          if (humidity_is_high) {
+            ESP_LOGD(ESP_LOG_TAG,  ESP_LOG_MSG_HIGH_HUM);
+            start_time = millis();
+            id(vent_auto_hum).publish_state(true);
+            id(vent_manual).publish_state(false);
+            state = 10;
+          } else if (co2_is_high) {
+            id(vent_auto_co2).publish_state(true);
+            id(vent_manual).publish_state(false);
+            state = 60;
+          } else if (id(ha_vent).state == false) {
+            ESP_LOGD(ESP_LOG_TAG,  "Manual cycle terminated");
+            id(vent_manual).publish_state(false);
+            state = 0;
+          } else if (vent_on_min_time) {
+            ESP_LOGD(ESP_LOG_TAG,  "Manual cycle is complete");
+            id(ha_vent).turn_off();
+            id(vent_manual).publish_state(false);
+            state = 0;
+          }
+          break;
+        // High CO₂
+        case 60:
+          if (humidity_is_high) {
+            ESP_LOGD(ESP_LOG_TAG,  ESP_LOG_MSG_HIGH_HUM);
+            start_time = millis();
+            id(vent_auto_hum).publish_state(true);
+            id(vent_manual).publish_state(false);
+            state = 10;
+          } else if (co2_is_low) {
+            ESP_LOGD(ESP_LOG_TAG,  "Vent high CO₂ cycle complete");
+            id(ha_vent).turn_off();
+            id(vent_auto_co2).publish_state(false);
+            state = 0;
+          } else if (id(ha_vent).state == false) {
+            ESP_LOGD(ESP_LOG_TAG,  "Vent manually turned off, turning back on");
+            id(ha_vent).turn_on();
+          }
+          break;
+        }
+        if (state != 0) {
+          ESP_LOGV(ESP_LOG_TAG, "Hum=%0.2f, Long_Avg=%0.2f, Short_Avg=%0.2f, Hum_High=%s, Hum_Low=%s, Vent_On_Min_Time=%s, Vent_On_Time=%0.0f",
+            hum, hum_long_avg, hum_short_avg,
+            humidity_is_high ? "True" : "False",
+            humidity_is_low ? "True" : "False",
+            vent_on_min_time ? "True" : "False", on_time_seconds);
+        }

@@ -1,0 +1,29 @@
+# Adds I2S microphone with sound level meter
+i2s_audio:
+  - id: mic_i2s
+    i2s_lrclk_pin: GPIO40
+    i2s_bclk_pin: GPIO42
+
+microphone:
+  - platform: i2s_audio
+    id: echo_microphone
+    i2s_audio_id: mic_i2s
+    i2s_din_pin: GPIO41
+    adc_type: external
+    sample_rate: 16000
+    channel: left
+
+sensor:
+  - platform: sound_level
+    passive: false
+    measurement_duration: 60s
+    rms:
+      name: "Sound Level RMS"
+      device_class: signal_strength
+      filters:
+        - skip_initial: 3
+    peak:
+      name: "Sound Level Peak"
+      device_class: signal_strength
+      filters:
+        - skip_initial: 3

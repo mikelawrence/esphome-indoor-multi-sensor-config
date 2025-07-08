@@ -1,0 +1,137 @@
+# Adds CO sensor using the Figaro TGS5141
+api:
+  on_client_connected:
+    then:
+      - text_sensor.template.publish:
+          id: co_serial_number
+          state: "${co_serial_number}"
+      - text_sensor.template.publish:
+          id: co_manufacture_date
+          state: "${co_manufacture_date}"
+
+logger:
+  logs:
+    ads1115.sensor: INFO
+
+globals:
+  - id: co_sensitivity_const
+    type: double
+    restore_value: false
+    initial_value: ${co_sensitivity}
+  - id: co_temp_calibration
+    type: double[51]
+    restore_value: false
+    # Calibration factor based on temperature, see datasheet
+    initial_value: "{ 0.7835, 0.7944, 0.8053, 0.8162, 0.8271, 0.838, 0.8489,
+      0.8598, 0.8707, 0.8816, 0.8925, 0.9034, 0.9143, 0.9252, 0.9361, 0.947,
+      0.9579, 0.9688, 0.9797, 0.9906, 1, 1.0075, 1.015, 1.0225, 1.03, 1.0375,
+      1.045, 1.0525, 1.06, 1.0675, 1.075, 1.0825, 1.09, 1.0975, 1.105, 1.1125,
+      1.12, 1.1275, 1.135, 1.1425, 1.15, 1.1575, 1.165, 1.1725, 1.18, 1.1875,
+      1.195, 1.2025, 1.21, 1.2175, 1.225}"
+
+ads1115:
+  - address: 0x48
+    i2c_id: i2c1_bus
+    continuous_mode: false
+
+media_player:
+  - platform: speaker
+    id: !extend speaker_media_player_id
+    files:
+      - id: co_alarm_sound
+        file: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/raw/refs/heads/main/config/media/co-alarm-four-beep.flac
+
+sensor:
+  - platform: ads1115
+    id: co_sensor
+    name: "CO"
+    state_class: measurement
+    device_class: carbon_monoxide
+    unit_of_measurement: ppm
+    update_interval: 1s
+    accuracy_decimals: 0
+    setup_priority: -400
+    multiplexer: A0_A1
+    gain: 0.512
+    resolution: 16_BITS
+    filters:
+      - skip_initial: 10
+      - lambda: |-
+          static bool error = false;
+          float sensitivity = id(co_sensitivity_const);
+          float cf = 1.0;
+          float temp = round(id(${co_temp_id}).state);
+
+          if (isnan(temp)) {
+            // temperature is not valid
+            cf = id(co_temp_calibration)[23];
+            if (!error) {
+              // status not reported yet
+              ESP_LOGW("co", "Temperature is unknown, temperature calibration is using default temperature of 23°C");
+              error = true;
+            }
+          } else {
+            // temperature is valid
+            cf = id(co_temp_calibration)[(int) temp];
+            if (error) {
+              // status not reported yet
+              ESP_LOGW("co", "Temperature is valid, temperature calibration is using actual temperature");
+              error = false;
+            }
+          }
+          float result = x / (sensitivity * 133000.0 / cf);
+          ESP_LOGV("co", "Sensitivity=%0.9f, temp=%0.0f, cf=%0.9f, result=%0.1f"
+            , sensitivity * 133000.0, temp, cf, result);
+          return result;
+      - offset: ${co_offset}
+      - clamp:
+          min_value: 0.0
+      - sliding_window_moving_average:
+          window_size: 180
+          send_every: 1
+      - or:
+          - throttle: 60s
+          - delta: 5.0
+  # Long'ish co average
+  - platform: copy
+    id: co_long_avg
+    source_id: co_sensor
+    unit_of_measurement: ppm
+    accuracy_decimals: 0
+    filters:
+      - lambda: |-
+          static bool first = true;
+          static float long_avg;
+          static float alpha = 0.003;
+          // handle initialization
+          if (first) {
+            if (!isnan(x)) {
+              long_avg = x;
+              first = false;
+              ESP_LOGD("auto_vent", "CO Long Average, alpha = %f", alpha);
+              return long_avg;
+            } else {
+              return x;
+            }
+          } else if (isnan(x)) {
+            return long_avg;
+          }
+          // compute Exponential Moving Average
+          long_avg = alpha * x + (1 - alpha) * long_avg;
+          return long_avg;
+
+text_sensor:
+  - platform: template
+    name: "CO Serial Number"
+    id: co_serial_number
+    entity_category: diagnostic
+    update_interval: never
+    lambda: |-
+      return {""};
+  - platform: template
+    name: "CO Manufacture Date"
+    id: co_manufacture_date
+    entity_category: diagnostic
+    update_interval: never
+    lambda: |-
+      return {""};

@@ -1,0 +1,24 @@
+# PACKAGE B
+#   Adds SGP41 sensors:
+#     Volatile Organic Compounds (VOC) and Nitrous Oxides (NOx)
+#   Not compatible with PACKAGE A package
+sensor:
+  - platform: sgp4x
+    id: sgp41_sensor
+    i2c_id: i2c1_bus
+    update_interval: 1s
+    compensation:
+      temperature_source: temperature
+      humidity_source: humidity
+    voc:
+      name: "VOC"
+      id: voc
+      filters:
+        - filter_out: NAN
+        - throttle_average: 60s
+    nox:
+      name: "NOx"
+      id: nox
+      filters:
+        - filter_out: NAN
+        - throttle_average: 60s

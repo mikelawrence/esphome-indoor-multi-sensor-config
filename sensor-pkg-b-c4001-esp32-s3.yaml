@@ -1,0 +1,92 @@
+substitutions:
+  name: "sensor-pkg-b-c4001"
+  friendly_name: "Indoor Multi-Sensor Pkg B Radar C4001"
+
+  # Settings
+  use_pir_in_presence: "true"
+  # Status LED Configuration
+  status_day_brightness: "0.5"
+  status_night_brightness: "0.20"
+  status_daytime_lux: "12.0"
+  status_nighttime_lux: "7.0"
+  # CO Configuration
+  co_temp_id: "temperature"
+  co_offset: "0.0"
+  co_sensitivity: "2.000e-9"
+  co_manufacture_date: "Not Set"
+  co_serial_number: "111111111111111111"
+  # Temperature Configuration
+  temperature_offset: "0.0"
+  # Humidity Configuration
+  humidity_offset: "0.0"
+  # CO₂ Configuration
+  co2_calibration_date: "Not Set"
+  # Automatically controlled Vent
+  vent_ha_entity: fan.vent_id
+  vent_use_humidity: "true"
+  vent_use_co2: "true"
+  vent_min_on_time: "15"
+  vent_hum_on_trigger: "10.0"
+  vent_hum_off_trigger: "2.5"
+  vent_co2_on_trigger: "1100"
+  vent_co2_off_trigger: "900"
+
+packages:
+  remote_package_files:
+    url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config
+    # ref: dev
+    refresh: 1h
+    files:
+      # Main Config Files
+      - common/common.yaml
+      - common/pkgb-sht4x.yaml
+      - common/pkgb-scd4x.yaml
+      - common/pkgb-sgp4x.yaml
+      - common/radar-c4001.yaml
+
+      # ADDITIONAL SENSORS
+      # Carbon Dioxide (CO) - Figaro TGS5141 sensor
+      - common/add-co.yaml
+      # Energy Usage - INA2XX sensor to measure Voltage, Power and Energy Usage
+      - common/add-ina2xx.yaml
+      # Light Level - TSL2591 sensor
+      - common/add-tsl2591.yaml
+      # Barometric Pressure - BMP581 sensor
+      - common/add-bmp581.yaml
+      # Microphone - Adds Sound Level meter
+      - common/add-microphone.yaml
+
+      # FEATURES
+      # SEN6X Pressure Compensation - Adds pressure compensation to SEN6X
+      - common/feat-scd4x-press-comp.yaml
+      # Automatic Vent - Use humidity and CO₂ control a bathroom vent
+      # - common/feat-auto-vent.yaml
+
+# Add custom components
+external_components:
+  - source:
+      type: git
+      # ref: dev
+      url: https://github.com/mikelawrence/esphome-components
+    refresh: 1h
+    components: [dfrobot_c4001]
+
+esphome:
+# API is a requirement of the dashboard import.
+# Grab a key from https://esphome.io/components/api.html
+api:
+# yamllint disable-line rule:comments-indentation
+  # encryption:
+  #   key:
+
+# OTA is required for Over-the-Air updating
+ota:
+  - platform: esphome
+    id: ota_esphome
+
+# WiFI AP, required when allowing user to provision WiFi credentials
+wifi:
+  ap:
+  # ssid: !secret wifi_ssid
+  # password: !secret wifi_password
+  # use_address: xxx.xxx.xxx.xxx

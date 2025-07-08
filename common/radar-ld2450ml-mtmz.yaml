@@ -1,0 +1,200 @@
+# Adds Hi-Link LD2450 mmWave Radar
+#   Multi-Target, Multi-Zone version
+#   Intended for Mike Lawrence's Custom Component
+#   Supports Installation Angle and Flip X Axis configuration
+#   Not compatible with any other radar package
+#   this sensor is mounted upside down target x and angle sensors are inverted
+api:
+  on_client_connected:
+    then:
+      - text_sensor.template.publish:
+          id: radar_included
+          state: "Hi-Link LD2450 ML Custom Component Multi-Target Multi-Zone"
+
+power_supply:
+  # this enables power the ld2450 module
+  - id: ld2450_enable
+    pin: GPIO4
+    enable_on_boot: true
+
+uart:
+  - id: ld2450_uart
+    tx_pin: GPIO5
+    rx_pin: GPIO6
+    baud_rate: 256000
+
+ld2450:
+  id: ld2450_radar
+  uart_id: ld2450_uart
+
+button:
+  - platform: ld2450
+    ld2450_id: ld2450_radar
+    factory_reset:
+      name: LD2450 Factory Reset
+    restart:
+      name: LD2450 Restart
+
+number:
+  - platform: ld2450
+    ld2450_id: ld2450_radar
+    presence_timeout:
+      name: Timeout
+      id: timeout
+    installation_angle:
+      name: Installation Angle
+    zone_1:
+      x1:
+        name: Zone-1 X1
+      y1:
+        name: Zone-1 Y1
+      x2:
+        name: Zone-1 X2
+      y2:
+        name: Zone-1 Y2
+    zone_2:
+      x1:
+        name: Zone-2 X1
+      y1:
+        name: Zone-2 Y1
+      x2:
+        name: Zone-2 X2
+      y2:
+        name: Zone-2 Y2
+    zone_3:
+      x1:
+        name: Zone-3 X1
+      y1:
+        name: Zone-3 Y1
+      x2:
+        name: Zone-3 X2
+      y2:
+        name: Zone-3 Y2
+
+select:
+  - platform: ld2450
+    ld2450_id: ld2450_radar
+    zone_type:
+      name: LD2450 Zone Type
+
+switch:
+  - platform: ld2450
+    ld2450_id: ld2450_radar
+    bluetooth:
+      name: LD2450 Bluetooth Enable
+    multi_target:
+      name: LD2450 Multi Target Tracking
+      restore_mode: ALWAYS_ON
+
+binary_sensor:
+  - platform: ld2450
+    ld2450_id: ld2450_radar
+    has_target:
+      name: MMWave Presence
+      id: presence_mmwwave
+      device_class: presence
+    has_moving_target:
+      name: Moving Target
+    has_still_target:
+      name: Still Target
+  - platform: template
+    name: Zone-1 Presence
+    device_class: presence
+    filters:
+      - delayed_off: !lambda return id(timeout).state;
+    lambda: |-
+      return (id(z1_target_count).state > 0);
+  - platform: template
+    name: Zone-2 Presence
+    device_class: presence
+    filters:
+      - delayed_off: !lambda return id(timeout).state;
+    lambda: |-
+      return (id(z2_target_count).state > 0);
+  - platform: template
+    name: Zone-3 Presence
+    device_class: presence
+    filters:
+      - delayed_off: !lambda return id(timeout).state;
+    lambda: |-
+      return (id(z3_target_count).state > 0);
+
+sensor:
+  - platform: ld2450
+    ld2450_id: ld2450_radar
+    target_count:
+      name: Target Count
+    still_target_count:
+      name: Still Target Count
+    moving_target_count:
+      name: Moving Target Count
+    target_1:
+      x:
+        name: Target-1 X
+      y:
+        name: Target-1 Y
+      distance:
+        name: Target-1 Distance
+    target_2:
+      x:
+        name: Target-2 X
+      y:
+        name: Target-2 Y
+      distance:
+        name: Target-2 Distance
+    target_3:
+      x:
+        name: Target-3 X
+      y:
+        name: Target-3 Y
+      distance:
+        name: Target-3 Distance
+    zone_1:
+      target_count:
+        name: Zone-1 Target Count
+        id: z1_target_count
+      still_target_count:
+        name: Zone-1 Still Target Count
+      moving_target_count:
+        name: Zone-1 Moving Target Count
+    zone_2:
+      target_count:
+        name: Zone-2 Target Count
+        id: z2_target_count
+      still_target_count:
+        name: Zone-2 Still Target Count
+      moving_target_count:
+        name: Zone-2 Moving Target Count
+    zone_3:
+      target_count:
+        name: Zone-3 Target Count
+        id: z3_target_count
+      still_target_count:
+        name: Zone-3 Still Target Count
+      moving_target_count:
+        name: Zone-3 Moving Target Count
+  - platform: template
+    id: internal_timeout
+    internal: true
+    update_interval: 1s
+    lambda: |-
+      if (id(timeout)->state != id(internal_timeout)->state) {
+        return id(timeout)->state;
+      } else {
+        return {};
+      }
+
+text_sensor:
+  - platform: ld2450
+    ld2450_id: ld2450_radar
+    version:
+      name: LD2450 Firmware
+    mac_address:
+      name: LD2450 BT MAC
+  - platform: template
+    name: "Radar Included"
+    id: radar_included
+    entity_category: diagnostic
+    update_interval: never
+    lambda: |-
+      return {""};

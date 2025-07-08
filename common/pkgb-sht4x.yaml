@@ -1,0 +1,36 @@
+# PACKAGE B
+#   Adds SHT45 sensors:
+#     Temperature and Humidity
+#   Not compatible with PACKAGE A package
+sensor:
+  - platform: sht4x
+    id: sht45_sensor
+    i2c_id: i2c1_bus
+    update_interval: 1s
+    temperature:
+      id: temperature
+      name: "Temperature"
+      accuracy_decimals: 2
+      filters:
+        - offset: ${temperature_offset}
+        - filter_out: NAN
+        - throttle_average: 60s
+        - median:
+            window_size: 5
+            send_every: 1
+    humidity:
+      # humidity before additional filter
+      id: humidity_internal
+      accuracy_decimals: 2
+      filters:
+        - offset: ${humidity_offset}
+        - filter_out: NAN
+        - throttle_average: 60s
+  - platform: copy
+    id: humidity
+    name: "Humidity"
+    source_id: humidity_internal
+    filters:
+      - median:
+          window_size: 5
+          send_every: 1
