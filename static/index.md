@@ -135,8 +135,8 @@ If you have included this package the CO sensor is enabled and there are substit
 + **co_temp_id** (ID): The accuracy of the CO sensor is improved with temperature compensation. This is the entity id of the temperature sensor to use.
 + **co_offset** (float): The CO sensor and circuit will have a offset. Use this to subtract out this error.
 + **co_sensitivity** (float): The CO has a default sensitivity of 2.000e-9 Amps/ppm. This should be the factory measured sensitivity as reported in the QR code on the sensor.
-+ **co_manufacture_date** (float): From the QR code on the sensor. The sensor has a 10 year life expectancy. Reported as a text_sensor in the diagnostic section.
-+ **co_serial_number** (float): From the QR code on the sensor. Not necessary but might come in handy down the road. Reported as a text_sensor in the diagnostic section.
++ **co_manufacture_date** (float): From the QR code on the sensor. The sensor has a 10 year life expectancy. Reported as a ```text_sensor``` in the diagnostic section.
++ **co_serial_number** (float): From the QR code on the sensor. Not necessary but might come in handy down the road. Reported as a ```text_sensor``` in the diagnostic section.
 
 ### Automatically controlled Vent Configuration
 
