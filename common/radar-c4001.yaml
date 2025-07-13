@@ -25,15 +25,13 @@ dfrobot_c4001:
   mode: PRESENCE
 
 button:
-  - platform: template
-    name: Factory Reset
-    on_press:
-      - dfrobot_c4001.factory_reset: c4001_radar
-    entity_category: CONFIG
   - platform: dfrobot_c4001
     config_save:
       name: C4001 Config Save
-      entity_category: CONFIG
+    factory_reset:
+      name: C4001 Factory Reset
+    restart:
+      name: C4001 Restart
 
 number:
   - platform: dfrobot_c4001
@@ -93,6 +91,12 @@ switch:
       name: C4001 Enable LED
 
 text_sensor:
+  - platform: dfrobot_c4001
+    dfrobot_c4001_id: c4001_radar
+    software_version:
+      name: C4001 Software Version
+    hardware_version:
+      name: C4001 Hardware Version
   - platform: template
     name: "Radar Included"
     id: radar_included
