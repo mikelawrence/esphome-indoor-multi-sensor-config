@@ -34,13 +34,6 @@ ads1115:
     i2c_id: i2c1_bus
     continuous_mode: false
 
-media_player:
-  - platform: speaker
-    id: !extend speaker_media_player_id
-    files:
-      - id: co_alarm_sound
-        file: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/raw/refs/heads/main/media/co-alarm-four-beep.flac
-
 sensor:
   - platform: ads1115
     id: co_sensor
