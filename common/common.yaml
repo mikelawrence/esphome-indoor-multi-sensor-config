@@ -169,7 +169,7 @@ light:
 
 media_player:
   - platform: speaker
-    name: "Speaker Media Player"
+    name: "Media Player"
     id: speaker_media_player_id
     media_pipeline:
       speaker: media_spk_resampling_input
