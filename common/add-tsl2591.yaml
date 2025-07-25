@@ -9,7 +9,7 @@ sensor:
     id: tsl2591_sensor
     i2c_id: i2c1_bus
     update_interval: 1s
-    gain: low
+    gain: auto
     device_factor: 53
     integration_time: 500ms
     calculated_lux:
