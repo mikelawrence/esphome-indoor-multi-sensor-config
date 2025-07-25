@@ -1,5 +1,4 @@
 # common setup for all devices
-
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}

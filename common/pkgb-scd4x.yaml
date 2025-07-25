@@ -2,13 +2,6 @@
 #   Adds SCD41 sensors:
 #     Carbon Dioxide (CO₂)
 #   Not compatible with PACKAGE A package
-# esphome:
-#   on_boot:
-#     - priority: -100
-#       then:
-#         - text_sensor.template.publish:
-#             id: co2_calibration_date
-#             state: ${co2_calibration_date}
 api:
   on_client_connected:
     then:
