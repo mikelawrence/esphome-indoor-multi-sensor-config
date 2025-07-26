@@ -3,6 +3,9 @@ esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   name_add_mac_suffix: true
+  project:
+    name: Mike Lawrence.Indoor Multi-Sensor
+    version: "1.7"
   on_boot:
     - priority: -100
       then:
