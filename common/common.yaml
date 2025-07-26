@@ -20,16 +20,15 @@ packages:
       - common/version.yaml
 
 # ESP32-S3-WROOM-2-N32R16V
-# should support 32MB, but doesn't seem to work
 esp32:
   board: esp32s3box
   variant: ESP32S3
-  flash_size: 16MB
+  flash_size: 32MB
   cpu_frequency: 240MHz
   framework:
     type: esp-idf
 
-# This PSRAM can actually support faster than 80MHz
+# There is 16MB of PSRAM
 psram:
   mode: octal
   speed: 80MHz
