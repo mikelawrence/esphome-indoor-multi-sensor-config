@@ -34,8 +34,7 @@ substitutions:
 packages:
   remote_package_files:
     url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config
-    # ref: dev
-    refresh: 1h
+    refresh: 1d
     files:
       # Main Config Files
       - common/common.yaml

@@ -68,7 +68,7 @@ packages:
 external_components:
   - source: github://mikelawrence/esphome-components@main
     components: [dfrobot_c4001]
-    refresh: 1min
+    refresh: 1d
 
 # API is a requirement of the dashboard import.
 # Grab a key from https://esphome.io/components/api.html
