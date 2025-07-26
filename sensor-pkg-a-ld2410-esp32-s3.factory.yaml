@@ -26,17 +26,7 @@ update:
 # HTTP Request component
 http_request:
 
-# This should point to the public location of the yaml file that will be adopted.
-# In this case it is the core yaml file that does not contain the extra things
-# that are provided by this factory yaml file as the user does not need these once adopted.
+# When adopted this configuration is used
 dashboard_import:
   package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/sensor-pkg-a-ld2410-esp32-s3.yaml@main
   import_full_config: true
-
-# Sets up Bluetooth LE to allow the user to provision wifi credentials to the device.
-esp32_improv:
-  authorizer: none
-
-# Sets up the improv via serial client for Wi-Fi provisioning.
-# Handy if your device has a usb port for the user to add credentials when they first get it.
-improv_serial:

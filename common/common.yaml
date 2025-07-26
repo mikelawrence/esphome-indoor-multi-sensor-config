@@ -3,9 +3,6 @@ esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   name_add_mac_suffix: true
-  project:
-    name: Mike Lawrence.Indoor Multi-Sensor
-    version: replaced
   on_boot:
     - priority: -100
       then:
@@ -50,33 +47,8 @@ i2s_audio:
     i2s_lrclk_pin: GPIO12
     i2s_bclk_pin: GPIO11
 
-# WiFI AP, required when allowing user to provision WiFi credentials
-wifi:
-  ap:
-
-# Fallback when WiFi configuration fails
-# required when allowing user to provision WiFi credentials using WiFi
-captive_portal:
-
-# Allows user to provision WiFi credentials with Bluetooth using Improv standard
-esp32_improv:
-  authorizer: none
-
-# Allow user to provision WiFi credentials with USB port using Improv standard
-improv_serial:
-
-esp32_ble_tracker:
-  scan_parameters:
-    active: true
-
-bluetooth_proxy:
-  active: true
-
 debug:
   update_interval: 60s
-
-web_server:
-  port: 80
 
 time:
   - platform: homeassistant
