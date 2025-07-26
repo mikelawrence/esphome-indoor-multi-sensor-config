@@ -67,12 +67,6 @@ external_components:
   - source: github://pr#9254
     components: [sen5x]
     refresh: 1min
-  - source:
-      type: git
-      # ref: dev
-      url: https://github.com/mikelawrence/esphome-components
-    refresh: 1h
-    components: [ld2450]
 
 # API is a requirement of the dashboard import.
 # Grab a key from https://esphome.io/components/api.html
