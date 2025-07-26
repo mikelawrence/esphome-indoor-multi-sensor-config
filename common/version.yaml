@@ -1,0 +1,3 @@
+substitutions:
+  # This will be replaced by the github workflows with the `release` version
+  common_version: main

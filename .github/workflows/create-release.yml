@@ -1,9 +1,6 @@
 name: Create Pre-release
 
 on:
-  # pull_request:
-  #   branches: [main]
-  #   types: [closed]
   workflow_dispatch:
 
 permissions:
@@ -25,28 +22,28 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - name: Calendar Version
+      - name: Get calendar version
         id: calendar-version
         uses: harm-matthias-harms/calendar-version@v2.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Update YAML file
+      - name: Update version
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: "common/common.yaml"
-          propertyPath: "esphome.project.version"
-          value: "${{ steps.calendar-version.outputs.new-version }}"
+          valueFile: common/version.yaml
+          propertyPath: substitutions.common_version
+          value: ${{ steps.calendar-version.outputs.new-version }}
           commitChange: true
           message: "Update version"
-          createPR: false
-          targetBranch: "main"
+          branch: main/${{ steps.calendar-version.outputs.new-version }}
 
-      - name: Push tag
+      - name: Push release tag
         uses: thejeff77/action-push-tag@v1.0.0
         with:
+          ref: main/${{ steps.calendar-version.outputs.new-version }}
           tag: ${{ steps.calendar-version.outputs.new-version }}
-          message: '"${{ steps.calendar-version.outputs.new-version }}: PR #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}"'
+          message: ${{ steps.calendar-version.outputs.new-version }}
 
       - name: Create release
         uses: softprops/action-gh-release@v2
