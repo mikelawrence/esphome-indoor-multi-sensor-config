@@ -1,9 +1,11 @@
 # common setup for all devices
-
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   name_add_mac_suffix: true
+  project:
+    name: Mike Lawrence.Indoor Multi-Sensor
+    version: "1.7"
   on_boot:
     - priority: -100
       then:
@@ -170,7 +172,7 @@ light:
 
 media_player:
   - platform: speaker
-    name: "Speaker Media Player"
+    name: "Media Player"
     id: speaker_media_player_id
     media_pipeline:
       speaker: media_spk_resampling_input

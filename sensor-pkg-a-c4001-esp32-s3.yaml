@@ -59,22 +59,23 @@ packages:
       - common/feat-sen6x-press-comp.yaml
       # Automatic Vent - Use humidity and CO₂ control a bathroom vent
       # - common/feat-auto-vent.yaml
+      # Smoke Alarm - Use PM and CO₂ act like a smoke alarm
+      # - common/feat-smoke-alarm.yaml
 
 # Add custom components
 external_components:
-  - source:
-      type: git
-      # ref: dev
-      url: https://github.com/mikelawrence/esphome-components
-    refresh: 1h
-    components: [dfrobot_c4001, sen5x]
+  - source: github://pr#9254
+    components: [sen5x]
+    refresh: 1min
+  - source: github://pr#9327
+    components: [dfrobot_c4001]
+    refresh: 1min
 
 # API is a requirement of the dashboard import.
 # Grab a key from https://esphome.io/components/api.html
 api:
-# yamllint disable-line rule:comments-indentation
-  # encryption:
-  #   key:
+#   encryption:
+#     key:
 
 # OTA is required for Over-the-Air updating
 ota:
@@ -84,6 +85,6 @@ ota:
 # WiFI AP, required when allowing user to provision WiFi credentials
 wifi:
   ap:
-  # ssid: !secret wifi_ssid
-  # password: !secret wifi_password
-  # use_address: xxx.xxx.xxx.xxx
+#   ssid: !secret wifi_ssid
+#   password: !secret wifi_password
+#   use_address: xxx.xxx.xxx.xxx

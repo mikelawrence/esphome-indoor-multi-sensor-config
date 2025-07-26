@@ -1,11 +1,11 @@
 # Adds DFRobot C4001 (SEN0609 or SEN0610) mmWave Radar
 #   Not compatible with any other radar package
-esphome:
-  on_boot:
+api:
+  on_client_connected:
     then:
       - text_sensor.template.publish:
           id: radar_included
-          state: "DFRobot C4001 (SEN0609 or SEN0610)"
+          state: "Hi-Link LD2410"
 
 power_supply:
   # enables power to the C4001 module
