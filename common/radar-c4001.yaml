@@ -22,6 +22,7 @@ uart:
 dfrobot_c4001:
   id: c4001_radar
   uart_id: c4001_uart
+  model: SEN0609
   mode: PRESENCE
 
 button:
