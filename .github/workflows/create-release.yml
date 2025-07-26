@@ -36,7 +36,7 @@ jobs:
           value: ${{ steps.calendar-version.outputs.new-version }}
           commitChange: true
           message: "Update version"
-          branch: main/${{ steps.calendar-version.outputs.new-version }}
+          branch: main
 
       - name: Push release tag
         uses: thejeff77/action-push-tag@v1.0.0
