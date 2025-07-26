@@ -34,14 +34,14 @@ jobs:
       - name: Update YAML file
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: 'common/common.yaml'
-          propertyPath: 'version'
-          value: '${{ steps.calendar-version.outputs.new-version }}'
+          valueFile: "common/common.yaml"
+          propertyPath: "esphome.project.version"
+          value: "${{ steps.calendar-version.outputs.new-version }}"
           commitChange: true
-          message: 'Update version'
+          message: "Update version"
           createPR: false
-          targetBranch: 'main'
-          
+          targetBranch: "main"
+
       - name: Push tag
         uses: thejeff77/action-push-tag@v1.0.0
         with:
