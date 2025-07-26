@@ -41,7 +41,7 @@ jobs:
       - name: Push release tag
         uses: thejeff77/action-push-tag@v1.0.0
         with:
-          ref: main/${{ steps.calendar-version.outputs.new-version }}
+          ref: main
           tag: ${{ steps.calendar-version.outputs.new-version }}
           message: ${{ steps.calendar-version.outputs.new-version }}
 
