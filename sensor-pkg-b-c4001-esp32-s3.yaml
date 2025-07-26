@@ -66,7 +66,7 @@ packages:
 
 # Add custom components
 external_components:
-  - source: github://pr#9327
+  - source: github://mikelawrence/esphome-components@main
     components: [dfrobot_c4001]
     refresh: 1min
 
@@ -81,7 +81,7 @@ ota:
   - platform: esphome
     id: ota_esphome
 
-# WiFI AP, required when allowing user to provision WiFi credentials
+# WiFi is required
 wifi:
 #   ssid: !secret wifi_ssid
 #   password: !secret wifi_password
