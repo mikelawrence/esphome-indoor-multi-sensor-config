@@ -14,12 +14,6 @@ esphome:
         - light.turn_off:
             id: led_status
 
-packages:
-  remote_package_files:
-    url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config
-    files:
-      - common/version.yaml
-
 # ESP32-S3-WROOM-2-N32R16V
 esp32:
   board: esp32s3box
