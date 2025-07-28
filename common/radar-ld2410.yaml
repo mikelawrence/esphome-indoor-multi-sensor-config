@@ -8,7 +8,7 @@ api:
           state: "Hi-Link LD2410"
 
 power_supply:
-  # this enables power the ld2410 module
+  # this enables power to the ld2410 module
   - id: ld2410_enable
     pin: GPIO4
     enable_on_boot: true
@@ -40,8 +40,6 @@ number:
     timeout:
       name: Timeout
       id: timeout
-    # light_threshold:
-    #   name: light threshold
     max_move_distance_gate:
       name: Max Move Distance Gate
     max_still_distance_gate:
@@ -97,8 +95,6 @@ select:
     ld2410_id: ld2410_radar
     distance_resolution:
       name: Distance Resolution
-    # baud_rate:
-    #   name: LD2410 Baud Rate
     light_function:
       name: LD2410 Light Function
     out_pin_level:

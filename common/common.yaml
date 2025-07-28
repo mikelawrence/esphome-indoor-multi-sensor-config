@@ -3,6 +3,7 @@ esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   name_add_mac_suffix: true
+  min_version: 2025.7.4
   on_boot:
     - priority: -100
       then:
@@ -13,17 +14,11 @@ esphome:
         - light.turn_off:
             id: led_status
 
-packages:
-  remote_package_files:
-    url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config
-    files:
-      - common/version.yaml
-
 # ESP32-S3-WROOM-2-N32R16V
 esp32:
   board: esp32s3box
   variant: ESP32S3
-  flash_size: 32MB
+  flash_size: 16MB  # It should support the actual 32MB, but...
   cpu_frequency: 240MHz
   framework:
     type: esp-idf
