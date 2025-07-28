@@ -99,9 +99,6 @@ script:
         static int state = 0;
         static unsigned long start_time;
         constexpr const char *const ESP_LOG_TAG = "auto_vent";
-        constexpr const char *const ESP_LOG_MSG_HIGH_HUM = "Detected high humidity";
-        constexpr const char *const ESP_LOG_MSG_HIGH_CO₂ = "Detected high CO₂";
-        constexpr const char *const ESP_LOG_MSG_MAN_OFF = "Manually turned off, turning back on";
         float on_time_seconds;
         float co2_value = 0;
         float hum = id(humidity_internal)->state;
@@ -122,17 +119,17 @@ script:
         }
         // compute conditions
         bool humidity_is_high = (hum - hum_long_avg >= ${vent_hum_on_trigger}) && ${vent_use_humidity};
-        bool humidity_is_low = ((hum - hum_long_avg <= ${vent_hum_off_trigger})
-          && (hum_short_avg - hum_long_avg <= ${vent_hum_off_trigger})) || ${vent_use_humidity};
+        bool humidity_is_low  = (hum - hum_long_avg <= ${vent_hum_off_trigger}) &&
+                                (hum_short_avg - hum_long_avg <= ${vent_hum_off_trigger});
         bool vent_on_min_time = on_time_seconds >= static_cast<float>(${vent_min_on_time} * 60);
         bool co2_is_high = co2_value >= ${vent_co2_on_trigger} && ${vent_use_co2};
-        bool co2_is_low = co2_value <= ${vent_co2_off_trigger} || ${vent_use_co2};
+        bool co2_is_low  = co2_value <= ${vent_co2_off_trigger};
         // State Machine
         switch (state) {
         // Idle State
         case 0:
           if (humidity_is_high) {
-            ESP_LOGD(ESP_LOG_TAG,  ESP_LOG_MSG_HIGH_HUM);
+            ESP_LOGD(ESP_LOG_TAG,  "Detected high humidity");
             start_time = millis();
             id(ha_vent).turn_on();
             id(vent_auto_hum).publish_state(true);
@@ -168,7 +165,7 @@ script:
             ESP_LOGV(ESP_LOG_TAG,  "Humidity still high, min on time met");
             state = 30;
           } else if (id(ha_vent).state == false) {
-            ESP_LOGV(ESP_LOG_TAG,  ESP_LOG_MSG_MAN_OFF);
+            ESP_LOGV(ESP_LOG_TAG,  "Manually turned off, turning back on");
             id(ha_vent).turn_on();
           }
           break;
@@ -179,11 +176,11 @@ script:
             start_time = millis();
             state = 40;
           } else if (humidity_is_high) {
-            ESP_LOGV(ESP_LOG_TAG,  ESP_LOG_MSG_HIGH_HUM);
+            ESP_LOGV(ESP_LOG_TAG,  "Detected high humidity");
             start_time = millis();
             state = 10;
           } else if (id(ha_vent).state == false) {
-            ESP_LOGV(ESP_LOG_TAG,  ESP_LOG_MSG_MAN_OFF);
+            ESP_LOGV(ESP_LOG_TAG,  "Manually turned off, turning back on");
             id(ha_vent).turn_on();
           }
           break;
@@ -194,14 +191,14 @@ script:
             start_time = millis();
             state = 40;
           } else if (id(ha_vent).state == false) {
-            ESP_LOGD(ESP_LOG_TAG,  ESP_LOG_MSG_MAN_OFF);
+            ESP_LOGD(ESP_LOG_TAG,  "Manually turned off, turning back on");
             id(ha_vent).turn_on();
           }
           break;
         // Delay off for 5 minutes
         case 40:
           if (humidity_is_high) {
-            ESP_LOGD(ESP_LOG_TAG,  ESP_LOG_MSG_HIGH_HUM);
+            ESP_LOGD(ESP_LOG_TAG,  "Detected high humidity");
             start_time = millis();
             state = 10;
           } else if (millis() - start_time >= 5 * 60 * 1000) {
@@ -219,7 +216,7 @@ script:
         // Manual On
         case 50:
           if (humidity_is_high) {
-            ESP_LOGD(ESP_LOG_TAG,  ESP_LOG_MSG_HIGH_HUM);
+            ESP_LOGD(ESP_LOG_TAG,  "Detected high humidity");
             start_time = millis();
             id(vent_auto_hum).publish_state(true);
             id(vent_manual).publish_state(false);
@@ -242,7 +239,7 @@ script:
         // High CO₂
         case 60:
           if (humidity_is_high) {
-            ESP_LOGD(ESP_LOG_TAG,  ESP_LOG_MSG_HIGH_HUM);
+            ESP_LOGD(ESP_LOG_TAG,  "Detected high humidity");
             start_time = millis();
             id(vent_auto_hum).publish_state(true);
             id(vent_manual).publish_state(false);
