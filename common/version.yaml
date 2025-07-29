@@ -1,3 +1,2 @@
 substitutions:
-# will be replaced by github action
-  common_version: dev
+  common_version: 2025.07.2
