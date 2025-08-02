@@ -73,18 +73,6 @@ binary_sensor:
     config_changed:
       name: C4001 Config Changed
 
-sensor:
-  - platform: template
-    id: internal_timeout
-    internal: true
-    update_interval: 1s
-    lambda: |-
-      if (id(off_latency).state != id(internal_timeout).state) {
-        return id(off_latency).state;
-      } else {
-        return {};
-      }
-
 switch:
   - platform: dfrobot_c4001
     dfrobot_c4001_id: c4001_radar
