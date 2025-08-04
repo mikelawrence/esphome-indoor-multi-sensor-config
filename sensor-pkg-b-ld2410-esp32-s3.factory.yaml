@@ -1,5 +1,7 @@
 packages:
-  # Include all of the core configuration
+  # Grab the current tag, this overwrites latest tag in the core configuration
+  tag: !include common/tag.yaml
+  # Grab all of the core configuration
   core: !include sensor-pkg-b-ld2410-esp32-s3.yaml
 
 esphome:
@@ -20,7 +22,7 @@ ota:
 update:
   - platform: http_request
     id: update_http_request
-    name: Firmware
+    name: Indoor Multi-Sensor Firmware
     source: https://mikelawrence.github.io/esphome-indoor-multi-sensor-config/firmware/sensor-pkg-b-ld2410.manifest.json
 
 # HTTP Request component
@@ -28,5 +30,5 @@ http_request:
 
 # When adopted this configuration is used
 dashboard_import:
-  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/sensor-pkg-b-ld2410-esp32-s3.yaml@main
+  package_import_url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/releases/latest/download/sensor-pkg-b-ld2410-esp32-s3.yaml
   import_full_config: true

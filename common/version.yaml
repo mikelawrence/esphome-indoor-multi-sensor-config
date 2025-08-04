@@ -1,3 +1,0 @@
-substitutions:
-# will be replaced by github action
-  common_version: dev

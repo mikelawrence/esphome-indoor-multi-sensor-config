@@ -31,8 +31,8 @@ jobs:
       - name: Update version
         uses: fjogeleit/yaml-update-action@main
         with:
-          valueFile: common/version.yaml
-          propertyPath: substitutions.common_version
+          valueFile: common/tag.yaml
+          propertyPath: substitutions.tag
           value: ${{ steps.calendar-version.outputs.new-version }}
           commitChange: true
           message: "Update version"
