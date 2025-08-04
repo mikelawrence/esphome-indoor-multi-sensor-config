@@ -27,14 +27,6 @@ jobs:
         with:
           latest: true
           prerelease: true
-      - name: Upload Tag to Release
-        id: uploadTagToRelease
-        uses: svenstaro/upload-release-action@2.11.2
-        with:
-          repo_token: ${{ github.token }}
-          file: config/tag.yaml
-          asset_name: tag.yaml
-          tag: ${{ steps.getLatestRelease.outputs.tag_name }}
 
     outputs:
       summary: ${{ steps.getLatestRelease.outputs.body }}
