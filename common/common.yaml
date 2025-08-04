@@ -1,6 +1,7 @@
 # common setup for all devices
 esphome:
   name: ${name}
+  id: esphome_common
   friendly_name: ${friendly_name}
   name_add_mac_suffix: true
   min_version: 2025.7.4
