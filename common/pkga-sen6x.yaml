@@ -48,9 +48,9 @@ button:
     entity_category: CONFIG
     on_press:
       - sen5x.perform_forced_co2_calibration:
-          value: !lambda |-
+          value: '!lambda |-
             float value = id(co2_forced_cal_value).state;
-            return value;
+            return value;'
           id: sen66_sensor
 
 sensor:
