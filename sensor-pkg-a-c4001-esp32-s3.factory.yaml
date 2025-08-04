@@ -1,6 +1,6 @@
 substitutions:
-  # This will be replaced by the github workflows with the release `tag`
-  tag: main
+  # This will be replaced by the github workflows with the `release` version
+  version: dev
 
 packages:
   # Grab the core configuration
@@ -32,5 +32,5 @@ http_request:
 
 # When adopted this configuration is used
 dashboard_import:
-  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/sensor-pkg-a-c4001-esp32-s3.yaml@${tag}
+  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/sensor-pkg-a-c4001-esp32-s3.yaml@main
   import_full_config: true
