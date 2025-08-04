@@ -1,6 +1,7 @@
 substitutions:
   name: "sensor-pkg-b-ld2410"
   friendly_name: "Indoor Multi-Sensor Pkg B Radar LD2410"
+  version_suffix: ""
 
   # Settings
   use_pir_in_presence: "true"
@@ -31,21 +32,20 @@ substitutions:
   vent_co2_on_trigger: "1100"
   vent_co2_off_trigger: "900"
 
-packages:
-  # Grab the latest release version and put into ${version}
-  version:
-    url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/releases/latest/download/version.yaml
-    refresh: 1min
+esphome:
+  project:
+    name: Mike Lawrence.Indoor Multi-Sensor Sens-Pkg-B
 
+packages:
   # Grab the core configuration
   core:
     url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/
-    # default is ${version} which is the latest release version according to github
-    # but can be any git ref like 'main' or '2025.07.1'
-    ref: ${version}
+    # Can be any git ref like 'main' or '2025.07.1'
+    ref: main
     refresh: 1min
     files:
       # Main Config Files
+      - common/version.yaml
       - common/common.yaml
       - common/pkgb-sht4x.yaml
       - common/pkgb-scd4x.yaml

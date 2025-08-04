@@ -1,10 +1,11 @@
 # common setup for all devices
 esphome:
   name: ${name}
-  id: esphome_common
   friendly_name: ${friendly_name}
-  name_add_mac_suffix: true
   min_version: 2025.7.4
+  name_add_mac_suffix: false
+  project:
+    version: dev
   on_boot:
     - priority: -100
       then:
@@ -19,7 +20,7 @@ esphome:
 esp32:
   board: esp32s3box
   variant: ESP32S3
-  flash_size: 16MB  # It should support the actual 32MB, but...
+  flash_size: 16MB # It should support the actual 32MB, but...
   cpu_frequency: 240MHz
   framework:
     type: esp-idf
