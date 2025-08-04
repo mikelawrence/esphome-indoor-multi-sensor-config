@@ -37,42 +37,10 @@ jobs:
           message: "Update version"
           branch: main
 
-      - name: Update version
-        uses: fjogeleit/yaml-update-action@main
-        with:
-          # valueFile: "*esp32-s3.factory.yaml"
-          # propertyPath: substitutions.tag
-          # value: ${{ steps.calendar-version.outputs.new-version }}
-          commitChange: true
-          message: "Update tag"
-          branch: main
-          changes: |
-            {
-              "sensor-pkg-a-c4001-esp32-s3.factory.yaml": {
-                "substitutions.tag": "${{ steps.calendar-version.outputs.new-version }}"
-              },
-              "sensor-pkg-a-ld2410-esp32-s3.factory.yaml": {
-                "substitutions.tag": "${{ steps.calendar-version.outputs.new-version }}"
-              },
-              "sensor-pkg-a-ld2450-mtmz-esp32-s3.factory.yaml": {
-                "substitutions.tag": "${{ steps.calendar-version.outputs.new-version }}"
-              },
-              "sensor-pkg-a-ld2450-stsz-esp32-s3.factory.yaml": {
-                "substitutions.tag": "${{ steps.calendar-version.outputs.new-version }}"
-              },
-              "sensor-pkg-b-c4001-esp32-s3.factory.yaml": {
-                "substitutions.tag": "${{ steps.calendar-version.outputs.new-version }}"
-              },
-              "sensor-pkg-b-ld2410-esp32-s3.factory.yaml": {
-                "substitutions.tag": "${{ steps.calendar-version.outputs.new-version }}"
-              },
-              "sensor-pkg-b-ld2450-mtmz-esp32-s3.factory.yaml": {
-                "substitutions.tag": "${{ steps.calendar-version.outputs.new-version }}"
-              },
-              "sensor-pkg-b-ld2450-stsz-esp32-s3.factory.yaml": {
-                "substitutions.tag": "${{ steps.calendar-version.outputs.new-version }}"
-              }
-            }
+      - name: Replace substitution tag
+        run: |
+          sed -i "s/tag: main/tag: ${{ steps.calendar-version.outputs.new-version }}/g" ./*factory.yaml
+
       - name: Push release tag
         uses: thejeff77/action-push-tag@v1.0.0
         with:
@@ -85,7 +53,7 @@ jobs:
         with:
           tag_name: ${{ steps.calendar-version.outputs.new-version }}
           generate_release_notes: true
-          prerelease: ${{ github.event_name == 'workflow_dispatch' }}
+          prerelease: true
 
       - name: Upload Tag to Release
         id: uploadTagToRelease

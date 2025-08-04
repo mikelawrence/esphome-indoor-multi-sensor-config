@@ -2,10 +2,8 @@ substitutions:
   tag: main
 
 packages:
-  # Grab the current tag, this overwrites latest tag in the core configuration
-  tag: '!include common/tag.yaml'
   # Grab the core configuration
-  core: '!include sensor-pkg-a-ld2410-esp32-s3.yaml'
+  core: !include sensor-pkg-a-ld2410-esp32-s3.yaml
 
 esphome:
   # This will allow for project identification, configuration and updates.
@@ -33,5 +31,5 @@ http_request:
 
 # When adopted this configuration is used
 dashboard_import:
-  package_import_url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/releases/latest/download/sensor-pkg-a-ld2410-esp32-s3.yaml
+  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/sensor-pkg-a-ld2410-esp32-s3.yaml@${tag}
   import_full_config: true
