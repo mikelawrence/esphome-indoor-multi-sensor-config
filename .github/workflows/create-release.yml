@@ -18,7 +18,6 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
         with:
-          # ref: ${{ github.head_ref }}
           fetch-depth: 0
           fetch-tags: true
 
@@ -51,3 +50,12 @@ jobs:
           tag_name: ${{ steps.calendar-version.outputs.new-version }}
           generate_release_notes: true
           prerelease: ${{ github.event_name == 'workflow_dispatch' }}
+
+      - name: Upload Tag to Release
+        id: uploadTagToRelease
+        uses: svenstaro/upload-release-action@2.11.2
+        with:
+          repo_token: ${{ github.token }}
+          file: config/tag.yaml
+          asset_name: tag.yaml
+          tag: ${{ steps.calendar-version.outputs.new-version  }}
