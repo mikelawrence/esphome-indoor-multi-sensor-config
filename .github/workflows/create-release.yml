@@ -56,6 +56,6 @@ jobs:
         uses: svenstaro/upload-release-action@2.11.2
         with:
           repo_token: ${{ github.token }}
-          file: config/tag.yaml
+          file: common/tag.yaml
           asset_name: tag.yaml
           tag: ${{ steps.calendar-version.outputs.new-version  }}
