@@ -32,16 +32,17 @@ substitutions:
   vent_co2_off_trigger: "900"
 
 packages:
-  # Grab the latest release tag and put into ${tag}
-  tag:
-    url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/releases/latest/download/common/tag.yaml
+  # Grab the latest release version and put into ${version}
+  version:
+    url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/releases/latest/download/common/version.yaml
     refresh: 1min
+
   # Grab the core configuration
   core:
     url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/
-    # default is ${tag} which is the latest release tag according to github
+    # default is ${version} which is the latest release version according to github
     # but can be any git ref like 'main' or '2025.07.1'
-    ref: ${tag}
+    ref: ${version}
     refresh: 1min
     files:
       # Main Config Files
