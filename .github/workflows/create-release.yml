@@ -27,7 +27,11 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Update version
+      - name: Update Version 1
+        run: |
+          sed -i "s/ version: .*/ version: ${{ steps.calendar-version.outputs.new-version }}${version_suffix}/g" ./common/common.yaml
+
+      - name: Update version 2
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: common/version.yaml
@@ -50,12 +54,3 @@ jobs:
           tag_name: ${{ steps.calendar-version.outputs.new-version }}
           generate_release_notes: true
           prerelease: true
-
-      - name: Upload Version to Release
-        id: uploadTagToRelease
-        uses: svenstaro/upload-release-action@2.11.2
-        with:
-          repo_token: ${{ github.token }}
-          file: common/version.yaml
-          asset_name: version.yaml
-          tag: ${{ steps.calendar-version.outputs.new-version  }}
