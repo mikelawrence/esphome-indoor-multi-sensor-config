@@ -26,6 +26,39 @@ ld2450:
   id: ld2450_radar
   uart_id: ld2450_uart
 
+binary_sensor:
+  - platform: ld2450
+    ld2450_id: ld2450_radar
+    has_target:
+      name: MMWave Presence
+      id: presence_mmwwave
+      device_class: presence
+    has_moving_target:
+      name: Moving Target
+    has_still_target:
+      name: Still Target
+  - platform: template
+    name: Zone-1 Presence
+    device_class: presence
+    filters:
+      - delayed_off: !lambda return id(timeout).state;
+    lambda: |-
+      return (id(z1_target_count).state > 0);
+  - platform: template
+    name: Zone-2 Presence
+    device_class: presence
+    filters:
+      - delayed_off: !lambda return id(timeout).state;
+    lambda: |-
+      return (id(z2_target_count).state > 0);
+  - platform: template
+    name: Zone-3 Presence
+    device_class: presence
+    filters:
+      - delayed_off: !lambda return id(timeout).state;
+    lambda: |-
+      return (id(z3_target_count).state > 0);
+
 button:
   - platform: ld2450
     ld2450_id: ld2450_radar
@@ -82,39 +115,6 @@ switch:
     multi_target:
       name: LD2450 Multi Target Tracking
 
-binary_sensor:
-  - platform: ld2450
-    ld2450_id: ld2450_radar
-    has_target:
-      name: MMWave Presence
-      id: presence_mmwwave
-      device_class: presence
-    has_moving_target:
-      name: Moving Target
-    has_still_target:
-      name: Still Target
-  - platform: template
-    name: Zone-1 Presence
-    device_class: presence
-    filters:
-      - delayed_off: !lambda return id(timeout).state;
-    lambda: |-
-      return (id(z1_target_count).state > 0);
-  - platform: template
-    name: Zone-2 Presence
-    device_class: presence
-    filters:
-      - delayed_off: !lambda return id(timeout).state;
-    lambda: |-
-      return (id(z2_target_count).state > 0);
-  - platform: template
-    name: Zone-3 Presence
-    device_class: presence
-    filters:
-      - delayed_off: !lambda return id(timeout).state;
-    lambda: |-
-      return (id(z3_target_count).state > 0);
-
 sensor:
   - platform: ld2450
     ld2450_id: ld2450_radar
@@ -169,16 +169,6 @@ sensor:
         name: Zone-3 Still Target Count
       moving_target_count:
         name: Zone-3 Moving Target Count
-  - platform: template
-    id: internal_timeout
-    internal: true
-    update_interval: 1s
-    lambda: |-
-      if (id(timeout)->state != id(internal_timeout)->state) {
-        return id(timeout)->state;
-      } else {
-        return {};
-      }
 
 text_sensor:
   - platform: ld2450

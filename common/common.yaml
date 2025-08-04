@@ -127,7 +127,7 @@ binary_sensor:
     pin:
       number: GPIO38
     filters:
-      - delayed_off: !lambda "return id(internal_timeout).state;"
+      - delayed_off: 10s
 
 button:
   - platform: restart

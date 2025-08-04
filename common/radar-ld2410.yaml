@@ -24,6 +24,18 @@ ld2410:
   uart_id: ld2410_uart
   throttle: 1s
 
+binary_sensor:
+  - platform: ld2410
+    ld2410_id: ld2410_radar
+    has_target:
+      name: MMWave Presence
+      id: presence_mmwwave
+      device_class: presence
+    has_moving_target:
+      name: Moving Target
+    has_still_target:
+      name: Still Target
+
 button:
   - platform: ld2410
     ld2410_id: ld2410_radar
@@ -108,18 +120,6 @@ switch:
     bluetooth:
       name: LD2410 Bluetooth Enable
 
-binary_sensor:
-  - platform: ld2410
-    ld2410_id: ld2410_radar
-    has_target:
-      name: MMWave Presence
-      id: presence_mmwwave
-      device_class: presence
-    has_moving_target:
-      name: Moving Target
-    has_still_target:
-      name: Still Target
-
 sensor:
   - platform: ld2410
     ld2410_id: ld2410_radar
@@ -178,16 +178,6 @@ sensor:
         name: G8 Move Energy
       still_energy:
         name: G8 Still Energy
-  - platform: template
-    id: internal_timeout
-    internal: true
-    update_interval: 1s
-    lambda: |-
-      if (id(timeout).state != id(internal_timeout).state) {
-        return id(timeout).state;
-      } else {
-        return {};
-      }
 
 text_sensor:
   - platform: ld2410

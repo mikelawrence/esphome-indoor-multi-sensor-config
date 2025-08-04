@@ -53,6 +53,18 @@ jobs:
       release-url: ${{ needs.getReleaseInfo.outputs.url }}
       release-version: ${{ needs.getReleaseInfo.outputs.version }}
 
+  upload_version_to_release:
+    name: Upload Firmware to Release
+    uses: svenstaro/upload-release-action@2.11.2
+    needs:
+      - getReleaseInfo
+      - buildFirmware
+    with:
+      repo_token: ${{ github.token }}
+      file: config/tag.yaml
+      asset_name: tag.yaml
+      tag: ${{ needs.getReleaseInfo.outputs.version }}
+
   upload_firmware_to_release:
     name: Upload Firmware to Release
     uses: esphome/workflows/.github/workflows/upload-to-gh-release.yml@2025.4.0

@@ -14,7 +14,7 @@ substitutions:
   co_offset: "0.0"
   co_sensitivity: "2.000e-9"
   co_manufacture_date: "Not Set"
-  co_serial_number: "111111111111111111"
+  co_serial_number: "Not Set"
   # Temperature Configuration
   temperature_offset: "0.0"
   # Humidity Configuration
@@ -32,10 +32,17 @@ substitutions:
   vent_co2_off_trigger: "900"
 
 packages:
-  remote_package_files:
-    url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config
-    # ref: dev
-    refresh: 1d
+  # Grab the latest release tag and put into ${tag}
+  tag:
+    url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/releases/latest/download/common/tag.yaml
+    refresh: 1min
+  # Grab the core configuration
+  core:
+    url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/
+    # default is ${tag} which is the latest release tag according to github
+    # but can be any git ref like 'main' or '2025.07.1'
+    ref: ${tag}
+    refresh: 1min
     files:
       # Main Config Files
       - common/common.yaml
@@ -66,7 +73,6 @@ packages:
 external_components:
   - source: github://mikelawrence/esphome-components@main
     components: [sen5x]
-    refresh: 1min
 
 # API is a requirement of the dashboard import.
 # Grab a key from https://esphome.io/components/api.html

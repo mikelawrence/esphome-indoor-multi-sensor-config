@@ -90,16 +90,6 @@ sensor:
         name: Target-1 Y
       distance:
         name: Target-1 Distance
-  - platform: template
-    id: internal_timeout
-    internal: true
-    update_interval: 1s
-    lambda: |-
-      if (id(timeout)->state != id(internal_timeout)->state) {
-        return id(timeout)->state;
-      } else {
-        return {};
-      }
 
 text_sensor:
   - platform: ld2450
