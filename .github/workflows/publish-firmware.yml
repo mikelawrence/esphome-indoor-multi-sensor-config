@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Get Latest Release
         id: getLatestRelease
-        uses: cardinalby/git-get-release-action@v1
+        uses: cardinalby/git-get-release-action@1.2.5
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
@@ -29,7 +29,7 @@ jobs:
           prerelease: true
       - name: Upload Tag to Release
         id: uploadTagToRelease
-        uses: svenstaro/upload-release-action@v2
+        uses: svenstaro/upload-release-action@2.11.2
         with:
           repo_token: ${{ github.token }}
           file: config/tag.yaml
