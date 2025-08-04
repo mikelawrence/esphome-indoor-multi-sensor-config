@@ -1,3 +1,2 @@
 substitutions:
-  # will be replaced by github action
-  tag: dev
+  tag: 2025.08.0
