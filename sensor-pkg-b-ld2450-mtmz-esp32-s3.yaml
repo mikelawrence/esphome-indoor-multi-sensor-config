@@ -34,9 +34,9 @@ substitutions:
 packages:
   # Grab the latest release version and put into ${version}
   version:
-    url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/releases/latest/download/common/version.yaml
+    url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/releases/latest/download/version.yaml
     refresh: 1min
-    
+
   # Grab the core configuration
   core:
     url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/
