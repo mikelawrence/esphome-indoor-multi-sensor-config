@@ -1,8 +1,9 @@
 substitutions:
   tag: 2025.08.0
 packages:
-  tag: '!include common/tag.yaml'
-  core: '!include sensor-pkg-a-ld2450-mtmz-esp32-s3.yaml'
+  # Grab all of the core configuration
+  core: !include sensor-pkg-a-ld2450-mtmz-esp32-s3.yaml
+
 esphome:
   project:
     name: Mike Lawrence.Indoor Multi-Sensor
@@ -18,5 +19,5 @@ update:
     source: https://mikelawrence.github.io/esphome-indoor-multi-sensor-config/firmware/sensor-pkg-a-ld2450-mtmz.manifest.json
 http_request: null
 dashboard_import:
-  package_import_url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/releases/latest/download/sensor-pkg-a-ld2450-mtmz-esp32-s3.yaml
+  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/sensor-pkg-a-ld2450-mtmz-esp32-s3.yaml@${tag}
   import_full_config: true
