@@ -1,3 +1,6 @@
+substitutions:
+  tag: main
+
 packages:
   # Grab the current tag, this overwrites latest tag in the core configuration
   tag: !include common/tag.yaml
