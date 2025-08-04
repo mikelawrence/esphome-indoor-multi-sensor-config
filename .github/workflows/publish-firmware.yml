@@ -27,6 +27,15 @@ jobs:
         with:
           latest: true
           prerelease: true
+      - name: Upload Tag to Release
+        id: uploadTagToRelease
+        uses: svenstaro/upload-release-action@2.11.2
+        with:
+          repo_token: ${{ github.token }}
+          file: config/tag.yaml
+          asset_name: tag.yaml
+          tag: ${{ steps.getLatestRelease.outputs.tag_name }}
+
     outputs:
       summary: ${{ steps.getLatestRelease.outputs.body }}
       url: ${{ steps.getLatestRelease.outputs.html_url }}
@@ -53,19 +62,7 @@ jobs:
       release-url: ${{ needs.getReleaseInfo.outputs.url }}
       release-version: ${{ needs.getReleaseInfo.outputs.version }}
 
-  upload_version_to_release:
-    name: Upload Firmware to Release
-    uses: svenstaro/upload-release-action@2.11.2
-    needs:
-      - getReleaseInfo
-      - buildFirmware
-    with:
-      repo_token: ${{ github.token }}
-      file: config/tag.yaml
-      asset_name: tag.yaml
-      tag: ${{ needs.getReleaseInfo.outputs.version }}
-
-  upload_firmware_to_release:
+  uploadFirmwareToRelease:
     name: Upload Firmware to Release
     uses: esphome/workflows/.github/workflows/upload-to-gh-release.yml@2025.4.0
     needs:
