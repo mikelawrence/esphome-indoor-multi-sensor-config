@@ -119,10 +119,10 @@ text_sensor:
     id: co_serial_number
     entity_category: diagnostic
     update_interval: never
-    lambda: 'return {""}'
+    lambda: 'return "";'
   - platform: template
     name: "CO Manufacture Date"
     id: co_manufacture_date
     entity_category: diagnostic
     update_interval: never
-    lambda: 'return {""};'
+    lambda: 'return "";'
