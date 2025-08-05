@@ -38,15 +38,23 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Fetches all history for the pull request
-      - name: ESPHome ${{ matrix.esphome-version }}
-        uses: esphome/build-action@v7
-        with:
-          yaml-file: ${{ matrix.file }}.yaml
-          version: ${{ matrix.esphome-version }}
+
+      - name: Update git ref 1
+        run: |
+          sed -i "s/yaml@main.*/yaml@${{ github.ref }}/g" *s3.factory.yaml
+
+      - name: Update git ref 2
+        run: |
+          sed -i "s/ref: main.*/ref: ${{ github.ref }}/g" *.s3.yaml
+
       - name: ESPHome ${{ matrix.esphome-version }} Factory
         uses: esphome/build-action@v7
         with:
           yaml-file: ${{ matrix.file }}.factory.yaml
+          version: ${{ matrix.esphome-version }}
+
+      - name: ESPHome ${{ matrix.esphome-version }}
+        uses: esphome/build-action@v7
+        with:
+          yaml-file: ${{ matrix.file }}.yaml
           version: ${{ matrix.esphome-version }}
