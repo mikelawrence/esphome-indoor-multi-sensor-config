@@ -92,4 +92,4 @@ text_sensor:
     entity_category: diagnostic
     update_interval: never
     lambda: |-
-      return "";
+      return {""};
