@@ -56,7 +56,7 @@ packages:
   bmp581: github://mikelawrence/esphome-indoor-multi-sensor-config/common/add-bmp581.yaml@main
   # Microphone - Adds Sound Level meter
   mic: github://mikelawrence/esphome-indoor-multi-sensor-config/common/add-microphone.yaml@main
-  
+
   # FEATURES
   # SCD4X Pressure Compensation - Adds pressure compensation to SCD4X
   press-comp: github://mikelawrence/esphome-indoor-multi-sensor-config/common/feat-scd4x-press-comp.yaml@main
