@@ -10,6 +10,9 @@ on:
       - "**.yaml"
       - "**.yml"
 
+permissions:
+  contents: write
+
 jobs:
   yamllint:
     name: 🧹 yamllint
