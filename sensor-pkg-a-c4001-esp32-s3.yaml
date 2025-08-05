@@ -78,7 +78,8 @@ api:
 ota:
   - platform: esphome
     id: ota_esphome
-
+    # password: !secret ota_password
+    
 # WiFi is required
 wifi:
 #   ssid: !secret wifi_ssid
