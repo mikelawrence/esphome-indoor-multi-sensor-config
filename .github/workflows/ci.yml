@@ -41,11 +41,11 @@ jobs:
 
       - name: Update git ref 1
         run: |
-          sed -i "s/yaml@main.*/yaml@${{ github.ref }}/g" *s3.factory.yaml
+          sed -i "s#yaml@main.*#yaml@${{ github.ref }}#g" *s3.factory.yaml
 
       - name: Update git ref 2
         run: |
-          sed -i "s/ref: main.*/ref: ${{ github.ref }}/g" *.s3.yaml
+          sed -i "s#ref: main.*#ref: ${{ github.ref }}#g" *.s3.yaml
 
       - name: ESPHome ${{ matrix.esphome-version }} Factory
         uses: esphome/build-action@v7
