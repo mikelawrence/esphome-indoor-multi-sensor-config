@@ -46,7 +46,7 @@ button:
       - scd4x.perform_forced_calibration:
           value: !lambda |-
             float value = id(co2_forced_cal_value).state;
-            // ESP_LOGD("scd4x", "CO₂ Calibration executed, CO₂=%0.0f", value);
+            ESP_LOGD("scd4x", "CO₂ Calibration executed, CO₂=%0.0f", value);
             return value;
           id: scd41_sensor
 
