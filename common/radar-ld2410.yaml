@@ -191,5 +191,4 @@ text_sensor:
     id: radar_included
     entity_category: diagnostic
     update_interval: never
-    lambda: |-
-      return {""};
+    lambda: 'return {""};'

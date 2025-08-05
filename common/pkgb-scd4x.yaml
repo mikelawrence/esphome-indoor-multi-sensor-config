@@ -56,5 +56,4 @@ text_sensor:
     id: co2_calibration_date
     entity_category: diagnostic
     update_interval: never
-    lambda: |-
-      return {""};
+    lambda: 'return {""};'
