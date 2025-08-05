@@ -7,7 +7,7 @@ on:
       - "common/*.yaml"
       - ".github/workflows/ci.yml"
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
@@ -37,10 +37,9 @@ jobs:
           - dev
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0 # Fetches all history for the pull request
+          fetch-depth: 0  # Fetches all history for the pull request
       - name: ESPHome ${{ matrix.esphome-version }}
         uses: esphome/build-action@v7
         with:
