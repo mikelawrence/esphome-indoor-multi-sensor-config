@@ -12,5 +12,5 @@ sensor:
           return x / 100.0;
     on_value:
       then:
-        - lambda: '!lambda |-
-            id(sen66_sensor)->set_ambient_pressure_compensation(x);'
+        - lambda: !lambda |-
+            id(sen66_sensor)->set_ambient_pressure_compensation(x);
