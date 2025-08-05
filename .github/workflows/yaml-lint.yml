@@ -2,7 +2,6 @@ name: YAML lint
 
 on:
   push:
-    branches: [main]
     paths:
       - "**.yaml"
       - "**.yml"
@@ -22,3 +21,7 @@ jobs:
         uses: frenck/action-yamllint@v1.5.0
         with:
           strict: true
+      - name: Fix yaml files
+        uses: opt-nc/yamlfixer-action
+        with:
+            options: --summary
