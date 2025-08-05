@@ -7,9 +7,7 @@ sensor:
     source_id: pressure
     unit_of_measurement: hPa
     filters:
-      - lambda: |-
-          // convert Pa to hPa (or mBar)
-          return x / 100.0;
+      - multiply: 0.01
     on_value:
       then:
-        - lambda: 'id(sen66_sensor)->set_ambient_pressure_compensation(x);'
+        - lambda: "id(sen66_sensor)->set_ambient_pressure_compensation(x);"

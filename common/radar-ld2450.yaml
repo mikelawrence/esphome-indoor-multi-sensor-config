@@ -41,21 +41,21 @@ binary_sensor:
     name: Zone-1 Presence
     device_class: presence
     filters:
-      - delayed_off: !lambda return id(timeout).state;
+      - delayed_off: !lambda "return id(timeout).state;"
     lambda: |-
       return (id(z1_target_count).state > 0);
   - platform: template
     name: Zone-2 Presence
     device_class: presence
     filters:
-      - delayed_off: !lambda return id(timeout).state;
+      - delayed_off: !lambda "return id(timeout).state;"
     lambda: |-
       return (id(z2_target_count).state > 0);
   - platform: template
     name: Zone-3 Presence
     device_class: presence
     filters:
-      - delayed_off: !lambda return id(timeout).state;
+      - delayed_off: !lambda "return id(timeout).state;"
     lambda: |-
       return (id(z3_target_count).state > 0);
 
@@ -182,5 +182,4 @@ text_sensor:
     id: radar_included
     entity_category: diagnostic
     update_interval: never
-    lambda: |-
-      return {""};
+    lambda: 'return {""};'
