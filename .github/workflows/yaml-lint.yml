@@ -27,5 +27,6 @@ jobs:
       - name: Fix yaml files
         uses: opt-nc/yamlfixer-action@v1.3.2
         with:
-          options: --summary
+          options: --verbose
+          user: ${{ github.actor }}
           token: ${{ secrets.GITHUB_TOKEN }}
