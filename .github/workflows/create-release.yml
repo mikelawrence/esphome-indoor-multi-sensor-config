@@ -29,17 +29,7 @@ jobs:
 
       - name: Update Version 1
         run: |
-          sed -i "s/ version: .*/ version: ${{ steps.calendar-version.outputs.new-version }}${version_suffix}/g" ./common/common.yaml
-
-      - name: Update version 2
-        uses: fjogeleit/yaml-update-action@main
-        with:
-          valueFile: common/version.yaml
-          propertyPath: substitutions.version
-          value: ${{ steps.calendar-version.outputs.new-version }}
-          commitChange: true
-          message: "Update version"
-          branch: main
+          sed -i "s# version: .*# version: ${{ steps.calendar-version.outputs.new-version }}${version_suffix}#g" ./common/common.yaml
 
       - name: Push release tag
         uses: thejeff77/action-push-tag@v1.0.0
