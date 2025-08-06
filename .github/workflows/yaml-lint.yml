@@ -2,7 +2,6 @@ name: YAML lint
 
 on:
   push:
-    branches: [main]
     paths:
       - "**.yaml"
       - "**.yml"
@@ -11,6 +10,9 @@ on:
       - "**.yaml"
       - "**.yml"
 
+permissions:
+  contents: write
+
 jobs:
   yamllint:
     name: 🧹 yamllint
@@ -18,7 +20,13 @@ jobs:
     steps:
       - name: ⤵️ Check out configuration from GitHub
         uses: actions/checkout@v4.2.2
-      - name: 🚀 Run yamllint
-        uses: frenck/action-yamllint@v1.5.0
+      # - name: 🚀 Run yamllint
+      #   uses: frenck/action-yamllint@v1.5.0
+      #   with:
+      #     strict: true
+      - name: Fix yaml files
+        uses: opt-nc/yamlfixer-action@v1.3.2
         with:
-          strict: true
+          options: --verbose
+          user: ${{ github.actor }}
+          token: ${{ secrets.GITHUB_TOKEN }}
