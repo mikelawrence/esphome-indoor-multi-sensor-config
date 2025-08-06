@@ -42,7 +42,7 @@ esphome:
 
 packages:
   # keep @main so that it can be replaced for CI workflows
-  # Main Config Files
+  # Main Config Files for Sensor Package-A and C4001 Radar
   common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
   sen6x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkga-sen6x.yaml@main
   radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-c4001.yaml@main

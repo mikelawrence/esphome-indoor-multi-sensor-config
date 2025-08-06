@@ -42,7 +42,7 @@ esphome:
 
 packages:
   # keep @main so that it can be replaced for CI workflows
-  # Main Config Files
+  # Main Config Files for Sensor Package-B and LD2410 Radar
   common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
   sht4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sht4x.yaml@main
   scd4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-scd4x.yaml@main
