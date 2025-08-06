@@ -27,16 +27,22 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Update Version 1
-        run: |
-          sed -i "s/  version: .*/  version: ${{ steps.calendar-version.outputs.new-version }}${version_suffix}/g" common/common.yaml
+      # - name: Update Version 1
+      #   run: |
+      #     sed -i "s/  version: .*/  version: ${{ steps.calendar-version.outputs.new-version }}${version_suffix}/g" common/common.yaml
 
-      - name: Update version 2
-        uses: fjogeleit/yaml-update-action@main
+      - name: Update version
+        uses: fjogeleit/yaml-update-action@v0.16.1
         with:
-          valueFile: version.json
-          propertyPath: version
-          value: ${{ steps.calendar-version.outputs.new-version }}
+          changes: |
+            {
+              "version.json": { 
+                "version": "${{ steps.calendar-version.outputs.new-version }}"
+              },
+              "common/common.yaml": { 
+                "esphome.project.version": "${{ steps.calendar-version.outputs.new-version }}"
+              }
+            }
           commitChange: true
           message: "Update version"
           branch: main
