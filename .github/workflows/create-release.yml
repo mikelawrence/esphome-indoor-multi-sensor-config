@@ -33,7 +33,7 @@ jobs:
 
       - name: Update Version 2
         run: |
-          echo "{ \\"version\\": \\"${{ steps.calendar-version.outputs.new-version }}\\" }" > version.json
+          echo "{ \"version\": \"${{ steps.calendar-version.outputs.new-version }}\" }" > version.json
 
       - name: echo common.yaml
         run: |
