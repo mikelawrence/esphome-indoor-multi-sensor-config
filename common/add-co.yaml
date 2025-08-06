@@ -53,14 +53,14 @@ sensor:
           static bool error = false;
           float sensitivity = id(co_sensitivity_const);
           float cf = 1.0;
-          float temp = round(id(${co_temp_id}).state);
+          float temp = round(id(board_temperature));
 
           if (isnan(temp)) {
             // temperature is not valid
             cf = id(co_temp_calibration)[23];
             if (!error) {
               // status not reported yet
-              ESP_LOGW("co", "Temperature is unknown, temperature calibration is using default temperature of 23°C");
+              ESP_LOGW("co", "Board temperature is unknown, temperature calibration is using default temperature of 23°C");
               error = true;
             }
           } else {
@@ -68,7 +68,7 @@ sensor:
             cf = id(co_temp_calibration)[(int) temp];
             if (error) {
               // status not reported yet
-              ESP_LOGW("co", "Temperature is valid, temperature calibration is using actual temperature");
+              ESP_LOGW("co", "Board temperature is valid, temperature calibration is using actual temperature");
               error = false;
             }
           }

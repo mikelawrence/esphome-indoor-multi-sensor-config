@@ -1,0 +1,27 @@
+# PACKAGE A
+#   Adds SHT45 temperature sensor as a board temperature sensor
+#   Not compatible with PACKAGE B package
+sensor:
+  - platform: sht4x
+    id: sht45_sensor
+    i2c_id: i2c1_bus
+    update_interval: 1s
+    temperature:
+      id: sht4x_temperature
+      accuracy_decimals: 2
+      filters:
+        - filter_out: NAN
+        - lambda: |-
+            // get the first board temperature out quickly
+            if(isnan(id(board_temperature))) {
+              
+            }
+            return x;
+        - throttle_average: 60s
+        - median:
+            window_size: 5
+            send_every: 1
+      on_value:
+        then:
+          - lambda: |-
+              id(board_temperature) = x;

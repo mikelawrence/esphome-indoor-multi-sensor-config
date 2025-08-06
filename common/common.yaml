@@ -38,6 +38,12 @@ logger:
   id: logger_common
   level: DEBUG
 
+globals:
+  - id: board_temperature
+    type: double
+    restore_value: false
+    initial_value: NAN
+
 # All but the SEN6X is on this bus
 i2c:
   - id: i2c1_bus
