@@ -1,7 +1,5 @@
-# common setup for all devices
 substitutions:
-  config_version: "dev"
-
+  config_version: 2025.08.1
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
@@ -21,7 +19,6 @@ esphome:
 esp32:
   board: esp32s3box
   variant: ESP32S3
-  # It should support the actual 32MB, but...
   flash_size: 16MB
   cpu_frequency: 240MHz
   framework:
