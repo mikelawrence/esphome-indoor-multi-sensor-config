@@ -1,11 +1,10 @@
-# common setup for all devices
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   min_version: 2025.7.4
   name_add_mac_suffix: false
   project:
-    version: dev
+    version: 2025.08.1
   on_boot:
     - priority: -100
       then:
@@ -15,47 +14,34 @@ esphome:
       then:
         - light.turn_off:
             id: led_status
-
-# ESP32-S3-WROOM-2-N32R16V
 esp32:
   board: esp32s3box
   variant: ESP32S3
-  flash_size: 16MB  # It should support the actual 32MB, but...
+  flash_size: 16MB
   cpu_frequency: 240MHz
   framework:
     type: esp-idf
-
-# There is 16MB of PSRAM
 psram:
   mode: octal
   speed: 80MHz
-
-# To be able to get logs from the device via serial and api
 logger:
   id: logger_common
   level: DEBUG
-
-# All but the SEN6X is on this bus
 i2c:
   - id: i2c1_bus
     sda: GPIO48
     scl: GPIO47
     frequency: 400kHz
     scan: true
-
-# audio DAC for speaker
 i2s_audio:
   - id: speaker_i2s
     i2s_lrclk_pin: GPIO12
     i2s_bclk_pin: GPIO11
-
 debug:
   update_interval: 60s
-
 time:
   - platform: homeassistant
     id: homeassistant_time
-
 script:
   - id: update_status_led
     mode: restart
@@ -106,7 +92,6 @@ script:
         last_r = r;
         last_g = g;
         last_b = b;
-
 binary_sensor:
   - platform: template
     name: Presence
@@ -130,12 +115,10 @@ binary_sensor:
       number: GPIO38
     filters:
       - delayed_off: 10s
-
 button:
   - platform: restart
-    name: "Restart"
+    name: Restart
     entity_category: CONFIG
-
 light:
   - platform: esp32_rmt_led_strip
     id: led_status
@@ -143,10 +126,9 @@ light:
     pin: GPIO8
     num_leds: 1
     chipset: ws2812
-
 media_player:
   - platform: speaker
-    name: "Media Player"
+    name: Media Player
     id: speaker_media_player_id
     media_pipeline:
       speaker: media_spk_resampling_input
@@ -154,22 +136,18 @@ media_player:
     announcement_pipeline:
       speaker: announcement_spk_resampling_input
       num_channels: 1
-
 power_supply:
-  # Enable audio DAC Power
   - id: dac_enable
     pin: GPIO9
     enable_on_boot: true
-
 sensor:
   - platform: debug
     free:
-      name: "Heap Free"
+      name: Heap Free
     block:
-      name: "Heap Max Block"
+      name: Heap Max Block
     loop_time:
-      name: "Loop Time"
-
+      name: Loop Time
 speaker:
   - platform: i2s_audio
     id: speaker_id
@@ -191,7 +169,6 @@ speaker:
     id: announcement_spk_resampling_input
     output_speaker: announcement_spk_mixer_input
     sample_rate: 48000
-
 switch:
   - platform: template
     name: PIR Enable
