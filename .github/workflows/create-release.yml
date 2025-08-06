@@ -29,9 +29,9 @@ jobs:
 
       - name: Update Version 1
         run: |
-          sed -i "s/config_version:.*$/config_version: ${{ steps.calendar-version.outputs.new-version }}${version_suffix}/g" ./common/common.yaml
+          sed -i 's/config_version:.*$/config_version: ${{ steps.calendar-version.outputs.new-version }}${version_suffix}/g' ./common/common.yaml
 
-      - name: Update Version 1
+      - name: echo common.yaml
         run: |
           echo "$(cat ./common/common.yaml)"
 
