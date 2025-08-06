@@ -1,10 +1,14 @@
+# common setup for all devices
+substitutions:
+  config_version: "dev"
+
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   min_version: 2025.7.4
   name_add_mac_suffix: false
   project:
-    version: 2025.08.1
+    version: ${config_version}
   on_boot:
     - priority: -100
       then:
@@ -17,6 +21,7 @@ esphome:
 esp32:
   board: esp32s3box
   variant: ESP32S3
+  # It should support the actual 32MB, but...
   flash_size: 16MB
   cpu_frequency: 240MHz
   framework:
