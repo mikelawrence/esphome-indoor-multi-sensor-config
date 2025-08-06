@@ -31,19 +31,29 @@ jobs:
         run: |
           sed -i 's/config_version:.*$/config_version: ${{ steps.calendar-version.outputs.new-version }}${version_suffix}/g' ./common/common.yaml
 
+      - name: Update Version 2
+        run: |
+          echo "{ \\"version\\": \\"${{ steps.calendar-version.outputs.new-version }}\\" }" > version.json
+
       - name: echo common.yaml
         run: |
+          echo "$(cat ./version.json)"
           echo "$(cat ./common/common.yaml)"
 
-      - name: Update version
-        uses: fjogeleit/yaml-update-action@v0.16.1
+      - name: Commit version changes
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          valueFile: 'version.json'
-          propertyPath: 'version'
-          value: ${{ steps.calendar-version.outputs.new-version }}
-          commitChange: true
-          message: "Update version"
-          branch: main
+          commit_message: "Update Version automated commit"
+          
+      # - name: Update version
+      #   uses: fjogeleit/yaml-update-action@v0.16.1
+      #   with:
+      #     valueFile: 'version.json'
+      #     propertyPath: 'version'
+      #     value: ${{ steps.calendar-version.outputs.new-version }}
+      #     commitChange: true
+      #     message: "Update version"
+      #     branch: main
 
       - name: Push release tag
         uses: thejeff77/action-push-tag@v1.0.0
