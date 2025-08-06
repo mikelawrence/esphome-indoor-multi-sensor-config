@@ -36,11 +36,11 @@ jobs:
         with:
           changes: |
             {
-              "version.json": { 
+              "version.json": {
                 "version": "${{ steps.calendar-version.outputs.new-version }}"
               },
-              "common/common.yaml": { 
-                "esphome.project.version": "${{ steps.calendar-version.outputs.new-version }}"
+              "common/common.yaml": {
+                "substitutions.config_version": "${{ steps.calendar-version.outputs.new-version }}"
               }
             }
           commitChange: true
