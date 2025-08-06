@@ -32,9 +32,9 @@ substitutions:
   vent_co2_on_trigger: "1100"
   vent_co2_off_trigger: "900"
   # Smoke Alarm Configuration
-  alarm_use_co: 'true'
-  alarm_use_co2: 'true'
-  alarm_use_pm: 'true'
+  alarm_use_co: "true"
+  alarm_use_co2: "true"
+  alarm_use_pm: "true"
 
 esphome:
   project:
