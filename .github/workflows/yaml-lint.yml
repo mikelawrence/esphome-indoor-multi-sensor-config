@@ -2,7 +2,6 @@ name: YAML lint
 
 on:
   push:
-    branches: [main]
     paths:
       - "**.yaml"
       - "**.yml"
@@ -10,6 +9,9 @@ on:
     paths:
       - "**.yaml"
       - "**.yml"
+
+permissions:
+  contents: write
 
 jobs:
   yamllint:

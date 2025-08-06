@@ -58,9 +58,9 @@ packages:
   # FEATURES
   # SEN6X Pressure Compensation - Adds pressure compensation to SEN6X
   press-comp: github://mikelawrence/esphome-indoor-multi-sensor-config/common/feat-sen6x-press-comp.yaml@main
-  # Automatic Vent - Use humidity and CO₂ control a bathroom vent
+  # Automatic Vent - Use humidity and CO₂ to control a bathroom vent
   # auto-vent: github://mikelawrence/esphome-indoor-multi-sensor-config/common/feat-auto-vent.yaml@main
-  # Smoke Alarm - Use PM and CO₂ act like a smoke alarm
+  # Smoke Alarm - Use PM and CO₂ for smoke alarm functionality
   # smoke-alarm: github://mikelawrence/esphome-indoor-multi-sensor-config/common/feat-smoke-alarm.yaml@main
 
 # Add custom components
@@ -78,6 +78,7 @@ api:
 ota:
   - platform: esphome
     id: ota_esphome
+    # password: !secret ota_password
 
 # WiFi is required
 wifi:
