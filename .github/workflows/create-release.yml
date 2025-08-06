@@ -27,24 +27,21 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Update Version 1
+      - name: Update version
         run: |
           sed -i 's/config_version:.*$/config_version: ${{ steps.calendar-version.outputs.new-version }}${version_suffix}/g' ./common/common.yaml
+          echo "{\n  \"version\": \"${{ steps.calendar-version.outputs.new-version }}\"\n}" > version.json
 
-      - name: Update Version 2
-        run: |
-          echo "{ \"version\": \"${{ steps.calendar-version.outputs.new-version }}\" }" > version.json
-
-      - name: echo common.yaml
-        run: |
-          echo "$(cat ./version.json)"
-          echo "$(cat ./common/common.yaml)"
+      # - name: echo version changes
+      #   run: |
+      #     echo "$(cat ./version.json)"
+      #     echo "$(cat ./common/common.yaml)"
 
       - name: Commit version changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Update Version automated commit"
-          
+
       # - name: Update version
       #   uses: fjogeleit/yaml-update-action@v0.16.1
       #   with:
