@@ -27,6 +27,10 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Update Version 1
+        run: |
+          sed -i "s/config_version::.*$/config_version:: ${{ steps.calendar-version.outputs.new-version }}${version_suffix}/g" ./common/common.yaml
+
       - name: Update version
         uses: fjogeleit/yaml-update-action@v0.16.1
         with:
@@ -35,9 +39,6 @@ jobs:
               "version.json": {
                 "version": "${{ steps.calendar-version.outputs.new-version }}"
               },
-              "common/common.yaml": {
-                "substitutions.config_version": "${{ steps.calendar-version.outputs.new-version }}"
-              }
             }
           commitChange: true
           message: "Update version"
