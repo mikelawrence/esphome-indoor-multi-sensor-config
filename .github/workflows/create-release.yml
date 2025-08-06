@@ -29,7 +29,11 @@ jobs:
 
       - name: Update Version 1
         run: |
-          sed -i "s/config_version:.*$/config_version: ${{ steps.calendar-version.outputs.new-version }}${version_suffix}/g" ./commom/common.yaml
+          sed -i "s/config_version:.*$/config_version: ${{ steps.calendar-version.outputs.new-version }}${version_suffix}/g" ./common/common.yaml
+
+      - name: Update Version 1
+        run: |
+          echo "$(cat ./common/common.yaml)"
 
       - name: Update version
         uses: fjogeleit/yaml-update-action@v0.16.1
