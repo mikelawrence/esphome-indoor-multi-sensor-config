@@ -22,6 +22,9 @@ jobs:
     name: 🧹 yamllint
     runs-on: ubuntu-latest
     steps:
+      - name: Concurrency label
+        run: |
+          echo "${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}"
       - name: ⤵️ Check out configuration from GitHub
         uses: actions/checkout@v4.2.2
       - name: 🚀 Run yamllint
