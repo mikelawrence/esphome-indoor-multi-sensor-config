@@ -1,5 +1,5 @@
 # PACKAGE A
-#   Adds SHT45 temperature sensor as a board temperature sensor
+#   Adds SHT4X temperature sensor as a board temperature sensor
 #   Not compatible with PACKAGE B package
 sensor:
   - platform: sht4x
