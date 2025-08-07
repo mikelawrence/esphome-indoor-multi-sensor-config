@@ -1,5 +1,6 @@
 # common setup for all devices
 substitutions:
+  version_suffix: ""
   config_version: 2025.08.1${version_suffix}
 
 esphome:

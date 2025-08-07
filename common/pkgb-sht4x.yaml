@@ -4,7 +4,7 @@
 #   Not compatible with PACKAGE A package
 sensor:
   - platform: sht4x
-    id: sht45_sensor
+    id: sht4x_sensor
     i2c_id: i2c1_bus
     update_interval: 1s
     temperature:
@@ -14,10 +14,20 @@ sensor:
       filters:
         - offset: ${temperature_offset}
         - filter_out: NAN
+        - lambda: |-
+            // get the first board temperature out quickly
+            if(isnan(id(board_temperature))) {
+              id(board_temperature) = x;
+            }
+            return x;
         - throttle_average: 60s
         - median:
             window_size: 5
             send_every: 1
+      on_value:
+        then:
+          - lambda: |-
+              id(board_temperature) = x;
     humidity:
       # humidity before additional filter
       id: humidity_internal

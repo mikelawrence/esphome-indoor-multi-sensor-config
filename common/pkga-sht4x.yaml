@@ -3,7 +3,7 @@
 #   Not compatible with PACKAGE B package
 sensor:
   - platform: sht4x
-    id: sht45_sensor
+    id: sht4x_sensor
     i2c_id: i2c1_bus
     update_interval: 1s
     temperature:
@@ -14,7 +14,7 @@ sensor:
         - lambda: |-
             // get the first board temperature out quickly
             if(isnan(id(board_temperature))) {
-              
+              id(board_temperature) = x;
             }
             return x;
         - throttle_average: 60s
