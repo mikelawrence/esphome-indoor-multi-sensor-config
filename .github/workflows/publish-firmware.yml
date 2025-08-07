@@ -35,7 +35,7 @@ jobs:
 
   buildFirmware:
     name: Build Firmware
-    uses: esphome/workflows/.github/workflows/build.yml@2025.4.0
+    uses: ./.github/workflows/build.yml
     needs:
       - getReleaseInfo
     with:
