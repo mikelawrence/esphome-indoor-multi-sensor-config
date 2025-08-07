@@ -73,7 +73,6 @@ sensor:
         - offset: ${temperature_offset}
         - throttle_average: 60s
     humidity:
-      name: "Humidity"
       id: humidity_internal
       accuracy_decimals: 2
       filters:
