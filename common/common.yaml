@@ -4,8 +4,6 @@ substitutions:
   config_version: 2025.08.1${version_suffix}
 
 esphome:
-  name: ${name}
-  friendly_name: ${friendly_name}
   min_version: 2025.7.4
   name_add_mac_suffix: false
   project:

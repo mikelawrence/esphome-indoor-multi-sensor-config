@@ -36,41 +36,51 @@ substitutions:
   alarm_use_co2: "true"
   alarm_use_pm: "true"
 
-esphome:
-  project:
-    name: Mike Lawrence.Indoor Multi-Sensor Sens-Pkg-A
+  # git ref, leave at main unless you know what you are doing
+  ref: main
 
 packages:
-  # keep @main so that it can be replaced for CI workflows
-  # Main Config Files for Sensor Package-A and LD2410 Radar
-  common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
-  sen6x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkga-sen6x.yaml@main
-  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2410.yaml@main
+  remote:
+    url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config
+    refresh: 1min
+    ref: dev
+    files:
+      # Main Config Files
+      - common/common.yaml
+      - common/pkga-sen6x.yaml
+      - common/radar-ld2410.yaml
+      # - common/pkga-sht4x.yaml
 
-  # ADDITIONAL SENSORS
-  # Carbon Dioxide (CO) - Figaro TGS5141 sensor
-  co: github://mikelawrence/esphome-indoor-multi-sensor-config/common/add-co.yaml@main
-  # Energy Usage - INA2XX sensor to measure Voltage, Power and Energy Usage
-  ina2xx: github://mikelawrence/esphome-indoor-multi-sensor-config/common/add-ina2xx.yaml@main
-  # Light Level - TSL2591 sensor
-  tsl2591: github://mikelawrence/esphome-indoor-multi-sensor-config/common/add-tsl2591.yaml@main
-  # Barometric Pressure - BMP581 sensor
-  bmp581: github://mikelawrence/esphome-indoor-multi-sensor-config/common/add-bmp581.yaml@main
-  # Microphone - Adds Sound Level meter
-  mic: github://mikelawrence/esphome-indoor-multi-sensor-config/common/add-microphone.yaml@main
+      # ADDITIONAL SENSORS
+      # Board Temperature
+      # - common/pkga-sht4x.yaml
+      # Carbon Dioxide (CO) - Figaro TGS5141 sensor
+      - common/add-co.yaml
+      # Energy Usage - INA2XX sensor to measure Voltage, Power and Energy Usage
+      - common/add-ina2xx.yaml
+      # Light Level - TSL2591 sensor
+      - common/add-tsl2591.yaml
+      # Barometric Pressure - BMP581 sensor
+      - common/add-bmp581.yaml
+      # Microphone - Adds Sound Level meter
+      - common/add-microphone.yaml
 
-  # FEATURES
-  # SEN6X Pressure Compensation - Adds pressure compensation to SEN6X
-  press-comp: github://mikelawrence/esphome-indoor-multi-sensor-config/common/feat-sen6x-press-comp.yaml@main
-  # Automatic Vent - Use humidity and CO₂ to control a bathroom vent
-  # auto-vent: github://mikelawrence/esphome-indoor-multi-sensor-config/common/feat-auto-vent.yaml@main
-  # Smoke Alarm - Use PM and CO₂ for smoke alarm functionality
-  # smoke-alarm: github://mikelawrence/esphome-indoor-multi-sensor-config/common/feat-smoke-alarm.yaml@main
+      # FEATURES
+      # SEN6X Pressure Compensation - Adds pressure compensation to SEN6X
+      - common/feat-sen6x-press-comp.yaml
+      # Automatic Vent - Use humidity and CO₂ to control a bathroom vent
+      # - common/feat-auto-vent.yaml
+      # Smoke Alarm - Use PM and CO₂ for smoke alarm functionality
+      # - common/feat-smoke-alarm.yaml
 
 # Add custom components
 external_components:
   - source: github://mikelawrence/esphome-components
     components: [sen5x]
+
+esphome:
+  project:
+    name: Mike Lawrence.Indoor Multi-Sensor Sens-Pkg-A
 
 # API is a requirement of the dashboard import.
 # Grab a key from https://esphome.io/components/api.html
