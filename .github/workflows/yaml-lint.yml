@@ -1,10 +1,6 @@
 name: YAML lint
 
 on:
-  push:
-    paths:
-      - "**.yaml"
-      - "**.yml"
   pull_request:
     paths:
       - "**.yaml"
