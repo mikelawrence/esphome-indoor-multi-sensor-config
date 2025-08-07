@@ -73,8 +73,7 @@ sensor:
         - offset: ${temperature_offset}
         - throttle_average: 60s
     humidity:
-      name: "Humidity"
-      id: humidity
+      id: humidity_internal
       accuracy_decimals: 2
       filters:
         - skip_initial: 300
@@ -138,6 +137,14 @@ sensor:
         - skip_initial: 300
         - filter_out: NAN
         - throttle_average: 60s
+  - platform: copy
+    id: humidity
+    name: "Humidity"
+    source_id: humidity_internal
+    # filters:
+    #   - median:
+    #       window_size: 5
+    #       send_every: 1
 
 text_sensor:
   - platform: template

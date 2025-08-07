@@ -4,13 +4,12 @@ on:
   pull_request:
     paths:
       - "*.yaml"
-      - "common/*.yaml"
       - ".github/workflows/ci.yml"
   schedule:
     - cron: "0 0 * * *"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  group: "Only one at a time"
   cancel-in-progress: true
 
 jobs:
@@ -38,10 +37,6 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
-
-      - name: Update git ref 1
-        run: |
-          sed -i "s#@main#@${{ github.ref }}#g" *.yaml
 
       - name: ESPHome ${{ matrix.esphome-version }} Factory
         uses: esphome/build-action@v7

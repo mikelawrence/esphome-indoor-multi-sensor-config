@@ -1,10 +1,6 @@
 name: YAML lint
 
 on:
-  push:
-    paths:
-      - "**.yaml"
-      - "**.yml"
   pull_request:
     paths:
       - "**.yaml"
@@ -14,7 +10,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:

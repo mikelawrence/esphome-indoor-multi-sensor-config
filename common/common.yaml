@@ -1,10 +1,9 @@
 # common setup for all devices
 substitutions:
+  version_suffix: ""
   config_version: 2025.08.1${version_suffix}
 
 esphome:
-  name: ${name}
-  friendly_name: ${friendly_name}
   min_version: 2025.7.4
   name_add_mac_suffix: false
   project:
@@ -37,6 +36,12 @@ psram:
 logger:
   id: logger_common
   level: DEBUG
+
+globals:
+  - id: board_temperature
+    type: double
+    restore_value: false
+    initial_value: NAN
 
 # All but the SEN6X is on this bus
 i2c:
