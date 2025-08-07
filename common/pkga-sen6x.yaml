@@ -79,7 +79,6 @@ sensor:
         - skip_initial: 300
         - filter_out: NAN
         - offset: ${humidity_offset}
-        - throttle_average: 60s
     pm_1_0:
       name: "PM <1µm Weight concentration"
       id: pm_1_0
@@ -89,8 +88,7 @@ sensor:
         - filter_out: NAN
         - throttle_average: 60s
     pm_2_5:
-      name: "PM <2.5µm Weight concentration"
-      id: pm_2_5
+      id: pm_2_5_internal
       accuracy_decimals: 2
       filters:
         - skip_initial: 300
@@ -113,14 +111,12 @@ sensor:
         - filter_out: NAN
         - throttle_average: 60s
     co2:
-      name: "CO₂"
-      id: co2
+      id: co2_internal
       automatic_self_calibration: false
       accuracy_decimals: 0
       filters:
         - skip_initial: 300
         - filter_out: NAN
-        - throttle_average: 60s
     nox:
       name: "NOx"
       id: nox
@@ -138,14 +134,21 @@ sensor:
         - filter_out: NAN
         - throttle_average: 60s
   - platform: copy
-    id: humidity
     name: "Humidity"
+    id: humidity
     source_id: humidity_internal
-    # filters:
-    #   - median:
-    #       window_size: 5
-    #       send_every: 1
-
+  - platform: copy
+    name: "PM <2.5µm Weight concentration"
+    id:  pm_2_5
+    source_id:  pm_2_5_internal
+    filters:
+      - throttle_average: 60s
+  - platform: copy
+    name: "CO₂"
+    id: co2
+    source_id:  co2_internal
+    filters:
+      - throttle_average: 60s
 text_sensor:
   - platform: template
     name: "CO₂ Calibration Date"
