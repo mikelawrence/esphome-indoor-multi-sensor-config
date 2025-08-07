@@ -7,4 +7,4 @@ media_player:
     id: !extend speaker_media_player_id
     files:
       - id: co_alarm_sound
-        file: media/co-alarm-four-beep.flac
+        file: ../media/co-alarm-four-beep.flac
