@@ -74,15 +74,17 @@ packages:
       # Smoke Alarm - Use PM and CO₂ for smoke alarm functionality
       # - common/feat-smoke-alarm.yaml
 
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  project:
+    name: Mike Lawrence.Indoor Multi-Sensor Sens-Pkg-B
+
 # API is a requirement of the dashboard import.
 # Grab a key from https://esphome.io/components/api.html
 api:
 #   encryption:
 #     key:
-
-esphome:
-  project:
-    name: Mike Lawrence.Indoor Multi-Sensor Sens-Pkg-B
 
 # OTA is required for Over-the-Air updating
 ota:

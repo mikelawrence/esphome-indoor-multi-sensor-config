@@ -79,6 +79,8 @@ external_components:
     components: [sen5x, ld2450]
 
 esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
   project:
     name: Mike Lawrence.Indoor Multi-Sensor Sens-Pkg-A
 
