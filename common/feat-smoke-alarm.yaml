@@ -1,7 +1,7 @@
 # Add Smoke Alarm features
-# Warning: This is experimental and may not work as expected
-#          DO NOT USE AS A PRIMARY SMOKE ALARM
-#          Use at your own risk!
+# Danger: !!!This is experimental and may not work as expected!!!
+#          !!!DO NOT USE AS A PRIMARY SMOKE ALARM!!!
+#          !!!Use at your own risk!!!
 media_player:
   - platform: speaker
     id: !extend speaker_media_player_id
