@@ -41,7 +41,7 @@ jobs:
 
       - name: Update git ref 1
         run: |
-          sed -i "s/ref:.*$/ref: ${{ github.ref }}/g" *.yaml
+          sed -i "s#ref:.*$#ref: ${{ github.ref }}#g" *.yaml
 
       - name: ESPHome ${{ matrix.esphome-version }} Factory
         uses: esphome/build-action@v7
