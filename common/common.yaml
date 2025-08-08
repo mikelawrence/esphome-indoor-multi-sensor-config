@@ -186,6 +186,7 @@ media_player:
   - platform: speaker
     name: "Media Player"
     id: speaker_media_player_id
+    volume_initial: 100%
     media_pipeline:
       speaker: media_spk_resampling_input
       num_channels: 2
