@@ -15,25 +15,10 @@ esphome:
         - media_player.speaker.play_on_device_media_file:
             media_file: office_sound
             announcement: true
-        - wait_until:
-            media_player.is_announcing:
-        - wait_until:
-            not:
-              media_player.is_announcing:
         - media_player.speaker.play_on_device_media_file:
             media_file: multi_sensor_operational_sound
             announcement: true
-        - wait_until:
-            media_player.is_announcing:
-        - wait_until:
-            not:
-              media_player.is_announcing:
-        - media_player.speaker.play_on_device_media_file:
-            media_file: office_sound
-            announcement: true
-        - media_player.speaker.play_on_device_media_file:
-            media_file: multi_sensor_operational_sound
-            announcement: true
+            enqueue: true
   on_shutdown:
     - priority: 700
       then:
