@@ -21,7 +21,7 @@ esphome:
             not:
               media_player.is_announcing:
         - media_player.speaker.speaker_media_player_id:
-            media_file: multi_sensor_operational_sound
+            media_file: multi_sensor_operational_soun
             announcement: true
         - wait_until:
             media_player.is_announcing:
