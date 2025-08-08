@@ -12,7 +12,7 @@ esphome:
     - priority: -100
       then:
         - script.execute: update_status_led
-        - media_player.speaker.speaker_media_player_id:
+        - media_player.speaker.play_on_device_media_file:
             media_file: office_sound
             announcement: true
         - wait_until:
@@ -20,7 +20,7 @@ esphome:
         - wait_until:
             not:
               media_player.is_announcing:
-        - media_player.speaker.speaker_media_player_id:
+        - media_player.speaker.play_on_device_media_file:
             media_file: multi_sensor_operational_soun
             announcement: true
         - wait_until:
