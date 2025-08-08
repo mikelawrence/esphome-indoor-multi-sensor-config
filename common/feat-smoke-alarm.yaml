@@ -13,7 +13,7 @@ binary_sensor:
   - platform: template
     name: "Alarm CO₂ Spike"
     lambda: |-
-      return ((id(co2).state - id(alarm_co2_avg)) > 4.0 & id(alarm_co2_sd));
+      return ((id(co2).state - id(alarm_co2_avg).state) > 4.0 & id(alarm_co2_sd).state);
 
 sensor:
   - platform: copy
@@ -27,12 +27,12 @@ sensor:
     filters:
       - lambda: |-
           // max measurements to store for computing standard deviation
-          const uint8_t window_size_ = 300;
+          const uint16_t window_size_ = 300;
           // compute and send the standard deviation after this many measurements
-          const uint8_t send_every_ = 60; 
+          const uint16_t send_every_ = 60; 
 
           static std::deque<float> queue_;
-          static uint8_t send_at_ = 0;
+          static uint16_t send_at_ = 0;
 
           // If we have more entries in queue_ than the window_size_, 
           // then pop them off
