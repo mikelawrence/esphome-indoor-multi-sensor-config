@@ -12,9 +12,13 @@ esphome:
     - priority: -100
       then:
         - script.execute: update_status_led
+        - media_player.volume_set:
+            id: media_player_id
+            volume: 100%
         - media_player.speaker.play_on_device_media_file:
             media_file: office_sound
             announcement: true
+            enqueue: true
         - media_player.speaker.play_on_device_media_file:
             media_file: multi_sensor_operational_sound
             announcement: true
