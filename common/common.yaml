@@ -59,28 +59,28 @@ globals:
     initial_value: NAN
   - id: co_8hr_warning
     type: bool
-    initial_value: false
+    initial_value: "false"
   - id: co_1hr_warning
     type: bool
-    initial_value: false
+    initial_value: "false"
   - id: co_15min_warning
     type: bool
-    initial_value: false
+    initial_value: "false"
   - id: co_alarm
     type: bool
-    initial_value: false
+    initial_value: "false"
   - id: co2_warning
     type: bool
-    initial_value: false
+    initial_value: "false"
   - id: co2_alarm
     type: bool
-    initial_value: false
+    initial_value: "false"
   - id: pm_warning
     type: bool
-    initial_value: false
+    initial_value: "false"
   - id: pm_alarm
     type: bool
-    initial_value: false
+    initial_value: "false"
 
 # All but the SEN6X is on this bus
 i2c:
