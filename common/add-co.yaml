@@ -82,36 +82,66 @@ sensor:
       - sliding_window_moving_average:
           window_size: 180
           send_every: 1
-      - or:
-          - throttle: 60s
-          - delta: 5.0
-  # Long'ish co average
+      - throttle: 60s
+
   - platform: copy
-    id: co_long_avg
+    id: co_8hr_avg
     source_id: co_sensor
-    unit_of_measurement: ppm
-    accuracy_decimals: 0
     filters:
-      - lambda: |-
-          static bool first = true;
-          static float long_avg;
-          static float alpha = 0.003;
-          // handle initialization
-          if (first) {
-            if (!isnan(x)) {
-              long_avg = x;
-              first = false;
-              ESP_LOGD("auto_vent", "CO Long Average, alpha = %f", alpha);
-              return long_avg;
-            } else {
-              return x;
+      - exponential_moving_average:
+        alpha: 0.002079
+        send_every: 1
+    on_value:
+      then:
+        - lambda: |-
+            if (x >= 10.0) {
+              id(co_8hr_warning) = true;
             }
-          } else if (isnan(x)) {
-            return long_avg;
-          }
-          // compute Exponential Moving Average
-          long_avg = alpha * x + (1 - alpha) * long_avg;
-          return long_avg;
+            if (x < 9.0) {
+              id(co_8hr_warning) = false;
+            }
+  - platform: copy
+    id: co_1hr_avg
+    source_id: co_sensor
+    filters:
+      - exponential_moving_average:
+        alpha: 0.016393
+        send_every: 1
+    on_value:
+      then:
+        - lambda: |-
+            if (x >= 35.0) {
+              id(co_1hr_warning) = true;
+            }
+            if (x < 34.0) {
+              id(co_1hr_warning) = false;
+            }
+  - platform: copy
+    id: co_15min_avg
+    source_id: co_sensor
+    filters:
+      - exponential_moving_average:
+        alpha: 0.0625
+        send_every: 1
+    on_value:
+      then:
+        - lambda: |-
+            if (x >= 100.0) {
+              id(co_15min_warning) = true;
+            }
+            if (x < 90.0) {
+              id(co_15min_warning) = false;
+            }
+
+  - platform: copy
+    id: co_8hr_avg
+    source_id: co_sensor
+    filters:
+      - exponential_moving_average:
+        alpha: 0.002079
+        send_every: 1
+
+
 
 text_sensor:
   - platform: template

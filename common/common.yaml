@@ -12,6 +12,22 @@ esphome:
     - priority: -100
       then:
         - script.execute: update_status_led
+        - media_player.speaker.speaker_media_player_id:
+            media_file: office_sound
+            announcement: true
+        - wait_until:
+            media_player.is_announcing:
+        - wait_until:
+            not:
+              media_player.is_announcing:
+        - media_player.speaker.speaker_media_player_id:
+            media_file: multi_sensor_operational_sound
+            announcement: true
+        - wait_until:
+            media_player.is_announcing:
+        - wait_until:
+            not:
+              media_player.is_announcing:
   on_shutdown:
     - priority: 700
       then:
@@ -40,8 +56,31 @@ logger:
 globals:
   - id: board_temperature
     type: double
-    restore_value: false
     initial_value: NAN
+  - id: co_8hr_warning
+    type: bool
+    initial_value: false
+  - id: co_1hr_warning
+    type: bool
+    initial_value: false
+  - id: co_15min_warning
+    type: bool
+    initial_value: false
+  - id: co_alarm
+    type: bool
+    initial_value: false
+  - id: co2_warning
+    type: bool
+    initial_value: false
+  - id: co2_alarm
+    type: bool
+    initial_value: false
+  - id: pm_warning
+    type: bool
+    initial_value: false
+  - id: pm_alarm
+    type: bool
+    initial_value: false
 
 # All but the SEN6X is on this bus
 i2c:
@@ -162,6 +201,38 @@ media_player:
     announcement_pipeline:
       speaker: announcement_spk_resampling_input
       num_channels: 1
+    files:
+      - id: multi_sensor_operational_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/multi-sensor-operational.mp3
+      - id: bathroom_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/bathroom.mp3
+      - id: bedroom_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/bedroom.mp3
+      - id: dining_room_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/dining-room.mp3
+      - id: entry_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/entry.mp3
+      - id: garage_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/garage.mp3
+      - id: guest_bathroom_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/guest-bathroom.mp3
+      - id: kitchen_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/kitchen.mp3
+      - id: laundry_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/laundry.mp3
+      - id: living_room_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/living-room.mp3
+      - id: master_bathroom_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-bathroom.mp3
+      - id: master_bathroom_toilet_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-bathroom-toilet.mp3
+      - id: master_bedroom_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-bedroom.mp3
+      - id: master_closet_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-closet.mp3
+      - id: office_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/office.mp3
+      - id: bedroom_sound
 
 power_supply:
   # Enable audio DAC Power
