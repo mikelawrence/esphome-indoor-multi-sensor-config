@@ -64,6 +64,8 @@ sensor:
     model: SEN66
     store_baseline: true
     temperature:
+      # temperature 1s interval averaged to once a minute
+      # first 5 minutes ignored
       name: "Temperature"
       id: temperature
       accuracy_decimals: 2
@@ -73,6 +75,8 @@ sensor:
         - offset: ${temperature_offset}
         - throttle_average: 60s
     humidity:
+      # humidity 1s interval averaged to once a minute
+      # first 5 minutes ignored
       id: humidity_internal
       accuracy_decimals: 2
       filters:
@@ -80,6 +84,8 @@ sensor:
         - filter_out: NAN
         - offset: ${humidity_offset}
     pm_1_0:
+      # PM 1µm 1s interval averaged to once a minute
+      # first 5 minutes ignored
       name: "PM <1µm Weight concentration"
       id: pm_1_0
       accuracy_decimals: 2
@@ -88,6 +94,8 @@ sensor:
         - filter_out: NAN
         - throttle_average: 60s
     pm_2_5:
+      # PM 2.5µm 1s interval averaged to once a minute
+      # first 5 minutes ignored
       id: pm_2_5_internal
       accuracy_decimals: 2
       filters:
@@ -95,6 +103,8 @@ sensor:
         - filter_out: NAN
         - throttle_average: 60s
     pm_4_0:
+      # PM 4µm 1s interval averaged to once a minute
+      # first 5 minutes ignored
       name: "PM <4µm Weight concentration"
       id: pm_4_0
       accuracy_decimals: 2
@@ -103,6 +113,8 @@ sensor:
         - filter_out: NAN
         - throttle_average: 60s
     pm_10_0:
+      # PM 10µm 1s interval averaged to once a minute
+      # first 5 minutes ignored
       name: "PM <10µm Weight concentration"
       id: pm_10_0
       accuracy_decimals: 2
@@ -111,13 +123,17 @@ sensor:
         - filter_out: NAN
         - throttle_average: 60s
     co2:
-      id: co2_internal
+      # CO₂ internal 1s interval averaged to once a minute
+      # first 5 minutes ignored
+      id: co2
       automatic_self_calibration: false
       accuracy_decimals: 0
       filters:
         - skip_initial: 300
         - filter_out: NAN
     nox:
+      # NOx 1s interval averaged to once a minute
+      # first 5 minutes ignored
       name: "NOx"
       id: nox
       accuracy_decimals: 0
@@ -126,6 +142,8 @@ sensor:
         - filter_out: NAN
         - throttle_average: 60s
     voc:
+      # VOC 1s interval averaged to once a minute
+      # first 5 minutes ignored
       name: "VOC"
       id: voc
       accuracy_decimals: 0
@@ -135,20 +153,16 @@ sensor:
         - throttle_average: 60s
   - platform: copy
     name: "Humidity"
-    id: humidity
-    source_id: humidity_internal
+    id: humidity_internal
+    source_id: humidity
   - platform: copy
     name: "PM <2.5µm Weight concentration"
-    id:  pm_2_5
-    source_id:  pm_2_5_internal
-    filters:
-      - throttle_average: 60s
+    id: pm_2_5
+    source_id: pm_2_5_internal
   - platform: copy
     name: "CO₂"
-    id: co2
-    source_id:  co2_internal
-    filters:
-      - throttle_average: 60s
+    id: co2_internal
+    source_id: co2
 text_sensor:
   - platform: template
     name: "CO₂ Calibration Date"
