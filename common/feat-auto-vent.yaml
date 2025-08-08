@@ -55,7 +55,7 @@ switch:
       - script.execute: update_vent_state_machine
     on_turn_off:
       - script.execute: update_vent_state_machine
-      
+
 script:
   - id: update_vent_state_machine
     mode: restart
