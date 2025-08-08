@@ -77,7 +77,7 @@ sensor:
     humidity:
       # humidity 1s interval averaged to once a minute
       # first 5 minutes ignored
-      id: humidity_internal
+      id: humidity
       accuracy_decimals: 2
       filters:
         - skip_initial: 300
@@ -96,7 +96,7 @@ sensor:
     pm_2_5:
       # PM 2.5µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      id: pm_2_5_internal
+      id: pm_2_5
       accuracy_decimals: 2
       filters:
         - skip_initial: 300

@@ -133,16 +133,6 @@ sensor:
               id(co_15min_warning) = false;
             }
 
-  - platform: copy
-    id: co_8hr_avg
-    source_id: co_sensor
-    filters:
-      - exponential_moving_average:
-          alpha: 0.002079
-          send_every: 1
-
-
-
 text_sensor:
   - platform: template
     name: "CO Serial Number"
