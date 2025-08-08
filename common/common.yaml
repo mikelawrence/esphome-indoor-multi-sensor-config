@@ -232,7 +232,6 @@ media_player:
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-closet.mp3
       - id: office_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/office.mp3
-      - id: bedroom_sound
 
 power_supply:
   # Enable audio DAC Power
