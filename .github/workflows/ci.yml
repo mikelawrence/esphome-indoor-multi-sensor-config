@@ -3,7 +3,8 @@ name: CI
 on:
   pull_request:
     paths:
-      - "**.yaml"
+      - "*.yaml"
+      - "common/*.yaml"
       - "media/*"
       - ".github/workflows/ci.yml"
   schedule:
