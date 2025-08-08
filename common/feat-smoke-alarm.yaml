@@ -13,7 +13,7 @@ binary_sensor:
   - platform: template
     name: "Alarm CO₂ Spike"
     lambda: |-
-      return ((id(co2).state - id(alarm_co2_avg).state) > 4.0 & id(alarm_co2_sd).state);
+      return ((id(co2).state - id(alarm_co2_avg).state) > 4.0 * id(alarm_co2_sd).state);
 
 sensor:
   - platform: copy
