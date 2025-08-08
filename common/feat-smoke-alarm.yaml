@@ -6,79 +6,160 @@ media_player:
   - platform: speaker
     id: !extend speaker_media_player_id
     files:
-      - id: co_alarm_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/co-alarm-four-beep.flac
-
-binary_sensor:
-  - platform: template
-    name: "Alarm CO₂ Spike"
-    lambda: |-
-      return ((id(co2).state - id(alarm_co2_avg).state) > 4.0 * id(alarm_co2_sd).state);
+      - id: smoke_danger_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/smoke-danger-three-beep.mp3
+      - id: co_danger_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/co-danger-four-beep.mp3
+      - id: co_warning_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/co-warning-four-beep.mp3
 
 sensor:
+  - id: !extend co_internal
+    on_value:
+      then:
+        - script.execute:
+            id: update_vent_state_machine
+            sensor_mask: 0x01
+            sensor_value: !lambda "return x;"
+  # Long'ish co average
   - platform: copy
-    id: alarm_co2_avg
-    name: "Alarm CO₂ Avg"
-    source_id: co2_internal
+    id: co_long_avg
+    source_id: co_internal
+    filters:
+      - exponential_moving_average:
+        alpha: 0.003
+        send_every: 1
+    on_value:
+      then:
+        - script.execute:
+            id: update_vent_state_machine
+            sensor_mask: 0x02
+            sensor_value: !lambda "return x;"
+
+  - id: !extend co2_internal
+    on_value:
+      then:
+        - script.execute:
+            id: update_vent_state_machine
+            sensor_mask: 0x04
+            sensor_value: !lambda "return x;"
+  # Long'ish co2 average
   - platform: copy
-    id: alarm_co2_sd
-    name: "Alarm CO₂ SD"
+    id: co2_long_avg
     source_id: co2_internal
     filters:
-      - lambda: |-
-          // max measurements to store for computing standard deviation
-          const uint16_t window_size_ = 300;
-          // compute and send the standard deviation after this many measurements
-          const uint16_t send_every_ = 60; 
+      - exponential_moving_average:
+        alpha: 0.003
+        send_every: 1
+    on_value:
+      then:
+        - script.execute:
+            id: update_vent_state_machine
+            sensor_mask: 0x08
+            sensor_value: !lambda "return x;"
 
-          static std::deque<float> queue_;
-          static uint16_t send_at_ = 0;
+  - id: !extend pm_2_5_internal
+    on_value:
+      then:
+        - script.execute:
+            id: update_vent_state_machine
+            sensor_mask: 0x10
+            sensor_value: !lambda "return x;"
+  # Long'ish pm_2_5 average
+  - platform: copy
+    id: pm_2_5_long_avg
+    source_id: pm_2_5_internal
+    filters:
+      - exponential_moving_average:
+        alpha: 0.003
+        send_every: 1
+    on_value:
+      then:
+        - script.execute:
+            id: update_vent_state_machine
+            sensor_mask: 0x20
+            sensor_value: !lambda "return x;"
 
-          // If we have more entries in queue_ than the window_size_, 
-          // then pop them off
-          while (queue_.size() >= window_size_) {
-            queue_.pop_front();
+script:
+  - id: update_alarm_state_machine
+    parameters:
+      sensor_mask: int
+      sensor_value: float
+    mode: restart
+    then:
+      lambda: |-
+        static bool first = true;
+        static int state = 0;
+        static mask = 0;
+        static all_mask = 0;
+        static float co = 0;
+        static float co_avg = 0;
+        static float co2 = 0;
+        static float co2_avg = 0;
+        static float pm_2_5 = 0;
+        static float pm_2_5_avg = 0;
+        constexpr const char *const ESP_LOG_TAG = "smoke_alarm";
+        // handle initialization
+        if (first) {
+          first = false;
+          if (${alarm_use_co}) {
+            all_mask |= 0x03;
           }
-
-          // add the newest reading to queue_
-          queue_.push_back(x);
-
-          if (++send_at_ >= send_every_) {
-            send_at_ = 0;
-
-            float Ex = 0.0;
-            float Ex2 = 0.0;
-            size_t count = 0;
-
-            float K = queue_.front();
-            
-            for (auto v: queue_) {
-              if (!std::isnan(v)) {
-                // Welford's algorithm to avoid catastrophic cancellation
-                //  - This is achieved by subtracting the oldest reading from 
-                //    each measurement. If not done, then the sum of the 
-                //    measurements squared and the square of the measurements 
-                //    summed may be quite large, and their difference can be 
-                //    problematic resulting in catastrophic cancellation
-
-                // counts valid measurements
-                count += 1;
-                // sums the measurement minus the oldest reading
-                Ex += v - K;
-                 // sums the measurement minus the oldest reading squared
-                Ex2 += pow(v-K,2);
-              }
-            }
-
-            float standard_deviation = NAN;
-            // If we have at least one valid reading, then compute the 
-            // variance and standard deviation, otherwise it will remain NAN
-            if (count) {
-              float variance = (Ex2 - pow(Ex, 2)/count) / (count-1);
-              // standard deviation is the square root of the variance
-              standard_deviation = sqrt(variance); 
-            }
-
-            return standard_deviation;
+          if (${alarm_use_co2}) {
+            all_mask |= 0x0C;
           }
-          return {};
+          if (${alarm_use_pm}) {
+            all_mask |= 0x30;
+          }
+        }
+        // update CO values
+        if (${alarm_use_co}) {
+          mask |= sensor_mask;
+          if (mask == 0x01) {
+            co = sensor_value;
+          }
+          if (mask == 0x02) {
+            co_avg = sensor_value;
+          }
+        }
+        // update CO₂ values
+        if (${alarm_use_co2}) {
+          mask |= sensor_mask;
+          if (mask == 0x04) {
+            co2 = sensor_value;
+          }
+          if (mask == 0x08) {
+            co2_avg = sensor_value;
+          }
+        }
+        // update PM <2.5µm values
+        if (${alarm_use_pm}) {
+          mask |= sensor_mask;
+          if (mask == 0x10) {
+            pm_2_5 = sensor_value;
+          }
+          if (mask == 0x20) {
+            pm_2_5_avg = sensor_value;
+          }
+        }
+        // do something only when all sensors have been updated
+        if (mask == all_mask) {
+          bool warning_co = false, warning_co2 = false, warning_pm_2_5 = false;
+          bool alarm_co = false, alarm_co2 = false, alarm_pm_2_5 = false;
+          if (${alarm_use_co}) {
+
+          }
+          if (${alarm_use_co2}) {
+
+          }
+          if (${alarm_use_pm}) {
+
+          }
+        }
+        # // State Machine
+        # switch (state) {
+        # // Idle State
+        # case 0:
+        #   ESP_LOGD(ESP_LOG_TAG,  "Manually turned on");
+        #   break;
+        # }
