@@ -32,26 +32,9 @@ sensor:
     unit_of_measurement: "%"
     accuracy_decimals: 2
     filters:
-      - lambda: |-
-          static bool first = true;
-          static float long_avg;
-          static float alpha = 0.003;
-          // handle initialization
-          if (first) {
-            if (!isnan(x)) {
-              long_avg = x;
-              first = false;
-              ESP_LOGD("auto_vent", "Humidity Long Average, alpha = %f", alpha);
-              return long_avg;
-            } else {
-              return x;
-            }
-          } else if (isnan(x)) {
-            return long_avg;
-          }
-          // compute Exponential Moving Average
-          long_avg = alpha * x + (1 - alpha) * long_avg;
-          return long_avg;
+      - exponential_moving_average:
+        alpha: 0.003
+        send_every: 1
 
   # Short'ish humidity average
   - platform: copy
@@ -60,27 +43,9 @@ sensor:
     unit_of_measurement: "%"
     accuracy_decimals: 2
     filters:
-      - lambda: |-
-          static bool first = true;
-          static float short_avg;
-          static float alpha = 0.09;
-          // handle initialization
-          if (first) {
-            if (!isnan(x)) {
-              short_avg = x;
-              first = false;
-              ESP_LOGD("auto_vent", "Humidity Short Average, alpha = %f", alpha);
-              return short_avg;
-            } else {
-              return x;
-            }
-          } else if (isnan(x)) {
-            return short_avg;
-          }
-          // compute Exponential Moving Average
-          short_avg = alpha * x + (1 - alpha) * short_avg;
-          id(update_vent_state_machine).execute();
-          return short_avg;
+      - exponential_moving_average:
+        alpha: 0.09
+        send_every: 1
 
 switch:
   - platform: homeassistant
@@ -90,6 +55,7 @@ switch:
       - script.execute: update_vent_state_machine
     on_turn_off:
       - script.execute: update_vent_state_machine
+      
 script:
   - id: update_vent_state_machine
     mode: restart
