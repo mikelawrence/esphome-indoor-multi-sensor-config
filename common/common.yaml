@@ -12,7 +12,6 @@ esphome:
     - priority: -400
       then:
         - script.execute: update_status_led
-        - media_player.speaker.volume_set.volume: 100%
         - media_player.speaker.play_on_device_media_file:
             media_file: office_sound
             announcement: true
