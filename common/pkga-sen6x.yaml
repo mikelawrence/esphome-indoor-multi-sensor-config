@@ -157,8 +157,8 @@ sensor:
     source_id: humidity
   - platform: copy
     name: "PM <2.5µm Weight concentration"
-    id: pm_2_5
-    source_id: pm_2_5_internal
+    id: pm_2_5_internal
+    source_id: pm_2_5
   - platform: copy
     name: "CO₂"
     id: co2_internal
