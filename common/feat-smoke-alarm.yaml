@@ -19,11 +19,11 @@ sensor:
   - platform: copy
     id: alarm_co2_avg
     name: "Alarm CO₂ Avg"
-    source_id: co2_id
+    source_id: co2_internal
   - platform: copy
     id: alarm_co2_sd
     name: "Alarm CO₂ SD"
-    source_id: co2_id
+    source_id: co2_internal
     filters:
       - lambda: |-
           // max measurements to store for computing standard deviation
