@@ -99,67 +99,67 @@ script:
         static float pm_2_5 = 0;
         static float pm_2_5_avg = 0;
         constexpr const char *const ESP_LOG_TAG = "smoke_alarm";
-        // handle initialization
-        if (first) {
-          first = false;
-          if (${alarm_use_co}) {
-            all_mask |= 0x03;
-          }
-          if (${alarm_use_co2}) {
-            all_mask |= 0x0C;
-          }
-          if (${alarm_use_pm}) {
-            all_mask |= 0x30;
-          }
-        }
-        // update CO values
-        if (${alarm_use_co}) {
-          mask |= sensor_mask;
-          if (mask == 0x01) {
-            co = sensor_value;
-          }
-          if (mask == 0x02) {
-            co_avg = sensor_value;
-          }
-        }
-        // update CO₂ values
-        if (${alarm_use_co2}) {
-          mask |= sensor_mask;
-          if (mask == 0x04) {
-            co2 = sensor_value;
-          }
-          if (mask == 0x08) {
-            co2_avg = sensor_value;
-          }
-        }
-        // update PM <2.5µm values
-        if (${alarm_use_pm}) {
-          mask |= sensor_mask;
-          if (mask == 0x10) {
-            pm_2_5 = sensor_value;
-          }
-          if (mask == 0x20) {
-            pm_2_5_avg = sensor_value;
-          }
-        }
-        // do something only when all sensors have been updated
-        if (mask == all_mask) {
-          bool warning_co = false, warning_co2 = false, warning_pm_2_5 = false;
-          bool alarm_co = false, alarm_co2 = false, alarm_pm_2_5 = false;
-          if (${alarm_use_co}) {
-
-          }
-          if (${alarm_use_co2}) {
-
-          }
-          if (${alarm_use_pm}) {
-
-          }
-        }
-        # // State Machine
-        # switch (state) {
-        # // Idle State
-        # case 0:
-        #   ESP_LOGD(ESP_LOG_TAG,  "Manually turned on");
-        #   break;
+        # // handle initialization
+        # if (first) {
+        #   first = false;
+        #   if (${alarm_use_co}) {
+        #     all_mask |= 0x03;
+        #   }
+        #   if (${alarm_use_co2}) {
+        #     all_mask |= 0x0C;
+        #   }
+        #   if (${alarm_use_pm}) {
+        #     all_mask |= 0x30;
+        #   }
         # }
+        # // update CO values
+        # if (${alarm_use_co}) {
+        #   mask |= sensor_mask;
+        #   if (mask == 0x01) {
+        #     co = sensor_value;
+        #   }
+        #   if (mask == 0x02) {
+        #     co_avg = sensor_value;
+        #   }
+        # }
+        # // update CO₂ values
+        # if (${alarm_use_co2}) {
+        #   mask |= sensor_mask;
+        #   if (mask == 0x04) {
+        #     co2 = sensor_value;
+        #   }
+        #   if (mask == 0x08) {
+        #     co2_avg = sensor_value;
+        #   }
+        # }
+        # // update PM <2.5µm values
+        # if (${alarm_use_pm}) {
+        #   mask |= sensor_mask;
+        #   if (mask == 0x10) {
+        #     pm_2_5 = sensor_value;
+        #   }
+        #   if (mask == 0x20) {
+        #     pm_2_5_avg = sensor_value;
+        #   }
+        # }
+        # // do something only when all sensors have been updated
+        # if (mask == all_mask) {
+        #   bool warning_co = false, warning_co2 = false, warning_pm_2_5 = false;
+        #   bool alarm_co = false, alarm_co2 = false, alarm_pm_2_5 = false;
+        #   if (${alarm_use_co}) {
+
+        #   }
+        #   if (${alarm_use_co2}) {
+
+        #   }
+        #   if (${alarm_use_pm}) {
+
+        #   }
+        # }
+        # # // State Machine
+        # # switch (state) {
+        # # // Idle State
+        # # case 0:
+        # #   ESP_LOGD(ESP_LOG_TAG,  "Manually turned on");
+        # #   break;
+        # # }
