@@ -10,9 +10,9 @@ media_player:
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/warning.mp3
       - id: danger_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/danger.mp3
-      - id: three_beep_sound_sound
+      - id: three_beep_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/three-beep.mp3
-      - id: four_beep_sound_sound
+      - id: four_beep_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/four-beep.mp3
       - id: carbon_monoxide_levels_are_elevated_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/carbon-monoxide-levels-are-elevated.mp3
