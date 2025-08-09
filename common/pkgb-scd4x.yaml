@@ -16,12 +16,15 @@ sensor:
     update_interval: 10s
     automatic_self_calibration: false
     co2:
-      name: CO₂
+      name: "CO₂"
       id: co2
       accuracy_decimals: 0
       filters:
         - filter_out: NAN
         - throttle_average: 60s
+  - platform: copy
+    id: co2_internal
+    source_id: co2
 
 number:
   - platform: template
