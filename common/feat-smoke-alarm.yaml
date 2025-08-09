@@ -27,8 +27,8 @@ sensor:
     source_id: co_internal
     filters:
       - exponential_moving_average:
-        alpha: 0.003
-        send_every: 1
+          alpha: 0.003
+          send_every: 1
     on_value:
       then:
         - script.execute:
@@ -49,8 +49,8 @@ sensor:
     source_id: co2_internal
     filters:
       - exponential_moving_average:
-        alpha: 0.003
-        send_every: 1
+          alpha: 0.003
+          send_every: 1
     on_value:
       then:
         - script.execute:
@@ -71,8 +71,8 @@ sensor:
     source_id: pm_2_5_internal
     filters:
       - exponential_moving_average:
-        alpha: 0.003
-        send_every: 1
+          alpha: 0.003
+          send_every: 1
     on_value:
       then:
         - script.execute:
