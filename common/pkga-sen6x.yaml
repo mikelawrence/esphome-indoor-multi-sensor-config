@@ -152,15 +152,12 @@ sensor:
         - filter_out: NAN
         - throttle_average: 60s
   - platform: copy
-    name: "Humidity"
     id: humidity_internal
     source_id: humidity
   - platform: copy
-    name: "PM <2.5µm Weight concentration"
     id: pm_2_5_internal
     source_id: pm_2_5
   - platform: copy
-    name: "CO₂"
     id: co2_internal
     source_id: co2
 text_sensor:
