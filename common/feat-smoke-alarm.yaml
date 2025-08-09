@@ -6,12 +6,20 @@ media_player:
   - platform: speaker
     id: !extend speaker_media_player_id
     files:
-      - id: smoke_danger_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/smoke-danger-three-beep.mp3
-      - id: co_danger_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/co-danger-four-beep.mp3
-      - id: co_warning_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/co-warning-four-beep.mp3
+      - id: warning_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/warning.mp3
+      - id: danger_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/danger.mp3
+      - id: three_beep_sound_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/three-beep.mp3
+      - id: four_beep_sound_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/four-beep.mp3
+      - id: carbon_monoxide_levels_are_elevated_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/carbon-monoxide-levels-are-elevated.mp3
+      - id: carbon_monoxide_levels_are_high_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/carbon-monoxide-levels-are-high.mp3
+      - id: smoke_detected_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/smoke-detected.mp3
 
 sensor:
   - id: !extend co_internal
@@ -80,7 +88,74 @@ sensor:
             sensor_mask: 0x20
             sensor_value: !lambda "return x;"
 
-# script:
+script:
+  - id: announce_danger_smoke
+    mode: restart
+    then:
+      - media_player.volume_set: 100%
+      - media_player.speaker.play_on_device_media_file:
+          media_file: danger_sound
+          enqueue: true
+      - media_player.speaker.play_on_device_media_file:
+          media_file: ${room_sound_id}
+          enqueue: true
+      - media_player.speaker.play_on_device_media_file:
+          media_file: smoke_detected_sound
+          enqueue: true
+      - media_player.speaker.play_on_device_media_file:
+          media_file: three_beep_sound
+          enqueue: true
+      - wait_until:
+          media_player.is_playing
+      - wait_until:
+          not:
+            media_player.is_playing:
+      - media_player.volume_set: ${volume}
+  - id: announce_danger_co
+    mode: restart
+    then:
+      - media_player.volume_set: 100%
+      - media_player.speaker.play_on_device_media_file:
+          media_file: danger_sound
+          enqueue: true
+      - media_player.speaker.play_on_device_media_file:
+          media_file: ${room_sound_id}
+          enqueue: true
+      - media_player.speaker.play_on_device_media_file:
+          media_file: carbon_monoxide_levels_are_high_sound
+          enqueue: true
+      - media_player.speaker.play_on_device_media_file:
+          media_file: four_beep_sound
+          enqueue: true
+      - wait_until:
+          media_player.is_playing
+      - wait_until:
+          not:
+            media_player.is_playing:
+      - media_player.volume_set: ${volume}
+  - id: announce_warning_co
+    mode: restart
+    then:
+      - media_player.volume_set: 100%
+      - media_player.speaker.play_on_device_media_file:
+          media_file: warning_sound
+          enqueue: true
+      - media_player.speaker.play_on_device_media_file:
+          media_file: ${room_sound_id}
+          enqueue: true
+      - media_player.speaker.play_on_device_media_file:
+          media_file: carbon_monoxide_levels_are_elevated
+          enqueue: true
+      - media_player.speaker.play_on_device_media_file:
+          media_file: four_beep_sound
+          enqueue: true
+      - wait_until:
+          media_player.is_playing
+      - wait_until:
+          not:
+            media_player.is_playing:
+      - media_player.volume_set: ${volume}
+
 #   - id: update_alarm_state_machine
 #     parameters:
 #       sensor_mask: int

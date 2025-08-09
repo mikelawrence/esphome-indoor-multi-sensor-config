@@ -12,12 +12,7 @@ esphome:
     - priority: -400
       then:
         - script.execute: update_status_led
-        - media_player.volume_set: ${volume}
-        - media_player.speaker.play_on_device_media_file:
-            media_file: office_sound
-        - media_player.speaker.play_on_device_media_file:
-            media_file: multi_sensor_operational_sound
-            enqueue: true
+        - script.execute: announce_operational
   on_shutdown:
     - priority: 700
       then:
@@ -143,6 +138,19 @@ script:
         last_r = r;
         last_g = g;
         last_b = b;
+  - id: announce_operational
+    mode: restart
+    then:
+      - if:
+          condition:
+            switch.is_on: announcements
+          then:
+            - media_player.volume_set: ${volume}
+            - media_player.speaker.play_on_device_media_file:
+                media_file: office_sound
+            - media_player.speaker.play_on_device_media_file:
+                media_file: multi_sensor_operational_sound
+                enqueue: true
 
 binary_sensor:
   - platform: template
@@ -276,3 +284,7 @@ switch:
       script.execute: update_status_led
     on_turn_off:
       script.execute: update_status_led
+  - platform: template
+    name: "Announcements"
+    id: announcements
+    restore_mode: RESTORE_DEFAULT_ON
