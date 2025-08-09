@@ -187,8 +187,10 @@ media_player:
     id: speaker_media_player_id
     media_pipeline:
       speaker: media_spk_resampling_input
+      num_channels: 1
     announcement_pipeline:
       speaker: announcement_spk_resampling_input
+      num_channels: 1
     files:
       - id: multi_sensor_operational_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/multi-sensor-operational.mp3
