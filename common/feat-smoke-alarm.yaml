@@ -95,21 +95,25 @@ script:
       - media_player.volume_set: 100%
       - media_player.speaker.play_on_device_media_file:
           media_file: three_beep_sound
+          announce: true
           enqueue: true
       - media_player.speaker.play_on_device_media_file:
           media_file: danger_sound
+          announce: true
           enqueue: true
       - media_player.speaker.play_on_device_media_file:
           media_file: ${room_sound_id}
+          announce: true
           enqueue: true
       - media_player.speaker.play_on_device_media_file:
           media_file: smoke_detected_sound
+          announce: true
           enqueue: true
       - wait_until:
-          media_player.is_playing
+          media_player.is_anouncing
       - wait_until:
           not:
-            media_player.is_playing:
+            media_player.is_anouncing:
       - media_player.volume_set: ${volume}
   - id: announce_danger_co
     mode: restart
@@ -117,21 +121,25 @@ script:
       - media_player.volume_set: 100%
       - media_player.speaker.play_on_device_media_file:
           media_file: four_beep_sound
+          announce: true
           enqueue: true
       - media_player.speaker.play_on_device_media_file:
           media_file: danger_sound
+          announce: true
           enqueue: true
       - media_player.speaker.play_on_device_media_file:
           media_file: ${room_sound_id}
+          announce: true
           enqueue: true
       - media_player.speaker.play_on_device_media_file:
           media_file: carbon_monoxide_levels_are_high_sound
+          announce: true
           enqueue: true
       - wait_until:
-          media_player.is_playing
+          media_player.is_anouncing
       - wait_until:
           not:
-            media_player.is_playing:
+            media_player.is_anouncing:
       - media_player.volume_set: ${volume}
   - id: announce_warning_co
     mode: restart
@@ -139,21 +147,25 @@ script:
       - media_player.volume_set: 100%
       - media_player.speaker.play_on_device_media_file:
           media_file: four_beep_sound
+          announce: true
           enqueue: true
       - media_player.speaker.play_on_device_media_file:
           media_file: warning_sound
+          announce: true
           enqueue: true
       - media_player.speaker.play_on_device_media_file:
           media_file: ${room_sound_id}
+          announce: true
           enqueue: true
       - media_player.speaker.play_on_device_media_file:
           media_file: carbon_monoxide_levels_are_elevated_sound
+          announce: true
           enqueue: true
       - wait_until:
-          media_player.is_playing
+          media_player.is_anouncing
       - wait_until:
           not:
-            media_player.is_playing:
+            media_player.is_anouncing:
       - media_player.volume_set: ${volume}
 
 #   - id: update_alarm_state_machine
