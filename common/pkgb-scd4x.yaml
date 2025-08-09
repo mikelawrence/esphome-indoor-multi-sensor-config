@@ -17,7 +17,7 @@ sensor:
     automatic_self_calibration: false
     co2:
       name: CO₂
-      id: co2
+      id: co2_internal
       accuracy_decimals: 0
       filters:
         - filter_out: NAN

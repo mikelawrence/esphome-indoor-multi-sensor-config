@@ -36,7 +36,7 @@ ads1115:
 
 sensor:
   - platform: ads1115
-    id: co_sensor
+    id: co_internal
     name: "CO"
     state_class: measurement
     device_class: carbon_monoxide
