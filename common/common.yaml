@@ -216,7 +216,7 @@ media_player:
       - id: master_bathroom_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-bathroom.mp3
       - id: master_bathroom_toilet_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-bathroom-toilet.mp3
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-toilet.mp3
       - id: master_bedroom_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-bedroom.mp3
       - id: master_closet_sound
