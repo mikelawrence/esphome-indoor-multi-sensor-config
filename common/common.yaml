@@ -287,4 +287,5 @@ switch:
   - platform: template
     name: "Announcements"
     id: announcements
+    optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
