@@ -94,6 +94,9 @@ script:
     then:
       - media_player.volume_set: 100%
       - media_player.speaker.play_on_device_media_file:
+          media_file: three_beep_sound
+          enqueue: true
+      - media_player.speaker.play_on_device_media_file:
           media_file: danger_sound
           enqueue: true
       - media_player.speaker.play_on_device_media_file:
@@ -101,9 +104,6 @@ script:
           enqueue: true
       - media_player.speaker.play_on_device_media_file:
           media_file: smoke_detected_sound
-          enqueue: true
-      - media_player.speaker.play_on_device_media_file:
-          media_file: three_beep_sound
           enqueue: true
       - wait_until:
           media_player.is_playing
@@ -116,6 +116,9 @@ script:
     then:
       - media_player.volume_set: 100%
       - media_player.speaker.play_on_device_media_file:
+          media_file: four_beep_sound
+          enqueue: true
+      - media_player.speaker.play_on_device_media_file:
           media_file: danger_sound
           enqueue: true
       - media_player.speaker.play_on_device_media_file:
@@ -123,9 +126,6 @@ script:
           enqueue: true
       - media_player.speaker.play_on_device_media_file:
           media_file: carbon_monoxide_levels_are_high_sound
-          enqueue: true
-      - media_player.speaker.play_on_device_media_file:
-          media_file: four_beep_sound
           enqueue: true
       - wait_until:
           media_player.is_playing
@@ -138,6 +138,9 @@ script:
     then:
       - media_player.volume_set: 100%
       - media_player.speaker.play_on_device_media_file:
+          media_file: four_beep_sound
+          enqueue: true
+      - media_player.speaker.play_on_device_media_file:
           media_file: warning_sound
           enqueue: true
       - media_player.speaker.play_on_device_media_file:
@@ -145,9 +148,6 @@ script:
           enqueue: true
       - media_player.speaker.play_on_device_media_file:
           media_file: carbon_monoxide_levels_are_elevated_sound
-          enqueue: true
-      - media_player.speaker.play_on_device_media_file:
-          media_file: four_beep_sound
           enqueue: true
       - wait_until:
           media_player.is_playing
