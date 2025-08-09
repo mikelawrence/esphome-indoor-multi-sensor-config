@@ -85,6 +85,10 @@ sensor:
       - throttle: 60s
 
   - platform: copy
+    id: co2_internal
+    source_id: co
+
+  - platform: copy
     id: co_8hr_avg
     source_id: co
     filters:
