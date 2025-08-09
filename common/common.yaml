@@ -13,12 +13,9 @@ esphome:
       then:
         - script.execute: update_status_led
         - media_player.speaker.play_on_device_media_file:
-            media_file: office_sound
-            announcement: true
-            enqueue: true
-        - media_player.speaker.play_on_device_media_file:
             media_file: multi_sensor_operational_sound
-            announcement: true
+        - media_player.speaker.play_on_device_media_file:
+            media_file: office_sound
             enqueue: true
   on_shutdown:
     - priority: 700
@@ -47,7 +44,7 @@ logger:
 
 globals:
   - id: board_temperature
-    type: double
+    type: float
     initial_value: NAN
   - id: co_8hr_warning
     type: bool
@@ -189,10 +186,8 @@ media_player:
     id: speaker_media_player_id
     media_pipeline:
       speaker: media_spk_resampling_input
-      num_channels: 2
     announcement_pipeline:
       speaker: announcement_spk_resampling_input
-      num_channels: 1
     files:
       - id: multi_sensor_operational_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/multi-sensor-operational.mp3

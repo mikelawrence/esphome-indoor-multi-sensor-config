@@ -3,8 +3,7 @@ name: CI
 on:
   pull_request:
     paths:
-      - "*.yaml"
-      - "common/*.yaml"
+      - "**.yaml"
       - ".github/workflows/ci.yml"
   schedule:
     - cron: "0 0 * * *"
