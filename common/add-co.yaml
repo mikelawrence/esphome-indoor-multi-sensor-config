@@ -36,7 +36,7 @@ ads1115:
 
 sensor:
   - platform: ads1115
-    id: co_internal
+    id: co
     name: "CO"
     state_class: measurement
     device_class: carbon_monoxide
@@ -86,7 +86,7 @@ sensor:
 
   - platform: copy
     id: co_8hr_avg
-    source_id: co_sensor
+    source_id: co
     filters:
       - exponential_moving_average:
           alpha: 0.002079
@@ -102,7 +102,7 @@ sensor:
             }
   - platform: copy
     id: co_1hr_avg
-    source_id: co_sensor
+    source_id: co
     filters:
       - exponential_moving_average:
           alpha: 0.016393
@@ -118,7 +118,7 @@ sensor:
             }
   - platform: copy
     id: co_15min_avg
-    source_id: co_sensor
+    source_id: co
     filters:
       - exponential_moving_average:
           alpha: 0.0625
