@@ -12,7 +12,7 @@ esphome:
     - priority: -400
       then:
         - script.execute: update_status_led
-        - media_player.volume_set: 100%
+        - media_player.volume_set: ${volume}
         - media_player.speaker.play_on_device_media_file:
             media_file: multi_sensor_operational_sound
         - media_player.speaker.play_on_device_media_file:
