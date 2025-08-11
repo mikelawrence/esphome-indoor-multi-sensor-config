@@ -153,7 +153,7 @@ script:
           condition:
             switch.is_on: announcements
           then:
-            - media_player.volume_set: ${volume}
+            - media_player.volume_set: !lambda "return id(volume);"
             - media_player.speaker.play_on_device_media_file:
                 media_file: office_sound
             - media_player.speaker.play_on_device_media_file:
