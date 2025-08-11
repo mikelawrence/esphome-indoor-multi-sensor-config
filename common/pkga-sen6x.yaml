@@ -157,6 +157,21 @@ sensor:
   - platform: copy
     id: pm_2_5_internal
     source_id: pm_2_5
+    on_value:
+      then:
+        - lambda: |-
+            if (x > 35.0) {
+              id(pm_warning) = true;
+            }
+            if (x < 31.5) {
+              id(pm_warning) = false;
+            }
+            if (x > 75.0) {
+              id(pm_alarm) = true;
+            }
+            if (x < 67.5) {
+              id(pm_alarm) = false;
+            }
   - platform: copy
     id: co2_internal
     source_id: co2
