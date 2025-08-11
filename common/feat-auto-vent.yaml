@@ -33,8 +33,8 @@ sensor:
     accuracy_decimals: 2
     filters:
       - exponential_moving_average:
-        alpha: 0.003
-        send_every: 1
+          alpha: 0.003
+          send_every: 1
 
   # Short'ish humidity average
   - platform: copy
@@ -44,8 +44,8 @@ sensor:
     accuracy_decimals: 2
     filters:
       - exponential_moving_average:
-        alpha: 0.09
-        send_every: 1
+          alpha: 0.09
+          send_every: 1
 
 switch:
   - platform: homeassistant
