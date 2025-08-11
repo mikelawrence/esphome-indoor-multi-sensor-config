@@ -1,4 +1,11 @@
 # Adds CO sensor using the Figaro TGS5141
+esphome:
+  on_boot:
+    priority: 600.0
+    then:
+      - lambda: |-
+          id(co_available) = true;
+
 api:
   on_client_connected:
     then:

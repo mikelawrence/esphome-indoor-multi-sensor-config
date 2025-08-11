@@ -4,6 +4,14 @@
 #     Volatile Organic Compounds (VOC), Nitrous Oxides (NOx) and
 #     Particulate Matter (PM)
 #   Not compatible with PACKAGE B packages
+esphome:
+  on_boot:
+    priority: 600.0
+    then:
+      - lambda: |-
+          id(co2_available) = true;
+          id(pm25_available) = true;
+
 api:
   on_client_connected:
     then:
@@ -161,16 +169,16 @@ sensor:
       then:
         - lambda: |-
             if (x > 35.0) {
-              id(pm_warning) = true;
+              id(pm25_warning) = true;
             }
             if (x < 31.5) {
-              id(pm_warning) = false;
+              id(pm25_warning) = false;
             }
             if (x > 75.0) {
-              id(pm_alarm) = true;
+              id(pm25_alarm) = true;
             }
             if (x < 67.5) {
-              id(pm_alarm) = false;
+              id(pm25_alarm) = false;
             }
   - platform: copy
     id: co2_internal

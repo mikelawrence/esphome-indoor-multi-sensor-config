@@ -39,6 +39,15 @@ logger:
   level: DEBUG
 
 globals:
+  - id: co_available
+    type: bool
+    initial_value: "false"
+  - id: co2_available
+    type: bool
+    initial_value: "false"
+  - id: pm25_available
+    type: bool
+    initial_value: "false"
   - id: board_temperature
     type: float
     initial_value: NAN
@@ -68,10 +77,10 @@ globals:
   - id: co2_warning
     type: bool
     initial_value: "false"
-  - id: pm_alarm
+  - id: pm25_alarm
     type: bool
     initial_value: "false"
-  - id: pm_warning
+  - id: pm25_warning
     type: bool
     initial_value: "false"
 

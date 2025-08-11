@@ -2,6 +2,11 @@
 # Danger: !!!This is experimental and may not work as expected!!!
 #          !!!DO NOT USE AS A PRIMARY SMOKE ALARM!!!
 #          !!!Use at your own risk!!!
+interval:
+  - interval: 1min
+    then:
+      - script.execute: smoke_alarm_state_machine 
+
 media_player:
   - platform: speaker
     id: !extend speaker_media_player_id
@@ -20,73 +25,6 @@ media_player:
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/carbon-monoxide-levels-are-high.mp3
       - id: smoke_detected_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/smoke-detected.mp3
-
-# sensor:
-#   - id: !extend co_internal
-#     on_value:
-#       then:
-#         - script.execute:
-#             id: update_vent_state_machine
-#             sensor_mask: 0x01
-#             sensor_value: !lambda "return x;"
-#   # Long'ish co average
-#   - platform: copy
-#     id: co_long_avg
-#     source_id: co_internal
-#     filters:
-#       - exponential_moving_average:
-#           alpha: 0.003
-#           send_every: 1
-#     on_value:
-#       then:
-#         - script.execute:
-#             id: update_alarm_state_machine
-#             sensor_mask: 0x02
-#             sensor_value: !lambda "return x;"
-
-#   - id: !extend co2_internal
-#     on_value:
-#       then:
-#         - script.execute:
-#             id: update_alarm_state_machine
-#             sensor_mask: 0x04
-#             sensor_value: !lambda "return x;"
-#   # Long'ish co2 average
-#   - platform: copy
-#     id: co2_long_avg
-#     source_id: co2_internal
-#     filters:
-#       - exponential_moving_average:
-#           alpha: 0.003
-#           send_every: 1
-#     on_value:
-#       then:
-#         - script.execute:
-#             id: update_alarm_state_machine
-#             sensor_mask: 0x08
-#             sensor_value: !lambda "return x;"
-
-#   - id: !extend pm_2_5_internal
-#     on_value:
-#       then:
-#         - script.execute:
-#             id: update_alarm_state_machine
-#             sensor_mask: 0x10
-#             sensor_value: !lambda "return x;"
-#   # Long'ish pm_2_5 average
-#   - platform: copy
-#     id: pm_2_5_long_avg
-#     source_id: pm_2_5_internal
-#     filters:
-#       - exponential_moving_average:
-#           alpha: 0.003
-#           send_every: 1
-#     on_value:
-#       then:
-#         - script.execute:
-#             id: update_alarm_state_machine
-#             sensor_mask: 0x20
-#             sensor_value: !lambda "return x;"
 
 script:
   - id: announce_danger_smoke
@@ -168,85 +106,43 @@ script:
             media_player.is_announcing:
       - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
 
-#   - id: update_alarm_state_machine
-#     parameters:
-#       sensor_mask: int
-#       sensor_value: float
-#     mode: restart
-#     then:
-#       lambda: |-
-#         static bool first = true;
-#         static int state = 0;
-#         static mask = 0;
-#         static all_mask = 0;
-#         static float co = 0;
-#         static float co_avg = 0;
-#         static float co2 = 0;
-#         static float co2_avg = 0;
-#         static float pm_2_5 = 0;
-#         static float pm_2_5_avg = 0;
-#         constexpr const char *const ESP_LOG_TAG = "smoke_alarm";
-#         // handle initialization
-#         if (first) {
-#           first = false;
-#           if (${alarm_use_co}) {
-#             all_mask |= 0x03;
-#           }
-#           if (${alarm_use_co2}) {
-#             all_mask |= 0x0C;
-#           }
-#           if (${alarm_use_pm}) {
-#             all_mask |= 0x30;
-#           }
-#         }
-#         // update CO values
-#         if (${alarm_use_co}) {
-#           mask |= sensor_mask;
-#           if (mask == 0x01) {
-#             co = sensor_value;
-#           }
-#           if (mask == 0x02) {
-#             co_avg = sensor_value;
-#           }
-#         }
-#         // update CO₂ values
-#         if (${alarm_use_co2}) {
-#           mask |= sensor_mask;
-#           if (mask == 0x04) {
-#             co2 = sensor_value;
-#           }
-#           if (mask == 0x08) {
-#             co2_avg = sensor_value;
-#           }
-#         }
-#         // update PM <2.5µm values
-#         if (${alarm_use_pm}) {
-#           mask |= sensor_mask;
-#           if (mask == 0x10) {
-#             pm_2_5 = sensor_value;
-#           }
-#           if (mask == 0x20) {
-#             pm_2_5_avg = sensor_value;
-#           }
-#         }
-#         // do something only when all sensors have been updated
-#         if (mask == all_mask) {
-#           bool warning_co = false, warning_co2 = false, warning_pm_2_5 = false;
-#           bool alarm_co = false, alarm_co2 = false, alarm_pm_2_5 = false;
-#           if (${alarm_use_co}) {
+  - id: smoke_alarm_state_machine
+    parameters:
+      sensor_mask: int
+      sensor_value: float
+    mode: restart
+    then:
+      lambda: |-
+        static bool first = true;
+        # static int state = 0;
+        constexpr const char *const ESP_LOG_TAG = "smoke_alarm";
+        // handle initialization
+        if (first) {
+          first = false;
+          if (!id(pm25_available) {
+            ESP_LOGE(ESP_LOG_TAG, "Required SEN66 sensor missing, Smoke Alarms disabled");
+            if (!id(co2_available) {
+              ESP_LOGI(ESP_LOG_TAG, "Using SCD42 sensor for CO2");
+            }
+          } else {
+            ESP_LOGI(ESP_LOG_TAG, "Using SEN66 sensor for PM25");
+            ESP_LOGI(ESP_LOG_TAG, "Using SEN66 sensor for CO2");
+          }
+          if (!id(co_available) {
+            ESP_LOGI(ESP_LOG_TAG, "Using CO sensor");
+          }
+        }
+        if (id(pm25_alarm)) {        
+          
+        } else if (id(co_alarm)) {
 
-#           }
-#           if (${alarm_use_co2}) {
+        } else if (id(co2_alarm)) {
 
-#           }
-#           if (${alarm_use_pm}) {
+        } else if (id(pm25_warning)) {        
 
-#           }
-#         }
-# #         # # // State Machine
-# #         # # switch (state) {
-# #         # # // Idle State
-# #         # # case 0:
-# #         # #   ESP_LOGD(ESP_LOG_TAG,  "Manually turned on");
-# #         # #   break;
-# #         # # }
+        } else if (id(co_warning)) {        
+
+        } else if (id(co2_warning)) {        
+
+        }
+        // first check PM25 for smoke

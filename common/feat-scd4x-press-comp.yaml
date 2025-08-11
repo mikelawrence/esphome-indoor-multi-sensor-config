@@ -1,6 +1,13 @@
 # Adds Pressure Compensation to the SCD4X sensor
 # Must have included both indoor-multi-sensor-pkgb-scd4x.yaml
 #                     and indoor-multi-sensor-add-bmp581.yaml packages
+esphome:
+  on_boot:
+    priority: 600.0
+    then:
+      - lambda: |-
+          id(co2_available) = true;
+
 sensor:
   - platform: copy
     id: pressure_to_scd4x
