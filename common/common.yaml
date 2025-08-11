@@ -240,6 +240,16 @@ media_player:
       - id: office_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/office.mp3
 
+number:
+  - platform: template
+    id: volume
+    name: "Volume"
+    optimistic: true
+    max_value: 100
+    min_value: 0
+    step: 1
+    initial_value: 90
+
 power_supply:
   # Enable audio DAC Power
   - id: dac_enable

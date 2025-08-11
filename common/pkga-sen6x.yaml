@@ -29,8 +29,6 @@ number:
     min_value: 400
     step: 1
     initial_value: 420
-    set_action:
-      - delay: 1s
 
 button:
   - platform: template
