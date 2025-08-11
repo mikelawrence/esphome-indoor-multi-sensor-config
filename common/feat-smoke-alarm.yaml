@@ -111,21 +111,21 @@ script:
     then:
       lambda: |-
         static bool first = true;
-        # static int state = 0;
+        // static int state = 0;
         constexpr const char *const ESP_LOG_TAG = "smoke_alarm";
         // handle initialization
         if (first) {
           first = false;
-          if (!id(pm25_available) {
+          if (!id(pm25_available)) {
             ESP_LOGE(ESP_LOG_TAG, "Required SEN66 sensor missing, Smoke Alarms disabled");
-            if (!id(co2_available) {
+            if (!id(co2_available)) {
               ESP_LOGI(ESP_LOG_TAG, "Using SCD42 sensor for CO2");
             }
           } else {
             ESP_LOGI(ESP_LOG_TAG, "Using SEN66 sensor for PM25");
             ESP_LOGI(ESP_LOG_TAG, "Using SEN66 sensor for CO2");
           }
-          if (!id(co_available) {
+          if (!id(co_available)) {
             ESP_LOGI(ESP_LOG_TAG, "Using CO sensor");
           }
         }
