@@ -107,9 +107,6 @@ script:
       - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
 
   - id: smoke_alarm_state_machine
-    parameters:
-      sensor_mask: int
-      sensor_value: float
     mode: restart
     then:
       lambda: |-
@@ -133,7 +130,7 @@ script:
           }
         }
         if (id(pm25_alarm)) {        
-          
+
         } else if (id(co_alarm)) {
 
         } else if (id(co2_alarm)) {
@@ -145,4 +142,3 @@ script:
         } else if (id(co2_warning)) {        
 
         }
-        // first check PM25 for smoke
