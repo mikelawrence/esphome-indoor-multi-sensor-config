@@ -153,7 +153,7 @@ script:
           condition:
             switch.is_on: announcements
           then:
-            - media_player.volume_set: !lambda "return id(volume).state;"
+            - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
             - media_player.speaker.play_on_device_media_file:
                 media_file: office_sound
             - media_player.speaker.play_on_device_media_file:
@@ -243,12 +243,13 @@ media_player:
 number:
   - platform: template
     id: volume
-    name: "Volume"
+    name: "Default Volume"
     optimistic: true
     max_value: 100
     min_value: 0
     step: 1
     initial_value: 90
+    restore_value: true
 
 power_supply:
   # Enable audio DAC Power
