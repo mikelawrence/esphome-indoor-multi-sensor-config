@@ -125,7 +125,7 @@ script:
             ESP_LOGI(ESP_LOG_TAG, "Using SEN66 sensor for PM25");
             ESP_LOGI(ESP_LOG_TAG, "Using SEN66 sensor for CO2");
           }
-          if (!id(co_available)) {
+          if (id(co_available)) {
             ESP_LOGI(ESP_LOG_TAG, "Using CO sensor");
           }
         }
