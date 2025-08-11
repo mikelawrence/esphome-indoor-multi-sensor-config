@@ -114,7 +114,7 @@ script:
       - wait_until:
           not:
             media_player.is_announcing:
-      - media_player.volume_set: ${volume}
+      - media_player.volume_set: !lambda "return id(volume);"
   - id: announce_danger_co
     mode: restart
     then:
