@@ -89,52 +89,93 @@ sensor:
     source_id: co
 
   - platform: copy
+    id: co_5min_avg
+    source_id: co
+    filters:
+      - exponential_moving_average:
+          # 1 / (samples + 1) = 1 / 6
+          alpha: 0.16666667
+          send_every: 1
+    on_value:
+      then:
+        - lambda: |-
+            if (x > 400.0) {
+              id(co_400ppm_alarm) = true;
+            }
+            if (x < 360.0) {
+              id(co_400ppm_alarm) = false;
+            }
+            if (!id(co_400ppm_alarm) && 
+                !id(co_150ppm_alarm) && 
+                !id(co_70ppm_alarm)) {
+              id(co_alarm) = false;
+            } else {
+              id(co_alarm) = true;
+            }
+  - platform: copy
+    id: co_10min_avg
+    source_id: co
+    filters:
+      - exponential_moving_average:
+          # 1 / (samples + 1) = 1 / 11
+          alpha: 0.09090909
+          send_every: 1
+    on_value:
+      then:
+        - lambda: |-
+            if (x > 150.0) {
+              id(co_150ppm_alarm) = true;
+            }
+            if (x < 135.0) {
+              id(co_150ppm_alarm) = false;
+            }
+            if (!id(co_400ppm_alarm) && 
+                !id(co_150ppm_alarm) && 
+                !id(co_70ppm_alarm)) {
+              id(co_alarm) = false;
+            } else {
+              id(co_alarm) = true;
+            }
+  - platform: copy
+    id: co_60min_avg
+    source_id: co
+    filters:
+      - exponential_moving_average:
+          # 1 / (samples + 1) = 1 / 61
+          alpha: 0.01639344
+          send_every: 1
+    on_value:
+      then:
+        - lambda: |-
+            if (x > 70.0) {
+              id(co_70ppm_alarm) = true;
+            }
+            if (x < 63.0) {
+              id(co_70ppm_alarm) = false;
+            }
+            if (!id(co_400ppm_alarm) && 
+                !id(co_150ppm_alarm) && 
+                !id(co_70ppm_alarm)) {
+              id(co_alarm) = false;
+            } else {
+              id(co_alarm) = true;
+            }
+  - platform: copy
     id: co_8hr_avg
     source_id: co
     filters:
       - exponential_moving_average:
-          alpha: 0.002079
+          # 1 / (samples + 1) = 1 / 481
+          alpha: 0.00207900
           send_every: 1
     on_value:
       then:
         - lambda: |-
-            if (x >= 10.0) {
-              id(co_8hr_warning) = true;
+            if (x > 10.0) {
+              id(co_warning) = true;
             }
             if (x < 9.0) {
-              id(co_8hr_warning) = false;
-            }
-  - platform: copy
-    id: co_1hr_avg
-    source_id: co
-    filters:
-      - exponential_moving_average:
-          alpha: 0.016393
-          send_every: 1
-    on_value:
-      then:
-        - lambda: |-
-            if (x >= 35.0) {
-              id(co_1hr_warning) = true;
-            }
-            if (x < 34.0) {
-              id(co_1hr_warning) = false;
-            }
-  - platform: copy
-    id: co_15min_avg
-    source_id: co
-    filters:
-      - exponential_moving_average:
-          alpha: 0.0625
-          send_every: 1
-    on_value:
-      then:
-        - lambda: |-
-            if (x >= 100.0) {
-              id(co_15min_warning) = true;
-            }
-            if (x < 90.0) {
-              id(co_15min_warning) = false;
+              id(co_warning) = false;
             }
 
 text_sensor:

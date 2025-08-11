@@ -42,28 +42,36 @@ globals:
   - id: board_temperature
     type: float
     initial_value: NAN
-  - id: co_8hr_warning
+  - id: co_400ppm_alarm
+    # This means CO levels are dangerous and can cause death in a few hours
     type: bool
     initial_value: "false"
-  - id: co_1hr_warning
+  - id: co_150ppm_alarm
+    # This means CO levels are dangerous and may have serious health issues if exposed too long
     type: bool
     initial_value: "false"
-  - id: co_15min_warning
+  - id: co_70ppm_alarm
+    # This means CO levels are elevated and may have health issues if exposed too long
     type: bool
     initial_value: "false"
   - id: co_alarm
+    # This means CO levels are elevated and likely dangerous
     type: bool
     initial_value: "false"
-  - id: co2_warning
+  - id: co_warning
+    # This means CO levels are elevated but not dangerous
     type: bool
     initial_value: "false"
   - id: co2_alarm
     type: bool
     initial_value: "false"
-  - id: pm_warning
+  - id: co2_warning
     type: bool
     initial_value: "false"
   - id: pm_alarm
+    type: bool
+    initial_value: "false"
+  - id: pm_warning
     type: bool
     initial_value: "false"
 
