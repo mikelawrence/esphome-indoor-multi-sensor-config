@@ -2,7 +2,7 @@
 #   Sensors provided: Lux (lx)
 logger:
   logs:
-    tsl2591.sensor: INFO
+    tsl2591.sensor: ERROR
 
 sensor:
   - platform: tsl2591
@@ -10,8 +10,7 @@ sensor:
     i2c_id: i2c1_bus
     update_interval: 1s
     gain: auto
-    device_factor: 53
-    integration_time: 500ms
+    integration_time: 600ms
     calculated_lux:
       id: lux
       name: "Lux"
