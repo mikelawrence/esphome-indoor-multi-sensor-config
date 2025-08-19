@@ -112,8 +112,8 @@ sensor:
             if (x < 360.0) {
               id(co_400ppm_alarm) = false;
             }
-            if (!id(co_400ppm_alarm) && 
-                !id(co_150ppm_alarm) && 
+            if (!id(co_400ppm_alarm) &&
+                !id(co_150ppm_alarm) &&
                 !id(co_70ppm_alarm)) {
               id(co_alarm) = false;
             } else {
@@ -136,8 +136,8 @@ sensor:
             if (x < 135.0) {
               id(co_150ppm_alarm) = false;
             }
-            if (!id(co_400ppm_alarm) && 
-                !id(co_150ppm_alarm) && 
+            if (!id(co_400ppm_alarm) &&
+                !id(co_150ppm_alarm) &&
                 !id(co_70ppm_alarm)) {
               id(co_alarm) = false;
             } else {
@@ -160,8 +160,8 @@ sensor:
             if (x < 63.0) {
               id(co_70ppm_alarm) = false;
             }
-            if (!id(co_400ppm_alarm) && 
-                !id(co_150ppm_alarm) && 
+            if (!id(co_400ppm_alarm) &&
+                !id(co_150ppm_alarm) &&
                 !id(co_70ppm_alarm)) {
               id(co_alarm) = false;
             } else {

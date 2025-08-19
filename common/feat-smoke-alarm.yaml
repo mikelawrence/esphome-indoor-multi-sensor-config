@@ -5,7 +5,7 @@
 interval:
   - interval: 1min
     then:
-      - script.execute: smoke_alarm_state_machine 
+      - script.execute: smoke_alarm_state_machine
 
 media_player:
   - platform: speaker
@@ -47,8 +47,7 @@ script:
           media_file: smoke_detected_sound
           announcement: true
           enqueue: true
-      - wait_until:
-          media_player.is_announcing
+      - wait_until: media_player.is_announcing
       - wait_until:
           not:
             media_player.is_announcing:
@@ -73,8 +72,7 @@ script:
           media_file: carbon_monoxide_levels_are_high_sound
           announcement: true
           enqueue: true
-      - wait_until:
-          media_player.is_announcing
+      - wait_until: media_player.is_announcing
       - wait_until:
           not:
             media_player.is_announcing:
@@ -99,8 +97,7 @@ script:
           media_file: carbon_monoxide_levels_are_elevated_sound
           announcement: true
           enqueue: true
-      - wait_until:
-          media_player.is_announcing
+      - wait_until: media_player.is_announcing
       - wait_until:
           not:
             media_player.is_announcing:
@@ -129,16 +126,16 @@ script:
             ESP_LOGI(ESP_LOG_TAG, "Using CO sensor");
           }
         }
-        if (id(pm25_alarm)) {        
+        if (id(pm25_alarm)) {
 
         } else if (id(co_alarm)) {
 
         } else if (id(co2_alarm)) {
 
-        } else if (id(pm25_warning)) {        
+        } else if (id(pm25_warning)) {
 
-        } else if (id(co_warning)) {        
+        } else if (id(co_warning)) {
 
-        } else if (id(co2_warning)) {        
+        } else if (id(co2_warning)) {
 
         }
