@@ -16,14 +16,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           fetch-tags: true
 
       - name: Get calendar version
         id: calendar-version
-        uses: harm-matthias-harms/calendar-version@v2.0.0
+        uses: harm-matthias-harms/calendar-version@v3.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -38,7 +38,7 @@ jobs:
       #     echo "$(cat ./common/common.yaml)"
 
       - name: Commit version changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: "Update Version automated commit"
 
