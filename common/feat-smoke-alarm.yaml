@@ -218,13 +218,29 @@ script:
             state = 10;
           }
         } else if (id(co_alarm)) {
-
+          if (state != 20) {
+            ESP_LOGD(ESP_LOG_TAG, "Danger CO alarm");
+            id(announce_danger_co).execute();
+            state = 20;
+          }
         } else if (id(pm25_warning)) {
-
+          if (state != 30) {
+            ESP_LOGD(ESP_LOG_TAG, "Warning smoke alarm");
+            id(announce_warning_smoke).execute();
+            state = 30;
+          }
         } else if (id(co_warning)) {
-
+          if (state != 40) {
+            ESP_LOGD(ESP_LOG_TAG, "Warning CO alarm");
+            id(announce_warning_co).execute();
+            state = 40;
+          }
         } else if (id(co2_warning)) {
-
+          if (state != 50) {
+            ESP_LOGD(ESP_LOG_TAG, "Warning CO₂ alarm");
+            id(announce_warning_co2).execute();
+            state = 50;
+          }
         }
 
 switch:
