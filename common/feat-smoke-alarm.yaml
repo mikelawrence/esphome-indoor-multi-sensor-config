@@ -244,7 +244,7 @@ script:
         }
 
 switch:
-  template:
+  - platform: template
     id: alarm_disable
     name: "Alarm Disable"
     initial_state: false
