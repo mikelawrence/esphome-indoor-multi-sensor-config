@@ -22,7 +22,6 @@ uart:
 ld2410:
   id: ld2410_radar
   uart_id: ld2410_uart
-  throttle: 1s
 
 binary_sensor:
   - platform: ld2410
