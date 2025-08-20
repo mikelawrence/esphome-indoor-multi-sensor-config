@@ -234,7 +234,7 @@ script:
             state = 50;
           }
         } else {
-          id(speaker_media_player_id).volume_set(id(volume).state / 100.0);
+          id(speaker_id).volume_set(id(volume).state / 100.0);
         }
 
 switch:
