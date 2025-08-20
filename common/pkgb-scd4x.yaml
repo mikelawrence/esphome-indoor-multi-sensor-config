@@ -32,6 +32,21 @@ sensor:
   - platform: copy
     id: co2_internal
     source_id: co2
+    on_value:
+      then:
+        - lambda: |-
+            if (x > 2000.0) {
+              id(co2_warning) = true;
+            }
+            if (x < 1800.0) {
+              id(co2_warning) = false;
+            }
+            if (x > 4000.0) {
+              id(co2_alarm) = true;
+            }
+            if (x < 3600.0) {
+              id(co2_alarm) = false;
+            }
 
 number:
   - platform: template
