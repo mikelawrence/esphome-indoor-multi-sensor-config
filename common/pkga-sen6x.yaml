@@ -85,6 +85,7 @@ sensor:
     humidity:
       # humidity 1s interval averaged to once a minute
       # first 5 minutes ignored
+      name: "Humidity"
       id: humidity
       accuracy_decimals: 2
       filters:
