@@ -241,5 +241,5 @@ switch:
   - platform: template
     id: alarm_disable
     name: "Alarm Disable"
-    initial_state: false
+    restore_mode: ALWAYS_OFF
     icon: mdi:alarm-off
