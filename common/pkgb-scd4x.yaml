@@ -41,12 +41,6 @@ sensor:
             if (x < 1800.0) {
               id(co2_warning) = false;
             }
-            if (x > 4000.0) {
-              id(co2_alarm) = true;
-            }
-            if (x < 3600.0) {
-              id(co2_alarm) = false;
-            }
 
 number:
   - platform: template

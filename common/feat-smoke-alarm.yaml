@@ -3,7 +3,7 @@
 #          !!!DO NOT USE AS A PRIMARY SMOKE ALARM!!!
 #          !!!Use at your own risk!!!
 interval:
-  - interval: 1min
+  - interval: 10s
     then:
       - script.execute: smoke_alarm_state_machine
 
@@ -15,10 +15,14 @@ media_player:
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/warning.mp3
       - id: danger_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/danger.mp3
+      - id: two_beep_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/two-beep.mp3
       - id: three_beep_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/three-beep.mp3
       - id: four_beep_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/four-beep.mp3
+      - id: carbon_dioxide_levels_are_elevated_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/carbon-dioxide-levels-are-elevated.mp3
       - id: carbon_monoxide_levels_are_elevated_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/carbon-monoxide-levels-are-elevated.mp3
       - id: carbon_monoxide_levels_are_high_sound
@@ -30,85 +34,166 @@ script:
   - id: announce_danger_smoke
     mode: restart
     then:
-      - media_player.volume_set: 100%
-      - media_player.speaker.play_on_device_media_file:
-          media_file: three_beep_sound
-          announcement: true
-          enqueue: true
-      - media_player.speaker.play_on_device_media_file:
-          media_file: danger_sound
-          announcement: true
-          enqueue: true
-      - media_player.speaker.play_on_device_media_file:
-          media_file: ${room_sound_id}
-          announcement: true
-          enqueue: true
-      - media_player.speaker.play_on_device_media_file:
-          media_file: smoke_detected_sound
-          announcement: true
-          enqueue: true
-      - wait_until: media_player.is_announcing
-      - wait_until:
-          not:
-            media_player.is_announcing:
-      - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
+      while:
+        condition:
+          - switch.is_off: alarm_disable
+          - lambda: "return id(pm25_alarm) == true;"
+      then:
+        - media_player.volume_set: 100%
+        - media_player.speaker.play_on_device_media_file:
+            media_file: three_beep_sound
+            announcement: true
+            enqueue: true
+        - media_player.speaker.play_on_device_media_file:
+            media_file: danger_sound
+            announcement: true
+            enqueue: true
+        - media_player.speaker.play_on_device_media_file:
+            media_file: ${room_sound_id}
+            announcement: true
+            enqueue: true
+        - media_player.speaker.play_on_device_media_file:
+            media_file: smoke_detected_sound
+            announcement: true
+            enqueue: true
+        - wait_until: media_player.is_announcing
+        - wait_until:
+            not:
+              media_player.is_announcing:
+        - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
+  - id: announce_warning_smoke
+    mode: restart
+    then:
+      while:
+        condition:
+          - switch.is_off: alarm_disable
+          - lambda: "return id(pm25_warning) == true;"
+      then:
+        - media_player.volume_set: 100%
+        - media_player.speaker.play_on_device_media_file:
+            media_file: three_beep_sound
+            announcement: true
+            enqueue: true
+        - media_player.speaker.play_on_device_media_file:
+            media_file: warning_sound
+            announcement: true
+            enqueue: true
+        - media_player.speaker.play_on_device_media_file:
+            media_file: ${room_sound_id}
+            announcement: true
+            enqueue: true
+        - media_player.speaker.play_on_device_media_file:
+            media_file: smoke_detected_sound
+            announcement: true
+            enqueue: true
+        - wait_until: media_player.is_announcing
+        - wait_until:
+            not:
+              media_player.is_announcing:
+        - delay: 5min
+      else:
+        - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
   - id: announce_danger_co
     mode: restart
     then:
-      - media_player.volume_set: 100%
-      - media_player.speaker.play_on_device_media_file:
-          media_file: four_beep_sound
-          announcement: true
-          enqueue: true
-      - media_player.speaker.play_on_device_media_file:
-          media_file: danger_sound
-          announcement: true
-          enqueue: true
-      - media_player.speaker.play_on_device_media_file:
-          media_file: ${room_sound_id}
-          announcement: true
-          enqueue: true
-      - media_player.speaker.play_on_device_media_file:
-          media_file: carbon_monoxide_levels_are_high_sound
-          announcement: true
-          enqueue: true
-      - wait_until: media_player.is_announcing
-      - wait_until:
-          not:
-            media_player.is_announcing:
-      - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
+      while:
+        condition:
+          - switch.is_off: alarm_disable
+          - lambda: "return id(co_alarm) == true;"
+      then:
+        - media_player.volume_set: 100%
+        - media_player.speaker.play_on_device_media_file:
+            media_file: four_beep_sound
+            announcement: true
+            enqueue: true
+        - media_player.speaker.play_on_device_media_file:
+            media_file: danger_sound
+            announcement: true
+            enqueue: true
+        - media_player.speaker.play_on_device_media_file:
+            media_file: ${room_sound_id}
+            announcement: true
+            enqueue: true
+        - media_player.speaker.play_on_device_media_file:
+            media_file: carbon_monoxide_levels_are_high_sound
+            announcement: true
+            enqueue: true
+        - wait_until: media_player.is_announcing
+        - wait_until:
+            not:
+              media_player.is_announcing:
+      else:
+        - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
   - id: announce_warning_co
     mode: restart
     then:
-      - media_player.volume_set: 100%
-      - media_player.speaker.play_on_device_media_file:
-          media_file: four_beep_sound
-          announcement: true
-          enqueue: true
-      - media_player.speaker.play_on_device_media_file:
-          media_file: warning_sound
-          announcement: true
-          enqueue: true
-      - media_player.speaker.play_on_device_media_file:
-          media_file: ${room_sound_id}
-          announcement: true
-          enqueue: true
-      - media_player.speaker.play_on_device_media_file:
-          media_file: carbon_monoxide_levels_are_elevated_sound
-          announcement: true
-          enqueue: true
-      - wait_until: media_player.is_announcing
-      - wait_until:
-          not:
-            media_player.is_announcing:
-      - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
-
+      while:
+        condition:
+          - switch.is_off: alarm_disable
+          - lambda: "return id(co_warning) == true;"
+      then:
+        - media_player.volume_set: 100%
+        - media_player.speaker.play_on_device_media_file:
+            media_file: four_beep_sound
+            announcement: true
+            enqueue: true
+        - media_player.speaker.play_on_device_media_file:
+            media_file: warning_sound
+            announcement: true
+            enqueue: true
+        - media_player.speaker.play_on_device_media_file:
+            media_file: ${room_sound_id}
+            announcement: true
+            enqueue: true
+        - media_player.speaker.play_on_device_media_file:
+            media_file: carbon_monoxide_levels_are_elevated_sound
+            announcement: true
+            enqueue: true
+        - wait_until: media_player.is_announcing
+        - wait_until:
+            not:
+              media_player.is_announcing:
+        - delay: 5min
+      else:
+        - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
+  - id: announce_warning_co2
+    mode: restart
+    then:
+      while:
+        condition:
+          - switch.is_off: alarm_disable
+          - lambda: "return id(co2_warning) == true;"
+      then:
+        - media_player.volume_set: 100%
+        - media_player.speaker.play_on_device_media_file:
+            media_file: two_beep_sound
+            announcement: true
+            enqueue: true
+        - media_player.speaker.play_on_device_media_file:
+            media_file: warning_sound
+            announcement: true
+            enqueue: true
+        - media_player.speaker.play_on_device_media_file:
+            media_file: ${room_sound_id}
+            announcement: true
+            enqueue: true
+        - media_player.speaker.play_on_device_media_file:
+            media_file: carbon_dioxide_levels_are_elevated_sound
+            announcement: true
+            enqueue: true
+        - wait_until: media_player.is_announcing
+        - wait_until:
+            not:
+              media_player.is_announcing:
+        - delay: 5min
+      else:
+        - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
   - id: smoke_alarm_state_machine
     mode: restart
     then:
       lambda: |-
         static bool first = true;
-        // static int state = 0;
+        static int state = 0;
         constexpr const char *const ESP_LOG_TAG = "smoke_alarm";
         // handle initialization
         if (first) {
@@ -127,10 +212,12 @@ script:
           }
         }
         if (id(pm25_alarm)) {
-
+          if (state != 10) {
+            ESP_LOGD(ESP_LOG_TAG, "Danger smoke alarm");
+            id(announce_danger_smoke).execute();
+            state = 10;
+          }
         } else if (id(co_alarm)) {
-
-        } else if (id(co2_alarm)) {
 
         } else if (id(pm25_warning)) {
 
@@ -139,3 +226,10 @@ script:
         } else if (id(co2_warning)) {
 
         }
+
+switch:
+  template:
+    id: alarm_disable
+    name: "Alarm Disable"
+    initial_state: false
+    icon: mdi:alarm-off

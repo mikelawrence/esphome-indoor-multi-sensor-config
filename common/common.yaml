@@ -74,9 +74,6 @@ globals:
   - id: co2_alarm
     type: bool
     initial_value: "false"
-  - id: co2_warning
-    type: bool
-    initial_value: "false"
   - id: pm25_alarm
     type: bool
     initial_value: "false"
