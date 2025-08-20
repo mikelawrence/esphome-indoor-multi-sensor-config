@@ -71,7 +71,7 @@ globals:
     # This means CO levels are elevated but not dangerous
     type: bool
     initial_value: "false"
-  - id: co2_alarm
+  - id: co2_warning
     type: bool
     initial_value: "false"
   - id: pm25_alarm
