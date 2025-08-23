@@ -48,7 +48,7 @@ sensor:
     name: "SHT4X Temperature"
     source_id: temperature_internal
     filters:
-      - offset: -${temperature_offset}
+      - offset: !lambda "return 0.0 - ${temperature_offset};"
 
   - platform: copy
     # humidity median over last 5 minutes, output every minute
