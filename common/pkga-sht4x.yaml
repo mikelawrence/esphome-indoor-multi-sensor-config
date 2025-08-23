@@ -8,6 +8,7 @@ sensor:
     update_interval: 1s
     temperature:
       id: sht4x_temperature
+      name: "SHT4X Temperature"
       accuracy_decimals: 2
       filters:
         - filter_out: NAN
