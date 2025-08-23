@@ -70,10 +70,23 @@ sensor:
       id: temperature_internal
       accuracy_decimals: 2
       filters:
+        - lambda: |-
+            // get the first board temperature out quickly
+            if(!id(sht4x_available)) {
+              if(isnan(id(board_temperature))) {
+                id(board_temperature) = x;
+              }
+            }
+            return x;
         - skip_initial: 300
         - filter_out: NAN
-        - offset: ${temperature_offset}
         - throttle_average: 60s
+      on_value:
+        then:
+          - lambda: |-
+              if(!id(sht4x_available)) {
+                id(board_temperature) = x;
+              }
     humidity:
       # humidity 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -190,6 +203,7 @@ sensor:
     name: "Temperature"
     source_id: temperature_internal
     filters:
+      - offset: ${temperature_offset}
       - median:
           window_size: 5
           send_every: 1

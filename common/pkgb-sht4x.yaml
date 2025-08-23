@@ -2,6 +2,13 @@
 #   Adds SHT45 sensors:
 #     Temperature and Humidity
 #   Not compatible with PACKAGE A package
+esphome:
+  on_boot:
+    priority: 600.0
+    then:
+      - lambda: |-
+          id(sht4x_available) = true;
+
 sensor:
   - platform: sht4x
     id: sht4x_sensor
@@ -12,7 +19,6 @@ sensor:
       id: temperature_internal
       accuracy_decimals: 2
       filters:
-        - offset: ${temperature_offset}
         - filter_out: NAN
         - lambda: |-
             // get the first board temperature out quickly
@@ -39,17 +45,14 @@ sensor:
     name: "Temperature"
     source_id: temperature_internal
     filters:
+      - offset: ${temperature_offset}
       - median:
           window_size: 5
           send_every: 1
   - platform: copy
-    # temperature median over last 5 minutes, output every minute
     id: sht4x_temperature
     name: "SHT4X Temperature"
     source_id: temperature_internal
-    filters:
-      - offset: !lambda "return 0.0 - ${temperature_offset};"
-
   - platform: copy
     # humidity median over last 5 minutes, output every minute
     id: humidity

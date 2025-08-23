@@ -1,6 +1,13 @@
 # PACKAGE A
 #   Adds SHT4X temperature sensor as a board temperature sensor
 #   Not compatible with PACKAGE B package
+esphome:
+  on_boot:
+    priority: 600.0
+    then:
+      - lambda: |-
+          id(sht4x_available) = true;
+
 sensor:
   - platform: sht4x
     id: sht4x_sensor
@@ -19,9 +26,6 @@ sensor:
             }
             return x;
         - throttle_average: 60s
-        - median:
-            window_size: 5
-            send_every: 1
       on_value:
         then:
           - lambda: |-

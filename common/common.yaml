@@ -42,6 +42,9 @@ globals:
   - id: board_temperature
     type: float
     initial_value: NAN
+  - id: sht4x_available
+    type: bool
+    initial_value: "false"
   - id: co_available
     type: bool
     initial_value: "false"
