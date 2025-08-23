@@ -12,6 +12,13 @@ esphome:
           id(co2_available) = true;
           id(pm25_available) = true;
 
+api:
+  on_client_connected:
+    then:
+      - text_sensor.template.publish:
+          id: co2_calibration_date
+          state: ${co2_calibration_date}
+
 i2c:
   - id: i2c2_bus
     sda: GPIO43
@@ -170,6 +177,7 @@ sensor:
   - platform: copy
     id: pm_2_5_internal
     source_id: pm_2_5
+    accuracy_decimals: 2
     on_value:
       then:
         - lambda: |-
@@ -188,6 +196,7 @@ sensor:
   - platform: copy
     id: co2_internal
     source_id: co2
+    accuracy_decimals: 2
     on_value:
       then:
         - lambda: |-
@@ -201,6 +210,7 @@ sensor:
     # temperature median over last 5 minutes, output every minute
     id: temperature
     name: "Temperature"
+    accuracy_decimals: 2
     source_id: temperature_internal
     filters:
       - offset: ${temperature_offset}
@@ -212,6 +222,7 @@ sensor:
     id: humidity
     name: "Humidity"
     source_id: humidity_internal
+    accuracy_decimals: 2
     filters:
       - median:
           window_size: 5
