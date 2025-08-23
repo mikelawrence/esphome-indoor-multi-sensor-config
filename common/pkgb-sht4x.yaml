@@ -10,7 +10,6 @@ sensor:
     temperature:
       # temperature_internal has 1s interval averaged to once a minute
       id: temperature_internal
-      name: "SHT4X Temperature"
       accuracy_decimals: 2
       filters:
         - offset: ${temperature_offset}
@@ -43,6 +42,14 @@ sensor:
       - median:
           window_size: 5
           send_every: 1
+  - platform: copy
+    # temperature median over last 5 minutes, output every minute
+    id: sht4x_temperature
+    name: "SHT4X Temperature"
+    source_id: temperature_internal
+    filters:
+      - offset: -${temperature_offset}
+
   - platform: copy
     # humidity median over last 5 minutes, output every minute
     id: humidity
