@@ -8,10 +8,8 @@ sensor:
     i2c_id: i2c1_bus
     update_interval: 1s
     temperature:
-      # temperature 1s interval averaged to once a minute
-      # then median over last 5 minutes, output every minute
-      id: temperature
-      name: "Temperature"
+      # temperature_internal has 1s interval averaged to once a minute
+      id: temperature_internal
       accuracy_decimals: 2
       filters:
         - offset: ${temperature_offset}
@@ -23,15 +21,12 @@ sensor:
             }
             return x;
         - throttle_average: 60s
-        # - median:
-        #     window_size: 5
-        #     send_every: 1
       on_value:
         then:
           - lambda: |-
               id(board_temperature) = x;
     humidity:
-      # humidity 1s interval averaged to once a minute
+      # humidity_internal has 1s interval averaged to once a minute
       id: humidity_internal
       accuracy_decimals: 2
       filters:
@@ -39,11 +34,20 @@ sensor:
         - filter_out: NAN
         - throttle_average: 60s
   - platform: copy
-    # median humidity_internal over last 5 minutes, output every minute
+    # temperature median over last 5 minutes, output every minute
+    id: temperature
+    name: "Temperature"
+    source_id: temperature_internal
+    filters:
+      - median:
+          window_size: 5
+          send_every: 1
+  - platform: copy
+    # humidity median over last 5 minutes, output every minute
     id: humidity
     name: "Humidity"
     source_id: humidity_internal
-    # filters:
-    #   - median:
-    #       window_size: 5
-    #       send_every: 1
+    filters:
+      - median:
+          window_size: 5
+          send_every: 1

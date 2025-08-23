@@ -12,13 +12,6 @@ esphome:
           id(co2_available) = true;
           id(pm25_available) = true;
 
-api:
-  on_client_connected:
-    then:
-      - text_sensor.template.publish:
-          id: co2_calibration_date
-          state: ${co2_calibration_date}
-
 i2c:
   - id: i2c2_bus
     sda: GPIO43
@@ -74,8 +67,7 @@ sensor:
     temperature:
       # temperature 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "Temperature"
-      id: temperature
+      id: temperature_internal
       accuracy_decimals: 2
       filters:
         - skip_initial: 300
@@ -86,7 +78,7 @@ sensor:
       # humidity 1s interval averaged to once a minute
       # first 5 minutes ignored
       name: "Humidity"
-      id: humidity
+      id: humidity_internal
       accuracy_decimals: 2
       filters:
         - skip_initial: 300
@@ -192,6 +184,24 @@ sensor:
             if (x < 1800.0) {
               id(co2_warning) = false;
             }
+  - platform: copy
+    # temperature median over last 5 minutes, output every minute
+    id: temperature
+    name: "Temperature"
+    source_id: temperature_internal
+    filters:
+      - median:
+          window_size: 5
+          send_every: 1
+  - platform: copy
+    # humidity_internal median over last 5 minutes, output every minute
+    id: humidity
+    name: "Humidity"
+    source_id: humidity_internal
+    filters:
+      - median:
+          window_size: 5
+          send_every: 1
 
 text_sensor:
   - platform: template
