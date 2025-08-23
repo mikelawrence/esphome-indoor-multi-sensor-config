@@ -2,36 +2,36 @@
 #   Adds SHT45 sensors:
 #     Temperature and Humidity
 #   Not compatible with PACKAGE A package
+esphome:
+  on_boot:
+    priority: 600.0
+    then:
+      - lambda: |-
+          id(sht4x_available) = true;
+
 sensor:
   - platform: sht4x
     id: sht4x_sensor
     i2c_id: i2c1_bus
     update_interval: 1s
     temperature:
-      # temperature 1s interval averaged to once a minute
-      # then median over last 5 minutes, output every minute
-      id: temperature
-      name: "Temperature"
+      # temperature_internal has 1s interval averaged to once a minute
+      id: temperature_internal
       accuracy_decimals: 2
       filters:
-        - offset: ${temperature_offset}
         - filter_out: NAN
         - lambda: |-
             // get the first board temperature out quickly
-            if(isnan(id(board_temperature))) {
+            if(isnan(id(board_temperature)))
               id(board_temperature) = x;
-            }
             return x;
         - throttle_average: 60s
-        # - median:
-        #     window_size: 5
-        #     send_every: 1
       on_value:
         then:
           - lambda: |-
               id(board_temperature) = x;
     humidity:
-      # humidity 1s interval averaged to once a minute
+      # humidity_internal has 1s interval averaged to once a minute
       id: humidity_internal
       accuracy_decimals: 2
       filters:
@@ -39,11 +39,27 @@ sensor:
         - filter_out: NAN
         - throttle_average: 60s
   - platform: copy
-    # median humidity_internal over last 5 minutes, output every minute
+    # temperature median over last 5 minutes, output every minute
+    id: temperature
+    name: "Temperature"
+    source_id: temperature_internal
+    accuracy_decimals: 2
+    filters:
+      - offset: ${temperature_offset}
+      - median:
+          window_size: 5
+          send_every: 1
+  - platform: copy
+    id: sht4x_temperature
+    accuracy_decimals: 2
+    source_id: temperature_internal
+  - platform: copy
+    # humidity median over last 5 minutes, output every minute
     id: humidity
     name: "Humidity"
     source_id: humidity_internal
-    # filters:
-    #   - median:
-    #       window_size: 5
-    #       send_every: 1
+    accuracy_decimals: 2
+    filters:
+      - median:
+          window_size: 5
+          send_every: 1

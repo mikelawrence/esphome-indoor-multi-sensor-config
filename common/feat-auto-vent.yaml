@@ -12,6 +12,11 @@ esphome:
           id: vent_manual
           state: false
 
+interval:
+  - interval: 10s
+    then:
+      - script.execute: update_vent_state_machine
+
 binary_sensor:
   - platform: template
     name: "Vent Auto Hum"
