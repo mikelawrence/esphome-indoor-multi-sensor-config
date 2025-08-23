@@ -10,6 +10,7 @@ sensor:
     temperature:
       # temperature_internal has 1s interval averaged to once a minute
       id: temperature_internal
+      name: "SHT4X Temperature"
       accuracy_decimals: 2
       filters:
         - offset: ${temperature_offset}
