@@ -2,9 +2,245 @@
 # Danger: !!!This is experimental and may not work as expected!!!
 #          !!!DO NOT USE AS A PRIMARY SMOKE ALARM!!!
 #          !!!Use at your own risk!!!
+interval:
+  - interval: 10s
+    then:
+      - script.execute: smoke_alarm_state_machine
+
 media_player:
   - platform: speaker
     id: !extend speaker_media_player_id
     files:
-      - id: co_alarm_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/co-alarm-four-beep.flac
+      - id: warning_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/warning.mp3
+      - id: danger_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/danger.mp3
+      - id: two_beep_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/two-beep.mp3
+      - id: three_beep_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/three-beep.mp3
+      - id: four_beep_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/four-beep.mp3
+      - id: carbon_dioxide_levels_are_elevated_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/carbon-dioxide-levels-are-elevated.mp3
+      - id: carbon_monoxide_levels_are_elevated_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/carbon-monoxide-levels-are-elevated.mp3
+      - id: carbon_monoxide_levels_are_high_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/carbon-monoxide-levels-are-high.mp3
+      - id: smoke_detected_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/smoke-detected.mp3
+
+script:
+  - id: announce_danger_smoke
+    mode: restart
+    then:
+      while:
+        condition:
+          - switch.is_off: alarm_disable
+          - lambda: "return id(pm25_alarm) == true;"
+        then:
+          - media_player.volume_set: 100%
+          - media_player.speaker.play_on_device_media_file:
+              media_file: three_beep_sound
+              announcement: true
+              enqueue: true
+          - media_player.speaker.play_on_device_media_file:
+              media_file: danger_sound
+              announcement: true
+              enqueue: true
+          - media_player.speaker.play_on_device_media_file:
+              media_file: ${room_sound_id}
+              announcement: true
+              enqueue: true
+          - media_player.speaker.play_on_device_media_file:
+              media_file: smoke_detected_sound
+              announcement: true
+              enqueue: true
+          - wait_until: media_player.is_announcing
+          - wait_until:
+              not:
+                media_player.is_announcing:
+          - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
+  - id: announce_warning_smoke
+    mode: restart
+    then:
+      while:
+        condition:
+          - switch.is_off: alarm_disable
+          - lambda: "return id(pm25_warning) == true;"
+        then:
+          - media_player.volume_set: 100%
+          - media_player.speaker.play_on_device_media_file:
+              media_file: three_beep_sound
+              announcement: true
+              enqueue: true
+          - media_player.speaker.play_on_device_media_file:
+              media_file: warning_sound
+              announcement: true
+              enqueue: true
+          - media_player.speaker.play_on_device_media_file:
+              media_file: ${room_sound_id}
+              announcement: true
+              enqueue: true
+          - media_player.speaker.play_on_device_media_file:
+              media_file: smoke_detected_sound
+              announcement: true
+              enqueue: true
+          - wait_until: media_player.is_announcing
+          - wait_until:
+              not:
+                media_player.is_announcing:
+          - delay: 5min
+  - id: announce_danger_co
+    mode: restart
+    then:
+      while:
+        condition:
+          - switch.is_off: alarm_disable
+          - lambda: "return id(co_alarm) == true;"
+        then:
+          - media_player.volume_set: 100%
+          - media_player.speaker.play_on_device_media_file:
+              media_file: four_beep_sound
+              announcement: true
+              enqueue: true
+          - media_player.speaker.play_on_device_media_file:
+              media_file: danger_sound
+              announcement: true
+              enqueue: true
+          - media_player.speaker.play_on_device_media_file:
+              media_file: ${room_sound_id}
+              announcement: true
+              enqueue: true
+          - media_player.speaker.play_on_device_media_file:
+              media_file: carbon_monoxide_levels_are_high_sound
+              announcement: true
+              enqueue: true
+          - wait_until: media_player.is_announcing
+          - wait_until:
+              not:
+                media_player.is_announcing:
+  - id: announce_warning_co
+    mode: restart
+    then:
+      while:
+        condition:
+          - switch.is_off: alarm_disable
+          - lambda: "return id(co_warning) == true;"
+        then:
+          - media_player.volume_set: 100%
+          - media_player.speaker.play_on_device_media_file:
+              media_file: four_beep_sound
+              announcement: true
+              enqueue: true
+          - media_player.speaker.play_on_device_media_file:
+              media_file: warning_sound
+              announcement: true
+              enqueue: true
+          - media_player.speaker.play_on_device_media_file:
+              media_file: ${room_sound_id}
+              announcement: true
+              enqueue: true
+          - media_player.speaker.play_on_device_media_file:
+              media_file: carbon_monoxide_levels_are_elevated_sound
+              announcement: true
+              enqueue: true
+          - wait_until: media_player.is_announcing
+          - wait_until:
+              not:
+                media_player.is_announcing:
+          - delay: 5min
+  - id: announce_warning_co2
+    mode: restart
+    then:
+      while:
+        condition:
+          - switch.is_off: alarm_disable
+          - lambda: "return id(co2_warning) == true;"
+        then:
+          - media_player.volume_set: 100%
+          - media_player.speaker.play_on_device_media_file:
+              media_file: two_beep_sound
+              announcement: true
+              enqueue: true
+          - media_player.speaker.play_on_device_media_file:
+              media_file: warning_sound
+              announcement: true
+              enqueue: true
+          - media_player.speaker.play_on_device_media_file:
+              media_file: ${room_sound_id}
+              announcement: true
+              enqueue: true
+          - media_player.speaker.play_on_device_media_file:
+              media_file: carbon_dioxide_levels_are_elevated_sound
+              announcement: true
+              enqueue: true
+          - wait_until: media_player.is_announcing
+          - wait_until:
+              not:
+                media_player.is_announcing:
+          - delay: 5min
+  - id: smoke_alarm_state_machine
+    mode: restart
+    then:
+      lambda: |-
+        static bool first = true;
+        static int state = 0;
+        constexpr const char *const ESP_LOG_TAG = "smoke_alarm";
+        // handle initialization
+        if (first) {
+          first = false;
+          if (!id(pm25_available)) {
+            ESP_LOGE(ESP_LOG_TAG, "Required SEN66 sensor missing, Smoke Alarms disabled");
+            if (!id(co2_available)) {
+              ESP_LOGI(ESP_LOG_TAG, "Using SCD42 sensor for CO2");
+            }
+          } else {
+            ESP_LOGI(ESP_LOG_TAG, "Using SEN66 sensor for PM25");
+            ESP_LOGI(ESP_LOG_TAG, "Using SEN66 sensor for CO2");
+          }
+          if (id(co_available)) {
+            ESP_LOGI(ESP_LOG_TAG, "Using CO sensor");
+          }
+        }
+        if (id(pm25_alarm)) {
+          if (state != 10) {
+            ESP_LOGD(ESP_LOG_TAG, "Danger smoke alarm");
+            id(announce_danger_smoke).execute();
+            state = 10;
+          }
+        } else if (id(co_alarm)) {
+          if (state != 20) {
+            ESP_LOGD(ESP_LOG_TAG, "Danger CO alarm");
+            id(announce_danger_co).execute();
+            state = 20;
+          }
+        } else if (id(pm25_warning)) {
+          if (state != 30) {
+            ESP_LOGD(ESP_LOG_TAG, "Warning smoke alarm");
+            id(announce_warning_smoke).execute();
+            state = 30;
+          }
+        } else if (id(co_warning)) {
+          if (state != 40) {
+            ESP_LOGD(ESP_LOG_TAG, "Warning CO alarm");
+            id(announce_warning_co).execute();
+            state = 40;
+          }
+        } else if (id(co2_warning)) {
+          if (state != 50) {
+            ESP_LOGD(ESP_LOG_TAG, "Warning CO₂ alarm");
+            id(announce_warning_co2).execute();
+            state = 50;
+          }
+        } else {
+          //id(speaker_id).volume_set(id(volume).state / 100.0);
+        }
+
+switch:
+  - platform: template
+    id: alarm_disable
+    name: "Alarm Disable"
+    restore_mode: ALWAYS_OFF
+    optimistic: true
+    icon: mdi:alarm-off

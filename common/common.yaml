@@ -1,7 +1,7 @@
 # common setup for all devices
 substitutions:
   version_suffix: ""
-  config_version: 2025.08.3${version_suffix}
+  config_version: dev
 
 esphome:
   min_version: 2025.7.4
@@ -9,9 +9,10 @@ esphome:
   project:
     version: ${config_version}
   on_boot:
-    - priority: -100
+    - priority: -400
       then:
         - script.execute: update_status_led
+        - script.execute: announce_operational
   on_shutdown:
     - priority: 700
       then:
@@ -38,10 +39,47 @@ logger:
   level: DEBUG
 
 globals:
+  - id: co_available
+    type: bool
+    initial_value: "false"
+  - id: co2_available
+    type: bool
+    initial_value: "false"
+  - id: pm25_available
+    type: bool
+    initial_value: "false"
   - id: board_temperature
-    type: double
-    restore_value: false
+    type: float
     initial_value: NAN
+  - id: co_400ppm_alarm
+    # This means CO levels are dangerous and can cause death in a few hours
+    type: bool
+    initial_value: "false"
+  - id: co_150ppm_alarm
+    # This means CO levels are dangerous and may have serious health issues if exposed too long
+    type: bool
+    initial_value: "false"
+  - id: co_70ppm_alarm
+    # This means CO levels are elevated and may have health issues if exposed too long
+    type: bool
+    initial_value: "false"
+  - id: co_alarm
+    # This means CO levels are elevated and likely dangerous
+    type: bool
+    initial_value: "false"
+  - id: co_warning
+    # This means CO levels are elevated but not dangerous
+    type: bool
+    initial_value: "false"
+  - id: co2_warning
+    type: bool
+    initial_value: "false"
+  - id: pm25_alarm
+    type: bool
+    initial_value: "false"
+  - id: pm25_warning
+    type: bool
+    initial_value: "false"
 
 # All but the SEN6X is on this bus
 i2c:
@@ -114,6 +152,19 @@ script:
         last_r = r;
         last_g = g;
         last_b = b;
+  - id: announce_operational
+    mode: restart
+    then:
+      - if:
+          condition:
+            switch.is_on: announcements
+          then:
+            - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
+            - media_player.speaker.play_on_device_media_file:
+                media_file: office_sound
+            - media_player.speaker.play_on_device_media_file:
+                media_file: multi_sensor_operational_sound
+                enqueue: true
 
 binary_sensor:
   - platform: template
@@ -156,12 +207,55 @@ media_player:
   - platform: speaker
     name: "Media Player"
     id: speaker_media_player_id
+    volume_max: 90%
     media_pipeline:
       speaker: media_spk_resampling_input
       num_channels: 2
     announcement_pipeline:
       speaker: announcement_spk_resampling_input
       num_channels: 1
+    files:
+      - id: multi_sensor_operational_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/multi-sensor-operational.mp3
+      - id: bathroom_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/bathroom.mp3
+      - id: bedroom_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/bedroom.mp3
+      - id: dining_room_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/dining-room.mp3
+      - id: entry_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/entry.mp3
+      - id: garage_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/garage.mp3
+      - id: guest_bathroom_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/guest-bathroom.mp3
+      - id: kitchen_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/kitchen.mp3
+      - id: laundry_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/laundry.mp3
+      - id: living_room_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/living-room.mp3
+      - id: master_bathroom_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-bathroom.mp3
+      - id: master_toilet_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-toilet.mp3
+      - id: master_bedroom_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-bedroom.mp3
+      - id: master_closet_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-closet.mp3
+      - id: office_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/office.mp3
+
+number:
+  - platform: template
+    id: volume
+    name: "Default Volume"
+    optimistic: true
+    max_value: 100
+    min_value: 0
+    step: 1
+    initial_value: 90
+    restore_value: true
 
 power_supply:
   # Enable audio DAC Power
@@ -215,3 +309,8 @@ switch:
       script.execute: update_status_led
     on_turn_off:
       script.execute: update_status_led
+  - platform: template
+    name: "Announcements"
+    id: announcements
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON

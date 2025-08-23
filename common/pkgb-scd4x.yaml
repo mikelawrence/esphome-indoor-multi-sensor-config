@@ -2,6 +2,13 @@
 #   Adds SCD41 sensors:
 #     Carbon Dioxide (CO₂)
 #   Not compatible with PACKAGE A package
+esphome:
+  on_boot:
+    priority: 600.0
+    then:
+      - lambda: |-
+          id(co2_available) = true;
+
 api:
   on_client_connected:
     then:
@@ -16,12 +23,24 @@ sensor:
     update_interval: 10s
     automatic_self_calibration: false
     co2:
-      name: CO₂
+      name: "CO₂"
       id: co2
       accuracy_decimals: 0
       filters:
         - filter_out: NAN
         - throttle_average: 60s
+  - platform: copy
+    id: co2_internal
+    source_id: co2
+    on_value:
+      then:
+        - lambda: |-
+            if (x > 2000.0) {
+              id(co2_warning) = true;
+            }
+            if (x < 1800.0) {
+              id(co2_warning) = false;
+            }
 
 number:
   - platform: template

@@ -17,7 +17,7 @@ sensor:
         - filter_out: NAN
         - throttle_average: 60s
     nox:
-      name: "NOx"
+      name: "NOₓ"
       id: nox
       filters:
         - filter_out: NAN
