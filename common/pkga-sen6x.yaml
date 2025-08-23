@@ -92,6 +92,7 @@ sensor:
         - skip_initial: 300
         - filter_out: NAN
         - offset: ${humidity_offset}
+        - throttle_average: 60s
     pm_1_0:
       # PM 1µm 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -134,6 +135,7 @@ sensor:
     co2:
       # CO₂ internal 1s interval averaged to once a minute
       # first 5 minutes ignored
+      name: "CO₂"
       id: co2
       automatic_self_calibration: false
       accuracy_decimals: 0
@@ -141,9 +143,9 @@ sensor:
         - skip_initial: 300
         - filter_out: NAN
     nox:
-      # NOx 1s interval averaged to once a minute
+      # NOₓ 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "NOx"
+      name: "NOₓ"
       id: nox
       accuracy_decimals: 0
       filters:
@@ -160,9 +162,6 @@ sensor:
         - skip_initial: 300
         - filter_out: NAN
         - throttle_average: 60s
-  - platform: copy
-    id: humidity_internal
-    source_id: humidity
   - platform: copy
     id: pm_2_5_internal
     source_id: pm_2_5
