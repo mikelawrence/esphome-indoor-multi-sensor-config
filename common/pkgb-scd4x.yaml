@@ -35,12 +35,10 @@ sensor:
     on_value:
       then:
         - lambda: |-
-            if (x > 2000.0) {
+            if (x > 2000.0)
               id(co2_warning) = true;
-            }
-            if (x < 1800.0) {
+            if (x < 1800.0)
               id(co2_warning) = false;
-            }
 
 number:
   - platform: template

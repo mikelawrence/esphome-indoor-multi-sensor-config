@@ -79,11 +79,8 @@ sensor:
       filters:
         - lambda: |-
             // get the first board temperature out quickly
-            if(!id(sht4x_available)) {
-              if(isnan(id(board_temperature))) {
-                id(board_temperature) = x;
-              }
-            }
+            if(!id(sht4x_available) && isnan(id(board_temperature)))
+              id(board_temperature) = x;
             return x;
         - skip_initial: 300
         - filter_out: NAN
@@ -91,9 +88,8 @@ sensor:
       on_value:
         then:
           - lambda: |-
-              if(!id(sht4x_available)) {
+              if(!id(sht4x_available))
                 id(board_temperature) = x;
-              }
     humidity:
       # humidity 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -180,18 +176,14 @@ sensor:
     on_value:
       then:
         - lambda: |-
-            if (x > 35.0) {
+            if (x > 35.0)
               id(pm25_warning) = true;
-            }
-            if (x < 31.5) {
+            if (x < 31.5)
               id(pm25_warning) = false;
-            }
-            if (x > 75.0) {
+            if (x > 75.0)
               id(pm25_alarm) = true;
-            }
-            if (x < 67.5) {
+            if (x < 67.5)
               id(pm25_alarm) = false;
-            }
   - platform: copy
     id: co2_internal
     source_id: co2
@@ -199,12 +191,10 @@ sensor:
     on_value:
       then:
         - lambda: |-
-            if (x > 2000.0) {
+            if (x > 2000.0)
               id(co2_warning) = true;
-            }
-            if (x < 1800.0) {
+            if (x < 1800.0)
               id(co2_warning) = false;
-            }
   - platform: copy
     # temperature median over last 5 minutes, output every minute
     id: temperature

@@ -20,9 +20,8 @@ sensor:
         - filter_out: NAN
         - lambda: |-
             // get the first board temperature out quickly
-            if(isnan(id(board_temperature))) {
+            if(isnan(id(board_temperature)))
               id(board_temperature) = x;
-            }
             return x;
         - throttle_average: 60s
       on_value:
