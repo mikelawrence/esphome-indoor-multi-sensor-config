@@ -15,6 +15,7 @@ microphone:
 
 sensor:
   - platform: sound_level
+    id: sound_level
     passive: false
     measurement_duration: 60s
     rms:
