@@ -18,11 +18,13 @@ sensor:
     passive: false
     measurement_duration: 60s
     rms:
+      id: sound_level_rms
       name: "Sound Level RMS"
       device_class: signal_strength
       filters:
         - skip_initial: 3
     peak:
+      id: sound_level_peak
       name: "Sound Level Peak"
       device_class: signal_strength
       filters:
