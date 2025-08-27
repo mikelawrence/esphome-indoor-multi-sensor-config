@@ -23,9 +23,9 @@ sensor:
             }
             return x;
         - throttle_average: 60s
-        # - median:
-        #     window_size: 5
-        #     send_every: 1
+        - median:
+            window_size: 5
+            send_every: 1
       on_value:
         then:
           - lambda: |-
@@ -43,7 +43,7 @@ sensor:
     id: humidity
     name: "Humidity"
     source_id: humidity_internal
-    # filters:
-    #   - median:
-    #       window_size: 5
-    #       send_every: 1
+    filters:
+      - median:
+          window_size: 5
+          send_every: 1
