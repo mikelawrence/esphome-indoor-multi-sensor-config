@@ -1,7 +1,7 @@
 # common setup for all devices
 substitutions:
   version_suffix: ""
-  config_version: dev
+  config_version: 2025.08.3${version_suffix}
 
 esphome:
   min_version: 2025.7.4
@@ -39,6 +39,12 @@ logger:
   level: DEBUG
 
 globals:
+  - id: board_temperature
+    type: float
+    initial_value: NAN
+  - id: sht4x_available
+    type: bool
+    initial_value: "false"
   - id: co_available
     type: bool
     initial_value: "false"
@@ -48,9 +54,6 @@ globals:
   - id: pm25_available
     type: bool
     initial_value: "false"
-  - id: board_temperature
-    type: float
-    initial_value: NAN
   - id: co_400ppm_alarm
     # This means CO levels are dangerous and can cause death in a few hours
     type: bool
