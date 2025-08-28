@@ -4,7 +4,7 @@ substitutions:
   version_suffix: ""
 
   # Settings
-  use_pir_in_presence: "true"
+  room_sound_id: "xxx_sound"
   # Status LED Configuration
   status_day_brightness: "0.5"
   status_night_brightness: "0.20"
@@ -23,7 +23,7 @@ substitutions:
   # CO₂ Configuration
   co2_calibration_date: "Not Set"
   # Automatically controlled Vent
-  vent_ha_entity: fan.vent_id
+  vent_ha_entity: "fan.vent_id"
   vent_use_humidity: "true"
   vent_use_co2: "true"
   vent_min_on_time: "15"
@@ -31,13 +31,9 @@ substitutions:
   vent_hum_off_trigger: "2.5"
   vent_co2_on_trigger: "1100"
   vent_co2_off_trigger: "900"
-  # Smoke Alarm Configuration
-  alarm_use_co: "true"
-  alarm_use_co2: "true"
-  alarm_use_pm: "true"
 
   # git ref, leave at main unless you know what you are doing
-  ref: main
+  ref: "main"
 
 packages:
   remote:
@@ -49,7 +45,6 @@ packages:
       - common/common.yaml
       - common/pkga-sen6x.yaml
       - common/radar-ld2450ml-mtmz.yaml
-      # - common/pkga-sht4x.yaml
 
       # ADDITIONAL SENSORS
       # Board Temperature

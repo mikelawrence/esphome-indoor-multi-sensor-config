@@ -68,7 +68,7 @@ sensor:
     i2c_id: i2c2_bus
     address: 0x6B
     update_interval: 1s
-    setup_priority: -400
+    # setup_priority: -400
     model: SEN66
     store_baseline: true
     temperature:
@@ -149,6 +149,7 @@ sensor:
       filters:
         - skip_initial: 300
         - filter_out: NAN
+        - throttle_average: 60s
     nox:
       # NOₓ 1s interval averaged to once a minute
       # first 5 minutes ignored

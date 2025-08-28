@@ -18,7 +18,7 @@ substitutions:
   version_suffix: "-1"
 
   # Settings
-  use_pir_in_presence: "true"
+  room_sound_id: "xxx_sound"
   # Status LED Configuration
   status_day_brightness: "0.5"
   status_night_brightness: "0.20"
@@ -45,10 +45,9 @@ substitutions:
   vent_hum_off_trigger: "2.5"
   vent_co2_on_trigger: "1100"
   vent_co2_off_trigger: "900"
-  # Smoke Alarm Configuration
-  alarm_use_co: "true"
-  alarm_use_co2: "true"
-  alarm_use_pm: "true"
+
+  # git ref, leave at main unless you know what you are doing
+  ref: "main"
 ```
 
 The ```packages:``` section will allow you to disable sensors by commenting out it's included package. 
@@ -142,9 +141,12 @@ As an example, if you enable SCD4X pressure compensation but don't have a SCD4X 
 
 ```yaml
 substitutions:
-  version_suffix: "-1"
+  name: "office-sensor"
+  friendly_name: "Office Sensor"
+  version_suffix: "-A"
+
   # Settings
-  use_pir_in_presence: "true"
+  room_sound_id: "office_sound"
   # Status LED Configuration
   status_day_brightness: "0.5"
   status_night_brightness: "0.20"
@@ -160,9 +162,11 @@ substitutions:
 
 These are base settings available for any configuration.
 
-+ **version_suffix** (string): The project version by default is the current release version from Github. You can tack additional version info to the end of the release with this substitution. 
-  i.e. version_suffix set to "-A" will result in a project version like this 2025.07.1-A.
-+ **use_pir_in_presence** (bool): You can disable the PIR motion detection from the presence sensor.
++ **name** (string): The standard ESPHome hostname. Alphanumeric and dash only.
++ **friendly_name** (string): The standard ESPHome friendly name.
++ **room_sound_id** (string): When making announcements the room name is often added. Use this to select the sound file. 
+  Look in the [common.yaml](common/common.yaml) file in the `media_player:` section for a list of available sound files.
++ **friendly_name** (string): The standard ESPHome friendly name.
 + **status_day_brightness** (float): How bright is the Status LED during the day. Range is 0 to 1.0 where 1.0 means 100% brightness.
 + **status_night_brightness** (float): How bright is the Status LED during at night. Range is 0 to 1.0 where 1.0 means 100% brightness.
 + **status_daytime_lux** (float): The light level (lux) at which the Status LED will switch to daytime mode.
@@ -273,22 +277,10 @@ substitutions:
 
 ```yaml
 packages:
-  # Smoke Alarm - Use PM and CO₂ for smoke alarm functionality
+  # Smoke Alarm - Use PM, CO and CO₂ for smoke alarm functionality
   smoke-alarm: github://mikelawrence/esphome-indoor-multi-sensor-config/common/feat-smoke-alarm.yaml@main
 ```
 
 If you have included this package the you can use multiple sensors to approximate a smoke detector. This is not a certified smoke detector and my not work at all. You have been warned!
-
-```yaml
-substitutions:
-  # Smoke Alarm Configuration
-  alarm_use_co: "true"
-  alarm_use_co2: "true"
-  alarm_use_pm: "true"
-```
-
-+ **alarm_use_co** (bool): Enable CO alarm functionality for the smoke detector buy setting this to ```true```.
-+ **alarm_use_co2** (bool): Enable CO₂  alarm functionality for the smoke detector buy setting this to ```true```.
-+ **alarm_use_pm** (bool): Enable Particulate Matter (PM) alarm functionality for the smoke detector buy setting this to ```true```.
 
 [back](./)

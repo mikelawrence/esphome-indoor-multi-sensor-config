@@ -1,8 +1,8 @@
 # Adds Energy monitoring using the INA228 I2C digital power monitor
 #   Sensors provided: Voltage(V), Power(W) and Energy(wH)
-logger:
-  logs:
-    ina2xx: INFO
+# logger:
+#   logs:
+#     ina2xx: INFO
 
 time:
   - platform: homeassistant
