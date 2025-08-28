@@ -45,7 +45,6 @@ packages:
       - common/common.yaml
       - common/pkga-sen6x.yaml
       - common/radar-c4001.yaml
-      # - common/pkga-sht4x.yaml
 
       # ADDITIONAL SENSORS
       # Board Temperature

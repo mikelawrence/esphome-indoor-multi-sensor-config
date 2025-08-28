@@ -45,7 +45,6 @@ packages:
       - common/common.yaml
       - common/pkga-sen6x.yaml
       - common/radar-ld2450ml-mtmz.yaml
-      # - common/pkga-sht4x.yaml
 
       # ADDITIONAL SENSORS
       # Board Temperature
