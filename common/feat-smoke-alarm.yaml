@@ -37,7 +37,7 @@ script:
       while:
         condition:
           - switch.is_off: alarm_disable
-          - lambda: "return id(pm25_alarm) == true;"
+          - lambda: "return id(pm25_alarm_var) == true;"
         then:
           - media_player.volume_set: 100%
           - media_player.speaker.play_on_device_media_file:
@@ -67,7 +67,7 @@ script:
       while:
         condition:
           - switch.is_off: alarm_disable
-          - lambda: "return id(pm25_warning) == true;"
+          - lambda: "return id(pm25_warning_var) == true;"
         then:
           - media_player.volume_set: 100%
           - media_player.speaker.play_on_device_media_file:
@@ -97,7 +97,7 @@ script:
       while:
         condition:
           - switch.is_off: alarm_disable
-          - lambda: "return id(co_alarm) == true;"
+          - lambda: "return id(co_alarm_var) == true;"
         then:
           - media_player.volume_set: 100%
           - media_player.speaker.play_on_device_media_file:
@@ -126,7 +126,7 @@ script:
       while:
         condition:
           - switch.is_off: alarm_disable
-          - lambda: "return id(co_warning) == true;"
+          - lambda: "return id(co_warning_var) == true;"
         then:
           - media_player.volume_set: 100%
           - media_player.speaker.play_on_device_media_file:
@@ -156,7 +156,7 @@ script:
       while:
         condition:
           - switch.is_off: alarm_disable
-          - lambda: "return id(co2_warning) == true;"
+          - lambda: "return id(co2_warning_var) == true;"
         then:
           - media_player.volume_set: 100%
           - media_player.speaker.play_on_device_media_file:
@@ -190,44 +190,44 @@ script:
         // handle initialization
         if (first) {
           first = false;
-          if (!id(pm25_available)) {
+          if (!id(pm25_available_var)) {
             ESP_LOGE(ESP_LOG_TAG, "Required SEN66 sensor missing, Smoke Alarms disabled");
-            if (!id(co2_available)) {
+            if (!id(co2_available_var)) {
               ESP_LOGI(ESP_LOG_TAG, "Using SCD42 sensor for CO2");
             }
           } else {
             ESP_LOGI(ESP_LOG_TAG, "Using SEN66 sensor for PM25");
             ESP_LOGI(ESP_LOG_TAG, "Using SEN66 sensor for CO2");
           }
-          if (id(co_available)) {
+          if (id(co_available_var)) {
             ESP_LOGI(ESP_LOG_TAG, "Using CO sensor");
           }
         }
-        if (id(pm25_alarm)) {
+        if (id(pm25_alarm_var)) {
           if (state != 10) {
             ESP_LOGD(ESP_LOG_TAG, "Danger smoke alarm");
             id(announce_danger_smoke).execute();
             state = 10;
           }
-        } else if (id(co_alarm)) {
+        } else if (id(co_alarm_var)) {
           if (state != 20) {
             ESP_LOGD(ESP_LOG_TAG, "Danger CO alarm");
             id(announce_danger_co).execute();
             state = 20;
           }
-        } else if (id(pm25_warning)) {
+        } else if (id(pm25_warning_var)) {
           if (state != 30) {
             ESP_LOGD(ESP_LOG_TAG, "Warning smoke alarm");
             id(announce_warning_smoke).execute();
             state = 30;
           }
-        } else if (id(co_warning)) {
+        } else if (id(co_warning_var)) {
           if (state != 40) {
             ESP_LOGD(ESP_LOG_TAG, "Warning CO alarm");
             id(announce_warning_co).execute();
             state = 40;
           }
-        } else if (id(co2_warning)) {
+        } else if (id(co2_warning_var)) {
           if (state != 50) {
             ESP_LOGD(ESP_LOG_TAG, "Warning CO₂ alarm");
             id(announce_warning_co2).execute();

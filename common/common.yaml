@@ -39,48 +39,51 @@ logger:
   level: DEBUG
 
 globals:
-  - id: board_temperature
+  - id: board_temperature_var
     type: float
     initial_value: NAN
-  - id: sht4x_available
+  - id: ha_presence_var
+    type: bool
+    initial_value: false
+  - id: sht4x_available_var
     type: bool
     initial_value: "false"
-  - id: co_available
+  - id: co_available_var
     type: bool
     initial_value: "false"
-  - id: co2_available
+  - id: co2_available_var
     type: bool
     initial_value: "false"
-  - id: pm25_available
+  - id: pm25_available_var
     type: bool
     initial_value: "false"
-  - id: co_400ppm_alarm
+  - id: co_400ppm_alarm_var
     # This means CO levels are dangerous and can cause death in a few hours
     type: bool
     initial_value: "false"
-  - id: co_150ppm_alarm
+  - id: co_150ppm_alarm_var
     # This means CO levels are dangerous and may have serious health issues if exposed too long
     type: bool
     initial_value: "false"
-  - id: co_70ppm_alarm
+  - id: co_70ppm_alarm_var
     # This means CO levels are elevated and may have health issues if exposed too long
     type: bool
     initial_value: "false"
-  - id: co_alarm
+  - id: co_alarm_var
     # This means CO levels are elevated and likely dangerous
     type: bool
     initial_value: "false"
-  - id: co_warning
+  - id: co_warning_var
     # This means CO levels are elevated but not dangerous
     type: bool
     initial_value: "false"
-  - id: co2_warning
+  - id: co2_warning_var
     type: bool
     initial_value: "false"
-  - id: pm25_alarm
+  - id: pm25_alarm_var
     type: bool
     initial_value: "false"
-  - id: pm25_warning
+  - id: pm25_warning_var
     type: bool
     initial_value: "false"
 
@@ -173,8 +176,13 @@ binary_sensor:
   - platform: homeassistant
     id: ha_presence
     entity_id: ${presence_ha_entity}
-    on_state:
+    on_state_change:
       then:
+          - lambda: |-
+            if(x.has_value()) {
+              id(ha_presence).state = x.value();
+            }
+
           - script.execute: update_status_led
   - platform: template
     name: "Presence"

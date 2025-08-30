@@ -4,7 +4,7 @@ esphome:
     priority: 600.0
     then:
       - lambda: |-
-          id(co_available) = true;
+          id(co_available_var) = true;
 
 api:
   on_client_connected:
@@ -60,7 +60,7 @@ sensor:
           static bool error = false;
           float sensitivity = id(co_sensitivity_const);
           float cf = 1.0;
-          float temp = round(id(board_temperature));
+          float temp = round(id(board_temperature_var));
 
           if (isnan(temp)) {
             // temperature is not valid
@@ -107,17 +107,17 @@ sensor:
       then:
         - lambda: |-
             if (x > 400.0) {
-              id(co_400ppm_alarm) = true;
+              id(co_400ppm_alarm_var) = true;
             }
             if (x < 360.0) {
-              id(co_400ppm_alarm) = false;
+              id(co_400ppm_alarm_var) = false;
             }
-            if (!id(co_400ppm_alarm) &&
-                !id(co_150ppm_alarm) &&
-                !id(co_70ppm_alarm)) {
-              id(co_alarm) = false;
+            if (!id(co_400ppm_alarm_var) &&
+                !id(co_150ppm_alarm_var) &&
+                !id(co_70ppm_alarm_var)) {
+              id(co_alarm_var) = false;
             } else {
-              id(co_alarm) = true;
+              id(co_alarm_var) = true;
             }
   - platform: copy
     id: co_10min_avg
@@ -131,17 +131,17 @@ sensor:
       then:
         - lambda: |-
             if (x > 150.0) {
-              id(co_150ppm_alarm) = true;
+              id(co_150ppm_alarm_var) = true;
             }
             if (x < 135.0) {
-              id(co_150ppm_alarm) = false;
+              id(co_150ppm_alarm_var) = false;
             }
-            if (!id(co_400ppm_alarm) &&
-                !id(co_150ppm_alarm) &&
-                !id(co_70ppm_alarm)) {
-              id(co_alarm) = false;
+            if (!id(co_400ppm_alarm_var) &&
+                !id(co_150ppm_alarm_var) &&
+                !id(co_70ppm_alarm_var)) {
+              id(co_alarm_var) = false;
             } else {
-              id(co_alarm) = true;
+              id(co_alarm_var) = true;
             }
   - platform: copy
     id: co_60min_avg
@@ -155,17 +155,17 @@ sensor:
       then:
         - lambda: |-
             if (x > 70.0) {
-              id(co_70ppm_alarm) = true;
+              id(co_70ppm_alarm_var) = true;
             }
             if (x < 63.0) {
-              id(co_70ppm_alarm) = false;
+              id(co_70ppm_alarm_var) = false;
             }
-            if (!id(co_400ppm_alarm) &&
-                !id(co_150ppm_alarm) &&
-                !id(co_70ppm_alarm)) {
-              id(co_alarm) = false;
+            if (!id(co_400ppm_alarm_var) &&
+                !id(co_150ppm_alarm_var) &&
+                !id(co_70ppm_alarm_var)) {
+              id(co_alarm_var) = false;
             } else {
-              id(co_alarm) = true;
+              id(co_alarm_var) = true;
             }
   - platform: copy
     id: co_8hr_avg
@@ -179,10 +179,10 @@ sensor:
       then:
         - lambda: |-
             if (x > 10.0) {
-              id(co_warning) = true;
+              id(co_warning_var) = true;
             }
             if (x < 9.0) {
-              id(co_warning) = false;
+              id(co_warning_var) = false;
             }
 
 text_sensor:

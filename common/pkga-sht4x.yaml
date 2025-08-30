@@ -6,7 +6,7 @@ esphome:
     priority: 600.0
     then:
       - lambda: |-
-          id(sht4x_available) = true;
+          id(sht4x_available_var) = true;
 
 sensor:
   - platform: sht4x
@@ -20,11 +20,11 @@ sensor:
         - filter_out: NAN
         - lambda: |-
             // get the first board temperature out quickly
-            if(isnan(id(board_temperature)))
-              id(board_temperature) = x;
+            if(isnan(id(board_temperature_var)))
+              id(board_temperature_var) = x;
             return x;
         - throttle_average: 60s
       on_value:
         then:
           - lambda: |-
-              id(board_temperature) = x;
+              id(board_temperature_var) = x;

@@ -9,8 +9,8 @@ esphome:
     priority: 600.0
     then:
       - lambda: |-
-          id(co2_available) = true;
-          id(pm25_available) = true;
+          id(co2_available_var) = true;
+          id(pm25_available_var) = true;
 
 api:
   on_client_connected:
@@ -80,16 +80,16 @@ sensor:
         - filter_out: NAN
         - lambda: |-
             // get the first board temperature out quickly
-            if(!id(sht4x_available) && isnan(id(board_temperature)))
-              id(board_temperature) = x;
+            if(!id(sht4x_available_var) && isnan(id(board_temperature_var)))
+              id(board_temperature_var) = x;
             return x;
         - skip_initial: 300
         - throttle_average: 60s
       on_value:
         then:
           - lambda: |-
-              if(!id(sht4x_available))
-                id(board_temperature) = x;
+              if(!id(sht4x_available_var))
+                id(board_temperature_var) = x;
     humidity:
       # humidity 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -124,13 +124,13 @@ sensor:
         then:
           - lambda: |-
               if (x > 35.0)
-                id(pm25_warning) = true;
+                id(pm25_warning_var) = true;
               if (x < 31.5)
-                id(pm25_warning) = false;
+                id(pm25_warning_var) = false;
               if (x > 75.0)
-                id(pm25_alarm) = true;
+                id(pm25_alarm_var) = true;
               if (x < 67.5)
-                id(pm25_alarm) = false;
+                id(pm25_alarm_var) = false;
     pm_4_0:
       # PM 4µm 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -166,9 +166,9 @@ sensor:
         then:
           - lambda: |-
               if (x > 2000.0)
-                id(co2_warning) = true;
+                id(co2_warning_var) = true;
               if (x < 1800.0)
-                id(co2_warning) = false;
+                id(co2_warning_var) = false;
     nox:
       # NOₓ 1s interval averaged to once a minute
       # first 5 minutes ignored

@@ -7,7 +7,7 @@ esphome:
     priority: 600.0
     then:
       - lambda: |-
-          id(co2_available) = true;
+          id(co2_available_var) = true;
 
 api:
   on_client_connected:
@@ -36,9 +36,9 @@ sensor:
       then:
         - lambda: |-
             if (x > 2000.0)
-              id(co2_warning) = true;
+              id(co2_warning_var) = true;
             if (x < 1800.0)
-              id(co2_warning) = false;
+              id(co2_warning_var) = false;
 
 number:
   - platform: template
