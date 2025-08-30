@@ -130,7 +130,7 @@ script:
         if(!id(led_enable).state) {
           state = false;
         } else {
-          if (id(presence).state) {
+          if (id(presence).state or id(ha_presence).state) {
             state = true;
             r = 0.0; g = 0.0; b = 1.0;
           } else {
@@ -140,14 +140,14 @@ script:
         if (state == false) {
           if (last_state == true) {
             id(led_status).turn_off().set_transition_length(0).perform();
-            ESP_LOGD("status", "Status LED turned off");
+            ESP_LOGV("status", "Status LED turned off");
           }
         } else {
           if ((last_state == false) || (last_r != r) || (last_g != g) ||
               (last_b != b) || (last_brightness != brightness)) {
             id(led_status).turn_on().set_transition_length(0).
               set_rgb(r, g, b).set_brightness(brightness).perform();
-            ESP_LOGD("status", "Status LED turned on");
+            ESP_LOGV("status", "Status LED turned on");
           }
         }
         last_state = state;
@@ -298,6 +298,13 @@ speaker:
     sample_rate: 48000
 
 switch:
+  - platform: homeassistant
+    id: ha_presence
+    entity_id: ${presence_ha_entity}
+    on_turn_on:
+      - script.execute: update_status_led
+    on_turn_off:
+      - script.execute: update_status_led
   - platform: template
     name: "PIR Enable"
     id: pir_enable
