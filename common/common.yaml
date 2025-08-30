@@ -173,10 +173,9 @@ binary_sensor:
   - platform: homeassistant
     id: ha_presence
     entity_id: ${presence_ha_entity}
-    on_turn_on:
-      - script.execute: update_status_led
-    on_turn_off:
-      - script.execute: update_status_led
+    on_state:
+      then:
+          - script.execute: update_status_led
   - platform: template
     name: "Presence"
     id: presence
