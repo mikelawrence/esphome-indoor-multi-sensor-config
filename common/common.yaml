@@ -140,14 +140,14 @@ script:
         if (state == false) {
           if (last_state == true) {
             id(led_status).turn_off().set_transition_length(0).perform();
-            ESP_LOGV("status", "Status LED turned off");
+            ESP_LOGD("status", "Status LED turned off");
           }
         } else {
           if ((last_state == false) || (last_r != r) || (last_g != g) ||
               (last_b != b) || (last_brightness != brightness)) {
             id(led_status).turn_on().set_transition_length(0).
               set_rgb(r, g, b).set_brightness(brightness).perform();
-            ESP_LOGV("status", "Status LED turned on");
+            ESP_LOGD("status", "Status LED turned on");
           }
         }
         last_state = state;
