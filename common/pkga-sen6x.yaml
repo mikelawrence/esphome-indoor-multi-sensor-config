@@ -77,13 +77,13 @@ sensor:
       id: temperature_internal
       accuracy_decimals: 2
       filters:
+        - filter_out: NAN
         - lambda: |-
             // get the first board temperature out quickly
             if(!id(sht4x_available) && isnan(id(board_temperature)))
               id(board_temperature) = x;
             return x;
         - skip_initial: 300
-        - filter_out: NAN
         - throttle_average: 60s
       on_value:
         then:
@@ -103,7 +103,7 @@ sensor:
     pm_1_0:
       # PM 1µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <1µm Weight concentration"
+      name: "PM <1µm Mass concentration"
       id: pm_1_0
       accuracy_decimals: 2
       filters:
@@ -113,16 +113,28 @@ sensor:
     pm_2_5:
       # PM 2.5µm 1s interval averaged to once a minute
       # first 5 minutes ignored
+      name: "PM <2.5µm Mass concentration"
       id: pm_2_5
       accuracy_decimals: 2
       filters:
         - skip_initial: 300
         - filter_out: NAN
         - throttle_average: 60s
+      on_value:
+        then:
+          - lambda: |-
+              if (x > 35.0)
+                id(pm25_warning) = true;
+              if (x < 31.5)
+                id(pm25_warning) = false;
+              if (x > 75.0)
+                id(pm25_alarm) = true;
+              if (x < 67.5)
+                id(pm25_alarm) = false;
     pm_4_0:
       # PM 4µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <4µm Weight concentration"
+      name: "PM <4µm Mass concentration"
       id: pm_4_0
       accuracy_decimals: 2
       filters:
@@ -132,7 +144,7 @@ sensor:
     pm_10_0:
       # PM 10µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <10µm Weight concentration"
+      name: "PM <10µm Mass concentration"
       id: pm_10_0
       accuracy_decimals: 2
       filters:
@@ -150,6 +162,13 @@ sensor:
         - skip_initial: 300
         - filter_out: NAN
         - throttle_average: 60s
+      on_value:
+        then:
+          - lambda: |-
+              if (x > 2000.0)
+                id(co2_warning) = true;
+              if (x < 1800.0)
+                id(co2_warning) = false;
     nox:
       # NOₓ 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -171,33 +190,7 @@ sensor:
         - filter_out: NAN
         - throttle_average: 60s
   - platform: copy
-    id: pm_2_5_internal
-    source_id: pm_2_5
-    accuracy_decimals: 2
-    on_value:
-      then:
-        - lambda: |-
-            if (x > 35.0)
-              id(pm25_warning) = true;
-            if (x < 31.5)
-              id(pm25_warning) = false;
-            if (x > 75.0)
-              id(pm25_alarm) = true;
-            if (x < 67.5)
-              id(pm25_alarm) = false;
-  - platform: copy
-    id: co2_internal
-    source_id: co2
-    accuracy_decimals: 2
-    on_value:
-      then:
-        - lambda: |-
-            if (x > 2000.0)
-              id(co2_warning) = true;
-            if (x < 1800.0)
-              id(co2_warning) = false;
-  - platform: copy
-    # temperature median over last 5 minutes, output every minute
+    # temperature_internal median over last 5 minutes, output every minute
     id: temperature
     name: "Temperature"
     accuracy_decimals: 2
