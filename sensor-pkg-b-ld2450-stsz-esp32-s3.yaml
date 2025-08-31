@@ -12,6 +12,7 @@ substitutions:
   status_night_brightness: "0.20"
   status_daytime_lux: "12.0"
   status_nighttime_lux: "7.0"
+  presence_ha_entity: "binary_sensor.unknown_room_occupancy"
   # CO Configuration
   co_temp_id: "temperature"
   co_offset: "0.0"
@@ -33,9 +34,6 @@ substitutions:
   vent_hum_off_trigger: "2.5"
   vent_co2_on_trigger: "1100"
   vent_co2_off_trigger: "900"
-  # Home Assistant Entities
-  #   Presence input
-  presence_ha_entity: "binary_sensor.unknown_room_occupancy"
 
   # git ref, leave at main unless you know what you are doing
   ref: "main"

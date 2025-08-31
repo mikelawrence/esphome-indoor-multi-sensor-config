@@ -6,7 +6,7 @@ description: Configuration in ESPHome after taking control
 
 # Configuration
 
-Once you take control in ESPHome, there are two sections you need to configure, ```substitutions:``` and ```packages:```. In the ```substitutions:``` section you will find settings for many of the available sensors. 
+Once you take control in ESPHome, there are two sections you need to configure, ```substitutions:``` and ```packages:```. In the ```substitutions:``` section you will find settings for many of the available sensors.
 
 > With yaml all substitutions are strings and should be in ```'single quotes'``` or  
 > ```"double quotes"``` even if the value is a float or a boolean value.
@@ -55,7 +55,7 @@ substitutions:
   ref: "main"
 ```
 
-The ```packages:``` section will allow you to disable sensors by commenting out it's included package. 
+The ```packages:``` section will allow you to disable sensors by commenting out it's included package.
 
 ```yaml
 packages:
@@ -138,6 +138,7 @@ The Main Config Files vary based on Sensor Package and Radar. Only these combina
   sgp4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sgp4x.yaml@main
   radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2450ml-stsz.yaml@main
 ```
+
 The additional Sensors and Features packages can mostly be included or not based on whether or not the sensors are populated on the board.
 
 As an example, if you enable SCD4X pressure compensation but don't have a SCD4X sensor installed it's not going to work.
@@ -159,6 +160,7 @@ substitutions:
   status_night_brightness: "0.20"
   status_daytime_lux: "12.0"
   status_nighttime_lux: "7.0"
+  presence_ha_entity: "binary_sensor.unknown_room_occupancy"
   # Temperature Configuration
   temperature_offset: "0.0"
   # Humidity Configuration
@@ -171,7 +173,7 @@ These are base settings available for any configuration.
 
 + **name** (string): The standard ESPHome hostname. Alphanumeric and dash only.
 + **friendly_name** (string): The standard ESPHome friendly name.
-+ **room_sound_id** (string): When making announcements the room name is often added. Use this to select the sound file. 
++ **room_sound_id** (string): When making announcements the room name is often added. Use this to select the sound file.
   Look in the [common.yaml](common/common.yaml) file in the `media_player:` section for a list of available sound files.
 + **friendly_name** (string): The standard ESPHome friendly name.
 + **status_nightlight** (bool): When true the night light is enabled, this turns Status LED on with a white color. It will stay on all the time.
@@ -179,6 +181,8 @@ These are base settings available for any configuration.
 + **status_night_brightness** (float): How bright is the Status LED during at night. Range is 0 to 1.0 where 1.0 means 100% brightness.
 + **status_daytime_lux** (float): The light level (lux) at which the Status LED will switch to daytime mode.
 + **status_nighttime_lux** (float): The light level (lux) at which the Status LED will switch to nighttime mode.
++ **presence_ha_entity** (ID): This is the Home Assistant entity id of a presence sensor. This presence sensor is or'ed with the internal presence state.
+  This basically allows Home Assistant to control the Presence Status LED on the sensor. Useful when there are other presence sensors and timeouts.
 + **temperature_offset** (float): The temperature sensor may have an offset due to environmental conditions. Use this to subtract out this error.
 + **humidity_offset** (float): The humidity sensor may have also have an offset. Use this to subtract out this error.
 + **co2_calibration_date** (string): Enter the last time the CO₂ was calibrated here and it will be reported as a text_sensor in the diagnostic section.
@@ -290,21 +294,5 @@ packages:
 ```
 
 If you have included this package the you can use multiple sensors to approximate a smoke detector. This is not a certified smoke detector and my not work at all. You have been warned!
-
-# Home Assistant Entities
-
-```yaml
-substitutions:
-  # Home Assistant Entities
-  # Presence entity
-  presence_ha_entity: "binary_sensor.unknown_room_occupancy"
-```
-
-These are Home Assistant Entity IDs for various uses. All are input from Home Assistant to this device.  
-
-+ **presence_ha_entity** (ID): This is the Home Assistant entity id of a presence sensor. This presence sensor is or'ed with the internal presence state. 
-  This basically allows Home Assistant to control the Presence Status LED on the sensor. Useful when there are other presence sensors and timeouts.
-
-
 
 [back](./)
