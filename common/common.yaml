@@ -121,7 +121,7 @@ script:
     then:
       lambda: |-
           static bool last_state;
-          static daytime = true;
+          static bool daytime = true;
           static float last_r, last_g, last_b, last_brightness = ${status_night_brightness};
           bool state = false;
           float r, g, b, brightness = last_brightness;
