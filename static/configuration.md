@@ -20,6 +20,8 @@ substitutions:
   # Settings
   room_sound_id: "xxx_sound"
   # Status LED Configuration
+  status_nightlight: "true"
+  status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
   status_night_brightness: "0.20"
   status_daytime_lux: "12.0"
@@ -45,6 +47,9 @@ substitutions:
   vent_hum_off_trigger: "2.5"
   vent_co2_on_trigger: "1100"
   vent_co2_off_trigger: "900"
+  # Home Assistant Entities
+  # Presence entity
+  presence_ha_entity: "binary_sensor.unknown_room_occupancy"
 
   # git ref, leave at main unless you know what you are doing
   ref: "main"
@@ -148,6 +153,8 @@ substitutions:
   # Settings
   room_sound_id: "office_sound"
   # Status LED Configuration
+  status_nightlight: "true"
+  status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
   status_night_brightness: "0.20"
   status_daytime_lux: "12.0"
@@ -167,7 +174,8 @@ These are base settings available for any configuration.
 + **room_sound_id** (string): When making announcements the room name is often added. Use this to select the sound file. 
   Look in the [common.yaml](common/common.yaml) file in the `media_player:` section for a list of available sound files.
 + **friendly_name** (string): The standard ESPHome friendly name.
-+ **status_day_brightness** (float): How bright is the Status LED during the day. Range is 0 to 1.0 where 1.0 means 100% brightness.
++ **status_nightlight** (bool): When true the night light is enabled, this turns Status LED on with a white color.
++ **status_nightlight_brightness** (float): This is the brightness level of the nightlight when enabled. Range is 0 to 1.0 where 1.0 means 100% brightness.
 + **status_night_brightness** (float): How bright is the Status LED during at night. Range is 0 to 1.0 where 1.0 means 100% brightness.
 + **status_daytime_lux** (float): The light level (lux) at which the Status LED will switch to daytime mode.
 + **status_nighttime_lux** (float): The light level (lux) at which the Status LED will switch to nighttime mode.
@@ -282,5 +290,21 @@ packages:
 ```
 
 If you have included this package the you can use multiple sensors to approximate a smoke detector. This is not a certified smoke detector and my not work at all. You have been warned!
+
+# Home Assistant Entities
+
+```yaml
+substitutions:
+  # Home Assistant Entities
+  # Presence entity
+  presence_ha_entity: "binary_sensor.unknown_room_occupancy"
+```
+
+These are Home Assistant Entity IDs for various uses. All are input from Home Assistant to this device.  
+
++ **presence_ha_entity** (ID): This is the Home Assistant entity id of a presence sensor. This presence sensor is or'ed with the internal presence state. 
+  This basically allows Home Assistant to control the Presence Status LED on the sensor. Useful when there are other presence sensors and timeouts.
+
+
 
 [back](./)

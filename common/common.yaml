@@ -77,13 +77,20 @@ globals:
     # This means CO levels are elevated but not dangerous
     type: bool
     initial_value: "false"
+  - id: co2_alarm_var
+    # This means CO₂ levels are elevated and likely dangerous
+    type: bool
+    initial_value: "false"
   - id: co2_warning_var
+    # This means CO₂ levels are elevated but not dangerous
     type: bool
     initial_value: "false"
   - id: pm25_alarm_var
+    # This means PM2.5 levels are elevated and likely dangerous
     type: bool
     initial_value: "false"
   - id: pm25_warning_var
+    # This means PM2.5 levels are elevated but not dangerous
     type: bool
     initial_value: "false"
 
@@ -113,51 +120,62 @@ script:
     mode: restart
     then:
       lambda: |-
-        static bool last_state;
-        static float last_r, last_g, last_b, last_brightness = ${status_night_brightness};
-        bool state;
-        float r, g, b, brightness = last_brightness;
-        if(last_brightness == ${status_day_brightness}) {
-          // daytime
-          if(id(lux).state < ${status_nighttime_lux}) {
-            brightness = ${status_night_brightness};
-            ESP_LOGD("status", "Status LED switched to nighttime brightness");
-          }
-        } else {
-          // nighttime
-          if(id(lux).state > ${status_daytime_lux}) {
-            brightness = ${status_day_brightness};
-            ESP_LOGD("status", "Status LED switched to daytime brightness");
-          }
-        }
-        if(!id(led_enable).state) {
-          state = false;
-        } else {
-          if (id(presence).state or id(ha_presence).state) {
-            state = true;
-            r = 0.0; g = 0.0; b = 1.0;
+          static bool last_state;
+          static daytime = true;
+          static float last_r, last_g, last_b, last_brightness = ${status_night_brightness};
+          bool state = false;
+          float r, g, b, brightness = last_brightness;
+
+          if (${status_nightlight}) {
+            brightness = ${status_nightlight_brightness};
           } else {
-            state = false;
+            if(daytime && (id(lux).state < ${status_nighttime_lux})) {
+              brightness = ${status_night_brightness};
+              daytime = false;
+              ESP_LOGD("status", "Status LED switched to nighttime");
+            }
+            if(!daytime && (id(lux).state > ${status_daytime_lux})) {
+              brightness = ${status_day_brightness};
+              daytime = true;
+              ESP_LOGD("status", "Status LED switched to daytime");
+            }
           }
-        }
-        if (state == false) {
-          if (last_state == true) {
-            id(led_status).turn_off().set_transition_length(0).perform();
-            ESP_LOGD("status", "Status LED turned off");
+          if(id(led_enable).state) {
+            if (id(presence).state or id(ha_presence_var)) {
+              state = true;
+              r = 0.0; g = 0.0; b = 1.0;
+            }
           }
-        } else {
-          if ((last_state == false) || (last_r != r) || (last_g != g) ||
-              (last_b != b) || (last_brightness != brightness)) {
-            id(led_status).turn_on().set_transition_length(0).
-              set_rgb(r, g, b).set_brightness(brightness).perform();
-            ESP_LOGD("status", "Status LED turned on");
+          if(id(co_alarm_var) || id(co2_alarm_var) || id(pm25_alarm_var)) {
+            state = true;
+            r = 1.0; g = 0.0; b = 0.0;
+            brightness = 1.0;
+            ESP_LOGD("status", "Status LED switched to alarm");
           }
-        }
-        last_state = state;
-        last_brightness = brightness;
-        last_r = r;
-        last_g = g;
-        last_b = b;
+          if(id(co_warning_var) || id(co2_warning_var) || id(pm25_warning_var)) {
+            state = true;
+            r = 1.0; g = 1.0; b = 0.0;
+            brightness = 1.0;
+            ESP_LOGD("status", "Status LED switched to warning");
+          }
+          if (state == false) {
+            if (last_state == true) {
+              id(led_status).turn_off().set_transition_length(0).perform();
+              ESP_LOGD("status", "Status LED turned off");
+            }
+          } else {
+            if ((last_state == false) || (last_r != r) || (last_g != g) ||
+                (last_b != b) || (last_brightness != brightness)) {
+              id(led_status).turn_on().set_transition_length(0).
+                set_rgb(r, g, b).set_brightness(brightness).perform();
+              ESP_LOGD("status", "Status LED turned on");
+            }
+          }
+          last_state = state;
+          last_brightness = brightness;
+          last_r = r;
+          last_g = g;
+          last_b = b;
   - id: announce_operational
     mode: restart
     then:
@@ -179,9 +197,11 @@ binary_sensor:
     on_state_change:
       then:
           - lambda: |-
-            if(x.has_value()) {
-              id(ha_presence).state = x.value();
-            }
+              if(x.has_value()) {
+                id(ha_presence_var) = x.value();
+              } else {
+                id(ha_presence_var) = false;
+              }
 
           - script.execute: update_status_led
   - platform: template
@@ -189,12 +209,12 @@ binary_sensor:
     id: presence
     device_class: presence
     lambda: |-
-      if(id(presence_mmwwave).state or
-        (id(pir_enable).state && id(motion_pir).state)) {
-        return true;
-      } else {
-        return false;
-      }
+        if(id(presence_mmwwave).state or
+          (id(pir_enable).state && id(motion_pir).state)) {
+          return true;
+        } else {
+          return false;
+        }
     on_state:
       then:
         script.execute: update_status_led
