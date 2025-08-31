@@ -33,7 +33,8 @@ substitutions:
   vent_hum_off_trigger: "2.5"
   vent_co2_on_trigger: "1100"
   vent_co2_off_trigger: "900"
-  # Home Assistant additional presence input
+  # Home Assistant Entities
+  #   Presence input
   presence_ha_entity: "binary_sensor.unknown_room_occupancy"
 
   # git ref, leave at main unless you know what you are doing
