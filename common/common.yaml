@@ -127,6 +127,8 @@ script:
           float r, g, b, brightness = last_brightness;
 
           if (${status_nightlight}) {
+            state = true;
+            r = 1.0; g = 1.0; b = 0.75;
             brightness = ${status_nightlight_brightness};
           } else {
             if(daytime && (id(lux).state < ${status_nighttime_lux})) {
