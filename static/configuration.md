@@ -20,7 +20,6 @@ substitutions:
   # Settings
   room_sound_id: "xxx_sound"
   # Status LED Configuration
-  status_nightlight: "true"
   status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
   status_night_brightness: "0.20"
@@ -154,7 +153,6 @@ substitutions:
   # Settings
   room_sound_id: "office_sound"
   # Status LED Configuration
-  status_nightlight: "true"
   status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
   status_night_brightness: "0.20"
@@ -176,7 +174,6 @@ These are base settings available for any configuration.
 + **room_sound_id** (string): When making announcements the room name is often added. Use this to select the sound file.
   Look in the [common.yaml](common/common.yaml) file in the `media_player:` section for a list of available sound files.
 + **friendly_name** (string): The standard ESPHome friendly name.
-+ **status_nightlight** (bool): When true the night light is enabled, this turns Status LED on with a white color. It will stay on all the time.
 + **status_nightlight_brightness** (float): This is the brightness level of the nightlight when enabled. Range is 0 to 1.0 where 1.0 means 100% brightness.
 + **status_night_brightness** (float): How bright is the Status LED during at night. Range is 0 to 1.0 where 1.0 means 100% brightness.
 + **status_daytime_lux** (float): The light level (lux) at which the Status LED will switch to daytime mode.

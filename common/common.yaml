@@ -126,7 +126,7 @@ script:
           bool state = false;
           float r, g, b, brightness = last_brightness;
 
-          if (${status_nightlight}) {
+          if (id(nightlight_enable).state) {
             state = true;
             r = 1.0; g = 1.0; b = 0.75;
             brightness = ${status_nightlight_brightness};
@@ -142,7 +142,7 @@ script:
               ESP_LOGD("status", "Status LED switched to daytime");
             }
           }
-          if(id(led_enable).state) {
+          if(!id(nightlight_enable).state && id(led_enable).state) {
             if (id(presence).state or id(ha_presence_var)) {
               state = true;
               r = 0.0; g = 0.0; b = 1.0;
@@ -353,3 +353,12 @@ switch:
     id: announcements
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
+  - platform: template
+    name: "Nightlight Enable"
+    id: nightlight_enable
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF
+    on_turn_on:
+      script.execute: update_status_led
+    on_turn_off:
+      script.execute: update_status_led

@@ -6,7 +6,6 @@ substitutions:
   # Settings
   room_sound_id: "xxx_sound"
   # Status LED Configuration
-  status_nightlight: "true"
   status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
   status_night_brightness: "0.20"
