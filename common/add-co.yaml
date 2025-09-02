@@ -55,7 +55,6 @@ sensor:
     gain: 0.512
     resolution: 16_BITS
     filters:
-      - skip_initial: 10
       - lambda: |-
           static bool error = false;
           float sensitivity = id(co_sensitivity_const);
@@ -90,6 +89,7 @@ sensor:
           window_size: 180
           send_every: 1
       - throttle: 60s
+      - skip_initial: 2
 
   - platform: copy
     id: co_internal
