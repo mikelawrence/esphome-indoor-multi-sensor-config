@@ -234,7 +234,7 @@ binary_sensor:
 button:
   - platform: restart
     name: "Restart"
-    entity_category: configuration
+    entity_category: config
 
 light:
   - platform: esp32_rmt_led_strip

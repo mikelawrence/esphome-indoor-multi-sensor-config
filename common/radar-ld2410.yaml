@@ -42,10 +42,10 @@ button:
       name: LD2410 Factory Reset
     restart:
       name: LD2410 Restart
-      entity_category: configuration
+      entity_category: config
     query_params:
       name: LD2410 Query Params
-      entity_category: configuration
+      entity_category: config
 
 number:
   - platform: ld2410
