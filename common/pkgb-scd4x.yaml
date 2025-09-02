@@ -45,7 +45,7 @@ number:
     id: co2_forced_cal_value
     name: "CO₂ Calibration Value"
     device_class: carbon_dioxide
-    entity_category: CONFIG
+    entity_category: configuration
     optimistic: true
     max_value: 1200
     min_value: 400
@@ -58,7 +58,7 @@ button:
   - platform: template
     name: "CO₂ Calibrate"
     id: co2_calibrate
-    entity_category: CONFIG
+    entity_category: configuration
     on_press:
       - scd4x.perform_forced_calibration:
           value: !lambda |-
