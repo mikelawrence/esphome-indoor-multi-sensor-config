@@ -213,7 +213,7 @@ binary_sensor:
     id: presence
     device_class: presence
     lambda: |-
-      if(id(presence_mmwwave).state or
+      if(id(presence_mmwave).state or
         (id(pir_enable).state && id(motion_pir).state)) {
         return true;
       } else {

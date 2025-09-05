@@ -31,7 +31,7 @@ binary_sensor:
     ld2450_id: ld2450_radar
     has_target:
       name: MMWave Presence
-      id: presence_mmwwave
+      id: presence_mmwave
       device_class: presence
     has_moving_target:
       name: Moving Target
