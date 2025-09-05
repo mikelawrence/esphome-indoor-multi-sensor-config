@@ -70,6 +70,9 @@ binary_sensor:
     pin:
       number: GPIO16
   - platform: dfrobot_c4001
+    occupancy:
+      name: MMWAVE Presence
+      id: presence_mmwave
     config_changed:
       name: C4001 Config Changed
 
