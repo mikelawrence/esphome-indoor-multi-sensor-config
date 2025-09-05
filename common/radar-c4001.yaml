@@ -63,12 +63,6 @@ number:
       id: inhibit_time
 
 binary_sensor:
-  - platform: gpio
-    name: MMWAVE Presence
-    id: presence_mmwwave
-    device_class: presence
-    pin:
-      number: GPIO16
   - platform: dfrobot_c4001
     occupancy:
       name: MMWAVE Presence
