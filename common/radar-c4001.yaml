@@ -76,8 +76,10 @@ binary_sensor:
 switch:
   - platform: dfrobot_c4001
     dfrobot_c4001_id: c4001_radar
-    led_enable:
-      name: C4001 Enable LED
+    out_led_enable:
+      name: C4001 Enable OUT LED
+    run_led_enable:
+      name: C4001 Enable RUN LED
 
 text_sensor:
   - platform: dfrobot_c4001
