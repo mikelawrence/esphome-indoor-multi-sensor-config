@@ -23,8 +23,9 @@ uart:
     baud_rate: 256000
 
 ld2450:
-  id: ld2450_radar
-  uart_id: ld2450_uart
+  - id: ld2450_radar
+    flip_x_axis: true
+    uart_id: ld2450_uart
 
 binary_sensor:
   - platform: ld2450
