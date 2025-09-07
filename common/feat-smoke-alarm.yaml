@@ -29,6 +29,8 @@ media_player:
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/carbon-monoxide-levels-are-high.mp3
       - id: smoke_detected_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/smoke-detected.mp3
+      - id: pm_levels_are_elevated_sound
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/particulate-matter-levels-are-elevated.mp3
 
 script:
   - id: announce_danger_smoke
@@ -61,7 +63,7 @@ script:
               not:
                 media_player.is_announcing:
           - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
-  - id: announce_warning_smoke
+  - id: announce_warning_pm25
     mode: restart
     then:
       while:
@@ -83,7 +85,7 @@ script:
               announcement: true
               enqueue: true
           - media_player.speaker.play_on_device_media_file:
-              media_file: smoke_detected_sound
+              media_file: pm_levels_are_elevated_sound
               announcement: true
               enqueue: true
           - wait_until: media_player.is_announcing
@@ -217,8 +219,8 @@ script:
           }
         } else if (id(pm25_warning_var)) {
           if (state != 30) {
-            ESP_LOGD(ESP_LOG_TAG, "Warning smoke alarm");
-            id(announce_warning_smoke).execute();
+            ESP_LOGD(ESP_LOG_TAG, "Warning PM alarm");
+            id(announce_warning_pm25).execute();
             state = 30;
           }
         } else if (id(co_warning_var)) {
@@ -233,8 +235,6 @@ script:
             id(announce_warning_co2).execute();
             state = 50;
           }
-        } else {
-          //id(speaker_id).volume_set(id(volume).state / 100.0);
         }
 
 switch:
