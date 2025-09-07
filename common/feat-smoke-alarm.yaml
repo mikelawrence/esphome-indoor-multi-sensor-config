@@ -92,7 +92,7 @@ script:
           - wait_until:
               not:
                 media_player.is_announcing:
-          - delay: 5min
+          - delay: 1min
   - id: announce_danger_co
     mode: restart
     then:
@@ -151,7 +151,7 @@ script:
           - wait_until:
               not:
                 media_player.is_announcing:
-          - delay: 5min
+          - delay: 1min
   - id: announce_warning_co2
     mode: restart
     then:
@@ -181,7 +181,7 @@ script:
           - wait_until:
               not:
                 media_player.is_announcing:
-          - delay: 5min
+          - delay: 1min
   - id: smoke_alarm_state_machine
     mode: restart
     then:
