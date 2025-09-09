@@ -1,4 +1,12 @@
 # Add Automatic Vent Control
+substitutions:
+  vent_use_co2: "false"
+  vent_min_on_time: "15"
+  vent_hum_on_trigger: "5.0"
+  vent_hum_off_trigger: "3.0"
+  vent_co2_on_trigger: "1500"
+  vent_co2_off_trigger: "1400"
+
 esphome:
   on_boot:
     then:
