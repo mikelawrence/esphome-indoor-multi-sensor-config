@@ -13,7 +13,6 @@ substitutions:
   status_nighttime_lux: "7.0"
   presence_ha_entity: "binary_sensor.unknown_room_occupancy"
   # CO Configuration
-  co_temp_id: "temperature"
   co_offset: "0.0"
   co_sensitivity: "2.000e-9"
   co_manufacture_date: "Not Set"

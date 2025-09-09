@@ -1,6 +1,5 @@
 # Adds CO sensor using the Figaro TGS5141
 substitutions:
-  co_temp_id: "temperature"
   co_offset: "0.0"
   co_sensitivity: "2.000e-9"
   co_manufacture_date: "Not Set"
