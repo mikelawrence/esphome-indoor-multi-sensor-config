@@ -4,6 +4,11 @@
 #   Supports Installation Angle and Flip X Axis configuration
 #   Not compatible with any other radar package
 #   this sensor is mounted upside down target x and angle sensors are inverted
+external_components:
+  - source: github://mikelawrence/esphome-components
+    components: [ld2450]
+    refresh: 1min
+
 api:
   on_client_connected:
     then:
@@ -36,14 +41,17 @@ binary_sensor:
       device_class: presence
       filters:
         - settle: 1000ms
+        - delayed_off: !lambda return id(timeout).state;
     has_moving_target:
       name: Moving Target
       filters:
         - settle: 1000ms
+        - delayed_off: !lambda return id(timeout).state;
     has_still_target:
       name: Still Target
       filters:
         - settle: 1000ms
+        - delayed_off: !lambda return id(timeout).state;
 
 button:
   - platform: ld2450
