@@ -4,6 +4,11 @@
 #     Volatile Organic Compounds (VOC), Nitrous Oxides (NOx) and
 #     Particulate Matter (PM)
 #   Not compatible with PACKAGE B packages
+external_components:
+  - source: github://pr#9254
+    components: [sen5x]
+    refresh: 1min
+
 esphome:
   on_boot:
     priority: 600.0
