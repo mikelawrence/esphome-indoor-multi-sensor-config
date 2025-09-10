@@ -27,6 +27,24 @@ ld2450:
   id: ld2450_radar
   uart_id: ld2450_uart
 
+binary_sensor:
+  - platform: ld2450
+    ld2450_id: ld2450_radar
+    has_target:
+      name: MMWave Presence
+      id: presence_mmwave
+      device_class: presence
+      filters:
+        - settle: 1000ms
+    has_moving_target:
+      name: Moving Target
+      filters:
+        - settle: 1000ms
+    has_still_target:
+      name: Still Target
+      filters:
+        - settle: 1000ms
+
 button:
   - platform: ld2450
     ld2450_id: ld2450_radar
@@ -59,6 +77,32 @@ select:
     zone_type:
       name: LD2450 Zone Type
 
+sensor:
+  - platform: ld2450
+    ld2450_id: ld2450_radar
+    target_1:
+      x:
+        name: Target-1 X
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+      y:
+        name: Target-1 Y
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+      distance:
+        name: Target-1 Distance
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+
 switch:
   - platform: ld2450
     ld2450_id: ld2450_radar
@@ -67,29 +111,6 @@ switch:
     multi_target:
       name: LD2450 Multi Target Tracking
       restore_mode: ALWAYS_ON
-
-binary_sensor:
-  - platform: ld2450
-    ld2450_id: ld2450_radar
-    has_target:
-      name: MMWave Presence
-      id: presence_mmwave
-      device_class: presence
-    has_moving_target:
-      name: Moving Target
-    has_still_target:
-      name: Still Target
-
-sensor:
-  - platform: ld2450
-    ld2450_id: ld2450_radar
-    target_1:
-      x:
-        name: Target-1 X
-      y:
-        name: Target-1 Y
-      distance:
-        name: Target-1 Distance
 
 text_sensor:
   - platform: ld2450

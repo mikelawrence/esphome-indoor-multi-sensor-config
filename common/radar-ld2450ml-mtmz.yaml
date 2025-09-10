@@ -4,6 +4,11 @@
 #   Supports Installation Angle and Flip X Axis configuration
 #   Not compatible with any other radar package
 #   this sensor is mounted upside down target x and angle sensors are inverted
+external_components:
+  - source: github://mikelawrence/esphome-components
+    components: [ld2450]
+    refresh: 1min
+
 api:
   on_client_connected:
     then:
@@ -42,21 +47,24 @@ binary_sensor:
     name: Zone-1 Presence
     device_class: presence
     filters:
-      - delayed_off: !lambda return id(timeout).state;
+      - settle: 1000ms
+      # - delayed_off: !lambda return id(timeout).state;
     lambda: |-
       return (id(z1_target_count).state > 0);
   - platform: template
     name: Zone-2 Presence
     device_class: presence
     filters:
-      - delayed_off: !lambda return id(timeout).state;
+      - settle: 1000ms
+      # - delayed_off: !lambda return id(timeout).state;
     lambda: |-
       return (id(z2_target_count).state > 0);
   - platform: template
     name: Zone-3 Presence
     device_class: presence
     filters:
-      - delayed_off: !lambda return id(timeout).state;
+      - settle: 1000ms
+      # - delayed_off: !lambda return id(timeout).state;
     lambda: |-
       return (id(z3_target_count).state > 0);
 
@@ -110,6 +118,166 @@ select:
     zone_type:
       name: LD2450 Zone Type
 
+sensor:
+  - platform: ld2450
+    ld2450_id: ld2450_radar
+    target_count:
+      name: Target Count
+      filters:
+        - timeout:
+            timeout: 1s
+            value: last
+        - throttle_with_priority: 1000ms
+    still_target_count:
+      name: Still Target Count
+      filters:
+        - timeout:
+            timeout: 1s
+            value: last
+        - throttle_with_priority: 1000ms
+    moving_target_count:
+      name: Moving Target Count
+      filters:
+        - timeout:
+            timeout: 1s
+            value: last
+        - throttle_with_priority: 1000ms
+    target_1:
+      x:
+        name: Target-1 X
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+      y:
+        name: Target-1 Y
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+      distance:
+        name: Target-1 Distance
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+    target_2:
+      x:
+        name: Target-2 X
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+      y:
+        name: Target-2 Y
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+      distance:
+        name: Target-2 Distance
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+    target_3:
+      x:
+        name: Target-3 X
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+      y:
+        name: Target-3 Y
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+      distance:
+        name: Target-3 Distance
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+    zone_1:
+      target_count:
+        name: Zone-1 Target Count
+        id: z1_target_count
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+      still_target_count:
+        name: Zone-1 Still Target Count
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+      moving_target_count:
+        name: Zone-1 Moving Target Count
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+    zone_2:
+      target_count:
+        name: Zone-2 Target Count
+        id: z2_target_count
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+      still_target_count:
+        name: Zone-2 Still Target Count
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+      moving_target_count:
+        name: Zone-2 Moving Target Count
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+    zone_3:
+      target_count:
+        name: Zone-3 Target Count
+        id: z3_target_count
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+      still_target_count:
+        name: Zone-3 Still Target Count
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+      moving_target_count:
+        name: Zone-3 Moving Target Count
+        filters:
+          - timeout:
+              timeout: 1s
+              value: last
+          - throttle_with_priority: 1000ms
+
 switch:
   - platform: ld2450
     ld2450_id: ld2450_radar
@@ -118,61 +286,6 @@ switch:
     multi_target:
       name: LD2450 Multi Target Tracking
       restore_mode: ALWAYS_ON
-
-sensor:
-  - platform: ld2450
-    ld2450_id: ld2450_radar
-    target_count:
-      name: Target Count
-    still_target_count:
-      name: Still Target Count
-    moving_target_count:
-      name: Moving Target Count
-    target_1:
-      x:
-        name: Target-1 X
-      y:
-        name: Target-1 Y
-      distance:
-        name: Target-1 Distance
-    target_2:
-      x:
-        name: Target-2 X
-      y:
-        name: Target-2 Y
-      distance:
-        name: Target-2 Distance
-    target_3:
-      x:
-        name: Target-3 X
-      y:
-        name: Target-3 Y
-      distance:
-        name: Target-3 Distance
-    zone_1:
-      target_count:
-        name: Zone-1 Target Count
-        id: z1_target_count
-      still_target_count:
-        name: Zone-1 Still Target Count
-      moving_target_count:
-        name: Zone-1 Moving Target Count
-    zone_2:
-      target_count:
-        name: Zone-2 Target Count
-        id: z2_target_count
-      still_target_count:
-        name: Zone-2 Still Target Count
-      moving_target_count:
-        name: Zone-2 Moving Target Count
-    zone_3:
-      target_count:
-        name: Zone-3 Target Count
-        id: z3_target_count
-      still_target_count:
-        name: Zone-3 Still Target Count
-      moving_target_count:
-        name: Zone-3 Moving Target Count
 
 text_sensor:
   - platform: ld2450
