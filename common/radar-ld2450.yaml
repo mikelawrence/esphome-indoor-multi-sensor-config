@@ -24,7 +24,7 @@ uart:
 
 ld2450:
   - id: ld2450_radar
-    flip_x_axis: true
+    # flip_x_axis: true
     uart_id: ld2450_uart
 
 binary_sensor:
