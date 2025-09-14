@@ -4,6 +4,9 @@
 #     Volatile Organic Compounds (VOC), Nitrous Oxides (NOx) and
 #     Particulate Matter (PM)
 #   Not compatible with PACKAGE B packages
+substitutions:
+  sen66_skip_initial: "300"
+  
 external_components:
   - source: github://pr#9254
     components: [sen5x]
@@ -88,7 +91,7 @@ sensor:
             if(!id(sht4x_available_var) && isnan(id(board_temperature_var)))
               id(board_temperature_var) = x;
             return x;
-        - skip_initial: 300
+        - skip_initial: ${sen66_skip_initial}
         - throttle_average: 60s
       on_value:
         then:
@@ -101,7 +104,7 @@ sensor:
       id: humidity_internal
       accuracy_decimals: 2
       filters:
-        - skip_initial: 300
+        - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
         - offset: ${humidity_offset}
         - throttle_average: 60s
@@ -112,7 +115,7 @@ sensor:
       id: pm_1_0
       accuracy_decimals: 2
       filters:
-        - skip_initial: 300
+        - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
         - throttle_average: 60s
     pm_2_5:
@@ -122,7 +125,7 @@ sensor:
       id: pm_2_5
       accuracy_decimals: 2
       filters:
-        - skip_initial: 300
+        - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
         - throttle_average: 60s
       # on_value:
@@ -143,7 +146,7 @@ sensor:
       id: pm_4_0
       accuracy_decimals: 2
       filters:
-        - skip_initial: 300
+        - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
         - throttle_average: 60s
     pm_10_0:
@@ -153,7 +156,7 @@ sensor:
       id: pm_10_0
       accuracy_decimals: 2
       filters:
-        - skip_initial: 300
+        - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
         - throttle_average: 60s
     co2:
@@ -164,7 +167,7 @@ sensor:
       automatic_self_calibration: false
       accuracy_decimals: 0
       filters:
-        - skip_initial: 300
+        - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
         - throttle_average: 60s
       on_value:
@@ -181,7 +184,7 @@ sensor:
       id: nox
       accuracy_decimals: 0
       filters:
-        - skip_initial: 300
+        - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
         - throttle_average: 60s
     voc:
@@ -191,7 +194,7 @@ sensor:
       id: voc
       accuracy_decimals: 0
       filters:
-        - skip_initial: 300
+        - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
         - throttle_average: 60s
   - platform: copy
