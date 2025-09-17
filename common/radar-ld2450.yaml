@@ -588,3 +588,8 @@ text_sensor:
       name: LD2450 Firmware
     mac_address:
       name: LD2450 BT MAC
+  - platform: template
+    name: "Radar Included"
+    id: radar_included
+    entity_category: diagnostic
+    update_interval: never
