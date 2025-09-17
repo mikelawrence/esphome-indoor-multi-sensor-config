@@ -4,7 +4,7 @@
 #   Not compatible with any other radar package
 #   this sensor is mounted upside down target x and angle sensors are inverted
 substitutions:
-  ld2450_update_rate: "500"
+  ld2450_update_rate: "1000"
   
 api:
   on_client_connected:
