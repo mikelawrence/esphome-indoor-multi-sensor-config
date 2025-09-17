@@ -42,7 +42,6 @@ psram:
   speed: 80MHz
 
 logger:
-  id: logger_common
   level: DEBUG
 
 globals:

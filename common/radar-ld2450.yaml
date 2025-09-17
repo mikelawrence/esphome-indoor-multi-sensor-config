@@ -3,12 +3,35 @@
 #   Intended for the ESPHome Built-In Component
 #   Not compatible with any other radar package
 #   this sensor is mounted upside down target x and angle sensors are inverted
+substitutions:
+  ld2450_update_rate: "500"
+  
 api:
   on_client_connected:
     then:
       - text_sensor.template.publish:
           id: radar_included
-          state: "Hi-Link LD2450 Built-In ESPHome Component"
+          state: "Hi-Link LD2450"
+
+globals:
+  - id: global_timer_running
+    type: bool
+    initial_value: "false"
+  - id: global_timer_last_time
+    type: uint64_t
+    initial_value: "1000000000"
+  - id: global_timer_start_time
+    type: uint64_t
+    initial_value: "1000000000"
+  - id: x_in
+    type: float[3]
+    initial_value: "{0.0}"
+  - id: y_in
+    type: float[3]
+    initial_value: "{0.0}"
+  - id: s_in
+    type: float[3]
+    initial_value: "{0.0}"
 
 power_supply:
   # this enables power the ld2450 module
@@ -24,41 +47,231 @@ uart:
 
 ld2450:
   - id: ld2450_radar
-    # flip_x_axis: true
     uart_id: ld2450_uart
 
+script:
+  - id: update_timer
+    mode: restart
+    then:
+      lambda: |-
+        constexpr const char *const ESP_LOG_TAG = "ld2450_mtmz";
+        uint64_t time = millis();
+        if (id(global_timer_running)) 
+        {
+          /*ESP_LOGD(ESP_LOG_TAG, "Continue: millis=%8llu, time=%4llu, diff=%4llu", 
+            time, time - id(global_timer_start_time), time - id(global_timer_last_time));*/
+          id(global_timer_last_time) = time;
+        }
+        else
+        {
+          /*ESP_LOGD(ESP_LOG_TAG, "   Start: millis=%8llu, time=%4llu, diff=%4llu", 
+            time, 0ull, 0ull);*/
+          id(global_timer_last_time) = time;
+          id(global_timer_start_time) = time;
+        }
+        id(global_timer_running) = true;
+        
+  - id: check_timeout
+    mode: restart
+    then:
+      lambda: |-
+        constexpr const char *const ESP_LOG_TAG = "ld2450_mtmz";
+        uint64_t time = millis();
+        if (id(global_timer_running)) 
+        {
+          if (time - id(global_timer_last_time) > 50)
+          {
+            id(global_timer_running) = false;
+            /*ESP_LOGD(ESP_LOG_TAG, " Timeout: millis=%8llu, time=%4llu, diff=%4llu", 
+              time, time - id(global_timer_start_time), time - id(global_timer_last_time));*/
+            id(update_state).execute();
+          }
+        }
+
+  - id: update_state
+    mode: restart
+    then:
+      lambda: |-
+        constexpr const char *const ESP_LOG_TAG = "ld2450_mtmz";
+        static uint64_t last_update_time;
+        //static float x_in[3] = {0.0}, y_in[3] = {0.0}, s_in[3] = {0.0};
+        static float x[3] = {0.0}, y[3] = {0.0}, s[3] = {0.0};
+        uint8_t zone_all_targets[3] = {0}, zone_still_targets[3] = {0}, 
+          zone_moving_targets[3] = {0};
+        uint64_t time = millis();
+        if(time - last_update_time < ${ld2450_update_rate})
+          return; 
+        esphome::sensor::Sensor* sens_tgt_x[] = {
+          id(target_1_x),
+          id(target_2_x),
+          id(target_3_x)
+        };
+        esphome::sensor::Sensor* sens_tgt_y[] = {
+          id(target_1_y),
+          id(target_2_y),
+          id(target_3_y)
+        };
+        esphome::sensor::Sensor* sens_tgt_s[] = {
+          id(target_1_s),
+          id(target_2_s),
+          id(target_3_s)
+        };
+        esphome::template_::TemplateNumber* sens_zone_x1[] = {
+          id(z1_x1),
+          id(z2_x1),
+          id(z3_x1)
+        };
+        esphome::template_::TemplateNumber* sens_zone_x2[] = {
+          id(z1_x2),
+          id(z2_x2),
+          id(z3_x2)
+        };
+        esphome::template_::TemplateNumber* sens_zone_y1[] = {
+          id(z1_y1),
+          id(z2_y1),
+          id(z3_y1)
+        };
+        esphome::template_::TemplateNumber* sens_zone_y2[] = {
+          id(z1_y2),
+          id(z2_y2),
+          id(z3_y2)
+        };
+        esphome::binary_sensor::BinarySensor* sens_zone_pres[] = {
+          id(zone_1_presence),
+          id(zone_2_presence),
+          id(zone_3_presence)
+        };
+        esphome::sensor::Sensor* sens_zone_tgt_cnt[] = {
+          id(z1_tgt_cnt),
+          id(z2_tgt_cnt),
+          id(z3_tgt_cnt)
+        };
+        esphome::sensor::Sensor* sens_zone_still_tgt_cnt[] = {
+          id(z1_still_tgt_cnt),
+          id(z2_still_tgt_cnt),
+          id(z3_still_tgt_cnt)
+        };
+        esphome::sensor::Sensor* sens_zone_move_tgt_cnt[] = {
+          id(z1_move_tgt_cnt),
+          id(z2_move_tgt_cnt),
+          id(z3_move_tgt_cnt)
+        };
+        // Handle target unit conversion, coord transforms and updates
+        for(uint8_t tgt = 0; tgt < 3; tgt++)
+        {
+          float angle;
+          float distance;
+
+          x[tgt] = id(x_in)[tgt] / 25.4 / 12;
+          if(id(flip_x_axis).state)
+          {
+            x[tgt] = 0 - x[tgt];
+          }
+          y[tgt] = id(y_in)[tgt] / 25.4 / 12;
+          distance = sqrt(pow(x[tgt], 2) + pow(y[tgt], 2));
+          angle = atan2(y[tgt], x[tgt]);
+          if (id(installation_angle).state != 0)
+          {
+            angle = angle - id(installation_angle).state * (M_PI / 180.0);
+            // we are using x and y flipped coordinates, sensor outputs this way
+            x[tgt] = distance * cos(angle);
+            y[tgt] = distance * sin(angle);
+          }
+          // angle = angle * (180.0 / M_PI) - 90.0;
+          if (x[tgt] == 0.0 && y[tgt] == 0.0)
+            s[tgt] = 0.0;
+          else
+            s[tgt] = id(s_in)[tgt] / 25.4 / 12;
+
+        }
+        for (uint8_t zone = 0; zone < 3; zone++)
+        {
+          float z_x_begin = std::min(sens_zone_x1[zone]->state, sens_zone_x2[zone]->state);
+          float z_x_end = std::max(sens_zone_x1[zone]->state, sens_zone_x2[zone]->state);
+          float z_y_begin = std::min(sens_zone_y1[zone]->state, sens_zone_y2[zone]->state);
+          float z_y_end = std::max(sens_zone_y1[zone]->state, sens_zone_y2[zone]->state);
+          for (uint8_t tgt = 0; tgt < 3; tgt++) 
+          {
+            if ((x[tgt] != 0.0) || (y[tgt] != 0.0))
+            {
+              if ((x[tgt] >= z_x_begin) and (x[tgt] <= z_x_end) and
+                  (y[tgt] >= z_y_begin) and (y[tgt] <= z_y_end)) 
+              {
+                if (s[tgt] > 0.0)
+                {
+                  zone_moving_targets[zone]++;
+                  zone_all_targets[zone]++;
+                }
+                else
+                {
+                  zone_still_targets[zone]++;
+                  zone_all_targets[zone]++;
+                }
+              }
+            }
+          }
+        }
+        // publish target values
+        for(uint8_t tgt = 0; tgt < 3; tgt++)
+        {
+          if (sens_tgt_x[tgt]->state != x[tgt] || sens_tgt_y[tgt]->state != y[tgt] ||
+              sens_tgt_s[tgt]->state != s[tgt])
+          {
+            sens_tgt_x[tgt]->publish_state(x[tgt]);
+            sens_tgt_y[tgt]->publish_state(y[tgt]);
+            sens_tgt_s[tgt]->publish_state(s[tgt]);
+          }
+        }
+        // publish zone values
+        for (uint8_t zone = 0; zone < 3; zone++)
+        {
+          if(!sens_zone_pres[zone]->has_state() || sens_zone_pres[zone]->state != zone_all_targets[zone] > 0)
+            sens_zone_pres[zone]->publish_state(zone_all_targets[zone] > 0);
+          if (sens_zone_tgt_cnt[zone]->state != zone_all_targets[zone])
+            sens_zone_tgt_cnt[zone]->publish_state(zone_all_targets[zone]);
+          if (sens_zone_still_tgt_cnt[zone]->state != zone_still_targets[zone])
+            sens_zone_still_tgt_cnt[zone]->publish_state(zone_still_targets[zone]);
+          if(sens_zone_move_tgt_cnt[zone]->state != zone_moving_targets[zone])
+            sens_zone_move_tgt_cnt[zone]->publish_state(zone_moving_targets[zone]);
+        }
+        uint8_t still_tgt_count = zone_still_targets[0] + zone_still_targets[1] + zone_still_targets[2];
+        if (id(still_tgt_cnt).state != still_tgt_count)
+          id(still_tgt_cnt).publish_state(still_tgt_count);
+        uint8_t move_tgt_count = zone_moving_targets[0] + zone_moving_targets[1] + zone_moving_targets[2];
+        if (id(move_tgt_cnt).state != move_tgt_count)
+          id(move_tgt_cnt).publish_state(move_tgt_count);
+        uint8_t total_tgt_count = still_tgt_count + move_tgt_count;
+        if (id(tgt_cnt).state != total_tgt_count)
+          id(tgt_cnt).publish_state(total_tgt_count);
+        if(!id(presence_mmwave).has_state() || id(presence_mmwave).state != total_tgt_count > 0)
+          id(presence_mmwave).publish_state(total_tgt_count > 0);
+        last_update_time = time;
+        /*for (uint8_t tgt = 0; tgt < 3; tgt++) {
+          ESP_LOGD(ESP_LOG_TAG, "Target-%d: "
+            "In -> x=%5.0f mm, y=%5.0f mm, spd=%8.2f mm/s: "
+            "Out-> x=%6.2f ft, y=%6.2f ft, spd=%6.2f ft/s", tgt + 1,
+            id(x_in)[tgt], id(y_in)[tgt], id(s_in)[tgt], 
+            x[tgt], y[tgt], s[tgt]); 
+        }*/
+
+
 binary_sensor:
-  - platform: ld2450
-    ld2450_id: ld2450_radar
-    has_target:
-      name: MMWave Presence
-      id: presence_mmwave
-      device_class: presence
-    has_moving_target:
-      name: Moving Target
-    has_still_target:
-      name: Still Target
   - platform: template
-    name: Zone-1 Presence
+    name: "Presence mmWave"
+    id: presence_mmwave
     device_class: presence
-    filters:
-      - delayed_off: !lambda "return id(timeout).state;"
-    lambda: |-
-      return (id(z1_target_count).state > 0);
   - platform: template
-    name: Zone-2 Presence
+    name: "Zone-1 Presence"
+    id: zone_1_presence
     device_class: presence
-    filters:
-      - delayed_off: !lambda "return id(timeout).state;"
-    lambda: |-
-      return (id(z2_target_count).state > 0);
   - platform: template
-    name: Zone-3 Presence
+    name: "Zone-2 Presence"
+    id: zone_2_presence
     device_class: presence
-    filters:
-      - delayed_off: !lambda "return id(timeout).state;"
-    lambda: |-
-      return (id(z3_target_count).state > 0);
+  - platform: template
+    name: "Zone-3 Presence"
+    id: zone_3_presence
+    device_class: presence
 
 button:
   - platform: ld2450
@@ -72,41 +285,137 @@ number:
   - platform: ld2450
     ld2450_id: ld2450_radar
     presence_timeout:
-      name: Timeout
       id: timeout
-    zone_1:
-      x1:
-        name: Zone-1 X1
-      y1:
-        name: Zone-1 Y1
-      x2:
-        name: Zone-1 X2
-      y2:
-        name: Zone-1 Y2
-    zone_2:
-      x1:
-        name: Zone-2 X1
-      y1:
-        name: Zone-2 Y1
-      x2:
-        name: Zone-2 X2
-      y2:
-        name: Zone-2 Y2
-    zone_3:
-      x1:
-        name: Zone-3 X1
-      y1:
-        name: Zone-3 Y1
-      x2:
-        name: Zone-3 X2
-      y2:
-        name: Zone-3 Y2
-
-select:
-  - platform: ld2450
-    ld2450_id: ld2450_radar
-    zone_type:
-      name: LD2450 Zone Type
+      name: Timeout
+  - platform: template
+    name: "Zone-1 X1"
+    id: "z1_x1"
+    optimistic: true
+    min_value: -25.0
+    max_value: 25.0
+    mode: box
+    step: 0.01
+    restore_value: true
+    entity_category: CONFIG
+  - platform: template
+    name: "Zone-1 Y1"
+    id: "z1_y1"
+    optimistic: true
+    min_value: -2.0
+    max_value: 25.0
+    mode: box
+    step: 0.01
+    restore_value: true
+    entity_category: CONFIG
+  - platform: template
+    name: "Zone-1 X2"
+    id: "z1_x2"
+    optimistic: true
+    min_value: -25.0
+    max_value: 25.0
+    mode: box
+    step: 0.01
+    restore_value: true
+    entity_category: CONFIG
+  - platform: template
+    name: "Zone-1 Y2"
+    id: "z1_y2"
+    optimistic: true
+    min_value: -2.0
+    max_value: 25.0
+    mode: box
+    step: 0.01
+    restore_value: true
+    entity_category: CONFIG
+  - platform: template
+    name: "Zone-2 X1"
+    id: "z2_x1"
+    optimistic: true
+    min_value: -25.0
+    max_value: 25.0
+    mode: box
+    step: 0.01
+    restore_value: true
+    entity_category: CONFIG
+  - platform: template
+    name: "Zone-2 Y1"
+    id: "z2_y1"
+    optimistic: true
+    min_value: -2.0
+    max_value: 25.0
+    mode: box
+    step: 0.01
+    restore_value: true
+    entity_category: CONFIG
+  - platform: template
+    name: "Zone-2 X2"
+    id: "z2_x2"
+    optimistic: true
+    min_value: -25.0
+    max_value: 25.0
+    mode: box
+    step: 0.01
+    restore_value: true
+    entity_category: CONFIG
+  - platform: template
+    name: "Zone-2 Y2"
+    id: "z2_y2"
+    optimistic: true
+    min_value: -2.0
+    max_value: 25.0
+    mode: box
+    step: 0.01
+    restore_value: true
+    entity_category: CONFIG
+  - platform: template
+    name: "Zone-3 X1"
+    id: "z3_x1"
+    optimistic: true
+    min_value: -25.0
+    max_value: 25.0
+    mode: box
+    step: 0.01
+    restore_value: true
+    entity_category: CONFIG
+  - platform: template
+    name: "Zone-3 Y1"
+    id: "z3_y1"
+    optimistic: true
+    min_value: -2.0
+    max_value: 25.0
+    mode: box
+    step: 0.01
+    restore_value: true
+    entity_category: CONFIG
+  - platform: template
+    name: "Zone-3 X2"
+    id: "z3_x2"
+    optimistic: true
+    min_value: -25.0
+    max_value: 25.0
+    mode: box
+    step: 0.01
+    restore_value: true
+    entity_category: CONFIG
+  - platform: template
+    name: "Zone-3 Y2"
+    id: "z3_y2"
+    optimistic: true
+    min_value: -2.0
+    max_value: 25.0
+    mode: box
+    step: 0.01
+    restore_value: true
+    entity_category: CONFIG
+  - platform: template
+    name: "Installation Angle"
+    id: "installation_angle"
+    optimistic: true
+    min_value: -45
+    max_value: 45
+    step: 1
+    restore_value: true
+    entity_category: CONFIG
 
 switch:
   - platform: ld2450
@@ -115,61 +424,162 @@ switch:
       name: LD2450 Bluetooth Enable
     multi_target:
       name: LD2450 Multi Target Tracking
+  - platform: template
+    name: "Flip X-Axis"
+    id: flip_x_axis
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF
+    entity_category: CONFIG
 
 sensor:
+  - platform: template
+    update_interval: 0ms
+    id: sub_second_timer
+    lambda: |-
+      id(check_timeout).execute();
+      return {};
+
   - platform: ld2450
     ld2450_id: ld2450_radar
-    target_count:
-      name: Target Count
-    still_target_count:
-      name: Still Target Count
-    moving_target_count:
-      name: Moving Target Count
     target_1:
       x:
-        name: Target-1 X
+        id: target_1_x_int
+        filters:
+          - lambda: "id(x_in)[0] = x; id(update_timer).execute(); return {};"
       y:
-        name: Target-1 Y
-      distance:
-        name: Target-1 Distance
+        id: target_1_y_int
+        filters:
+          - lambda: "id(y_in)[0] = x; id(update_timer).execute(); return {};"
+      speed:
+        id: target_1_s_int
+        filters:
+          - lambda: "id(s_in)[0] = x; id(update_timer).execute(); return {};"
     target_2:
       x:
-        name: Target-2 X
+        id: target_2_x_int
+        filters:
+          - lambda: "id(x_in)[1] = x; id(update_timer).execute(); return {};"
       y:
-        name: Target-2 Y
-      distance:
-        name: Target-2 Distance
+        id: target_2_y_int
+        filters:
+          - lambda: "id(y_in)[1] = x; id(update_timer).execute(); return {};"
+      speed:
+        id: target_2_s_int
+        filters:
+          - lambda: "id(s_in)[1] = x; id(update_timer).execute(); return {};"
     target_3:
       x:
-        name: Target-3 X
+        id: target_3_x_int
+        filters:
+          - lambda: "id(x_in)[2] = x; id(update_timer).execute(); return {};"
       y:
-        name: Target-3 Y
-      distance:
-        name: Target-3 Distance
-    zone_1:
-      target_count:
-        name: Zone-1 Target Count
-        id: z1_target_count
-      still_target_count:
-        name: Zone-1 Still Target Count
-      moving_target_count:
-        name: Zone-1 Moving Target Count
-    zone_2:
-      target_count:
-        name: Zone-2 Target Count
-        id: z2_target_count
-      still_target_count:
-        name: Zone-2 Still Target Count
-      moving_target_count:
-        name: Zone-2 Moving Target Count
-    zone_3:
-      target_count:
-        name: Zone-3 Target Count
-        id: z3_target_count
-      still_target_count:
-        name: Zone-3 Still Target Count
-      moving_target_count:
-        name: Zone-3 Moving Target Count
+        id: target_3_y_int
+        filters:
+          - lambda: "id(y_in)[2] = x; id(update_timer).execute(); return {};"
+      speed:
+        id: target_3_s_int
+        filters:
+          - lambda: "id(s_in)[2] = x; id(update_timer).execute(); return {};"
+  - platform: template
+    name: "Target-1 X"
+    id: target_1_x
+    device_class: distance
+    unit_of_measurement: ft
+    accuracy_decimals: 0
+  - platform: template
+    name: "Target-1 Y"
+    id: target_1_y
+    device_class: distance
+    unit_of_measurement: ft
+    accuracy_decimals: 0
+  - platform: template
+    name: "Target-1 Speed"
+    id: target_1_s
+    device_class: speed
+    unit_of_measurement: ft/s
+    accuracy_decimals: 2
+  - platform: template
+    name: "Target-2 X"
+    id: target_2_x
+    device_class: distance
+    unit_of_measurement: ft
+    accuracy_decimals: 0
+  - platform: template
+    name: "Target-2 Y"
+    id: target_2_y
+    device_class: distance
+    unit_of_measurement: ft
+    accuracy_decimals: 0
+  - platform: template
+    name: "Target-2 Speed"
+    id: target_2_s
+    device_class: speed
+    unit_of_measurement: ft/s
+    accuracy_decimals: 2
+  - platform: template
+    name: "Target-3 X"
+    id: target_3_x
+    device_class: distance
+    unit_of_measurement: ft
+    accuracy_decimals: 0
+  - platform: template
+    name: "Target-3 Y"
+    id: target_3_y
+    device_class: distance
+    unit_of_measurement: ft
+    accuracy_decimals: 0
+  - platform: template
+    name: "Target-3 Speed"
+    id: target_3_s
+    device_class: speed
+    unit_of_measurement: ft/s
+    accuracy_decimals: 2
+  - platform: template
+    name: "Zone-1 Target Count"
+    id: z1_tgt_cnt
+    accuracy_decimals: 0
+  - platform: template
+    name: "Zone-1 Still Target Count"
+    id: z1_still_tgt_cnt
+    accuracy_decimals: 0
+  - platform: template
+    name: "Zone-1 Moving Target Count"
+    id: z1_move_tgt_cnt
+    accuracy_decimals: 0
+  - platform: template
+    name: "Zone-2 Target Count"
+    id: z2_tgt_cnt
+    accuracy_decimals: 0
+  - platform: template
+    name: "Zone-2 Still Target Count"
+    id: z2_still_tgt_cnt
+    accuracy_decimals: 0
+  - platform: template
+    name: "Zone-2 Moving Target Count"
+    id: z2_move_tgt_cnt
+    accuracy_decimals: 0
+  - platform: template
+    name: "Zone-3 Target Count"
+    id: z3_tgt_cnt
+    accuracy_decimals: 0
+  - platform: template
+    name: "Zone-3 Still Target Count"
+    id: z3_still_tgt_cnt
+    accuracy_decimals: 0
+  - platform: template
+    name: "Zone-3 Moving Target Count"
+    id: z3_move_tgt_cnt
+    accuracy_decimals: 0
+
+  - platform: template
+    name: "Target Count"
+    id: tgt_cnt
+  - platform: template
+    name: "Still Target Count"
+    id: still_tgt_cnt
+  - platform: template
+    name: "Moving Target Count"
+    id: move_tgt_cnt
 
 text_sensor:
   - platform: ld2450
@@ -178,9 +588,3 @@ text_sensor:
       name: LD2450 Firmware
     mac_address:
       name: LD2450 BT MAC
-  - platform: template
-    name: "Radar Included"
-    id: radar_included
-    entity_category: diagnostic
-    update_interval: never
-    lambda: 'return {""};'
