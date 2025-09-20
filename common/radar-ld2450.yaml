@@ -287,7 +287,7 @@ number:
     mode: box
     step: 0.1
     restore_value: true
-    entity_category: CONFIG
+    unit_of_measurement: s
   - platform: template
     name: "Zone-1 X1"
     id: "z1_x1"
@@ -297,7 +297,7 @@ number:
     mode: box
     step: 0.01
     restore_value: true
-    entity_category: CONFIG
+    unit_of_measurement: ft
   - platform: template
     name: "Zone-1 Y1"
     id: "z1_y1"
@@ -307,7 +307,7 @@ number:
     mode: box
     step: 0.01
     restore_value: true
-    entity_category: CONFIG
+    unit_of_measurement: ft
   - platform: template
     name: "Zone-1 X2"
     id: "z1_x2"
@@ -317,7 +317,7 @@ number:
     mode: box
     step: 0.01
     restore_value: true
-    entity_category: CONFIG
+    unit_of_measurement: ft
   - platform: template
     name: "Zone-1 Y2"
     id: "z1_y2"
@@ -327,7 +327,7 @@ number:
     mode: box
     step: 0.01
     restore_value: true
-    entity_category: CONFIG
+    unit_of_measurement: ft
   - platform: template
     name: "Zone-2 X1"
     id: "z2_x1"
@@ -337,7 +337,7 @@ number:
     mode: box
     step: 0.01
     restore_value: true
-    entity_category: CONFIG
+    unit_of_measurement: ft
   - platform: template
     name: "Zone-2 Y1"
     id: "z2_y1"
@@ -347,7 +347,7 @@ number:
     mode: box
     step: 0.01
     restore_value: true
-    entity_category: CONFIG
+    unit_of_measurement: ft
   - platform: template
     name: "Zone-2 X2"
     id: "z2_x2"
@@ -357,7 +357,7 @@ number:
     mode: box
     step: 0.01
     restore_value: true
-    entity_category: CONFIG
+    unit_of_measurement: ft
   - platform: template
     name: "Zone-2 Y2"
     id: "z2_y2"
@@ -367,7 +367,7 @@ number:
     mode: box
     step: 0.01
     restore_value: true
-    entity_category: CONFIG
+    unit_of_measurement: ft
   - platform: template
     name: "Zone-3 X1"
     id: "z3_x1"
@@ -377,7 +377,7 @@ number:
     mode: box
     step: 0.01
     restore_value: true
-    entity_category: CONFIG
+    unit_of_measurement: ft
   - platform: template
     name: "Zone-3 Y1"
     id: "z3_y1"
@@ -387,7 +387,7 @@ number:
     mode: box
     step: 0.01
     restore_value: true
-    entity_category: CONFIG
+    unit_of_measurement: ft
   - platform: template
     name: "Zone-3 X2"
     id: "z3_x2"
@@ -397,7 +397,7 @@ number:
     mode: box
     step: 0.01
     restore_value: true
-    entity_category: CONFIG
+    unit_of_measurement: ft
   - platform: template
     name: "Zone-3 Y2"
     id: "z3_y2"
@@ -407,7 +407,7 @@ number:
     mode: box
     step: 0.01
     restore_value: true
-    entity_category: CONFIG
+    unit_of_measurement: ft
   - platform: template
     name: "Installation Angle"
     id: "installation_angle"
@@ -416,7 +416,7 @@ number:
     max_value: 45
     step: 1
     restore_value: true
-    entity_category: CONFIG
+    unit_of_measurement: ft
 
 switch:
   - platform: ld2450
@@ -430,7 +430,6 @@ switch:
     id: flip_x_axis
     optimistic: true
     restore_mode: RESTORE_DEFAULT_OFF
-    entity_category: CONFIG
 
 sensor:
   - platform: template
