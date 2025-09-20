@@ -90,7 +90,7 @@ script:
     then:
       lambda: |-
         constexpr const char *const ESP_LOG_TAG = "ld2450_mtmz";
-        static uint64_t last_update_time;
+        static uint64_t last_update_time = 0llu - 100000000llu;
         //static float x_in[3] = {0.0}, y_in[3] = {0.0}, s_in[3] = {0.0};
         static float x[3] = {0.0}, y[3] = {0.0}, s[3] = {0.0};
         uint8_t zone_all_targets[3] = {0}, zone_still_targets[3] = {0}, 
