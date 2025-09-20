@@ -3,9 +3,6 @@
 #   Intended for the ESPHome Built-In Component
 #   Not compatible with any other radar package
 #   this sensor is mounted upside down target x and angle sensors are inverted
-substitutions:
-  ld2450_update_rate: "1000"
-  
 api:
   on_client_connected:
     then:
@@ -70,7 +67,7 @@ script:
           id(global_timer_start_time) = time;
         }
         id(global_timer_running) = true;
-        
+
   - id: check_timeout
     mode: restart
     then:
@@ -99,7 +96,7 @@ script:
         uint8_t zone_all_targets[3] = {0}, zone_still_targets[3] = {0}, 
           zone_moving_targets[3] = {0};
         uint64_t time = millis();
-        if(time - last_update_time < ${ld2450_update_rate})
+        if(time - last_update_time < static_cast<uint64_t>(id(update_rate).state * 1000.0))
           return; 
         esphome::sensor::Sensor* sens_tgt_x[] = {
           id(target_1_x),
@@ -254,7 +251,6 @@ script:
             x[tgt], y[tgt], s[tgt]); 
         }*/
 
-
 binary_sensor:
   - platform: template
     name: "Presence mmWave"
@@ -282,11 +278,16 @@ button:
       name: LD2450 Restart
 
 number:
-  - platform: ld2450
-    ld2450_id: ld2450_radar
-    presence_timeout:
-      id: timeout
-      name: Timeout
+  - platform: template
+    name: "Update Rate"
+    id: update_rate
+    optimistic: true
+    min_value: 3600.0
+    max_value: 0.1
+    mode: box
+    step: 0.1
+    restore_value: true
+    entity_category: CONFIG
   - platform: template
     name: "Zone-1 X1"
     id: "z1_x1"
