@@ -289,6 +289,15 @@ number:
     restore_value: true
     unit_of_measurement: s
   - platform: template
+    name: "Installation Angle"
+    id: "installation_angle"
+    optimistic: true
+    min_value: -45
+    max_value: 45
+    step: 1
+    restore_value: true
+    unit_of_measurement: °
+  - platform: template
     name: "Zone-1 X1"
     id: "z1_x1"
     optimistic: true
@@ -406,15 +415,6 @@ number:
     max_value: 25.0
     mode: box
     step: 0.01
-    restore_value: true
-    unit_of_measurement: ft
-  - platform: template
-    name: "Installation Angle"
-    id: "installation_angle"
-    optimistic: true
-    min_value: -45
-    max_value: 45
-    step: 1
     restore_value: true
     unit_of_measurement: ft
 
