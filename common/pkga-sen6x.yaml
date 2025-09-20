@@ -6,7 +6,10 @@
 #   Not compatible with PACKAGE B packages
 substitutions:
   sen66_skip_initial: "300"
-  
+  temperature_offset: "0.0"
+  humidity_offset: "0.0"
+  co2_calibration_date: "Not Set"
+
 external_components:
   - source: github://pr#9254
     components: [sen5x]
@@ -26,6 +29,12 @@ api:
       - text_sensor.template.publish:
           id: co2_calibration_date
           state: ${co2_calibration_date}
+
+interval:
+  - interval: 7d
+    startup_delay: 1d
+    then:
+      - sen5x.start_fan_autoclean: sen66_sensor
 
 i2c:
   - id: i2c2_bus

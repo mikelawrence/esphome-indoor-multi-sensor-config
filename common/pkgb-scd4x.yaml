@@ -2,6 +2,9 @@
 #   Adds SCD41 sensors:
 #     Carbon Dioxide (CO₂)
 #   Not compatible with PACKAGE A package
+substitutions:
+  co2_calibration_date: "Not Set"
+
 esphome:
   on_boot:
     priority: 600.0

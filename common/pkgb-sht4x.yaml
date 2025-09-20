@@ -2,6 +2,10 @@
 #   Adds SHT45 sensors:
 #     Temperature and Humidity
 #   Not compatible with PACKAGE A package
+substitutions:
+  temperature_offset: "0.0"
+  humidity_offset: "0.0"
+
 esphome:
   on_boot:
     priority: 600.0
