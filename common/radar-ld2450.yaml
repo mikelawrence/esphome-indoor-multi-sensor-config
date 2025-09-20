@@ -282,8 +282,8 @@ number:
     name: "Update Rate"
     id: update_rate
     optimistic: true
-    min_value: 3600.0
-    max_value: 0.1
+    min_value: 0.1
+    max_value: 3600.0
     mode: box
     step: 0.1
     restore_value: true
