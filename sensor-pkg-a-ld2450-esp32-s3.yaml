@@ -1,6 +1,6 @@
 substitutions:
-  name: "sensor-pkg-b-ld2450-mtmz"
-  friendly_name: "Indoor Multi-Sensor Pkg B Radar LD2450 MTMZ"
+  name: "sensor-pkg-a-ld2450"
+  friendly_name: "Indoor Multi-Sensor Pkg A Radar LD2450"
 
   # Settings
   room_sound_id: "xxx_sound"
@@ -12,6 +12,7 @@ substitutions:
   status_nighttime_lux: "7.0"
   presence_ha_entity: "binary_sensor.unknown_room_occupancy"
   # CO Configuration
+  co_temp_id: "temperature"
   co_offset: "0.0"
   co_sensitivity: "2.000e-9"
   co_manufacture_date: "Not Set"
@@ -43,12 +44,12 @@ packages:
     files:
       # Main Config Files
       - common/common.yaml
-      - common/pkgb-sht4x.yaml
-      - common/pkgb-scd4x.yaml
-      - common/pkgb-sgp4x.yaml
-      - common/radar-ld2450ml-mtmz.yaml
+      - common/pkga-sen6x.yaml
+      - common/radar-ld2450.yaml
 
       # ADDITIONAL SENSORS
+      # Board Temperature
+      # - common/pkga-sht4x.yaml
       # Carbon Dioxide (CO) - Figaro TGS5141 sensor
       - common/add-co.yaml
       # Energy Usage - INA2XX sensor to measure Voltage, Power and Energy Usage
@@ -61,8 +62,8 @@ packages:
       - common/add-microphone.yaml
 
       # FEATURES
-      # SCD4X Pressure Compensation - Adds pressure compensation to SCD4X
-      - common/feat-scd4x-press-comp.yaml
+      # SEN6X Pressure Compensation - Adds pressure compensation to SEN6X
+      - common/feat-sen6x-press-comp.yaml
       # Automatic Vent - Use humidity and CO₂ to control a bathroom vent
       # - common/feat-auto-vent.yaml
       # Smoke Alarm - Use PM and CO₂ for smoke alarm functionality
@@ -72,7 +73,7 @@ esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   project:
-    name: Mike Lawrence.Indoor Multi-Sensor Sens-Pkg-B
+    name: Mike Lawrence.Indoor Multi-Sensor Sens-Pkg-A
 
 # API is a requirement of the dashboard import.
 # Grab a key from https://esphome.io/components/api.html

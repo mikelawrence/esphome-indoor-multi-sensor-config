@@ -42,12 +42,10 @@ jobs:
       files: |
         sensor-pkg-a-c4001-esp32-s3.factory.yaml
         sensor-pkg-a-ld2410-esp32-s3.factory.yaml
-        sensor-pkg-a-ld2450-mtmz-esp32-s3.factory.yaml
-        sensor-pkg-a-ld2450-stsz-esp32-s3.factory.yaml
+        sensor-pkg-a-ld2450-esp32-s3.factory.yaml
         sensor-pkg-b-c4001-esp32-s3.factory.yaml
         sensor-pkg-b-ld2410-esp32-s3.factory.yaml
-        sensor-pkg-b-ld2450-mtmz-esp32-s3.factory.yaml
-        sensor-pkg-b-ld2450-stsz-esp32-s3.factory.yaml
+        sensor-pkg-b-ld2450-esp32-s3.factory.yaml
       esphome-version: latest
       # combined-name: project-template
       release-summary: ${{ needs.getReleaseInfo.outputs.summary }}
