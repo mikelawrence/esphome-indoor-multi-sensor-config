@@ -95,7 +95,7 @@ script:
         static float x[3] = {0.0}, y[3] = {0.0}, s[3] = {0.0};
         uint8_t zone_all_targets[3] = {0}, zone_still_targets[3] = {0},
           zone_moving_targets[3] = {0};
-        uint8_t still_tgt_count = 0, move_tgt_count = 0, total_tgt_count = 0
+        uint8_t still_tgt_count = 0, move_tgt_count = 0, total_tgt_count = 0;
         uint64_t time = millis();
         esphome::sensor::Sensor* sens_tgt_x[] = {
           id(target_1_x),
@@ -263,25 +263,25 @@ binary_sensor:
     id: presence_mmwave
     device_class: presence
     filters:
-      - delayed_off: !lambda "return static_cast<uint32_t>(return id(presence_timeout).state * 1000);"
+      - delayed_off: !lambda "return static_cast<uint32_t>(id(presence_timeout).state * 1000);"
   - platform: template
     name: "Zone-1 Presence"
     id: zone_1_presence
     device_class: presence
     filters:
-      - delayed_off: !lambda "return static_cast<uint32_t>(return id(presence_timeout).state * 1000);"
+      - delayed_off: !lambda "return static_cast<uint32_t>(id(presence_timeout).state * 1000);"
   - platform: template
     name: "Zone-2 Presence"
     id: zone_2_presence
     device_class: presence
     filters:
-      - delayed_off: !lambda "return static_cast<uint32_t>(return id(presence_timeout).state * 1000);"
+      - delayed_off: !lambda "return static_cast<uint32_t>(id(presence_timeout).state * 1000);"
   - platform: template
     name: "Zone-3 Presence"
     id: zone_3_presence
     device_class: presence
     filters:
-      - delayed_off: !lambda "return static_cast<uint32_t>(return id(presence_timeout).state * 1000);"
+      - delayed_off: !lambda "return static_cast<uint32_t>(id(presence_timeout).state * 1000);"
 
 button:
   - platform: ld2450
@@ -295,6 +295,7 @@ number:
   - platform: ld2450
     ld2450_id: ld2450_radar
     presence_timeout:
+      id: presence_timeout
       name: "Timeout"
   - platform: template
     name: "Update Rate"
@@ -462,7 +463,8 @@ switch:
     id: flip_x_axis
     optimistic: true
     restore_mode: RESTORE_DEFAULT_OFF
-
+    entity_category: config
+    
 sensor:
   - platform: template
     update_interval: 0ms
