@@ -47,12 +47,15 @@ number:
     max_range:
       name: Range Max
       id: max_range
+      unit_of_measurement: m
     min_range:
       name: Range Min
       id: min_range
+      unit_of_measurement: m
     trigger_range:
       name: Range Trigger
       id:
+      unit_of_measurement: m
     hold_sensitivity:
       name: Sensitivity Hold
       id: trigger_range
