@@ -295,6 +295,7 @@ number:
   - platform: ld2450
     ld2450_id: ld2450_radar
     presence_timeout:
+      id: timeout
       name: "Timeout"
   - platform: template
     name: "Update Rate"
