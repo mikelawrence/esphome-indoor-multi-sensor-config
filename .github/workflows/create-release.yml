@@ -29,7 +29,7 @@ jobs:
 
       - name: Update version
         run: |
-          sed -i 's/config_version:.*$/config_version: ${{ steps.calendar-version.outputs.new-version }}${version_suffix}/g' ./common/common.yaml
+          sed -i 's/config_version:.*$/config_version: ${{ steps.calendar-version.outputs.new-version }}/g' ./common/common.yaml
           echo "{ \"version\": \"${{ steps.calendar-version.outputs.new-version }}\" }" > version.json
 
       # - name: echo version changes
