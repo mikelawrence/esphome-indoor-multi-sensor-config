@@ -263,25 +263,25 @@ binary_sensor:
     id: presence_mmwave
     device_class: presence
     filters:
-      - delayed_off: !lambda "return static_cast<uint32_t>(return id(presence_timeout).state * 1000);"
+      - delayed_off: !lambda "return static_cast<uint32_t>(id(presence_timeout).state * 1000);"
   - platform: template
     name: "Zone-1 Presence"
     id: zone_1_presence
     device_class: presence
     filters:
-      - delayed_off: !lambda "return static_cast<uint32_t>(return id(presence_timeout).state * 1000);"
+      - delayed_off: !lambda "return static_cast<uint32_t>(id(presence_timeout).state * 1000);"
   - platform: template
     name: "Zone-2 Presence"
     id: zone_2_presence
     device_class: presence
     filters:
-      - delayed_off: !lambda "return static_cast<uint32_t>(return id(presence_timeout).state * 1000);"
+      - delayed_off: !lambda "return static_cast<uint32_t>(id(presence_timeout).state * 1000);"
   - platform: template
     name: "Zone-3 Presence"
     id: zone_3_presence
     device_class: presence
     filters:
-      - delayed_off: !lambda "return static_cast<uint32_t>(return id(presence_timeout).state * 1000);"
+      - delayed_off: !lambda "return static_cast<uint32_t>(id(presence_timeout).state * 1000);"
 
 button:
   - platform: ld2450
