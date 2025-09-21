@@ -53,7 +53,7 @@ script:
       lambda: |-
         constexpr const char *const ESP_LOG_TAG = "ld2450_mtmz";
         uint64_t time = millis();
-        if (id(global_timer_running)) 
+        if (id(global_timer_running))
         {
           /*ESP_LOGD(ESP_LOG_TAG, "Continue: millis=%8llu, time=%4llu, diff=%4llu",
             time, time - id(global_timer_start_time), time - id(global_timer_last_time));*/
