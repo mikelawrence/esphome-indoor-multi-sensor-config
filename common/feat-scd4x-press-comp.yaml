@@ -6,7 +6,7 @@ esphome:
     priority: 600.0
     then:
       - lambda: |-
-          id(co2_available) = true;
+          id(co2_available_var) = true;
 
 sensor:
   - platform: copy

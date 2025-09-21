@@ -1,10 +1,16 @@
 # common setup for all devices
 substitutions:
-  version_suffix: ""
-  config_version: 2025.08.4${version_suffix}
+  config_version: dev
+  # Status LED configuration
+  status_nightlight_brightness: "1.0"
+  status_day_brightness: "0.5"
+  status_night_brightness: "0.15"
+  status_daytime_lux: "10.0"
+  status_nighttime_lux: "3.0"
+  presence_ha_entity: ""
 
 esphome:
-  min_version: 2025.7.4
+  min_version: 2025.8.4
   name_add_mac_suffix: false
   project:
     version: ${config_version}
@@ -35,52 +41,61 @@ psram:
   speed: 80MHz
 
 logger:
-  id: logger_common
   level: DEBUG
 
 globals:
-  - id: board_temperature
+  - id: board_temperature_var
     type: float
     initial_value: NAN
-  - id: sht4x_available
+  - id: ha_presence_var
     type: bool
     initial_value: "false"
-  - id: co_available
+  - id: sht4x_available_var
     type: bool
     initial_value: "false"
-  - id: co2_available
+  - id: co_available_var
     type: bool
     initial_value: "false"
-  - id: pm25_available
+  - id: co2_available_var
     type: bool
     initial_value: "false"
-  - id: co_400ppm_alarm
+  - id: pm25_available_var
+    type: bool
+    initial_value: "false"
+  - id: co_400ppm_alarm_var
     # This means CO levels are dangerous and can cause death in a few hours
     type: bool
     initial_value: "false"
-  - id: co_150ppm_alarm
+  - id: co_150ppm_alarm_var
     # This means CO levels are dangerous and may have serious health issues if exposed too long
     type: bool
     initial_value: "false"
-  - id: co_70ppm_alarm
+  - id: co_70ppm_alarm_var
     # This means CO levels are elevated and may have health issues if exposed too long
     type: bool
     initial_value: "false"
-  - id: co_alarm
+  - id: co_alarm_var
     # This means CO levels are elevated and likely dangerous
     type: bool
     initial_value: "false"
-  - id: co_warning
+  - id: co_warning_var
     # This means CO levels are elevated but not dangerous
     type: bool
     initial_value: "false"
-  - id: co2_warning
+  - id: co2_alarm_var
+    # This means CO₂ levels are elevated and likely dangerous
     type: bool
     initial_value: "false"
-  - id: pm25_alarm
+  - id: co2_warning_var
+    # This means CO₂ levels are elevated but not dangerous
     type: bool
     initial_value: "false"
-  - id: pm25_warning
+  - id: pm25_alarm_var
+    # This means PM2.5 levels are elevated and likely dangerous
+    type: bool
+    initial_value: "false"
+  - id: pm25_warning_var
+    # This means PM2.5 levels are elevated but not dangerous
     type: bool
     initial_value: "false"
 
@@ -111,31 +126,46 @@ script:
     then:
       lambda: |-
         static bool last_state;
+        static bool daytime = true;
         static float last_r, last_g, last_b, last_brightness = ${status_night_brightness};
-        bool state;
+        bool state = false;
         float r, g, b, brightness = last_brightness;
-        if(last_brightness == ${status_day_brightness}) {
-          // daytime
-          if(id(lux).state < ${status_nighttime_lux}) {
-            brightness = ${status_night_brightness};
-            ESP_LOGD("status", "Status LED switched to nighttime brightness");
-          }
+
+        if (id(nightlight_enable).state) {
+          state = true;
+          r = 1.0; g = 1.0; b = 1.0;
+          brightness = ${status_nightlight_brightness};
         } else {
-          // nighttime
-          if(id(lux).state > ${status_daytime_lux}) {
+          if((id(lux).state < ${status_nighttime_lux}) ||
+            (brightness == ${status_nightlight_brightness})) {
+            if(daytime)
+              ESP_LOGD("status", "Status LED switched to nighttime");
+            brightness = ${status_night_brightness};
+            daytime = false;
+          } else if(id(lux).state > ${status_daytime_lux}) {
+            if(!daytime)
+              ESP_LOGD("status", "Status LED switched to daytime");
             brightness = ${status_day_brightness};
-            ESP_LOGD("status", "Status LED switched to daytime brightness");
+            daytime = true;
           }
         }
-        if(!id(led_enable).state) {
-          state = false;
-        } else {
-          if (id(presence).state) {
+        if(!id(nightlight_enable).state && id(led_enable).state) {
+          if (id(presence).state or id(ha_presence_var)) {
             state = true;
             r = 0.0; g = 0.0; b = 1.0;
-          } else {
-            state = false;
           }
+        }
+        if(id(co_alarm_var) || id(co2_alarm_var) || id(pm25_alarm_var)) {
+          state = true;
+          r = 1.0; g = 0.0; b = 0.0;
+          brightness = 1.0;
+          ESP_LOGD("status", "Status LED switched to alarm");
+        }
+        if(id(co_warning_var) || id(co2_warning_var) || id(pm25_warning_var)) {
+          state = true;
+          r = 1.0; g = 1.0; b = 0.0;
+          brightness = 1.0;
+          ESP_LOGD("status", "Status LED switched to warning");
         }
         if (state == false) {
           if (last_state == true) {
@@ -170,12 +200,25 @@ script:
                 enqueue: true
 
 binary_sensor:
+  - platform: homeassistant
+    id: ha_presence
+    entity_id: ${presence_ha_entity}
+    on_state_change:
+      then:
+        - lambda: |-
+            if(x.has_value()) {
+              id(ha_presence_var) = x.value();
+            } else {
+              id(ha_presence_var) = false;
+            }
+
+        - script.execute: update_status_led
   - platform: template
     name: "Presence"
     id: presence
     device_class: presence
     lambda: |-
-      if(id(presence_mmwwave).state or
+      if(id(presence_mmwave).state or
         (id(pir_enable).state && id(motion_pir).state)) {
         return true;
       } else {
@@ -196,7 +239,7 @@ binary_sensor:
 button:
   - platform: restart
     name: "Restart"
-    entity_category: CONFIG
+    entity_category: config
 
 light:
   - platform: esp32_rmt_led_strip
@@ -317,3 +360,12 @@ switch:
     id: announcements
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
+  - platform: template
+    name: "Nightlight Enable"
+    id: nightlight_enable
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF
+    on_turn_on:
+      script.execute: update_status_led
+    on_turn_off:
+      script.execute: update_status_led

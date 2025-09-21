@@ -1,5 +1,12 @@
 # Adds DFRobot C4001 (SEN0609 or SEN0610) mmWave Radar
-#   Not compatible with any other radar package
+# Current this is my PR on ESPHome, there is a new PR from the DFRobot in progress
+#   Expect changes to that component when ready
+# Not compatible with any other radar package
+external_components:
+  - source: github://pr#9810
+    components: [dfrobot_c4001]
+    refresh: 1min
+
 api:
   on_client_connected:
     then:
@@ -40,12 +47,15 @@ number:
     max_range:
       name: Range Max
       id: max_range
+      unit_of_measurement: m
     min_range:
       name: Range Min
       id: min_range
+      unit_of_measurement: m
     trigger_range:
       name: Range Trigger
       id:
+      unit_of_measurement: m
     hold_sensitivity:
       name: Sensitivity Hold
       id: trigger_range
@@ -63,21 +73,20 @@ number:
       id: inhibit_time
 
 binary_sensor:
-  - platform: gpio
-    name: MMWAVE Presence
-    id: presence_mmwwave
-    device_class: presence
-    pin:
-      number: GPIO16
   - platform: dfrobot_c4001
+    occupancy:
+      name: MMWAVE Presence
+      id: presence_mmwave
     config_changed:
       name: C4001 Config Changed
 
 switch:
   - platform: dfrobot_c4001
     dfrobot_c4001_id: c4001_radar
-    led_enable:
-      name: C4001 Enable LED
+    out_led_enable:
+      name: C4001 Enable OUT LED
+    run_led_enable:
+      name: C4001 Enable RUN LED
 
 text_sensor:
   - platform: dfrobot_c4001

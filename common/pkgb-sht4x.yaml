@@ -2,12 +2,16 @@
 #   Adds SHT45 sensors:
 #     Temperature and Humidity
 #   Not compatible with PACKAGE A package
+substitutions:
+  temperature_offset: "0.0"
+  humidity_offset: "0.0"
+
 esphome:
   on_boot:
     priority: 600.0
     then:
       - lambda: |-
-          id(sht4x_available) = true;
+          id(sht4x_available_var) = true;
 
 sensor:
   - platform: sht4x
@@ -22,14 +26,14 @@ sensor:
         - filter_out: NAN
         - lambda: |-
             // get the first board temperature out quickly
-            if(isnan(id(board_temperature)))
-              id(board_temperature) = x;
+            if(isnan(id(board_temperature_var)))
+              id(board_temperature_var) = x;
             return x;
         - throttle_average: 60s
       on_value:
         then:
           - lambda: |-
-              id(board_temperature) = x;
+              id(board_temperature_var) = x;
     humidity:
       # humidity_internal has 1s interval averaged to once a minute
       id: humidity_internal

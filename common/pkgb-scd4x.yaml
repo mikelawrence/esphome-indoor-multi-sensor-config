@@ -2,12 +2,15 @@
 #   Adds SCD41 sensors:
 #     Carbon Dioxide (CO₂)
 #   Not compatible with PACKAGE A package
+substitutions:
+  co2_calibration_date: "Not Set"
+
 esphome:
   on_boot:
     priority: 600.0
     then:
       - lambda: |-
-          id(co2_available) = true;
+          id(co2_available_var) = true;
 
 api:
   on_client_connected:
@@ -36,16 +39,16 @@ sensor:
       then:
         - lambda: |-
             if (x > 2000.0)
-              id(co2_warning) = true;
+              id(co2_warning_var) = true;
             if (x < 1800.0)
-              id(co2_warning) = false;
+              id(co2_warning_var) = false;
 
 number:
   - platform: template
     id: co2_forced_cal_value
     name: "CO₂ Calibration Value"
     device_class: carbon_dioxide
-    entity_category: CONFIG
+    entity_category: config
     optimistic: true
     max_value: 1200
     min_value: 400
@@ -58,7 +61,7 @@ button:
   - platform: template
     name: "CO₂ Calibrate"
     id: co2_calibrate
-    entity_category: CONFIG
+    entity_category: config
     on_press:
       - scd4x.perform_forced_calibration:
           value: !lambda |-

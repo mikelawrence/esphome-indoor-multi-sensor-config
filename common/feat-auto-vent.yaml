@@ -1,4 +1,13 @@
 # Add Automatic Vent Control
+substitutions:
+  vent_use_humidity: "true"
+  vent_use_co2: "false"
+  vent_min_on_time: "15"
+  vent_hum_on_trigger: "10.0"
+  vent_hum_off_trigger: "2.5"
+  vent_co2_on_trigger: "1500"
+  vent_co2_off_trigger: "1400"
+
 esphome:
   on_boot:
     then:
@@ -130,13 +139,13 @@ script:
         // High Humidity and not Minimum On Time
         case 10:
           if (humidity_is_low) {
-            ESP_LOGV(ESP_LOG_TAG,  "Humidity normal, wait for min on time");
+            ESP_LOGV(ESP__TAG,  "Humidity normal, wait for min on time");
             state = 20;
           } else if (vent_on_min_time) {
             ESP_LOGV(ESP_LOG_TAG,  "Humidity still high, min on time met");
             state = 30;
           } else if (id(ha_vent).state == false) {
-            ESP_LOGV(ESP_LOG_TAG,  "Manually turned off, turning back on");
+            ESP_LOGV(ESP__TAG,  "Manually turned off, turning back on");
             id(ha_vent).turn_on();
           }
           break;

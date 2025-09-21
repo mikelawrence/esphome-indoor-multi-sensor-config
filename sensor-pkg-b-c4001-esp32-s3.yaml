@@ -1,17 +1,17 @@
 substitutions:
   name: "sensor-pkg-b-c4001"
   friendly_name: "Indoor Multi-Sensor Pkg B Radar C4001"
-  version_suffix: ""
 
   # Settings
   room_sound_id: "xxx_sound"
   # Status LED Configuration
+  status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
   status_night_brightness: "0.20"
   status_daytime_lux: "12.0"
   status_nighttime_lux: "7.0"
+  presence_ha_entity: "binary_sensor.unknown_room_occupancy"
   # CO Configuration
-  co_temp_id: "temperature"
   co_offset: "0.0"
   co_sensitivity: "2.000e-9"
   co_manufacture_date: "Not Set"
