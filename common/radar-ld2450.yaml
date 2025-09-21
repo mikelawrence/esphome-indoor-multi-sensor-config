@@ -288,6 +288,7 @@ number:
     step: 0.1
     restore_value: true
     unit_of_measurement: s
+    entity_category: config
   - platform: template
     name: "Installation Angle"
     id: "installation_angle"
@@ -297,6 +298,7 @@ number:
     step: 1
     restore_value: true
     unit_of_measurement: °
+    entity_category: config
   - platform: template
     name: "Zone-1 X1"
     id: "z1_x1"
@@ -307,6 +309,7 @@ number:
     step: 0.01
     restore_value: true
     unit_of_measurement: ft
+    entity_category: config
   - platform: template
     name: "Zone-1 Y1"
     id: "z1_y1"
@@ -317,6 +320,7 @@ number:
     step: 0.01
     restore_value: true
     unit_of_measurement: ft
+    entity_category: config
   - platform: template
     name: "Zone-1 X2"
     id: "z1_x2"
@@ -327,6 +331,7 @@ number:
     step: 0.01
     restore_value: true
     unit_of_measurement: ft
+    entity_category: config
   - platform: template
     name: "Zone-1 Y2"
     id: "z1_y2"
@@ -337,6 +342,7 @@ number:
     step: 0.01
     restore_value: true
     unit_of_measurement: ft
+    entity_category: config
   - platform: template
     name: "Zone-2 X1"
     id: "z2_x1"
@@ -347,6 +353,7 @@ number:
     step: 0.01
     restore_value: true
     unit_of_measurement: ft
+    entity_category: config
   - platform: template
     name: "Zone-2 Y1"
     id: "z2_y1"
@@ -357,6 +364,7 @@ number:
     step: 0.01
     restore_value: true
     unit_of_measurement: ft
+    entity_category: config
   - platform: template
     name: "Zone-2 X2"
     id: "z2_x2"
@@ -367,6 +375,7 @@ number:
     step: 0.01
     restore_value: true
     unit_of_measurement: ft
+    entity_category: config
   - platform: template
     name: "Zone-2 Y2"
     id: "z2_y2"
@@ -377,6 +386,7 @@ number:
     step: 0.01
     restore_value: true
     unit_of_measurement: ft
+    entity_category: config
   - platform: template
     name: "Zone-3 X1"
     id: "z3_x1"
@@ -387,6 +397,7 @@ number:
     step: 0.01
     restore_value: true
     unit_of_measurement: ft
+    entity_category: config
   - platform: template
     name: "Zone-3 Y1"
     id: "z3_y1"
@@ -397,6 +408,7 @@ number:
     step: 0.01
     restore_value: true
     unit_of_measurement: ft
+    entity_category: config
   - platform: template
     name: "Zone-3 X2"
     id: "z3_x2"
@@ -407,6 +419,7 @@ number:
     step: 0.01
     restore_value: true
     unit_of_measurement: ft
+    entity_category: config
   - platform: template
     name: "Zone-3 Y2"
     id: "z3_y2"
@@ -417,6 +430,7 @@ number:
     step: 0.01
     restore_value: true
     unit_of_measurement: ft
+    entity_category: config
 
 switch:
   - platform: ld2450
