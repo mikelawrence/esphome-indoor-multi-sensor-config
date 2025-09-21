@@ -1,6 +1,6 @@
 substitutions:
   name: "sensor-pkg-b-ld2450-mtmz"
-  friendly_name: "Indoor Multi-Sensor Pkg B Radar LD2450 MTMZ"
+  friendly_name: "Indoor Multi-Sensor Pkg B Radar LD2450"
 
   # Settings
   room_sound_id: "xxx_sound"
@@ -46,7 +46,7 @@ packages:
       - common/pkgb-sht4x.yaml
       - common/pkgb-scd4x.yaml
       - common/pkgb-sgp4x.yaml
-      - common/radar-ld2450ml-mtmz.yaml
+      - common/radar-ld2450.yaml
 
       # ADDITIONAL SENSORS
       # Carbon Dioxide (CO) - Figaro TGS5141 sensor

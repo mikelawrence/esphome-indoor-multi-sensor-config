@@ -1,5 +1,5 @@
 packages:
-  core: !include sensor-pkg-a-ld2450-mtmz-esp32-s3.yaml
+  core: !include sensor-pkg-a-ld2450-esp32-s3.yaml
 
 esphome:
   project:
@@ -16,13 +16,13 @@ update:
   - platform: http_request
     id: update_http_request
     name: Indoor Multi-Sensor Firmware
-    source: https://mikelawrence.github.io/esphome-indoor-multi-sensor-config/firmware/sensor-pkg-a-ld2450-mtmz.manifest.json
+    source: https://mikelawrence.github.io/esphome-indoor-multi-sensor-config/firmware/sensor-pkg-a-ld2450.manifest.json
 
 http_request: null
 
 dashboard_import:
   # keep @main so that it can be replaced for CI workflows
-  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/sensor-pkg-a-ld2450-mtmz-esp32-s3.yaml@main
+  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/sensor-pkg-a-ld2450-esp32-s3.yaml@main
   import_full_config: true
 
 wifi:
