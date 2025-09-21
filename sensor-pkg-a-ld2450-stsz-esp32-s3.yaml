@@ -1,7 +1,6 @@
 substitutions:
   name: "sensor-pkg-a-ld2450-stsz"
   friendly_name: "Indoor Multi-Sensor Pkg A Radar LD2450 STSZ"
-  version_suffix: ""
 
   # Settings
   room_sound_id: "xxx_sound"
