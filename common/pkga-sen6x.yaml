@@ -137,17 +137,6 @@ sensor:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
         - throttle_average: 60s
-      # on_value:
-      #   then:
-      #     - lambda: |-
-      #         if (x > 35.0)
-      #           id(pm25_warning_var) = true;
-      #         if (x < 31.5)
-      #           id(pm25_warning_var) = false;
-      #         if (x > 75.0)
-      #           id(pm25_alarm_var) = true;
-      #         if (x < 67.5)
-      #           id(pm25_alarm_var) = false;
     pm_4_0:
       # PM 4µm 1s interval averaged to once a minute
       # first 5 minutes ignored

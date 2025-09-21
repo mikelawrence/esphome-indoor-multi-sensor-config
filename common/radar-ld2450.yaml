@@ -55,13 +55,13 @@ script:
         uint64_t time = millis();
         if (id(global_timer_running)) 
         {
-          /*ESP_LOGD(ESP_LOG_TAG, "Continue: millis=%8llu, time=%4llu, diff=%4llu", 
+          /*ESP_LOGD(ESP_LOG_TAG, "Continue: millis=%8llu, time=%4llu, diff=%4llu",
             time, time - id(global_timer_start_time), time - id(global_timer_last_time));*/
           id(global_timer_last_time) = time;
         }
         else
         {
-          /*ESP_LOGD(ESP_LOG_TAG, "   Start: millis=%8llu, time=%4llu, diff=%4llu", 
+          /*ESP_LOGD(ESP_LOG_TAG, "   Start: millis=%8llu, time=%4llu, diff=%4llu",
             time, 0ull, 0ull);*/
           id(global_timer_last_time) = time;
           id(global_timer_start_time) = time;
@@ -74,12 +74,12 @@ script:
       lambda: |-
         constexpr const char *const ESP_LOG_TAG = "ld2450_mtmz";
         uint64_t time = millis();
-        if (id(global_timer_running)) 
+        if (id(global_timer_running))
         {
           if (time - id(global_timer_last_time) > 50)
           {
             id(global_timer_running) = false;
-            /*ESP_LOGD(ESP_LOG_TAG, " Timeout: millis=%8llu, time=%4llu, diff=%4llu", 
+            /*ESP_LOGD(ESP_LOG_TAG, " Timeout: millis=%8llu, time=%4llu, diff=%4llu",
               time, time - id(global_timer_start_time), time - id(global_timer_last_time));*/
             id(update_state).execute();
           }
@@ -93,7 +93,7 @@ script:
         static uint64_t last_update_time = 0llu - 100000000llu;
         //static float x_in[3] = {0.0}, y_in[3] = {0.0}, s_in[3] = {0.0};
         static float x[3] = {0.0}, y[3] = {0.0}, s[3] = {0.0};
-        uint8_t zone_all_targets[3] = {0}, zone_still_targets[3] = {0}, 
+        uint8_t zone_all_targets[3] = {0}, zone_still_targets[3] = {0},
           zone_moving_targets[3] = {0};
         uint8_t still_tgt_count = 0, move_tgt_count = 0, total_tgt_count = 0
         uint64_t time = millis();
@@ -186,12 +186,12 @@ script:
           float z_x_end = std::max(sens_zone_x1[zone]->state, sens_zone_x2[zone]->state);
           float z_y_begin = std::min(sens_zone_y1[zone]->state, sens_zone_y2[zone]->state);
           float z_y_end = std::max(sens_zone_y1[zone]->state, sens_zone_y2[zone]->state);
-          for (uint8_t tgt = 0; tgt < 3; tgt++) 
+          for (uint8_t tgt = 0; tgt < 3; tgt++)
           {
             if ((x[tgt] != 0.0) || (y[tgt] != 0.0))
             {
               if ((x[tgt] >= z_x_begin) and (x[tgt] <= z_x_end) and
-                  (y[tgt] >= z_y_begin) and (y[tgt] <= z_y_end)) 
+                  (y[tgt] >= z_y_begin) and (y[tgt] <= z_y_end))
               {
                 if (s[tgt] > 0.0)
                 {
@@ -241,7 +241,6 @@ script:
             if(sens_zone_move_tgt_cnt[zone]->state != zone_moving_targets[zone])
               sens_zone_move_tgt_cnt[zone]->publish_state(zone_moving_targets[zone]);
           }
-          
           if (id(still_tgt_cnt).state != still_tgt_count)
             id(still_tgt_cnt).publish_state(still_tgt_count);
           if (id(move_tgt_cnt).state != move_tgt_count)
@@ -254,8 +253,8 @@ script:
           ESP_LOGD(ESP_LOG_TAG, "Target-%d: "
             "In -> x=%5.0f mm, y=%5.0f mm, spd=%8.2f mm/s: "
             "Out-> x=%6.2f ft, y=%6.2f ft, spd=%6.2f ft/s", tgt + 1,
-            id(x_in)[tgt], id(y_in)[tgt], id(s_in)[tgt], 
-            x[tgt], y[tgt], s[tgt]); 
+            id(x_in)[tgt], id(y_in)[tgt], id(s_in)[tgt],
+            x[tgt], y[tgt], s[tgt]);
         }*/
 
 binary_sensor:
