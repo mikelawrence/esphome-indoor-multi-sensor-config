@@ -68,11 +68,6 @@ packages:
       # Smoke Alarm - Use PM and CO₂ for smoke alarm functionality
       # - common/feat-smoke-alarm.yaml
 
-# Add custom components
-external_components:
-  - source: github://mikelawrence/esphome-components
-    components: [dfrobot_c4001]
-
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
