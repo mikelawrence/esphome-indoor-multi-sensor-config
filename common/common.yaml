@@ -1,7 +1,6 @@
 # common setup for all devices
 substitutions:
-  version_suffix: ""
-  config_version: dev${version_suffix}
+  config_version: dev
   # Status LED configuration
   status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
