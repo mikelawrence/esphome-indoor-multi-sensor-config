@@ -95,7 +95,7 @@ script:
         static float x[3] = {0.0}, y[3] = {0.0}, s[3] = {0.0};
         uint8_t zone_all_targets[3] = {0}, zone_still_targets[3] = {0},
           zone_moving_targets[3] = {0};
-        uint8_t still_tgt_count = 0, move_tgt_count = 0, total_tgt_count = 0
+        uint8_t still_tgt_count = 0, move_tgt_count = 0, total_tgt_count = 0;
         uint64_t time = millis();
         esphome::sensor::Sensor* sens_tgt_x[] = {
           id(target_1_x),
