@@ -463,7 +463,8 @@ switch:
     id: flip_x_axis
     optimistic: true
     restore_mode: RESTORE_DEFAULT_OFF
-
+    entity_category: config
+    
 sensor:
   - platform: template
     update_interval: 0ms
