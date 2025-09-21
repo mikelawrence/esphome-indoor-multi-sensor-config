@@ -95,9 +95,8 @@ script:
         static float x[3] = {0.0}, y[3] = {0.0}, s[3] = {0.0};
         uint8_t zone_all_targets[3] = {0}, zone_still_targets[3] = {0}, 
           zone_moving_targets[3] = {0};
+        uint8_t still_tgt_count = 0, move_tgt_count = 0, total_tgt_count = 0
         uint64_t time = millis();
-        if(time - last_update_time < static_cast<uint64_t>(id(update_rate).state * 1000.0))
-          return; 
         esphome::sensor::Sensor* sens_tgt_x[] = {
           id(target_1_x),
           id(target_2_x),
@@ -208,41 +207,49 @@ script:
             }
           }
         }
-        // publish target values
-        for(uint8_t tgt = 0; tgt < 3; tgt++)
-        {
-          if (sens_tgt_x[tgt]->state != x[tgt] || sens_tgt_y[tgt]->state != y[tgt] ||
-              sens_tgt_s[tgt]->state != s[tgt])
-          {
-            sens_tgt_x[tgt]->publish_state(x[tgt]);
-            sens_tgt_y[tgt]->publish_state(y[tgt]);
-            sens_tgt_s[tgt]->publish_state(s[tgt]);
-          }
-        }
-        // publish zone values
+        still_tgt_count = zone_still_targets[0] + zone_still_targets[1] + zone_still_targets[2];
+        move_tgt_count = zone_moving_targets[0] + zone_moving_targets[1] + zone_moving_targets[2];
+        total_tgt_count = still_tgt_count + move_tgt_count;
         for (uint8_t zone = 0; zone < 3; zone++)
         {
           if(!sens_zone_pres[zone]->has_state() || sens_zone_pres[zone]->state != zone_all_targets[zone] > 0)
             sens_zone_pres[zone]->publish_state(zone_all_targets[zone] > 0);
-          if (sens_zone_tgt_cnt[zone]->state != zone_all_targets[zone])
-            sens_zone_tgt_cnt[zone]->publish_state(zone_all_targets[zone]);
-          if (sens_zone_still_tgt_cnt[zone]->state != zone_still_targets[zone])
-            sens_zone_still_tgt_cnt[zone]->publish_state(zone_still_targets[zone]);
-          if(sens_zone_move_tgt_cnt[zone]->state != zone_moving_targets[zone])
-            sens_zone_move_tgt_cnt[zone]->publish_state(zone_moving_targets[zone]);
         }
-        uint8_t still_tgt_count = zone_still_targets[0] + zone_still_targets[1] + zone_still_targets[2];
-        if (id(still_tgt_cnt).state != still_tgt_count)
-          id(still_tgt_cnt).publish_state(still_tgt_count);
-        uint8_t move_tgt_count = zone_moving_targets[0] + zone_moving_targets[1] + zone_moving_targets[2];
-        if (id(move_tgt_cnt).state != move_tgt_count)
-          id(move_tgt_cnt).publish_state(move_tgt_count);
-        uint8_t total_tgt_count = still_tgt_count + move_tgt_count;
-        if (id(tgt_cnt).state != total_tgt_count)
-          id(tgt_cnt).publish_state(total_tgt_count);
         if(!id(presence_mmwave).has_state() || id(presence_mmwave).state != total_tgt_count > 0)
           id(presence_mmwave).publish_state(total_tgt_count > 0);
-        last_update_time = time;
+
+        if(time - last_update_time > static_cast<uint64_t>(id(update_rate).state * 1000.0))
+        {
+          // publish target values
+          for(uint8_t tgt = 0; tgt < 3; tgt++)
+          {
+            if (sens_tgt_x[tgt]->state != x[tgt] || sens_tgt_y[tgt]->state != y[tgt] ||
+                sens_tgt_s[tgt]->state != s[tgt])
+            {
+              sens_tgt_x[tgt]->publish_state(x[tgt]);
+              sens_tgt_y[tgt]->publish_state(y[tgt]);
+              sens_tgt_s[tgt]->publish_state(s[tgt]);
+            }
+          }
+          // publish zone values
+          for (uint8_t zone = 0; zone < 3; zone++)
+          {
+            if (sens_zone_tgt_cnt[zone]->state != zone_all_targets[zone])
+              sens_zone_tgt_cnt[zone]->publish_state(zone_all_targets[zone]);
+            if (sens_zone_still_tgt_cnt[zone]->state != zone_still_targets[zone])
+              sens_zone_still_tgt_cnt[zone]->publish_state(zone_still_targets[zone]);
+            if(sens_zone_move_tgt_cnt[zone]->state != zone_moving_targets[zone])
+              sens_zone_move_tgt_cnt[zone]->publish_state(zone_moving_targets[zone]);
+          }
+          
+          if (id(still_tgt_cnt).state != still_tgt_count)
+            id(still_tgt_cnt).publish_state(still_tgt_count);
+          if (id(move_tgt_cnt).state != move_tgt_count)
+            id(move_tgt_cnt).publish_state(move_tgt_count);
+          if (id(tgt_cnt).state != total_tgt_count)
+            id(tgt_cnt).publish_state(total_tgt_count);
+          last_update_time = time;
+        }
         /*for (uint8_t tgt = 0; tgt < 3; tgt++) {
           ESP_LOGD(ESP_LOG_TAG, "Target-%d: "
             "In -> x=%5.0f mm, y=%5.0f mm, spd=%8.2f mm/s: "
@@ -256,18 +263,26 @@ binary_sensor:
     name: "Presence mmWave"
     id: presence_mmwave
     device_class: presence
+    filters:
+      - delayed_off: !lambda "return static_cast<uint32_t>(return id(presence_timeout).state * 1000);"
   - platform: template
     name: "Zone-1 Presence"
     id: zone_1_presence
     device_class: presence
+    filters:
+      - delayed_off: !lambda "return static_cast<uint32_t>(return id(presence_timeout).state * 1000);"
   - platform: template
     name: "Zone-2 Presence"
     id: zone_2_presence
     device_class: presence
+    filters:
+      - delayed_off: !lambda "return static_cast<uint32_t>(return id(presence_timeout).state * 1000);"
   - platform: template
     name: "Zone-3 Presence"
     id: zone_3_presence
     device_class: presence
+    filters:
+      - delayed_off: !lambda "return static_cast<uint32_t>(return id(presence_timeout).state * 1000);"
 
 button:
   - platform: ld2450
@@ -278,6 +293,10 @@ button:
       name: LD2450 Restart
 
 number:
+  - platform: ld2450
+    ld2450_id: ld2450_radar
+    presence_timeout:
+      name: "Timeout"
   - platform: template
     name: "Update Rate"
     id: update_rate
