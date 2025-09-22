@@ -1,9 +1,12 @@
+# Replace 'your_sensor_id' with your actual sensors's ID
+# requires plotly-graph to be installed
 type: grid
 cards:
   - type: heading
-    heading: Indoor Multi Sensor (LD2450)
+    heading: Your Multi-Sensor (LD2450)
     heading_style: title
   - type: custom:plotly-graph
+    title: $ex "Your Sensor Map"
     refresh_interval: 1
     hours_to_show: current_day
     config:
@@ -14,16 +17,135 @@ cards:
       displaylogo: false
     entities:
       - entity: ""
-        sensor_prefix: $ex vars.sensor_name_prefix =
-          "sensor.indoor_multi_sensor_";
-        number_prefix: $ex vars.number_name_prefix =
-          "number.indoor_multi_sensor_";
-        inch_units: >-
-          $ex vars.is_inch_unit = hass.states[vars.sensor_name_prefix +
-          "target_1_x"].attributes.unit_of_measurement == 'in';
-        foot_units: >-
-          $ex vars.is_foot_unit = hass.states[vars.sensor_name_prefix +
-          "target_1_x"].attributes.unit_of_measurement == 'ft';
+        variable_defines: >-
+          $ex { vars.install_angle =
+          Number(hass.states["number.your_sensor_id_installation_angle"]?.state
+          ?? 0);  vars.max_dist = 19.69; };
+      - entity: ""
+        name: X-Axis
+        mode: lines
+        hovertemplate: X-Axis
+        hover_data:
+          - ""
+        line:
+          color: RGBA(20,255,255, 2.0)
+          shape: line
+          width: 2
+        x:
+          - >-
+            $ex { if (vars.install_angle < -30) return -(vars.max_dist + 2.0);
+            return -vars.max_dist * Math.cos(Math.PI/180 * (vars.install_angle +
+            30)) + -2.0; }
+          - >-
+            $ex { if (vars.install_angle > 30) return (vars.max_dist + 2.0);
+            return vars.max_dist * Math.cos(Math.PI/180 * (vars.install_angle -
+            30)) + 2.0; }
+        "y":
+          - 0
+          - 0
+      - entity: ""
+        name: Y-Axis
+        mode: lines
+        hovertemplate: Y-Axis
+        hover_data:
+          - ""
+        line:
+          color: RGBA(0,255,255, 0.5)
+          shape: line
+          width: 2
+        x:
+          - 0
+          - 0
+        "y":
+          - >-
+            $ex { if(Math.abs(vars.install_angle) <= 30) return -2.0; return
+            -vars.max_dist * Math.sin(Math.PI/180 *
+            (Math.abs(vars.install_angle) - 30)) - 2.0; }
+          - $ex { return (vars.max_dist + 2.0); }
+      - entity: ""
+        name: Coverage
+        mode: lines
+        hovertemplate: Coverage
+        fill: toself
+        fillcolor: rgba(255, 255, 255, 0.04)
+        line:
+          color: RGBA(255, 255, 255, 0.4)
+          shape: line
+          width: 1
+          dash: dot
+        x: >-
+          $ex {  vars.install_angle =
+          hass.states["number.your_sensor_id_installation_angle"].state;
+          vars.coverage_x = [0.0]; vars.coverage_y = [0.0]; for (let angle = 30;
+          angle <= 180 - 30; angle += 5) {
+            vars.coverage_x.push(vars.max_dist * Math.cos(Math.PI/180 * (angle - vars.install_angle)));
+            vars.coverage_y.push(vars.max_dist * Math.sin(Math.PI/180 * (angle - vars.install_angle)));
+          } vars.coverage_x.push(0.0); vars.coverage_y.push(0.0); return
+          vars.coverage_x; }
+        "y": $ex vars.coverage_y;
+      - entity: ""
+        name: Zone1
+        mode: lines+markers
+        fill: toself
+        fillcolor: RGBA(20,200,0,0.06)
+        line:
+          color: RGBA(20,200,0,0.2)
+          shape: line
+          width: 2
+        x:
+          - $ex hass.states["number.your_sensor_id_zone_1_x1"].state
+          - $ex hass.states["number.your_sensor_id_zone_1_x1"].state
+          - $ex hass.states["number.your_sensor_id_zone_1_x2"].state
+          - $ex hass.states["number.your_sensor_id_zone_1_x2"].state
+          - $ex hass.states["number.your_sensor_id_zone_1_x1"].state
+        "y":
+          - $ex hass.states["number.your_sensor_id_zone_1_y1"].state
+          - $ex hass.states["number.your_sensor_id_zone_1_y2"].state
+          - $ex hass.states["number.your_sensor_id_zone_1_y2"].state
+          - $ex hass.states["number.your_sensor_id_zone_1_y1"].state
+          - $ex hass.states["number.your_sensor_id_zone_1_y1"].state
+      - entity: ""
+        name: Zone2
+        mode: lines+markers
+        fill: toself
+        fillcolor: RGBA(200,0,255,0.06)
+        line:
+          color: RGBA(200,0,255,0.2)
+          shape: line
+          width: 2
+        x:
+          - $ex hass.states["number.your_sensor_id_zone_2_x1"].state
+          - $ex hass.states["number.your_sensor_id_zone_2_x1"].state
+          - $ex hass.states["number.your_sensor_id_zone_2_x2"].state
+          - $ex hass.states["number.your_sensor_id_zone_2_x2"].state
+          - $ex hass.states["number.your_sensor_id_zone_2_x1"].state
+        "y":
+          - $ex hass.states["number.your_sensor_id_zone_2_y1"].state
+          - $ex hass.states["number.your_sensor_id_zone_2_y2"].state
+          - $ex hass.states["number.your_sensor_id_zone_2_y2"].state
+          - $ex hass.states["number.your_sensor_id_zone_2_y1"].state
+          - $ex hass.states["number.your_sensor_id_zone_2_y1"].state
+      - entity: ""
+        name: Zone3
+        mode: lines+markers
+        fill: toself
+        fillcolor: RGBA(200,120,55,0.06)
+        line:
+          color: RGBA(200,120,55,0.2)
+          shape: line
+          width: 2
+        x:
+          - $ex hass.states["number.your_sensor_id_zone_3_x1"].state
+          - $ex hass.states["number.your_sensor_id_zone_3_x1"].state
+          - $ex hass.states["number.your_sensor_id_zone_3_x2"].state
+          - $ex hass.states["number.your_sensor_id_zone_3_x2"].state
+          - $ex hass.states["number.your_sensor_id_zone_3_x1"].state
+        "y":
+          - $ex hass.states["number.your_sensor_id_zone_3_y1"].state
+          - $ex hass.states["number.your_sensor_id_zone_3_y2"].state
+          - $ex hass.states["number.your_sensor_id_zone_3_y2"].state
+          - $ex hass.states["number.your_sensor_id_zone_3_y1"].state
+          - $ex hass.states["number.your_sensor_id_zone_3_y1"].state
       - entity: ""
         name: Target1
         marker:
@@ -34,16 +156,25 @@ cards:
           width: 5
         x:
           - >-
-            $ex { var x = hass.states[vars.sensor_name_prefix +
-            "target_1_x"].state; var y = hass.states[vars.sensor_name_prefix +
-            "target_1_y"].state; if (x == 0 && y == 0) { return -9999 }; if
-            (vars.is_inch_unit) { x = x * 25.4 }; return x; }
+            $ex {  var x =
+            hass.states["sensor.your_sensor_id_target_1_x"].state;  var y =
+            hass.states["sensor.your_sensor_id_target_1_y"].state;  var units =
+            hass.states["sensor.your_sensor_id_target_1_x"].
+              attributes.unit_of_measurement;
+            if (x == 0 && y == 0) { return -9999; } if (units == 'm') { return x
+            / 0.0254 / 12.0; } if (units == 'cm') { return x / 2.54 / 12.0; } if
+            (units == 'mm') { return x / 25.4 / 12.0; }  if (units == 'in') {
+            return x / 25.4; }  if (units == 'ft') { return x; }  return 0.0; }
         "y":
           - >-
-            $ex { var x = hass.states[vars.sensor_name_prefix +
-            "target_1_x"].state; var y = hass.states[vars.sensor_name_prefix +
-            "target_1_y"].state; if (x == 0 && y == 0) { return -9999 }; if
-            (vars.is_inch_unit) { y = y * 25.4 }; return y; }
+            $ex { var x = hass.states["sensor.your_sensor_id_target_1_x"].state;
+            var y = hass.states["sensor.your_sensor_id_target_1_y"].state; var
+            units = hass.states["sensor.your_sensor_id_target_1_y"].
+              attributes.unit_of_measurement;
+            if (x == 0 && y == 0) { return -9999; } if (units == 'm') { return y
+            / 0.0254 / 12.0; } if (units == 'cm') { return y / 2.54 / 12.0; } if
+            (units == 'mm') { return y / 25.4 / 12.0; } if (units == 'in') {
+            return y / 25.4; } if (units == 'ft') { return y; } return 0.0; }
       - entity: ""
         name: Target2
         marker:
@@ -54,16 +185,24 @@ cards:
           width: 5
         x:
           - >-
-            $ex { var x = hass.states[vars.sensor_name_prefix +
-            "target_2_x"].state; var y = hass.states[vars.sensor_name_prefix +
-            "target_2_y"].state; if (x == 0 && y == 0) { return -9999 }; if
-            (vars.is_inch_unit) { x = x * 25.4 }; return x; }
+            $ex { var x = hass.states["sensor.your_sensor_id_target_2_x"].state;
+            var y = hass.states["sensor.your_sensor_id_target_2_y"].state; var
+            units = hass.states["sensor.your_sensor_id_target_2_x"].
+              attributes.unit_of_measurement;
+            if (x == 0 && y == 0) { return -9999; } if (units == 'm') { return x
+            / 0.0254 / 12.0; }  if (units == 'cm') { return x / 2.54 / 12.0; } 
+            if (units == 'mm') { return x / 25.4 / 12.0; }  if (units == 'in') {
+            return x / 25.4; }  if (units == 'ft') { return x; }  return 0.0; }
         "y":
           - >-
-            $ex { var x = hass.states[vars.sensor_name_prefix +
-            "target_2_x"].state; var y = hass.states[vars.sensor_name_prefix +
-            "target_2_y"].state; if (x == 0 && y == 0) { return -9999 }; if
-            (vars.is_inch_unit) { y = y * 25.4 }; return y; }
+            $ex { var x = hass.states["sensor.your_sensor_id_target_2_x"].state;
+            var y = hass.states["sensor.your_sensor_id_target_2_y"].state; var
+            units = hass.states["sensor.your_sensor_id_target_2_y"].
+              attributes.unit_of_measurement;
+            if (x == 0 && y == 0) { return -9999; } if (units == 'm') { return y
+            / 0.0254 / 12.0; } if (units == 'cm') { return y / 2.54 / 12.0; } 
+            if (units == 'mm') { return y / 25.4 / 12.0; }  if (units == 'in') {
+            return y / 25.4; }  if (units == 'ft') { return y; }  return 0.0; }
       - entity: ""
         name: Target3
         marker:
@@ -74,218 +213,117 @@ cards:
           width: 5
         x:
           - >-
-            $ex { var x = hass.states[vars.sensor_name_prefix +
-            "target_3_x"].state; var y = hass.states[vars.sensor_name_prefix +
-            "target_3_y"].state; if (x == 0 && y == 0) { return -9999 }; if
-            (vars.is_inch_unit) { x = x * 25.4 }; return x; }
+            $ex { var x = hass.states["sensor.your_sensor_id_target_3_x"].state;
+            var y = hass.states["sensor.your_sensor_id_target_3_y"].state; var
+            units = hass.states["sensor.your_sensor_id_target_3_x"].
+              attributes.unit_of_measurement;
+            if (x == 0 && y == 0) { return -9999; } if (units == 'm') { return x
+            / 0.0254 / 12.0; } if (units == 'cm') { return x / 2.54 / 12.0; } if
+            (units == 'mm') { return x / 25.4 / 12.0; } if (units == 'in') {
+            return x / 25.4; } if (units == 'ft') { return x; } return 0.0; }
         "y":
           - >-
-            $ex { var x = hass.states[vars.sensor_name_prefix +
-            "target_3_x"].state; var y = hass.states[vars.sensor_name_prefix +
-            "target_3_y"].state; if (x == 0 && y == 0) { return -9999 }; if
-            (vars.is_inch_unit) { y = y * 25.4 }; return y; }
-      - entity: ""
-        name: Zone1
-        mode: lines
-        fill: toself
-        fillcolor: RGBA(20,200,0,0.06)
-        line:
-          color: RGBA(20,200,0,0.2)
-          shape: line
-          width: 2
-        x:
-          - $ex hass.states[vars.number_name_prefix + "zone_1_x1"].state
-          - $ex hass.states[vars.number_name_prefix + "zone_1_x1"].state
-          - $ex hass.states[vars.number_name_prefix + "zone_1_x2"].state
-          - $ex hass.states[vars.number_name_prefix + "zone_1_x2"].state
-          - $ex hass.states[vars.number_name_prefix + "zone_1_x1"].state
-        "y":
-          - $ex hass.states[vars.number_name_prefix + "zone_1_y1"].state
-          - $ex hass.states[vars.number_name_prefix + "zone_1_y2"].state
-          - $ex hass.states[vars.number_name_prefix + "zone_1_y2"].state
-          - $ex hass.states[vars.number_name_prefix + "zone_1_y1"].state
-          - $ex hass.states[vars.number_name_prefix + "zone_1_y1"].state
-      - entity: ""
-        name: Zone2
-        mode: lines
-        fill: toself
-        fillcolor: RGBA(200,0,255,0.06)
-        line:
-          color: RGBA(200,0,255,0.2)
-          shape: line
-          width: 2
-        x:
-          - >-
-            $ex { var zone2_x1 = hass.states[vars.number_name_prefix +
-            "zone_2_x1"]; return zone2_x1 ? zone2_x1.state : -9999; }
-          - >-
-            $ex { var zone2_x1 = hass.states[vars.number_name_prefix +
-            "zone_2_x1"]; return zone2_x1 ? zone2_x1.state : -9999; }
-          - >-
-            $ex { var zone2_x2 = hass.states[vars.number_name_prefix +
-            "zone_2_x2"]; return zone2_x2 ? zone2_x2.state : -9999; }
-          - >-
-            $ex { var zone2_x2 = hass.states[vars.number_name_prefix +
-            "zone_2_x2"]; return zone2_x2 ? zone2_x2.state : -9999; }
-          - >-
-            $ex { var zone2_x1 = hass.states[vars.number_name_prefix +
-            "zone_2_x1"]; return zone2_x1 ? zone2_x1.state : -9999; }
-        "y":
-          - >-
-            $ex { var zone2_y1 = hass.states[vars.number_name_prefix +
-            "zone_2_y1"]; return zone2_y1 ? zone2_y1.state : -9999; }
-          - >-
-            $ex { var zone2_y2 = hass.states[vars.number_name_prefix +
-            "zone_2_y2"]; return zone2_y2 ? zone2_y2.state : -9999; }
-          - >-
-            $ex { var zone2_y2 = hass.states[vars.number_name_prefix +
-            "zone_2_y2"]; return zone2_y2 ? zone2_y2.state : -9999; }
-          - >-
-            $ex { var zone2_y1 = hass.states[vars.number_name_prefix +
-            "zone_2_y1"]; return zone2_y1 ? zone2_y1.state : -9999; }
-          - >-
-            $ex { var zone2_y1 = hass.states[vars.number_name_prefix +
-            "zone_2_y1"]; return zone2_y1 ? zone2_y1.state : -9999; }
-      - entity: ""
-        name: Zone3
-        mode: lines
-        fill: toself
-        fillcolor: RGBA(200,120,55,0.06)
-        line:
-          color: RGBA(200,120,55,0.2)
-          shape: line
-          width: 2
-        x:
-          - >-
-            $ex { var zone3_x1 = hass.states[vars.number_name_prefix +
-            "zone_3_x1"]; return zone3_x1 ? zone3_x1.state : -9999; }
-          - >-
-            $ex { var zone3_x1 = hass.states[vars.number_name_prefix +
-            "zone_3_x1"]; return zone3_x1 ? zone3_x1.state : -9999; }
-          - >-
-            $ex { var zone3_x2 = hass.states[vars.number_name_prefix +
-            "zone_3_x2"]; return zone3_x2 ? zone3_x2.state : -9999; }
-          - >-
-            $ex { var zone3_x2 = hass.states[vars.number_name_prefix +
-            "zone_3_x2"]; return zone3_x2 ? zone3_x2.state : -9999; }
-          - >-
-            $ex { var zone3_x1 = hass.states[vars.number_name_prefix +
-            "zone_3_x1"]; return zone3_x1 ? zone3_x1.state : -9999; }
-        "y":
-          - >-
-            $ex { var zone3_y1 = hass.states[vars.number_name_prefix +
-            "zone_3_y1"]; return zone3_y1 ? zone3_y1.state : -9999; }
-          - >-
-            $ex { var zone3_y2 = hass.states[vars.number_name_prefix +
-            "zone_3_y2"]; return zone3_y2 ? zone3_y2.state : -9999; }
-          - >-
-            $ex { var zone3_y2 = hass.states[vars.number_name_prefix +
-            "zone_3_y2"]; return zone3_y2 ? zone3_y2.state : -9999; }
-          - >-
-            $ex { var zone3_y1 = hass.states[vars.number_name_prefix +
-            "zone_3_y1"]; return zone3_y1 ? zone3_y1.state : -9999; }
-          - >-
-            $ex { var zone3_y1 = hass.states[vars.number_name_prefix +
-            "zone_3_y1"]; return zone3_y1 ? zone3_y1.state : -9999; }
-      - entity: ""
-        name: Coverage
-        mode: lines
-        fill: tonexty
-        fillcolor: rgba(168, 216, 234, 0.15)
-        line:
-          shape: line
-          width: 1
-          dash: dot
-        x: >-
-          $ex { vars.installation_angle =
-          Number(hass.states[vars.number_name_prefix +
-          "installation_angle"]?.state ?? 0); vars.installation_angle_cos =
-          Math.cos(Math.PI/180 * vars.installation_angle);
-          vars.installation_angle_sin = Math.sin(Math.PI/180 *
-          vars.installation_angle); vars.max_distance = 10 * 600; var
-          distance_ratio = vars.max_distance/7500; var coverage_steps =
-          [5500,4500,4000,3000,2000,1000,0,-1000,-2000,-3000,-4000,-4500,-5500];
-
-          vars.coverage_x = [0, vars.max_distance * Math.sin(Math.PI/180 * 60)];
-          coverage_steps.forEach((step) => vars.coverage_x.push(step *
-          distance_ratio)); vars.coverage_x.push(-vars.max_distance *
-          Math.sin(Math.PI/180 * 60), 0);
-
-          vars.coverage_y = [0, vars.max_distance * Math.cos(Math.PI/180 * 60)];
-          coverage_steps.forEach((step) => {
-            return vars.coverage_y.push(Math.sqrt(vars.max_distance**2 -
-            (step * distance_ratio)**2));
-          }); vars.coverage_y.push(vars.max_distance * Math.cos(Math.PI/180 *
-          60), 0); return vars.coverage_x.map((x, i)=> {
-            return x * vars.installation_angle_cos +
-            vars.coverage_y[i] * vars.installation_angle_sin;
-            });
-          }
-        "y": |-
-          $ex vars.coverage_y.map((y,i)=> {
-            return -vars.coverage_x[i] * vars.installation_angle_sin
-             + y * vars.installation_angle_cos
-            })
+            $ex { var x = hass.states["sensor.your_sensor_id_target_3_x"].state;
+            var y = hass.states["sensor.your_sensor_id_target_3_y"].state; var
+            units = hass.states["sensor.your_sensor_id_target_3_y"].
+              attributes.unit_of_measurement;
+            if (x == 0 && y == 0) { return -9999; } if (units == 'm') { return y
+            / 0.0254 / 12.0; } if (units == 'cm') { return y / 2.54 / 12.0; } if
+            (units == 'mm') { return y / 25.4 / 12.0; } if (units == 'in') {
+            return y / 25.4; } if (units == 'ft') { return y; } return 0.0; }
     layout:
       height: 360
       margin:
-        l: 40
+        l: 55
         r: 20
         t: 20
         b: 55
       showlegend: false
       xaxis:
-        showticklabels: false
-        dtick: 1000
+        dtick: 5
         gridcolor: RGBA(200,200,200,0.15)
         zerolinecolor: RGBA(200,200,200,0.15)
-        type: number
+        scaleanchor: "y"
+        scaleratio: 1
         fixedrange: true
         range:
-          - $ex vars.max_distance
-          - $ex -vars.max_distance
+          - >-
+            $ex { if (vars.install_angle < -30) return -(vars.max_dist + 4.0);
+            return -vars.max_dist * Math.cos(Math.PI/180 * (vars.install_angle +
+            30)) + -4.0; }
+          - >-
+            $ex { if (vars.install_angle > 30) return (vars.max_dist + 4.0);
+            return vars.max_dist * Math.cos(Math.PI/180 * (vars.install_angle -
+            30)) + 4.0; }
       yaxis:
-        showticklabels: false
-        dtick: 1000
+        dtick: 5
         gridcolor: RGBA(200,200,200,0.15)
         zerolinecolor: RGBA(200,200,200,0.15)
         scaleanchor: x
         scaleratio: 1
         fixedrange: true
         range:
-          - $ex vars.max_distance
+          - $ex { return (vars.max_dist + 4.0);}
           - >-
-            $ex {if(Math.abs(vars.installation_angle) <= 30) return 0; return
-            -vars.max_distance * Math.sin(Math.PI/180 *
-            (Math.abs(vars.installation_angle)-30));}
+            $ex {  if(Math.abs(vars.install_angle) <= 30) return -4.0; return
+            -vars.max_dist * Math.sin(Math.PI/180 *
+            (Math.abs(vars.install_angle)-30)) - 4.0; }
     raw_plotly_config: true
+  - type: history-graph
+    entities:
+      - entity: binary_sensor.your_sensor_id_presence
+        name: Presence
+      - entity: binary_sensor.your_sensor_id_presence_mmwave
+        name: mmWave
+      - entity: binary_sensor.your_sensor_id_pir_motion
+        name: PIR
+    hours_to_show: 24
   - type: tile
-    entity: binary_sensor.indoor_multi_sensor_occupancy
+    entity: binary_sensor.office_occupancy
     features_position: bottom
     vertical: false
     name: Occupancy
   - type: tile
-    entity: binary_sensor.indoor_multi_sensor_moving_target
+    entity: binary_sensor.your_sensor_id_presence_mmwave
     features_position: bottom
     vertical: false
-    name: Moving Target
+    name: mmWave Presence
   - type: tile
-    entity: binary_sensor.indoor_multi_sensor_still_target
+    entity: binary_sensor.your_sensor_id_pir_motion
     features_position: bottom
     vertical: false
-    name: Still Target
+    name: PIR Presence
   - type: tile
-    entity: binary_sensor.indoor_multi_sensor_zone_1_occupancy
+    entity: binary_sensor.your_sensor_id_zone_1_presence
     features_position: bottom
     vertical: false
-    name: Zone-1 Occupancy
+    name: Zone-1 Presence
   - type: tile
-    entity: binary_sensor.indoor_multi_sensor_zone_2_occupancy
+    entity: binary_sensor.your_sensor_id_zone_2_presence
     features_position: bottom
     vertical: false
-    name: Zone-2 Occupancy
+    name: Zone-2 Presence
   - type: tile
-    entity: binary_sensor.indoor_multi_sensor_zone_3_occupancy
+    entity: binary_sensor.your_sensor_id_zone_3_presence
     features_position: bottom
     vertical: false
-    name: Zone-2 Occupancy
+    name: Zone-3 Presence
+  - type: entity
+    entity: number.your_sensor_id_installation_angle
+    name: Installation Angle
+  - type: tile
+    entity: switch.your_sensor_id_pir_enable
+    features_position: bottom
+    vertical: false
+    name: PIR Enable
+  - type: tile
+    entity: switch.your_sensor_id_flip_x_axis
+    features_position: bottom
+    vertical: false
+    name: Flip X-Axis
+  - type: entity
+    entity: number.your_sensor_id_update_rate
+    name: Update Rate
+  - type: entity
+    entity: number.your_sensor_id_timeout
+    name: Timeout
