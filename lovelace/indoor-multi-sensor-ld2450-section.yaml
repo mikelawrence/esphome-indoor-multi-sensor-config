@@ -190,7 +190,7 @@ cards:
             units = hass.states["sensor.your_sensor_id_target_2_x"].
               attributes.unit_of_measurement;
             if (x == 0 && y == 0) { return -9999; } if (units == 'm') { return x
-            / 0.0254 / 12.0; }  if (units == 'cm') { return x / 2.54 / 12.0; } 
+            / 0.0254 / 12.0; }  if (units == 'cm') { return x / 2.54 / 12.0; }
             if (units == 'mm') { return x / 25.4 / 12.0; }  if (units == 'in') {
             return x / 25.4; }  if (units == 'ft') { return x; }  return 0.0; }
         "y":
@@ -200,7 +200,7 @@ cards:
             units = hass.states["sensor.your_sensor_id_target_2_y"].
               attributes.unit_of_measurement;
             if (x == 0 && y == 0) { return -9999; } if (units == 'm') { return y
-            / 0.0254 / 12.0; } if (units == 'cm') { return y / 2.54 / 12.0; } 
+            / 0.0254 / 12.0; } if (units == 'cm') { return y / 2.54 / 12.0; }
             if (units == 'mm') { return y / 25.4 / 12.0; }  if (units == 'in') {
             return y / 25.4; }  if (units == 'ft') { return y; }  return 0.0; }
       - entity: ""
