@@ -1,6 +1,6 @@
 # common setup for all devices
 substitutions:
-  config_version: 2025.09.0
+  config_version: 2025.09.1
   # Status LED configuration
   status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
