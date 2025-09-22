@@ -1,55 +1,69 @@
+# Replace 'your_sensor_id' with your actual sensors's ID
+# requires plotly-graph and mushroom cards to be installed
 type: grid
 cards:
   - type: heading
-    heading: Indoor Multi Sensor (LD2410)
+    heading: Your Multi-Sensor (LD2410)
     heading_style: title
+  - type: history-graph
+    entities:
+      - entity: binary_sensor.your_sensor_occupancy
+        name: Occupancy
+      - entity: binary_sensor.your_sensor_id_mmwave_presence
+        name: mmWave
+    hours_to_show: 24
   - type: tile
-    entity: binary_sensor.indoor_multi_sensor_presence
+    entity: binary_sensor.your_sensor_occupancy
+    features_position: bottom
+    vertical: false
+    name: Occupancy
+  - type: tile
+    entity: binary_sensor.your_sensor_id_presence
     features_position: bottom
     vertical: false
     name: Presence
   - type: tile
-    entity: binary_sensor.indoor_multi_sensor_mmwave_presence
+    entity: binary_sensor.your_sensor_id_mmwave_presence
     features_position: bottom
     vertical: false
     name: MMWave Presence
   - type: tile
-    entity: binary_sensor.indoor_multi_sensor_pir_motion
+    entity: select.your_sensor_id_distance_resolution
     features_position: bottom
     vertical: false
-    name: PIR Motion
+    name: Distance Resolution
   - type: tile
-    entity: sensor.indoor_multi_sensor_moving_energy
+    entity: sensor.your_sensor_id_moving_energy
     features_position: bottom
     vertical: false
     name: Moving Energy
   - type: tile
-    entity: sensor.indoor_multi_sensor_still_energy
+    entity: sensor.your_sensor_id_still_energy
     features_position: bottom
     vertical: false
     name: Still Energy
   - type: tile
-    entity: sensor.indoor_multi_sensor_moving_distance
+    entity: sensor.your_sensor_id_moving_distance
     features_position: bottom
     vertical: false
     name: Moving Distance
   - type: tile
-    entity: sensor.indoor_multi_sensor_still_distance
+    entity: sensor.your_sensor_id_still_distance
     features_position: bottom
     vertical: false
     name: Still Distance
   - type: tile
-    entity: number.indoor_multi_sensor_max_move_distance_gate
+    entity: number.your_sensor_id_max_move_distance_gate
     features_position: bottom
     vertical: false
     name: Max Move Distance
   - type: tile
-    entity: number.indoor_multi_sensor_max_still_distance_gate
+    entity: number.your_sensor_id_max_still_distance_gate
     features_position: bottom
     vertical: false
     name: Max Still Distance
   - type: tile
-    entity: switch.indoor_multi_sensor_ld2410_engineering_mode
+    entity: switch.your_sensor_id_ld2410_engineering_mode
     features_position: bottom
     vertical: false
     name: Engineering Mode
@@ -58,7 +72,7 @@ cards:
     icon_hold_action:
       action: more-info
   - type: tile
-    entity: switch.indoor_multi_sensor_ld2410_bluetooth_enable
+    entity: switch.your_sensor_id_ld2410_bluetooth_enable
     features_position: bottom
     vertical: false
     name: Bluetooth Enable
@@ -70,7 +84,6 @@ cards:
         hours_to_show: current_day
         entities:
           - entity: ""
-            name_prefix: $ex vars.name_prefix = "indoor_multi_sensor"
           - entity: ""
             name: Threshold
             mode: lines
@@ -91,44 +104,50 @@ cards:
               - 8
             "y":
               - >-
-                $ex hass.states["number." + vars.name_prefix +
-                "_g0_move_threshold"].state
+                $ex
+                hass.states["number.your_sensor_id_g0_move_threshold"].state
               - >-
-                $ex hass.states["number." + vars.name_prefix +
-                "_g1_move_threshold"].state
+                $ex
+                hass.states["number.your_sensor_id_g1_move_threshold"].state
               - >-
-                $ex hass.states["number." + vars.name_prefix +
-                "_g2_move_threshold"].state
+                $ex
+                hass.states["number.your_sensor_id_g2_move_threshold"].state
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_move_distance_gate"].state >= 3)  { return
-                hass.states["number." + vars.name_prefix +
-                "_g3_move_threshold"].state; } }
+                $ex { if
+                (hass.states["number.your_sensor_id_max_move_distance_gate"].state
+                >= 3)  { return
+                hass.states["number.your_sensor_id_g3_move_threshold"].state;
+                } }
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_move_distance_gate"].state >= 4)  { return
-                hass.states["number." + vars.name_prefix +
-                "_g4_move_threshold"].state; } }
+                $ex { if
+                (hass.states["number.your_sensor_id_max_move_distance_gate"].state
+                >= 4)  { return
+                hass.states["number.your_sensor_id_g4_move_threshold"].state;
+                } }
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_move_distance_gate"].state >= 5)  { return
-                hass.states["number." + vars.name_prefix +
-                "_g5_move_threshold"].state; } }
+                $ex { if
+                (hass.states["number.your_sensor_id_max_move_distance_gate"].state
+                >= 5)  { return
+                hass.states["number.your_sensor_id_g5_move_threshold"].state;
+                } }
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_move_distance_gate"].state >= 6)  { return
-                hass.states["number." + vars.name_prefix +
-                "_g6_move_threshold"].state; } }
+                $ex { if
+                (hass.states["number.your_sensor_id_max_move_distance_gate"].state
+                >= 6)  { return
+                hass.states["number.your_sensor_id_g6_move_threshold"].state;
+                } }
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_move_distance_gate"].state >= 7)  { return
-                hass.states["number." + vars.name_prefix +
-                "_g7_move_threshold"].state; } }
+                $ex { if
+                (hass.states["number.your_sensor_id_max_move_distance_gate"].state
+                >= 7)  { return
+                hass.states["number.your_sensor_id_g7_move_threshold"].state;
+                } }
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_move_distance_gate"].state >= 8)  { return
-                hass.states["number." + vars.name_prefix +
-                "_g8_move_threshold"].state; } }
+                $ex { if
+                (hass.states["number.your_sensor_id_max_move_distance_gate"].state
+                >= 8)  { return
+                hass.states["number.your_sensor_id_g8_move_threshold"].state;
+                } }
           - entity: ""
             name: Energy
             mode: lines
@@ -148,45 +167,15 @@ cards:
               - 7
               - 8
             "y":
-              - >-
-                $ex hass.states["sensor." + vars.name_prefix +
-                "_g0_move_energy"].state
-              - >-
-                $ex hass.states["sensor." + vars.name_prefix +
-                "_g1_move_energy"].state
-              - >-
-                $ex hass.states["sensor." + vars.name_prefix +
-                "_g2_move_energy"].state
-              - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_move_distance_gate"].state >= 3)  { return
-                hass.states["sensor." + vars.name_prefix +
-                "_g3_move_energy"].state; } }
-              - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_move_distance_gate"].state >= 4)  { return
-                hass.states["sensor." + vars.name_prefix +
-                "_g4_move_energy"].state; } }
-              - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_move_distance_gate"].state >= 5)  { return
-                hass.states["sensor." + vars.name_prefix +
-                "_g5_move_energy"].state; } }
-              - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_move_distance_gate"].state >= 6)  { return
-                hass.states["sensor." + vars.name_prefix +
-                "_g6_move_energy"].state; } }
-              - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_move_distance_gate"].state >= 7)  { return
-                hass.states["sensor." + vars.name_prefix +
-                "_g7_move_energy"].state; } }
-              - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_move_distance_gate"].state >= 8)  { return
-                hass.states["sensor." + vars.name_prefix +
-                "_g8_move_energy"].state; } }
+              - $ex hass.states["sensor.your_sensor_id_g0_move_energy"].state
+              - $ex hass.states["sensor.your_sensor_id_g1_move_energy"].state
+              - $ex hass.states["sensor.your_sensor_id_g2_move_energy"].state
+              - $ex hass.states["sensor.your_sensor_id_g3_move_energy"].state
+              - $ex hass.states["sensor.your_sensor_id_g4_move_energy"].state
+              - $ex hass.states["sensor.your_sensor_id_g5_move_energy"].state
+              - $ex hass.states["sensor.your_sensor_id_g6_move_energy"].state
+              - $ex hass.states["sensor.your_sensor_id_g7_move_energy"].state
+              - $ex hass.states["sensor.your_sensor_id_g8_move_energy"].state
         raw_plotly_config: true
         layout:
           height: 220
@@ -219,7 +208,6 @@ cards:
         hours_to_show: current_day
         entities:
           - entity: ""
-            name_prefix: $ex vars.name_prefix = "master_bath_sensor"
           - entity: ""
             name: Threshold
             mode: lines
@@ -240,44 +228,50 @@ cards:
               - 8
             "y":
               - >-
-                $ex hass.states["number." + vars.name_prefix +
-                "_g0_still_threshold"].state
+                $ex
+                hass.states["number.your_sensor_id_g0_still_threshold"].state
               - >-
-                $ex hass.states["number." + vars.name_prefix +
-                "_g1_still_threshold"].state
+                $ex
+                hass.states["number.your_sensor_id_g1_still_threshold"].state
               - >-
-                $ex hass.states["number." + vars.name_prefix +
-                "_g2_still_threshold"].state
+                $ex
+                hass.states["number.your_sensor_id_g2_still_threshold"].state
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_still_distance_gate"].state >= 3)  { return
-                hass.states["number." + vars.name_prefix +
-                "_g3_still_threshold"].state; } }
+                $ex { if
+                (hass.states["number.your_sensor_id_max_still_distance_gate"].state
+                >= 3)  { return
+                hass.states["number.your_sensor_id_g3_still_threshold"].state;
+                } }
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_still_distance_gate"].state >= 4)  { return
-                hass.states["number." + vars.name_prefix +
-                "_g4_still_threshold"].state; } }
+                $ex { if
+                (hass.states["number.your_sensor_id_max_still_distance_gate"].state
+                >= 4)  { return
+                hass.states["number.your_sensor_id_g4_still_threshold"].state;
+                } }
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_still_distance_gate"].state >= 5)  { return
-                hass.states["number." + vars.name_prefix +
-                "_g5_still_threshold"].state; } }
+                $ex { if
+                (hass.states["number.your_sensor_id_max_still_distance_gate"].state
+                >= 5)  { return
+                hass.states["number.your_sensor_id_g5_still_threshold"].state;
+                } }
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_still_distance_gate"].state >= 6)  { return
-                hass.states["number." + vars.name_prefix +
-                "_g6_still_threshold"].state; } }
+                $ex { if
+                (hass.states["number.your_sensor_id_max_still_distance_gate"].state
+                >= 6)  { return
+                hass.states["number.your_sensor_id_g6_still_threshold"].state;
+                } }
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_still_distance_gate"].state >= 7)  { return
-                hass.states["number." + vars.name_prefix +
-                "_g7_still_threshold"].state; } }
+                $ex { if
+                (hass.states["number.your_sensor_id_max_still_distance_gate"].state
+                >= 7)  { return
+                hass.states["number.your_sensor_id_g7_still_threshold"].state;
+                } }
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_still_distance_gate"].state >= 8)  { return
-                hass.states["number." + vars.name_prefix +
-                "_g8_still_threshold"].state; } }
+                $ex { if
+                (hass.states["number.your_sensor_id_max_still_distance_gate"].state
+                >= 8)  { return
+                hass.states["number.your_sensor_id_g8_still_threshold"].state;
+                } }
           - entity: ""
             name: Energy
             mode: lines
@@ -298,44 +292,32 @@ cards:
               - 8
             "y":
               - >-
-                $ex hass.states["sensor." + vars.name_prefix +
-                "_g0_still_energy"].state
+                $ex
+                hass.states["sensor.your_sensor_id_g0_still_energy"].state
               - >-
-                $ex hass.states["sensor." + vars.name_prefix +
-                "_g1_still_energy"].state
+                $ex
+                hass.states["sensor.your_sensor_id_g1_still_energy"].state
               - >-
-                $ex hass.states["sensor." + vars.name_prefix +
-                "_g2_still_energy"].state
+                $ex
+                hass.states["sensor.your_sensor_id_g2_still_energy"].state
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_still_distance_gate"].state >= 3)  { return
-                hass.states["sensor." + vars.name_prefix +
-                "_g3_still_energy"].state; } }
+                $ex
+                hass.states["sensor.your_sensor_id_g3_still_energy"].state
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_still_distance_gate"].state >= 4)  { return
-                hass.states["sensor." + vars.name_prefix +
-                "_g4_still_energy"].state; } }
+                $ex
+                hass.states["sensor.your_sensor_id_g4_still_energy"].state
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_still_distance_gate"].state >= 5)  { return
-                hass.states["sensor." + vars.name_prefix +
-                "_g5_still_energy"].state; } }
+                $ex
+                hass.states["sensor.your_sensor_id_g5_still_energy"].state
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_still_distance_gate"].state >= 6)  { return
-                hass.states["sensor." + vars.name_prefix +
-                "_g6_still_energy"].state; } }
+                $ex
+                hass.states["sensor.your_sensor_id_g6_still_energy"].state
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_still_distance_gate"].state >= 7)  { return
-                hass.states["sensor." + vars.name_prefix +
-                "_g7_still_energy"].state; } }
+                $ex
+                hass.states["sensor.your_sensor_id_g7_still_energy"].state
               - >-
-                $ex { if (hass.states["number." + vars.name_prefix +
-                "_max_still_distance_gate"].state >= 8)  { return
-                hass.states["sensor." + vars.name_prefix +
-                "_g8_still_energy"].state; } }
+                $ex
+                hass.states["sensor.your_sensor_id_g8_still_energy"].state
         raw_plotly_config: true
         layout:
           height: 220
@@ -365,13 +347,13 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g0_move_threshold
+            entity: number.your_sensor_id_g0_move_threshold
             name: G0 Move
             display_mode: buttons
             layout: horizontal
             icon_type: none
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g0_still_threshold
+            entity: number.your_sensor_id_g0_still_threshold
             name: G0 Still
             display_mode: buttons
             layout: horizontal
@@ -379,13 +361,13 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g1_move_threshold
+            entity: number.your_sensor_id_g1_move_threshold
             name: G1 Move
             display_mode: buttons
             layout: horizontal
             icon_type: none
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g1_still_threshold
+            entity: number.your_sensor_id_g1_still_threshold
             name: G1 Still
             display_mode: buttons
             layout: horizontal
@@ -393,13 +375,13 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g2_move_threshold
+            entity: number.your_sensor_id_g2_move_threshold
             name: G2 Move
             display_mode: buttons
             layout: horizontal
             icon_type: none
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g2_still_threshold
+            entity: number.your_sensor_id_g2_still_threshold
             name: G2 Still
             display_mode: buttons
             layout: horizontal
@@ -407,13 +389,13 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g3_move_threshold
+            entity: number.your_sensor_id_g3_move_threshold
             name: G3 Move
             display_mode: buttons
             layout: horizontal
             icon_type: none
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g3_still_threshold
+            entity: number.your_sensor_id_g3_still_threshold
             name: G3 Still
             display_mode: buttons
             layout: horizontal
@@ -421,13 +403,13 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g4_move_threshold
+            entity: number.your_sensor_id_g4_move_threshold
             name: G4 Move
             display_mode: buttons
             layout: horizontal
             icon_type: none
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g4_still_threshold
+            entity: number.your_sensor_id_g4_still_threshold
             name: G4 Still
             display_mode: buttons
             layout: horizontal
@@ -435,13 +417,13 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g5_move_threshold
+            entity: number.your_sensor_id_g5_move_threshold
             name: G5 Move
             display_mode: buttons
             layout: horizontal
             icon_type: none
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g5_still_threshold
+            entity: number.your_sensor_id_g5_still_threshold
             name: G5 Still
             display_mode: buttons
             layout: horizontal
@@ -449,13 +431,13 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g6_move_threshold
+            entity: number.your_sensor_id_g6_move_threshold
             name: G6 Move
             display_mode: buttons
             layout: horizontal
             icon_type: none
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g6_still_threshold
+            entity: number.your_sensor_id_g6_still_threshold
             name: G6 Still
             display_mode: buttons
             layout: horizontal
@@ -463,13 +445,13 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g7_move_threshold
+            entity: number.your_sensor_id_g7_move_threshold
             name: G7 Move
             display_mode: buttons
             layout: horizontal
             icon_type: none
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g7_still_threshold
+            entity: number.your_sensor_id_g7_still_threshold
             name: G7 Still
             display_mode: buttons
             layout: horizontal
@@ -477,18 +459,18 @@ cards:
       - type: horizontal-stack
         cards:
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g8_move_threshold
+            entity: number.your_sensor_id_g8_move_threshold
             name: G8 Move
             display_mode: buttons
             layout: horizontal
             icon_type: none
           - type: custom:mushroom-number-card
-            entity: number.indoor_multi_sensor_g8_still_threshold
+            entity: number.your_sensor_id_g8_still_threshold
             name: G8 Still
             display_mode: buttons
             layout: horizontal
             icon_type: none
     visibility:
       - condition: state
-        entity: switch.indoor_multi_sensor_ld2410_engineering_mode
+        entity: switch.your_sensor_id_ld2410_engineering_mode
         state: "on"
