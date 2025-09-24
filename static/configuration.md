@@ -99,15 +99,10 @@ The Main Config Files vary based on Sensor Package and Radar. Only these combina
   sen6x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkga-sen6x.yaml@main
   radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2410.yaml@main
 
-  # Main Config Files for Sensor Package-A and LD2450 MTMZ Radar
+  # Main Config Files for Sensor Package-A and LD2450 Radar
   common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
   sen6x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkga-sen6x.yaml@main
-  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2450ml-mtmz.yaml@main
-
-  # Main Config Files for Sensor Package-A and LD2450 STSZ Radar
-  common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
-  sen6x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkga-sen6x.yaml@main
-  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2450ml-stsz.yaml@main
+  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2450.yaml@main
 
   # Main Config Files for Sensor Package-B and C4001 Radar
   common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
@@ -123,19 +118,12 @@ The Main Config Files vary based on Sensor Package and Radar. Only these combina
   sgp4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sgp4x.yaml@main
   radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2410.yaml@main
 
-  # Main Config Files for Sensor Package-B and LD2450 MTMZ Radar
+  # Main Config Files for Sensor Package-B and LD2450 Radar
   common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
   sht4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sht4x.yaml@main
   scd4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-scd4x.yaml@main
   sgp4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sgp4x.yaml@main
-  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2450ml-mtmz.yaml@main
-
-  # Main Config Files for Sensor Package-B and LD2450 STSZ Radar
-  common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
-  sht4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sht4x.yaml@main
-  scd4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-scd4x.yaml@main
-  sgp4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sgp4x.yaml@main
-  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2450ml-stsz.yaml@main
+  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2450.yaml@main
 ```
 
 The additional Sensors and Features packages can mostly be included or not based on whether or not the sensors are populated on the board.
