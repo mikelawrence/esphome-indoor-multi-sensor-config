@@ -76,7 +76,7 @@ sensor:
           static bool error = false;
           float sensitivity = id(co_sensitivity_const);
           float cf = 1.0;
-          float temp = round(id(co_temperature));
+          float temp = round(id(co_temperature).state);
 
           if (isnan(temp)) {
             // temperature is not valid
