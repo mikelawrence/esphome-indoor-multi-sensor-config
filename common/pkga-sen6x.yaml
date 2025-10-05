@@ -95,18 +95,8 @@ sensor:
       accuracy_decimals: 2
       filters:
         - filter_out: NAN
-        - lambda: |-
-            // get the first board temperature out quickly
-            if(!id(sht4x_available_var) && isnan(id(board_temperature_var)))
-              id(board_temperature_var) = x;
-            return x;
         - skip_initial: ${sen66_skip_initial}
         - throttle_average: 60s
-      on_value:
-        then:
-          - lambda: |-
-              if(!id(sht4x_available_var))
-                id(board_temperature_var) = x;
     humidity:
       # humidity 1s interval averaged to once a minute
       # first 5 minutes ignored

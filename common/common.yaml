@@ -44,9 +44,6 @@ logger:
   level: DEBUG
 
 globals:
-  - id: board_temperature_var
-    type: float
-    initial_value: NAN
   - id: ha_presence_var
     type: bool
     initial_value: "false"

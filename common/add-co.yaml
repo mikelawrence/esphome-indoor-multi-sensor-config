@@ -1,10 +1,15 @@
 # Adds CO sensor using the Figaro TGS5141
+
 substitutions:
   co_offset: "0.0"
   co_sensitivity: "2.000e-9"
   co_manufacture_date: "Not Set"
   co_serial_number: "Not Set"
 
+logger:
+  logs:
+    ads1115.sensor: ERROR
+    
 esphome:
   on_boot:
     priority: 600.0
@@ -22,9 +27,6 @@ api:
           id: co_manufacture_date
           state: "${co_manufacture_date}"
 
-logger:
-  logs:
-    ads1115.sensor: INFO
 
 globals:
   - id: co_sensitivity_const
@@ -42,12 +44,21 @@ globals:
       1.12, 1.1275, 1.135, 1.1425, 1.15, 1.1575, 1.165, 1.1725, 1.18, 1.1875,
       1.195, 1.2025, 1.21, 1.2175, 1.225}"
 
+one_wire:
+  - platform: gpio
+    pin: 
+      number: GPIO21
+      mode: INPUT_OUTPUT_OPEN_DRAIN
+
 ads1115:
   - address: 0x48
     i2c_id: i2c1_bus
     continuous_mode: false
 
 sensor:
+  - platform: dallas_temp
+    name: co_temperature
+    update_interval: 60s
   - platform: ads1115
     id: co
     name: "CO"
@@ -65,7 +76,7 @@ sensor:
           static bool error = false;
           float sensitivity = id(co_sensitivity_const);
           float cf = 1.0;
-          float temp = round(id(board_temperature_var));
+          float temp = round(id(co_temperature));
 
           if (isnan(temp)) {
             // temperature is not valid

@@ -1,6 +1,5 @@
 # Adds DFRobot C4001 (SEN0609 or SEN0610) mmWave Radar
-# Current this is my PR on ESPHome, there is a new PR from the DFRobot in progress
-#   Expect changes to that component when ready
+# Currently this is my PR on ESPHome, there is a new PR from the DFRobot in progress
 # Not compatible with any other radar package
 external_components:
   - source: github://pr#9810
