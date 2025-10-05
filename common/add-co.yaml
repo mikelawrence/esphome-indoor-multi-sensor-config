@@ -57,7 +57,7 @@ ads1115:
 
 sensor:
   - platform: dallas_temp
-    name: co_temperature
+    id: co_temperature
     update_interval: 60s
   - platform: ads1115
     id: co
