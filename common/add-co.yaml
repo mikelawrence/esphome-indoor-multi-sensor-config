@@ -113,10 +113,6 @@ sensor:
       - skip_initial: 2
 
   - platform: copy
-    id: co_internal
-    source_id: co
-
-  - platform: copy
     id: co_5min_avg
     source_id: co
     filters:
