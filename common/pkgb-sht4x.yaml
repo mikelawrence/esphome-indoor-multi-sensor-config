@@ -6,13 +6,6 @@ substitutions:
   temperature_offset: "0.0"
   humidity_offset: "0.0"
 
-esphome:
-  on_boot:
-    priority: 600.0
-    then:
-      - lambda: |-
-          id(sht4x_available_var) = true;
-
 sensor:
   - platform: sht4x
     id: sht4x_sensor

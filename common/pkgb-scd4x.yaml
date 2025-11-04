@@ -7,9 +7,10 @@ substitutions:
 
 esphome:
   on_boot:
-    priority: 600.0
+    priority: 100.0
     then:
       - lambda: |-
+          // Let other parts of config know there is a CO₂ sensor
           id(co2_available_var) = true;
 
 api:

@@ -61,8 +61,6 @@ packages:
       - common/add-microphone.yaml
 
       # FEATURES
-      # SEN6X Pressure Compensation - Adds pressure compensation to SEN6X
-      - common/feat-sen6x-press-comp.yaml
       # Automatic Vent - Use humidity and CO₂ to control a bathroom vent
       # - common/feat-auto-vent.yaml
       # Smoke Alarm - Use PM and CO₂ for smoke alarm functionality

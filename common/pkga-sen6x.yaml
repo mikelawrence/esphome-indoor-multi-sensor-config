@@ -17,11 +17,15 @@ external_components:
 
 esphome:
   on_boot:
-    priority: 600.0
+    priority: 100.0
     then:
       - lambda: |-
+          // Let other parts of config know there is a CO₂ sensor
           id(co2_available_var) = true;
+          // Let other parts of config know there is a Particulate Matter sensor
           id(pm25_available_var) = true;
+          // Let other parts of config know there is a SEN6X sensor
+          id(sen6x_available_var) = true;
 
 api:
   on_client_connected:
@@ -110,7 +114,7 @@ sensor:
     pm_1_0:
       # PM 1µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <1µm Mass concentration"
+      name: "PM <1um Mass concentration"
       id: pm_1_0
       accuracy_decimals: 2
       filters:
@@ -120,7 +124,7 @@ sensor:
     pm_2_5:
       # PM 2.5µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <2.5µm Mass concentration"
+      name: "PM <2.5um Mass concentration"
       id: pm_2_5
       accuracy_decimals: 2
       filters:
@@ -130,17 +134,17 @@ sensor:
     pm_4_0:
       # PM 4µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <4µm Mass concentration"
+      name: "PM <4um Mass concentration"
       id: pm_4_0
       accuracy_decimals: 2
-      filters:
+      filters: 
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
         - throttle_average: 60s
     pm_10_0:
       # PM 10µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <10µm Mass concentration"
+      name: "PM <10um Mass concentration"
       id: pm_10_0
       accuracy_decimals: 2
       filters:

@@ -195,11 +195,11 @@ script:
           if (!id(pm25_available_var)) {
             ESP_LOGE(ESP_LOG_TAG, "Required SEN66 sensor missing, Smoke Alarms disabled");
             if (!id(co2_available_var)) {
-              ESP_LOGI(ESP_LOG_TAG, "Using SCD42 sensor for CO2");
+              ESP_LOGI(ESP_LOG_TAG, "Using SCD42 sensor for CO₂");
             }
           } else {
             ESP_LOGI(ESP_LOG_TAG, "Using SEN66 sensor for PM25");
-            ESP_LOGI(ESP_LOG_TAG, "Using SEN66 sensor for CO2");
+            ESP_LOGI(ESP_LOG_TAG, "Using SEN66 sensor for CO₂");
           }
           if (id(co_available_var)) {
             ESP_LOGI(ESP_LOG_TAG, "Using CO sensor");

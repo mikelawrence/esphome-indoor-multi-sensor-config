@@ -1,5 +1,4 @@
 # Adds CO sensor using the Figaro TGS5141
-
 substitutions:
   co_offset: "0.0"
   co_sensitivity: "2.000e-9"
@@ -9,13 +8,19 @@ substitutions:
 logger:
   logs:
     ads1115.sensor: ERROR
-    
+
 esphome:
   on_boot:
-    priority: 600.0
-    then:
-      - lambda: |-
-          id(co_available_var) = true;
+    - priority: 100.0
+      then:
+        - lambda: |-
+            // don't wait for update rate, force an immediate temperature update
+            id(co_temperature).update();
+    - priority: 600.0
+      then:
+        - lambda: |-
+            // Let other parts of config know there is a CO sensor
+            id(co_available_var) = true;
 
 api:
   on_client_connected:
@@ -26,7 +31,6 @@ api:
       - text_sensor.template.publish:
           id: co_manufacture_date
           state: "${co_manufacture_date}"
-
 
 globals:
   - id: co_sensitivity_const

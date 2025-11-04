@@ -1,6 +1,6 @@
 # common setup for all devices
 substitutions:
-  config_version: dev
+  config_version: main
   # Status LED configuration
   status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
@@ -47,7 +47,7 @@ globals:
   - id: ha_presence_var
     type: bool
     initial_value: "false"
-  - id: sht4x_available_var
+  - id: sen6x_available_var
     type: bool
     initial_value: "false"
   - id: co_available_var

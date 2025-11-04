@@ -15,6 +15,8 @@ time:
           - lambda: "id(usb_c_power_sensor).reset_energy_counters();"
 
 sensor:
+  # This sensor includes everything on this board also known as VBUS (+5V)
+  # Everything powered by +3.3V and +3.3VA plus the Speaker Amplifier and LD2410B/LD2450
   - platform: ina2xx_i2c
     id: usb_c_power_sensor
     i2c_id: i2c1_bus
@@ -36,6 +38,8 @@ sensor:
     energy:
       name: "USB-C Energy"
       accuracy_decimals: 2
+  # This sensor includes everything powered by +3.3V power supply
+  # ESP32, SEN0609/LD2410S/LD2420
   - platform: ina2xx_i2c
     id: digital_power_sensor
     i2c_id: i2c1_bus
@@ -54,6 +58,8 @@ sensor:
     current:
       name: "Digital Current"
       accuracy_decimals: 3
+  # This sensor includes everything powered by +3.3VA power supply 
+  # PIR, SHT4x, SGP4x, SCD4x, BMP581, TSL2591, Carbon Monoxide circuit, and SEN6X
   - platform: ina2xx_i2c
     id: analog_power_sensor
     i2c_id: i2c1_bus
