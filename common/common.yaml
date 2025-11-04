@@ -29,8 +29,7 @@ esphome:
 esp32:
   board: esp32s3box
   variant: ESP32S3
-  # It should support the actual 32MB, but...
-  flash_size: 16MB
+  flash_size: 32MB
   cpu_frequency: 240MHz
   framework:
     type: esp-idf
