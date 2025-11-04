@@ -31,6 +31,18 @@ dfrobot_c4001:
   model: SEN0609
   mode: PRESENCE
 
+binary_sensor:
+  - platform: dfrobot_c4001
+    occupancy:
+      name: MMWAVE Presence
+      id: presence_mmwave
+    config_changed:
+      name: C4001 Config Changed
+  - platform: gpio
+    pin: GPIO16
+    name: MMWAVE Presence GPIO
+    device_class: presence
+
 button:
   - platform: dfrobot_c4001
     config_save:
@@ -70,14 +82,6 @@ number:
     inhibit_time:
       name: Inhibit Time
       id: inhibit_time
-
-binary_sensor:
-  - platform: dfrobot_c4001
-    occupancy:
-      name: MMWAVE Presence
-      id: presence_mmwave
-    config_changed:
-      name: C4001 Config Changed
 
 switch:
   - platform: dfrobot_c4001

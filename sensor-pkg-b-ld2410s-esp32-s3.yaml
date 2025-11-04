@@ -1,6 +1,6 @@
 substitutions:
-  name: "sensor-pkg-a-ld2450"
-  friendly_name: "Indoor Multi-Sensor Pkg A Radar LD2450"
+  name: "sensor-pkg-b-ld2410"
+  friendly_name: "Indoor Multi-Sensor Pkg B Radar LD2410"
 
   # Settings
   room_sound_id: "xxx_sound"
@@ -43,12 +43,12 @@ packages:
     files:
       # Main Config Files
       - common/common.yaml
-      - common/pkga-sen6x.yaml
-      - common/radar-ld2450.yaml
+      - common/pkgb-sht4x.yaml
+      - common/pkgb-scd4x.yaml
+      - common/pkgb-sgp4x.yaml
+      - common/radar-ld2410s.yaml
 
       # ADDITIONAL SENSORS
-      # Board Temperature
-      # - common/pkga-sht4x.yaml
       # Carbon Dioxide (CO) - Figaro TGS5141 sensor
       - common/add-co.yaml
       # Energy Usage - INA2XX sensors to measure Voltage, Current, Power and Energy Usage
@@ -70,7 +70,7 @@ esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   project:
-    name: Mike Lawrence.Indoor Multi-Sensor Sens-Pkg-A
+    name: Mike Lawrence.Indoor Multi-Sensor Sens-Pkg-B
 
 # API is a requirement of the dashboard import.
 # Grab a key from https://esphome.io/components/api.html

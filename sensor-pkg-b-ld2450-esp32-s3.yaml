@@ -51,7 +51,7 @@ packages:
       # ADDITIONAL SENSORS
       # Carbon Dioxide (CO) - Figaro TGS5141 sensor
       - common/add-co.yaml
-      # Energy Usage - INA2XX sensor to measure Voltage, Power and Energy Usage
+      # Energy Usage - INA2XX sensors to measure Voltage, Current, Power and Energy Usage
       - common/add-ina2xx.yaml
       # Light Level - TSL2591 sensor
       - common/add-tsl2591.yaml
