@@ -15,17 +15,4 @@ sensor:
       on_value:
         then:
           - lambda: |-
-              if(id(co2_available_var))
-              {
-                if (id(sen6x_available_var))
-                {
-                  // compensate SEN6X CO₂ reading with current pressure
-                  id(sen66_sensor)->set_ambient_pressure_compensation(x * 0.01); // convert to hPa
-                }
-                else
-                {
-                  // compensate SCD4X CO₂ reading with current pressure
-                  id(scd41_sensor)->set_ambient_pressure_compensation(x * 0.01); // convert to hPa
-                }
-              }
-
+              id(pressure_hpa_var) = x * 0.01; // convert to hPa

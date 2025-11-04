@@ -24,8 +24,6 @@ esphome:
           id(co2_available_var) = true;
           // Let other parts of config know there is a Particulate Matter sensor
           id(pm25_available_var) = true;
-          // Let other parts of config know there is a SEN6X sensor
-          id(sen6x_available_var) = true;
 
 api:
   on_client_connected:
@@ -165,6 +163,8 @@ sensor:
       on_value:
         then:
           - lambda: |-
+              if (id(pressure_hpa_var) > 0.0)
+                id(sen66_sensor).set_ambient_pressure_compensation(id(pressure_hpa_var));
               if (x > 2000.0)
                 id(co2_warning_var) = true;
               if (x < 1800.0)

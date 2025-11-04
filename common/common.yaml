@@ -47,9 +47,6 @@ globals:
   - id: ha_presence_var
     type: bool
     initial_value: "false"
-  - id: sen6x_available_var
-    type: bool
-    initial_value: "false"
   - id: co_available_var
     type: bool
     initial_value: "false"
@@ -95,6 +92,9 @@ globals:
     # This means PM2.5 levels are elevated but not dangerous
     type: bool
     initial_value: "false"
+  - id: pressure_hpa_var
+    type: float
+    initial_value: 0.0
 
 # All but the SEN6X is on this bus
 i2c:

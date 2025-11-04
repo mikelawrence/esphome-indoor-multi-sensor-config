@@ -33,16 +33,15 @@ sensor:
       filters:
         - filter_out: NAN
         - throttle_average: 60s
-  - platform: copy
-    id: co2_internal
-    source_id: co2
-    on_value:
-      then:
-        - lambda: |-
-            if (x > 2000.0)
-              id(co2_warning_var) = true;
-            if (x < 1800.0)
-              id(co2_warning_var) = false;
+      on_value:
+        then:
+          - lambda: |-
+              if (id(pressure_hpa_var) > 0.0)
+                id(sen66_sensor).set_ambient_pressure_compensation(id(pressure_hpa_var));
+              if (x > 2000.0)
+                id(co2_warning_var) = true;
+              if (x < 1800.0)
+                id(co2_warning_var) = false;
 
 number:
   - platform: template
