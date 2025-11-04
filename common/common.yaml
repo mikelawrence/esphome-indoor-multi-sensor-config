@@ -94,7 +94,7 @@ globals:
     initial_value: "false"
   - id: pressure_hpa_var
     type: float
-    initial_value: 0.0
+    initial_value: "0.0"
 
 # All but the SEN6X is on this bus
 i2c:
