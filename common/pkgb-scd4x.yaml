@@ -37,7 +37,7 @@ sensor:
         then:
           - lambda: |-
               if (id(pressure_hpa_var) > 0.0)
-                id(sen66_sensor).set_ambient_pressure_compensation(id(pressure_hpa_var));
+                id(scd41_sensor).set_ambient_pressure_compensation(id(pressure_hpa_var));
               if (x > 2000.0)
                 id(co2_warning_var) = true;
               if (x < 1800.0)
