@@ -10,7 +10,7 @@ substitutions:
   presence_ha_entity: ""
 
 esphome:
-  min_version: 2025.10.2
+  min_version: 2025.10.4
   name_add_mac_suffix: false
   project:
     version: ${config_version}
