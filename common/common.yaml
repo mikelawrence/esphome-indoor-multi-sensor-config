@@ -192,7 +192,7 @@ script:
           then:
             - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
             - media_player.speaker.play_on_device_media_file:
-                media_file: office_sound
+                media_file: ${room_sound_id}
             - media_player.speaker.play_on_device_media_file:
                 media_file: multi_sensor_operational_sound
                 enqueue: true
