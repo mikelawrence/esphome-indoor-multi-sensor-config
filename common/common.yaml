@@ -15,9 +15,11 @@ esphome:
   project:
     version: ${config_version}
   on_boot:
-    - priority: -400
+    - priority: -100
       then:
         - script.execute: update_status_led
+    - priority: -400
+      then:
         - script.execute: announce_operational
   on_shutdown:
     - priority: 700
