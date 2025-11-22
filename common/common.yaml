@@ -15,14 +15,14 @@ esphome:
   project:
     version: ${config_version}
   on_boot:
-    - priority: -100
+    - priority: 500.0
       then:
         - script.execute: update_status_led
-    - priority: -400
-      then:
-        - script.execute: announce_operational
+    # - priority: -100.0
+    #   then:
+    #     - script.execute: announce_operational
   on_shutdown:
-    - priority: 700
+    - priority: 600.0
       then:
         - light.turn_off:
             id: led_status
@@ -47,6 +47,9 @@ logger:
   level: DEBUG
 
 globals:
+  - id: operational_var
+    type: bool
+    initial_value: "false"
   - id: ha_presence_var
     type: bool
     initial_value: "false"

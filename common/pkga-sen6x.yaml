@@ -17,7 +17,7 @@ external_components:
 
 esphome:
   on_boot:
-    priority: 100.0
+    priority: 800.0
     then:
       - lambda: |-
           // Let other parts of config know there is a CO₂ sensor
@@ -87,7 +87,6 @@ sensor:
     i2c_id: i2c2_bus
     address: 0x6B
     update_interval: 1s
-    # setup_priority: -400
     model: SEN66
     store_baseline: true
     temperature:

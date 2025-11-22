@@ -71,7 +71,6 @@ sensor:
     unit_of_measurement: ppm
     update_interval: 1s
     accuracy_decimals: 0
-    setup_priority: -400
     multiplexer: A0_A1
     gain: 0.512
     resolution: 16_BITS
