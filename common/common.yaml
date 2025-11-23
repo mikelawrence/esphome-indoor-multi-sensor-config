@@ -47,9 +47,6 @@ logger:
   level: DEBUG
 
 globals:
-  - id: operational_var
-    type: bool
-    initial_value: "false"
   - id: ha_presence_var
     type: bool
     initial_value: "false"
@@ -256,19 +253,12 @@ media_player:
   - platform: speaker
     name: "Media Player"
     id: speaker_media_player_id
-    volume_max: 90%
+    buffer_size: 2000000
+    task_stack_in_psram: true
     media_pipeline:
       speaker: media_spk_resampling_input
-      format: WAV
-      num_channels: 1
-      sample_rate: 48000
     announcement_pipeline:
       speaker: announcement_spk_resampling_input
-      format: WAV
-      num_channels: 1
-      sample_rate: 48000
-    buffer_size: 2000000         # INCREASED buffer (2MB vs default 1MB)
-    task_stack_in_psram: true    # Use PSRAM for audio tasks
     files:
       - id: multi_sensor_operational_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/multi-sensor-operational.mp3
@@ -331,26 +321,26 @@ speaker:
   - platform: i2s_audio
     id: speaker_id
     i2s_audio_id: speaker_i2s
-    dac_type: external
     i2s_dout_pin: GPIO10
+    dac_type: external
+    channel: mono
+    timeout: never
     sample_rate: 48000
+    bits_per_sample: 16bit
   - platform: mixer
     id: mixer_speaker_id
     output_speaker: speaker_id
-    num_channels: 1
     source_speakers:
       - id: announcement_spk_mixer_input
+        timeout: never
       - id: media_spk_mixer_input
+        timeout: never
   - platform: resampler
     id: media_spk_resampling_input
     output_speaker: media_spk_mixer_input
-    sample_rate: 48000
-    bits_per_sample: 16
   - platform: resampler
     id: announcement_spk_resampling_input
     output_speaker: announcement_spk_mixer_input
-    sample_rate: 48000
-    bits_per_sample: 16
 
 switch:
   - platform: template
