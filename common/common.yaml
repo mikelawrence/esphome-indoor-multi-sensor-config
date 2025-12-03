@@ -257,8 +257,12 @@ media_player:
     task_stack_in_psram: true
     media_pipeline:
       speaker: media_spk_resampling_input
+      num_channels: 1
+      sample_rate: 48000
     announcement_pipeline:
       speaker: announcement_spk_resampling_input
+      num_channels: 1
+      sample_rate: 48000
     files:
       - id: multi_sensor_operational_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/multi-sensor-operational.mp3
