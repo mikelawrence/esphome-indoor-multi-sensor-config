@@ -139,13 +139,13 @@ script:
         // High Humidity and not Minimum On Time
         case 10:
           if (humidity_is_low) {
-            ESP_LOGV(ESP__TAG,  "Humidity normal, wait for min on time");
+            ESP_LOGV(ESP_LOG_TAG,  "Humidity normal, wait for min on time");
             state = 20;
           } else if (vent_on_min_time) {
             ESP_LOGV(ESP_LOG_TAG,  "Humidity still high, min on time met");
             state = 30;
           } else if (id(ha_vent).state == false) {
-            ESP_LOGV(ESP__TAG,  "Manually turned off, turning back on");
+            ESP_LOGV(ESP_LOG_TAG,  "Manually turned off, turning back on");
             id(ha_vent).turn_on();
           }
           break;
