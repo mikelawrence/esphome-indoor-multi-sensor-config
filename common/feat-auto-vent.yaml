@@ -1,5 +1,6 @@
 # Add Automatic Vent Control
 substitutions:
+  # These are the default values for substitutions that are not defined in the main config file
   vent_use_humidity: "true"
   vent_use_co2: "false"
   vent_min_on_time: "15"

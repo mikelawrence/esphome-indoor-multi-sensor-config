@@ -5,6 +5,7 @@
 #     Particulate Matter (PM)
 #   Not compatible with PACKAGE B packages
 substitutions:
+  # These are the default values for substitutions that are not defined in the main config file
   sen66_skip_initial: "300"
   temperature_offset: "0.0"
   humidity_offset: "0.0"

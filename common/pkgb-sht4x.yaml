@@ -3,6 +3,7 @@
 #     Temperature and Humidity
 #   Not compatible with PACKAGE A package
 substitutions:
+  # These are the default values for substitutions that are not defined in the main config file
   temperature_offset: "0.0"
   humidity_offset: "0.0"
 

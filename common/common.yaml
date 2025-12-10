@@ -1,7 +1,8 @@
 # common setup for all devices
 substitutions:
-  config_version: main
-  # Status LED configuration
+  # These are the default values for substitutions that are not defined in the main config file
+  config_version: "main"
+  pir_enabled: "false"
   status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
   status_night_brightness: "0.15"
@@ -211,19 +212,14 @@ binary_sensor:
             } else {
               id(ha_presence_var) = false;
             }
-
         - script.execute: update_status_led
   - platform: template
     name: "Presence"
     id: presence
     device_class: presence
     lambda: |-
-      if(id(presence_mmwave).state or
-        (id(pir_enable).state && id(motion_pir).state)) {
-        return true;
-      } else {
-        return false;
-      }
+      return id(presence_mmwave).state or 
+        (${pir_enabled} && id(pir_enable).state && id(motion_pir).state);
     on_state:
       then:
         script.execute: update_status_led
@@ -231,8 +227,11 @@ binary_sensor:
     id: motion_pir
     name: "PIR Motion"
     device_class: motion
+    internal: ${pir_enabled}
     pin:
       number: GPIO38
+      mode:
+        pulldown: ${not pir_enabled}
     filters:
       - delayed_off: 10s
 
@@ -350,13 +349,14 @@ switch:
   - platform: template
     name: "PIR Enable"
     id: pir_enable
+    internal: ${pir_enabled}
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
   - platform: template
     name: "LED Enable"
     id: led_enable
     optimistic: true
-    restore_mode: RESTORE_DEFAULT_OFF
+    restore_mode: RESTORE_DEFAULT_ON
     on_turn_on:
       script.execute: update_status_led
     on_turn_off:

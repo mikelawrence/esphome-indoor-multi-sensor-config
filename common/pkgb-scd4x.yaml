@@ -3,6 +3,7 @@
 #     Carbon Dioxide (CO₂)
 #   Not compatible with PACKAGE A package
 substitutions:
+  # These are the default values for substitutions that are not defined in the main config file
   co2_calibration_date: "Not Set"
 
 esphome:

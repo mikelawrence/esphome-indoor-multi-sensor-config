@@ -1,5 +1,4 @@
 # Adds Hi-Link LD2450 mmWave Radar
-#   Multi-Target, Multi-Zone version
 #   Uses the ESPHome Built-In Component
 #   Not compatible with any other radar package
 #   This sensor is mounted upside down target x and angle sensors are inverted
