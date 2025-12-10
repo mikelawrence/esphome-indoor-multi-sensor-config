@@ -230,8 +230,6 @@ binary_sensor:
     internal: ${pir_enabled}
     pin:
       number: GPIO38
-      mode:
-        pulldown: ${not pir_enabled}
     filters:
       - delayed_off: 10s
 
