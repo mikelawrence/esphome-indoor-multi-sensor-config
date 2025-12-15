@@ -11,7 +11,7 @@ substitutions:
   presence_ha_entity: ""
 
 esphome:
-  min_version: 2025.10.4
+  min_version: 2025.12.0
   name_add_mac_suffix: false
   project:
     version: ${config_version}
@@ -195,8 +195,6 @@ script:
           then:
             - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
             - media_player.speaker.play_on_device_media_file:
-                media_file: ${room_sound_id}
-            - media_player.speaker.play_on_device_media_file:
                 media_file: multi_sensor_operational_sound
                 enqueue: true
 
@@ -262,35 +260,7 @@ media_player:
       sample_rate: 48000
     files:
       - id: multi_sensor_operational_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/multi-sensor-operational.mp3
-      - id: bathroom_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/bathroom.mp3
-      - id: bedroom_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/bedroom.mp3
-      - id: dining_room_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/dining-room.mp3
-      - id: entry_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/entry.mp3
-      - id: garage_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/garage.mp3
-      - id: guest_bathroom_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/guest-bathroom.mp3
-      - id: kitchen_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/kitchen.mp3
-      - id: laundry_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/laundry.mp3
-      - id: living_room_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/living-room.mp3
-      - id: master_bathroom_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-bathroom.mp3
-      - id: master_toilet_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-toilet.mp3
-      - id: master_bedroom_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-bedroom.mp3
-      - id: master_closet_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-closet.mp3
-      - id: office_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/office.mp3
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/${voice_name}/${room_name}/operational.mp3
 
 number:
   - platform: template
