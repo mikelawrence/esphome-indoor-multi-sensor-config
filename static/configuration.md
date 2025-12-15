@@ -18,7 +18,18 @@ substitutions:
   friendly_name: "Indoor Multi-Sensor Pkg A Radar C4001"
 
   # Settings
-  room_sound_id: "xxx_sound"
+  # Voice name allow to change the voice of spoken announcements to fit your preferences. One of: 
+  #   adam-male, eryn-informative-female, katie-x-female, lucy-fresh-female, northern-terry-male,
+  #  river-female
+  voice_name: "adam-male"
+  # Room name allows you to personalize the room name in which the sensor is installed. One of: 
+  #   none, aj-room, bedroom, brisa-room, dining-room, entry-hallway, family-room, game-room, garage, 
+  #   guest-bathroom, guest-bedroom, hallway, kids-bathroom, kids-bedroom, kitchen, laundry-room, 
+  #   living-room, master-bathroom, master-bedroom, master-closet, master-toilet, noah-room, 
+  #   nursery, office, pantry, spare-bathroom, spare-bedroom, stairs, study, theater, utility-room, 
+  #   up-bathroom
+  #   none is default and will not announce room name.
+  room_name: "xxx_sound"
   pir_installed: "true"
   # Status LED Configuration
   status_nightlight_brightness: "1.0"
@@ -138,7 +149,8 @@ substitutions:
   friendly_name: "Office Sensor"
 
   # Settings
-  room_sound_id: "office_sound"
+  voice_name: "adam-male"
+  room_name: "none"
   pir_installed: "true"
   # Status LED Configuration
   status_nightlight_brightness: "1.0"
@@ -159,19 +171,21 @@ These are base settings available for any configuration.
 
 + **name** (string): The standard ESPHome hostname. Alphanumeric and dash only. This must be defined in main config file.
 + **friendly_name** (string): The standard ESPHome friendly name. This must be defined in main config file.
-+ **room_sound_id** (string): When making announcements the room name is often added. Use this to select the sound file.
-  Look in the [common.yaml](common/common.yaml) file in the `media_player:` section for a list of available sound files. This must be defined in main config file.
-+ **pir_installed** (boolean): When set to "true" the PIR sensor is considered installed, the `PIR Enable` Switch and
-  `PIR Motion` Binary Sensor are exposed to Home Assistant. PIR inclusion in the `Presence` Binary Sensor is now determined by the state of the `PIR Enable` Switch. When "false" the PIR is considered NOT installed and the `PIR Enable` Switch and `PIR Motion` Binary Sensor are not exposed to Home Assistant. This must be defined in main config file.
-+ **status_nightlight_brightness** (float): This is the brightness level of the nightlight when enabled. Range is "0" to "1.0" where "1.0" means 100% brightness. Default is "1.0".
-+ **status_night_brightness** (float): How bright is the Status LED during at night. Range is "0" to "1.0" where "1.0" means 100% brightness. Default is "0.15".
-+ **status_daytime_lux** (float): The light level (lux) at which the Status LED will switch to daytime mode. Default is "10.0".
-+ **status_nighttime_lux** (float): The light level (lux) at which the Status LED will switch to nighttime mode. Default is "3.0".
++ **voice_name** (string): Spoken announcements are made with this voice. One of: `adam-male`,
+  `eryn-informative-female`, `katie-x-female`, `lucy-fresh-female`, `northern-terry-male` or `river-female`
++ **room_name** (string): When making announcements the room name is often added. One of: `none`,  
+  `aj-room`, `bedroom`, `brisa-room`, `dining-room`, `entry-hallway`, `family-room`, `game-room`, `garage`, `guest-bathroom`, `guest-bedroom`, `hallway`, `kids-bathroom`, `kids-bedroom`, `kitchen`, `laundry-room`, `living-room`, `master-bathroom`, `master-bedroom`, `master-closet`, `master-toilet`, `noah-room`, `nursery`, `office`, `pantry`, `spare-bathroom`, `spare-bedroom`, `stairs`, `study`, `theater`, `utility-room` or `up-bathroom`. `none` is default and will not announce room name. This must be defined in main config file.
++ **pir_installed** (boolean): When set to `true` the PIR sensor is considered installed, the `PIR Enable`
+  Switch and `PIR Motion` Binary Sensor are exposed to Home Assistant. PIR inclusion in the `Presence` Binary Sensor is now determined by the state of the `PIR Enable` Switch. When `false` the PIR is considered NOT installed and the `PIR Enable` Switch and `PIR Motion` Binary Sensor are not exposed to Home Assistant. This must be defined in main config file.
++ **status_nightlight_brightness** (float): This is the brightness level of the nightlight when enabled. Range is `0` to `1.0` where `1.0` means 100% brightness. Default is `1.0`.
++ **status_night_brightness** (float): How bright is the Status LED during at night. Range is `0` to `1.0` where `1.0` means 100% brightness. Default is `0.15`.
++ **status_daytime_lux** (float): The light level (lux) at which the Status LED will switch to daytime mode. Default is `10.0`.
++ **status_nighttime_lux** (float): The light level (lux) at which the Status LED will switch to nighttime mode. Default is `3.0`.
 + **presence_ha_entity** (ID): This is the Home Assistant entity id of a presence sensor. This presence sensor is or'ed with the internal presence state. Useful if you use other sensors to determine presence and you want the LED on the sensor to match.
   This basically allows Home Assistant to control the Presence Status LED on the sensor. Useful when there are other presence sensors and timeouts. There is no default.
-+ **temperature_offset** (float): The temperature sensor may have an offset due to environmental conditions. Use this to subtract out this error. Default is "0.0".
-+ **humidity_offset** (float): The humidity sensor may have also have an offset. Use this to subtract out this error. Default is "0.0".
-+ **co2_calibration_date** (string): Enter the last time the CO₂ was calibrated here and it will be reported as a text_sensor in the diagnostic section. Default is "Not Set".
++ **temperature_offset** (float): The temperature sensor may have an offset due to environmental conditions. Use this to subtract out this error. Default is `0.0`.
++ **humidity_offset** (float): The humidity sensor may have also have an offset. Use this to subtract out this error. Default is `0.0`.
++ **co2_calibration_date** (string): Enter the last time the CO₂ was calibrated here and it will be reported as a text_sensor in the diagnostic section. Default is `Not Set`.
 
 # Carbon Monoxide(CO) Configuration
 
@@ -192,10 +206,10 @@ substitutions:
   co_serial_number: "221111554259031129"
 ```
 
-+ **co_offset** (float): The CO sensor and circuit will have a offset. Use this to subtract out this error. Default is "0.0".
-+ **co_sensitivity** (float): This should be the factory measured sensitivity as reported in the QR code on the sensor in Amps/ppm. Default is "2.000e-9".
-+ **co_manufacture_date** (float): From the QR code on the sensor. The sensor has a 10 year life expectancy. Reported as a `text_sensor` in the diagnostic section. Default is "Not Set".
-+ **co_serial_number** (float): From the QR code on the sensor. Not necessary but might come in handy down the road. Reported as a `text_sensor` in the diagnostic section. Default is "Not Set".
++ **co_offset** (float): The CO sensor and circuit will have a offset. Use this to subtract out this error. Default is `0.0`.
++ **co_sensitivity** (float): This should be the factory measured sensitivity as reported in the QR code on the sensor in Amps/ppm. Default is `2.000e-9`.
++ **co_manufacture_date** (float): From the QR code on the sensor. The sensor has a 10 year life expectancy. Reported as a `text_sensor` in the diagnostic section. Default is `Not Set`.
++ **co_serial_number** (float): From the QR code on the sensor. Not necessary but might come in handy down the road. Reported as a `text_sensor` in the diagnostic section. Default is `Not Set`.
 
 # Energy Usage Configuration
 
@@ -261,13 +275,13 @@ substitutions:
 ```
 
 + **vent_ha_entity** (ID): This is the Home Assistant entity id of automatically controlled vent. There is no default.
-+ **vent_use_humidity** (bool): Enable humidity based control of the vent by setting this to `true`. Default is "true".
-+ **vent_use_co2** (bool): Enable CO₂ based control of the vent by setting this to `true`. Default is "false"
-+ **vent_min_on_time** (integer): This is the minimum on time for a vent for manual mode and how long the vent will stay on after the humidity or CO₂ returns to normal. Default is "15".
-+ **vent_hum_on_trigger** (integer): This is the humidity level (%) rise from baseline that will turn on the vent. Baseline here is a fast exponential average (15 minutes). Showers usually have a sharp rise in humidity when first starting so a value of 10% rise in a few minutes is definitely a shower starting. Default is "10.0".
-+ **vent_hum_off_trigger** (integer): This is the humidity level (%) from baseline that will turn off the vent. Baseline here is a slow exponential average (6ish hours). You want this number slightly above zero because sometimes the humidity level doesn't go back to where it was before a shower occurred quick enough. And even though the baseline average will eventually get there and cut off the vent it will have been on for hours. Default is "2.5".
-+ **vent_co2_on_trigger** (integer): This is the CO₂ level that will cause the vent to turn on. Make 100-200 higher than `vent_co2_off_trigger` to give the vent a bit of hysteresis. Default is "1500".
-+ **vent_co2_off_trigger** (integer): This is the CO₂ level that will cause the vent to turn off. Default is "1400".
++ **vent_use_humidity** (bool): Enable humidity based control of the vent by setting this to `true`. Default is `true`.
++ **vent_use_co2** (bool): Enable CO₂ based control of the vent by setting this to `true`. Default is `false`
++ **vent_min_on_time** (integer): This is the minimum on time for a vent for manual mode and how long the vent will stay on after the humidity or CO₂ returns to normal. Default is `15`.
++ **vent_hum_on_trigger** (integer): This is the humidity level (%) rise from baseline that will turn on the vent. Baseline here is a fast exponential average (15 minutes). Showers usually have a sharp rise in humidity when first starting so a value of 10% rise in a few minutes is definitely a shower starting. Default is `10.0`.
++ **vent_hum_off_trigger** (integer): This is the humidity level (%) from baseline that will turn off the vent. Baseline here is a slow exponential average (6ish hours). You want this number slightly above zero because sometimes the humidity level doesn't go back to where it was before a shower occurred quick enough. And even though the baseline average will eventually get there and cut off the vent it will have been on for hours. Default is `2.5`.
++ **vent_co2_on_trigger** (integer): This is the CO₂ level that will cause the vent to turn on. Make 100-200 higher than `vent_co2_off_trigger` to give the vent a bit of hysteresis. Default is `1500`.
++ **vent_co2_off_trigger** (integer): This is the CO₂ level that will cause the vent to turn off. Default is `1400`.
 
 # Smoke Alarm Configuration
 
