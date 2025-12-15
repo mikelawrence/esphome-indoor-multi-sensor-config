@@ -1,4 +1,6 @@
 import os
+import re
+import string
 from pathlib import Path
 from elevenlabs.client import ElevenLabs
 
@@ -55,6 +57,7 @@ else:
     }
 
     rooms = {
+        "none": "",
         "aj-room": "in AJ's Room",
         "bedroom": "in the Bedroom",
         "brisa-room": "in Brisa's Room",
@@ -102,7 +105,10 @@ else:
         voice_id = get_voice_id_by_name(voice_name)
         # add single sentences without room context
         for sentence_name, sentence_text in sentences.items():
-            speak = sentence_text
+            # remove multiple whitespace and trim whitespace at beginning and end
+            speak = ' '.join(sentence_text.split()).strip()
+            # remove space before punctuation
+            speak = re.sub(r"\s+(?=[" + re.escape(string.punctuation) + r"])", "", speak)
             filename = Path("./sounds") / f"{voice_foldername}"
             filename.mkdir(parents=True, exist_ok=True)
             filename = filename / f"{sentence_name}.mp3"
@@ -123,8 +129,11 @@ else:
         # add all combinations of rooms and sentences
         for room_name, room_text in rooms.items():
             for sentence_name, sentence_text in sentences_rooms.items():
-                speak = sentence_text.format(room_text)
-                filename = Path("./sounds") / f"{voice_foldername}"/ f"{room_name}"
+                # remove multiple whitespace and trim whitespace at beginning and end
+                speak = ' '.join(sentence_text.format(room_text).split()).strip()
+                # remove space before punctuation
+                speak = re.sub(r"\s+(?=[" + re.escape(string.punctuation) + r"])", "", speak)
+                filename = Path("./sounds") / f"{voice_foldername}" / f"{room_name}"
                 filename.mkdir(parents=True, exist_ok=True)
                 filename = filename / f"{sentence_name}.mp3"
                 if filename.exists():
