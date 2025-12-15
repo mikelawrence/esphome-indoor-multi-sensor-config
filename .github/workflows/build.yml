@@ -98,7 +98,7 @@ jobs:
           mv ${{ steps.esphome-build.outputs.name }}/* output/${{ needs.prepare.outputs.version }}/
           rm output/${{ needs.prepare.outputs.version }}/*.elf
       - name: Upload artifact
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v6.0.0
         with:
           # yamllint disable-line rule:line-length
           name: ${{ inputs.combined-name != '' && format('{0}-{1}', needs.prepare.outputs.artifact-prefix, steps.esphome-build.outputs.name) || steps.esphome-build.outputs.original-name }}
@@ -148,7 +148,7 @@ jobs:
             files/*/$version/manifest.json > output/$version/manifest.json
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v6.0.0
         with:
           name: ${{ inputs.combined-name }}
           path: output
