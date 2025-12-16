@@ -48,6 +48,7 @@ else:
         "eryn-informative-female": "Eryn - Informative, Neutral and Measured",
         "river-female": "River",
         "northern-terry-male": "Northern Terry",
+        "lily-wolff": "Lily Wolff - Expressive and Kind",
         "lucy-fresh-female": "Lucy - Fresh & Casual",
     }
 

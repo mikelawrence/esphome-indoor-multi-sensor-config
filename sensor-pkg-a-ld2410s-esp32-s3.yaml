@@ -3,10 +3,11 @@ substitutions:
   friendly_name: "Indoor Multi-Sensor Rev-B Pkg A Radar LD2410S"
 
   # Settings
-  # voice name is one of: adam-dark-male, adam-male, eryn-informative-female, katie-x-female, lucy-fresh-female, northern-terry-male, river-female
+  # voice name is one of: adam-dark-male, adam-male, eryn-informative-female, katie-x-female, lily-wolff-female, lucy-fresh-female, northern-terry-male,
+  #    river-female
   voice_name: "adam-male"
-  # Room name is one of: aj-room, bedroom, brisa-room, dining-room, entry-hallway, family-room, game-room, garage,guest-bathroom, guest-bedroom, hallway, 
-  #   kids-bathroom, kids-bedroom, kitchen, laundry-room, living-room, master-bathroom, master-bedroom, master-closet, master-toilet, noah-room, nursery, 
+  # Room name is one of: aj-room, bedroom, brisa-room, dining-room, entry-hallway, family-room, game-room, garage,guest-bathroom, guest-bedroom, hallway,
+  #   kids-bathroom, kids-bedroom, kitchen, laundry-room, living-room, master-bathroom, master-bedroom, master-closet, master-toilet, noah-room, nursery,
   #   office, pantry, spare-bathroom, spare-bedroom, stairs, study, theater, utility-room, up-bathroom
   room_name: "bedroom"
   pir_installed: "true"
