@@ -3,7 +3,7 @@ packages:
 
 esphome:
   project:
-    name: Mike Lawrence.Indoor Multi-Sensor Sens-Pkg-A
+    name: Mike Lawrence.Indoor Multi-Sensor Rev-B Sens-Pkg-A LD2450
     # keep version: dev so that it will be replaced by github workflows with the `release` version
     version: dev
   name_add_mac_suffix: true

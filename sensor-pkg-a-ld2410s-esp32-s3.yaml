@@ -1,6 +1,6 @@
 substitutions:
-  name: "sensor-pkg-b-c4001"
-  friendly_name: "Indoor Multi-Sensor Rev-B Pkg B Radar C4001"
+  name: "sensor-pkg-b-ld2410"
+  friendly_name: "Indoor Multi-Sensor Rev-B Pkg A Radar LD2410S"
 
   # Settings
   # voice name is one of: adam-dark-male, adam-male, eryn-informative-female, katie-x-female, lucy-fresh-female, northern-terry-male, river-female
@@ -50,10 +50,8 @@ packages:
     files:
       # Main Config Files
       - common/common.yaml
-      - common/pkgb-sht4x.yaml
-      - common/pkgb-scd4x.yaml
-      - common/pkgb-sgp4x.yaml
-      - common/radar-c4001.yaml
+      - common/pkga-sen6x.yaml
+      - common/radar-ld2410s.yaml
 
       # ADDITIONAL SENSORS
       # Carbon Dioxide (CO) - Figaro TGS5141 sensor
@@ -80,7 +78,7 @@ esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   project:
-    name: Mike Lawrence.Indoor Multi-Sensor Rev-B Sens-Pkg-B C4001
+    name: Mike Lawrence.Indoor Multi-Sensor Rev-B Sens-Pkg-A LD2410S
 
 # API is a requirement of the dashboard import.
 # Grab a key from https://esphome.io/components/api.html

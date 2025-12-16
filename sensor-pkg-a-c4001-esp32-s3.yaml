@@ -1,6 +1,6 @@
 substitutions:
   name: "sensor-pkg-a-c4001"
-  friendly_name: "Indoor Multi-Sensor Rev-B Pkg A Radar C4001"
+  friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-A C4001"
 
   # Settings
   # voice name is one of: adam-dark-male, adam-male, eryn-informative-female, katie-x-female, lucy-fresh-female, northern-terry-male, river-female
@@ -39,6 +39,7 @@ substitutions:
   vent_co2_off_trigger: "900"
 
   # git ref, leave at main unless you know what you are doing
+  # if you change be sure to change ref below also
   ref: main
 
 packages:
@@ -79,7 +80,7 @@ esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   project:
-    name: Mike Lawrence.Indoor Multi-Sensor Sens-Pkg-A
+    name: Mike Lawrence.Indoor Multi-Sensor Rev-B Sens-Pkg-A C4001
 
 # API is a requirement of the dashboard import
 # Grab a key from https://esphome.io/components/api.html

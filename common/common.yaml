@@ -270,7 +270,7 @@ number:
     max_value: 100
     min_value: 0
     step: 1
-    initial_value: 90
+    initial_value: 75
     restore_value: true
 
 power_supply:

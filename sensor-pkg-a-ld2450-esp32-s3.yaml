@@ -39,6 +39,7 @@ substitutions:
   vent_co2_off_trigger: "900"
 
   # git ref, leave at main unless you know what you are doing
+  # if you change be sure to change ref below also
   ref: "main"
 
 packages:
@@ -79,7 +80,7 @@ esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   project:
-    name: Mike Lawrence.Indoor Multi-Sensor Sens-Pkg-A
+    name: Mike Lawrence.Indoor Multi-Sensor Rev-B Sens-Pkg-A LD2450
 
 # API is a requirement of the dashboard import.
 # Grab a key from https://esphome.io/components/api.html
