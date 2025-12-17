@@ -75,8 +75,6 @@ packages:
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
-  project:
-    name: Mike Lawrence.Indoor Multi-Sensor Rev-B
 
 # API is a requirement of the dashboard import.
 # Grab a key from https://esphome.io/components/api.html

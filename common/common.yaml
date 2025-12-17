@@ -15,6 +15,7 @@ esphome:
   name_add_mac_suffix: false
   project:
     version: ${config_version}
+    name: Mike Lawrence.Indoor Multi-Sensor Rev-B
   on_boot:
     - priority: 500.0
       then:
