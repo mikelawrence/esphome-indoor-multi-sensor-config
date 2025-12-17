@@ -39,6 +39,7 @@ jobs:
 
       - name: Update reference
         run: |
+          sed -i 's|ref:.*$|ref: ${{ github.ref_name }}|g' ./*s3.yaml
           sed -i 's|@main.*$|@${{ github.ref_name }}|g' ./*factory.yaml
 
       - name: ESPHome ${{ matrix.esphome-version }} Factory
