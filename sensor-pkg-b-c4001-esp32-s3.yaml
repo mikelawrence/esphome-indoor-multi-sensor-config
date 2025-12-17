@@ -5,7 +5,7 @@ substitutions:
   # Settings
   # Voice name allows you to change the voice of spoken announcements to fit your preferences.
   #   For a list of voice names see https://github.com/mikelawrence/esphome-indoor-multi-sensor-sounds/#available-voices
-  voice_name: "lily-wolff"
+  voice_name: "lily-wolff-female"
   # Room name allows you to personalize the room name in which the sensor is installed.
   #   For a list of room names see https://github.com/mikelawrence/esphome-indoor-multi-sensor-sounds/?tab=readme-ov-file#available-rooms
   room_name: "none"

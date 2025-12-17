@@ -1,7 +1,7 @@
 substitutions:
   name: "sensor-rev-b-pkg-a-c4001"
   friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-A LD2410S"
-  voice_name: "lily-wolff"
+  voice_name: "lily-wolff-female"
   room_name: "none"
   pir_installed: "true"
 
