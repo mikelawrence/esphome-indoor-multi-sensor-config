@@ -1,5 +1,5 @@
 substitutions:
-  name: "sensor-rev-b-pkg-a-ld2450"
+  name: "sensor-rev-b-pkg-a"
   friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-A LD2450"
 
   # Settings

@@ -41,7 +41,6 @@ jobs:
 
       - name: Update reference
         run: |
-          echo "GITHUB_CONTEXT: ${{ toJson(github) }}"
           echo "selected ref: ${{ github.head_ref || github.ref_name }}"
           sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./*s3.yaml
           sed -i 's|@main.*$|@${{ github.head_ref || github.ref_name }}|g' ./*factory.yaml

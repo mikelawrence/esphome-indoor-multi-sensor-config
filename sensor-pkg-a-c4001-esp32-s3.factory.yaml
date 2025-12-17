@@ -1,5 +1,5 @@
 substitutions:
-  name: "sensor-rev-b-pkg-a-c4001"
+  name: "sensor-rev-b-pkg-a"
   friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-A C4001"
   voice_name: "lily-wolff-female"
   room_name: "none"
