@@ -48,7 +48,7 @@ jobs:
             CHANGED+=$(sed -i.bak 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g; s|@main$|@${{ github.head_ref || github.ref_name }}|g w /dev/stdout' "$file");
             if [ "$CHANGED" != "" ]; then
               echo "Changed file: $file"
-              diff "$file.bak" "$file" || true
+              diff "$file.bak" "$file" || true | sed 's/^/    /'
             fi
             rm "$file.bak"
           done
