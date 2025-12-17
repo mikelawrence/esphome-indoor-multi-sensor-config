@@ -32,7 +32,7 @@ update:
   - platform: http_request
     id: update_http_request
     name: Indoor Multi-Sensor Firmware
-    source: https://mikelawrence.github.io/esphome-indoor-multi-sensor-config/firmware/sensor-pkg-a-ld2410.manifest.json
+    source: https://mikelawrence.github.io/esphome-indoor-multi-sensor-config/firmware/sensor-pkg-a-ld2410.manifest.json@main
 
 http_request: null
 
