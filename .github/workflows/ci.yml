@@ -48,8 +48,8 @@ jobs:
             CHANGED+=$(sed -i.bak 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g; s|@main$|@${{ github.head_ref || github.ref_name }}|g w /dev/stdout' "$file");
             if [ "$CHANGED" != "" ]; then
               diff "$file.bak" "$file"
-              rm "$file.bak"
             fi
+            rm "$file.bak"
           done
 
 # echo "Find files: $YAML_FILES"
