@@ -7,7 +7,7 @@ on:
       - ".github/workflows/ci.yml"
   schedule:
     # Weekly on Sunday at midnight
-    - cron: "0 0 * * 0" 
+    - cron: "0 0 * * 0"
 
 concurrency:
   group: "Only one at a time"
@@ -39,8 +39,7 @@ jobs:
 
       - name: Update reference
         run: |
-          sed -i 's|config_version:.*$|config_version: Ref->${{ github.ref_name }}|g' ./common/common.yaml
-          sed -i 's|@main.*$|@${{ github.ref_name }}|g' ./*s3.yaml
+          sed -i 's|@main.*$|@${{ github.ref_name }}|g' ./*factory.yaml
 
       - name: ESPHome ${{ matrix.esphome-version }} Factory
         uses: esphome/build-action@v7
