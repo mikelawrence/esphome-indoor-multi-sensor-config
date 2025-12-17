@@ -44,10 +44,12 @@ jobs:
           echo "Update ref: ${{ github.head_ref || github.ref_name }}"
           YAML_FILES=$(find . -type f -name '*.yaml')
           find . -type f -name '*.yaml' | while read file; do 
-            sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|p' "$file";
-            sed -i 's|@main.*$|@${{ github.head_ref || github.ref_name }}|p' "$file";
+            CHANGED_FILES_1=$(sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|p' "$file");
+            CHANGED_FILES_2=$(sed -i 's|@main.*$|@${{ github.head_ref || github.ref_name }}|p' "$file");
           done
-          echo "These are the files: $YAML_FILES"
+          echo "Find files: $YAML_FILES"
+          echo "Changed files 1: $CHANGED_FILES_1"
+          echo "Changed files 2: $CHANGED_FILES_2"
 
 # sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./*.yaml
 # sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./common/*.yaml
