@@ -46,8 +46,10 @@ jobs:
           find . -type f -name '*.yaml' | while read file; do
             CHANGED=""
             CHANGED+=$(sed -i.bak 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g; s|@main$|@${{ github.head_ref || github.ref_name }}|g w /dev/stdout' "$file");
-            diff "$file.bak" "$file" || "$CHANGED" != ""
-            rm "$file.bak"
+            if [ "$CHANGED" != "" ]; then
+              diff "$file.bak" "$file"
+              rm "$file.bak"
+            fi
           done
 
 # echo "Find files: $YAML_FILES"
