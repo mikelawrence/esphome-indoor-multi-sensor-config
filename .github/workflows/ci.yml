@@ -50,8 +50,8 @@ jobs:
           echo "Find files: $YAML_FILES"
           echo "Changed files 1: $CHANGED_FILES_1"
           echo "Changed files 2: $CHANGED_FILES_2"
-          FILE=${cat ./sensor-pkg-a-ld2410-esp32-s3.factory.yaml}
-          echo "File: $FILE"
+          YAML_FILE=$(cat ./sensor-pkg-a-ld2410-esp32-s3.factory.yaml)
+          echo "File: $YAML_FILE"
 
 # sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./*.yaml
 # sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./common/*.yaml
