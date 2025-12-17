@@ -1,5 +1,6 @@
 substitutions:
-  name: "sensor-rev-b-pkg-a"
+  # name must be unique across all factory builds in this project and 24 characters or less
+  name: "sensor-pkg-a-ld2410s"
   friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-A LD2410S"
   voice_name: "lily-wolff-female"
   room_name: "none"
@@ -37,8 +38,12 @@ update:
 http_request: null
 
 dashboard_import:
-  # keep @main so that it can be replaced for CI workflows
-  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/sensor-pkg-a-ld2410s-esp32-s3.yaml@main
+  dashboard_package_file:
+    url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config
+    files:
+      - sensor-pkg-a-ld2410s-esp32-s3.yaml
+    # keep "ref: main" so that it can be replaced as necessary by Github workflows
+    ref: main
   import_full_config: true
 
 wifi:
