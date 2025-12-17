@@ -58,7 +58,7 @@ sensor:
     current:
       name: "Digital Current"
       accuracy_decimals: 3
-  # This sensor includes everything powered by +3.3VA power supply 
+  # This sensor includes everything powered by +3.3VA power supply
   # PIR, SHT4x, SGP4x, SCD4x, BMP581, TSL2591, Carbon Monoxide circuit, and SEN6X
   - platform: ina2xx_i2c
     id: analog_power_sensor

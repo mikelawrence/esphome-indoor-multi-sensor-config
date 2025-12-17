@@ -51,7 +51,7 @@ globals:
 
 one_wire:
   - platform: gpio
-    pin: 
+    pin:
       number: GPIO21
       mode: INPUT_OUTPUT_OPEN_DRAIN
 

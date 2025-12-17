@@ -36,17 +36,6 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v5
 
-      - name: Get calendar version
-        id: calendar-version
-        uses: harm-matthias-harms/calendar-version@v3.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Update reference
-        run: |
-          sed -i 's/config_version:.*$/config_version: Ref->${{ github.ref_name }}/g' ./common/common.yaml
-          sed -i 's/ref:.*$/ref: ${{ github.ref_name }}/g' ./*s3.yaml
-
       - name: ESPHome ${{ matrix.esphome-version }} Factory
         uses: esphome/build-action@v7
         with:

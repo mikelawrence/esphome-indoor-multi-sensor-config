@@ -135,7 +135,7 @@ sensor:
       name: "PM <4um Mass concentration"
       id: pm_4_0
       accuracy_decimals: 2
-      filters: 
+      filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
         - throttle_average: 60s

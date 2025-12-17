@@ -77,7 +77,7 @@ switch:
   - platform: ld2410s
     minimal_output:
       name: Minimal Output
-      
+
 text_sensor:
   - platform: ld2410s
     fw_version:

@@ -216,7 +216,7 @@ binary_sensor:
     id: presence
     device_class: presence
     lambda: |-
-      return id(presence_mmwave).state or 
+      return id(presence_mmwave).state or
         (${pir_enabled} && id(pir_enable).state && id(motion_pir).state);
     on_state:
       then:
