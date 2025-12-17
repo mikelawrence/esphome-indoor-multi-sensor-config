@@ -3,17 +3,11 @@ substitutions:
   friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-B LD2410"
 
   # Settings
-  # Voice name allows you to change the voice of spoken announcements to fit your preferences. One of:
-  #   adam-male, adam-dark-male, eryn-informative-female, katie-x-female, lily-wolff-female,
-  #   lucy-fresh-female, northern-terry-male, river-female
+  # Voice name allows you to change the voice of spoken announcements to fit your preferences.
+  #   For a list of voice names see https://github.com/mikelawrence/esphome-indoor-multi-sensor-sounds/#available-voices
   voice_name: "lily-wolff"
-  # Room name allows you to personalize the room name in which the sensor is installed. One of:
-  #   none, aj-room, bedroom, brisa-room, dining-room, entry-hallway, family-room, game-room, garage,
-  #   guest-bathroom, guest-bedroom, hallway, kids-bathroom, kids-bedroom, kitchen, laundry-room,
-  #   living-room, master-bathroom, master-bedroom, master-closet, master-toilet, noah-room,
-  #   nursery, office, pantry, spare-bathroom, spare-bedroom, stairs, study, theater, utility-room,
-  #   up-bathroom
-  #   none is default and will not announce room name.
+  # Room name allows you to personalize the room name in which the sensor is installed.
+  #   For a list of room names see https://github.com/mikelawrence/esphome-indoor-multi-sensor-sounds/?tab=readme-ov-file#available-rooms
   room_name: "none"
   pir_installed: "true"
   # Status LED Configuration
