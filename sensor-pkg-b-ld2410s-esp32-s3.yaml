@@ -1,15 +1,20 @@
 substitutions:
-  name: "sensor-pkg-b-ld2410"
-  friendly_name: "Indoor Multi-Sensor Rev-B Pkg B Radar LD2410S"
+  name: "sensor-rev-b-pkg-b-ld2410"
+  friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-B LD2410S"
 
   # Settings
-  # voice name is one of: adam-dark-male, adam-male, eryn-informative-female, katie-x-female, lily-wolff-female, lucy-fresh-female, northern-terry-male,
-  #    river-female
-  voice_name: "adam-male"
-  # Room name is one of: aj-room, bedroom, brisa-room, dining-room, entry-hallway, family-room, game-room, garage,guest-bathroom, guest-bedroom, hallway,
-  #   kids-bathroom, kids-bedroom, kitchen, laundry-room, living-room, master-bathroom, master-bedroom, master-closet, master-toilet, noah-room, nursery,
-  #   office, pantry, spare-bathroom, spare-bedroom, stairs, study, theater, utility-room, up-bathroom
-  room_name: "bedroom"
+  # Voice name allows you to change the voice of spoken announcements to fit your preferences. One of:
+  #   adam-male, adam-dark-male, eryn-informative-female, katie-x-female, lily-wolff-female,
+  #   lucy-fresh-female, northern-terry-male, river-female
+  voice_name: "lily-wolff"
+  # Room name allows you to personalize the room name in which the sensor is installed. One of:
+  #   none, aj-room, bedroom, brisa-room, dining-room, entry-hallway, family-room, game-room, garage,
+  #   guest-bathroom, guest-bedroom, hallway, kids-bathroom, kids-bedroom, kitchen, laundry-room,
+  #   living-room, master-bathroom, master-bedroom, master-closet, master-toilet, noah-room,
+  #   nursery, office, pantry, spare-bathroom, spare-bedroom, stairs, study, theater, utility-room,
+  #   up-bathroom
+  #   none is default and will not announce room name.
+  room_name: "none"
   pir_installed: "true"
   # Status LED Configuration
   status_nightlight_brightness: "1.0"
@@ -38,10 +43,6 @@ substitutions:
   vent_hum_off_trigger: "2.5"
   vent_co2_on_trigger: "1100"
   vent_co2_off_trigger: "900"
-
-  # git ref, leave at main unless you know what you are doing
-  # if you change be sure to change ref below also
-  ref: "main"
 
 packages:
   remote:
@@ -81,7 +82,7 @@ esphome:
   name: ${name}
   friendly_name: ${friendly_name}
   project:
-    name: Mike Lawrence.Indoor Multi-Sensor Rev-B Sens-Pkg-B LD2410S
+    name: Mike Lawrence.Indoor Multi-Sensor Rev-B
 
 # API is a requirement of the dashboard import.
 # Grab a key from https://esphome.io/components/api.html

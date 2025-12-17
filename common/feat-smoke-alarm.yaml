@@ -12,25 +12,25 @@ media_player:
     id: !extend speaker_media_player_id
     files:
       - id: two_beep_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/two-beep.mp3
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/two-beep.mp3
       - id: three_beep_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/three-beep.mp3
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/three-beep.mp3
       - id: four_beep_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/four-beep.mp3
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/four-beep.mp3
       - id: alarm_silenced_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/${voice_name}/alarm_silenced.mp3
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/${voice_name}/alarm_silenced.mp3
       - id: alarm_cannot_be_silenced_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/${voice_name}/alarm-cannot-be-silenced.mp3
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/${voice_name}/alarm-cannot-be-silenced.mp3
       - id: warning_carbon_dioxide_levels_are_elevated_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/${voice_name}/${room_name}/co2-warning.mp3
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/${voice_name}/${room_name}/co2-warning.mp3
       - id: warning_carbon_monoxide_levels_are_elevated_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/${voice_name}/${room_name}/co-warning.mp3
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/${voice_name}/${room_name}/co-warning.mp3
       - id: carbon_monoxide_levels_are_high_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/${voice_name}/${room_name}/co-danger.mp3
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/${voice_name}/${room_name}/co-danger.mp3
       - id: danger_smoke_detected_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/${voice_name}/${room_name}/smoke-danger.mp3
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/${voice_name}/${room_name}/smoke-danger.mp3
       - id: warning_pm_levels_are_elevated_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/${voice_name}/${room_name}/pm-warning.mp3
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/${voice_name}/${room_name}/pm-warning.mp3
 
 script:
   - id: announce_danger_smoke

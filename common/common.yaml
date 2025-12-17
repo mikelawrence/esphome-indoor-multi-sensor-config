@@ -260,7 +260,7 @@ media_player:
       sample_rate: 48000
     files:
       - id: multi_sensor_operational_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/${voice_name}/${room_name}/operational.mp3
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/${voice_name}/${room_name}/operational.mp3
 
 number:
   - platform: template
