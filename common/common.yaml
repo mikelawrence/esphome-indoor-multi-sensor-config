@@ -1,7 +1,7 @@
 # common setup for all devices
 substitutions:
   # These are the default values for substitutions that are not defined in the main config file
-  config_version: "main"
+  config_version: 2025.12.1
   pir_enabled: "false"
   status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
