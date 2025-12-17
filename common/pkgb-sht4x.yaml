@@ -3,15 +3,9 @@
 #     Temperature and Humidity
 #   Not compatible with PACKAGE A package
 substitutions:
+  # These are the default values for substitutions that are not defined in the main config file
   temperature_offset: "0.0"
   humidity_offset: "0.0"
-
-esphome:
-  on_boot:
-    priority: 600.0
-    then:
-      - lambda: |-
-          id(sht4x_available_var) = true;
 
 sensor:
   - platform: sht4x
@@ -24,16 +18,7 @@ sensor:
       accuracy_decimals: 2
       filters:
         - filter_out: NAN
-        - lambda: |-
-            // get the first board temperature out quickly
-            if(isnan(id(board_temperature_var)))
-              id(board_temperature_var) = x;
-            return x;
         - throttle_average: 60s
-      on_value:
-        then:
-          - lambda: |-
-              id(board_temperature_var) = x;
     humidity:
       # humidity_internal has 1s interval averaged to once a minute
       id: humidity_internal
@@ -53,10 +38,10 @@ sensor:
       - median:
           window_size: 5
           send_every: 1
-  - platform: copy
-    id: sht4x_temperature
-    accuracy_decimals: 2
-    source_id: temperature_internal
+  # - platform: copy
+  #   id: sht4x_temperature
+  #   accuracy_decimals: 2
+  #   source_id: temperature_internal
   - platform: copy
     # humidity median over last 5 minutes, output every minute
     id: humidity

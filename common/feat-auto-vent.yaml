@@ -1,5 +1,6 @@
 # Add Automatic Vent Control
 substitutions:
+  # These are the default values for substitutions that are not defined in the main config file
   vent_use_humidity: "true"
   vent_use_co2: "false"
   vent_min_on_time: "15"
@@ -81,16 +82,16 @@ script:
         constexpr const char *const ESP_LOG_TAG = "auto_vent";
         float on_time_seconds;
         float co2_value = 0;
-        float hum = id(humidity_internal)->state;
-        float hum_long_avg = id(humidity_long_avg)->state;
-        float hum_short_avg = id(humidity_short_avg)->state;
+        float hum = id(humidity_internal).state;
+        float hum_long_avg = id(humidity_long_avg).state;
+        float hum_short_avg = id(humidity_short_avg).state;
         // handle initialization
         if (first) {
           first = false;
         }
         // grab co2 if we are controlling the fan for co2 too
         if (${vent_use_co2}) {
-          co2_value = id(co2)->state;
+          co2_value = id(co2).state;
         }
         if (state != 0) {
           on_time_seconds = round(static_cast<float>(millis() - start_time) / 1000.0);

@@ -1,0 +1,98 @@
+# Adds Hi-Link LD2410S mmWave Radar
+#   Not compatible with any other radar package
+api:
+  on_client_connected:
+    then:
+      - text_sensor.template.publish:
+          id: radar_included
+          state: "Hi-Link LD2410S"
+
+external_components:
+  - source: github://pr#8486
+    components: [ld2410s]
+    refresh: 1min
+
+uart:
+  - id: ld2410s_uart
+    tx_pin: GPIO17
+    rx_pin: GPIO18
+    baud_rate: 115200
+    parity: NONE
+    stop_bits: 1
+    # rx_buffer_size: 512
+
+ld2410s:
+  uart_id: ld2410s_uart
+
+binary_sensor:
+  - platform: ld2410s
+    has_target:
+      name: MMWAVE Presence
+      id: presence_mmwave
+    has_calibration_running:
+      name: LD2410S Calibration Running
+
+button:
+  - platform: ld2410s
+    calibration:
+      name: Start Auto Calibration
+    factory_reset:
+      name: Factory reset
+
+number:
+  - platform: ld2410s
+    max_distance:
+      name: Max Detect Distance
+    min_distance:
+      name: Min Detect Distance
+    no_delay:
+      name: No detect Report Delay
+    status_reporting_frequency:
+      name: Status Reporting Frequency
+    distance_reporting_frequency:
+      name: Distance Reporting Frequency
+
+    threshold_trigger:
+      name: Threshold Trigger
+    threshold_hold:
+      name: Threshold Hold
+    threshold_snr:
+      name: Threshold SNR
+    threshold_selected_gate:
+      name: Threshold Selected Gate
+
+sensor:
+  - platform: ld2410s
+    target_distance:
+      name: Target Distance
+    calibration_progress:
+      name: LD2410S Calibration Progress
+
+select:
+  - platform: ld2410s
+    response_speed:
+      name: Response Speed
+
+switch:
+  - platform: ld2410s
+    minimal_output:
+      name: Minimal Output
+
+text_sensor:
+  - platform: ld2410s
+    fw_version:
+      name: LD2410S Firmware version
+    threshold_triggers:
+      name: Threshold Triggers
+    threshold_holds:
+      name: Threshold Holds
+    threshold_snrs:
+      name: Threshold SNRs
+    energy_values:
+      name: Energy Values
+  - platform: template
+    name: "Radar Included"
+    id: radar_included
+    entity_category: diagnostic
+    update_interval: never
+    lambda: 'return {""};'

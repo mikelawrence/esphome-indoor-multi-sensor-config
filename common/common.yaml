@@ -1,35 +1,40 @@
 # common setup for all devices
 substitutions:
-  config_version: 2025.12.0
-  # Status LED configuration
+  # These are the default values for substitutions that are not defined in the main config file
+  config_version: "main"
+  pir_enabled: "false"
   status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
   status_night_brightness: "0.15"
   status_daytime_lux: "10.0"
   status_nighttime_lux: "3.0"
-  presence_ha_entity: ""
+  presence_ha_entity: "binary_sensor.unknown_room_occupancy"
 
 esphome:
-  min_version: 2025.8.4
+  min_version: 2025.11.0
   name_add_mac_suffix: false
   project:
     version: ${config_version}
+    name: Mike Lawrence.Indoor Multi-Sensor Rev-B
   on_boot:
-    - priority: -400
+    - priority: 500.0
       then:
         - script.execute: update_status_led
+    - priority: -100.0
+      then:
         - script.execute: announce_operational
   on_shutdown:
-    - priority: 700
+    - priority: 600.0
       then:
         - light.turn_off:
             id: led_status
 
 # ESP32-S3-WROOM-2-N32R16V
+# Even though there is 32MB of flash, OTA updates with that size are not reliable
+# so we configure as 16MB
 esp32:
   board: esp32s3box
   variant: ESP32S3
-  # It should support the actual 32MB, but...
   flash_size: 16MB
   cpu_frequency: 240MHz
   framework:
@@ -44,13 +49,7 @@ logger:
   level: DEBUG
 
 globals:
-  - id: board_temperature_var
-    type: float
-    initial_value: NAN
   - id: ha_presence_var
-    type: bool
-    initial_value: "false"
-  - id: sht4x_available_var
     type: bool
     initial_value: "false"
   - id: co_available_var
@@ -98,6 +97,9 @@ globals:
     # This means PM2.5 levels are elevated but not dangerous
     type: bool
     initial_value: "false"
+  - id: pressure_hpa_var
+    type: float
+    initial_value: "0.0"
 
 # All but the SEN6X is on this bus
 i2c:
@@ -194,8 +196,6 @@ script:
           then:
             - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
             - media_player.speaker.play_on_device_media_file:
-                media_file: office_sound
-            - media_player.speaker.play_on_device_media_file:
                 media_file: multi_sensor_operational_sound
                 enqueue: true
 
@@ -211,19 +211,14 @@ binary_sensor:
             } else {
               id(ha_presence_var) = false;
             }
-
         - script.execute: update_status_led
   - platform: template
     name: "Presence"
     id: presence
     device_class: presence
     lambda: |-
-      if(id(presence_mmwave).state or
-        (id(pir_enable).state && id(motion_pir).state)) {
-        return true;
-      } else {
-        return false;
-      }
+      return id(presence_mmwave).state or
+        (${pir_enabled} && id(pir_enable).state && id(motion_pir).state);
     on_state:
       then:
         script.execute: update_status_led
@@ -231,6 +226,7 @@ binary_sensor:
     id: motion_pir
     name: "PIR Motion"
     device_class: motion
+    internal: ${pir_enabled}
     pin:
       number: GPIO38
     filters:
@@ -253,44 +249,19 @@ media_player:
   - platform: speaker
     name: "Media Player"
     id: speaker_media_player_id
-    volume_max: 90%
+    buffer_size: 2000000
+    task_stack_in_psram: true
     media_pipeline:
       speaker: media_spk_resampling_input
-      num_channels: 2
+      num_channels: 1
+      sample_rate: 48000
     announcement_pipeline:
       speaker: announcement_spk_resampling_input
       num_channels: 1
+      sample_rate: 48000
     files:
       - id: multi_sensor_operational_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/multi-sensor-operational.mp3
-      - id: bathroom_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/bathroom.mp3
-      - id: bedroom_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/bedroom.mp3
-      - id: dining_room_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/dining-room.mp3
-      - id: entry_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/entry.mp3
-      - id: garage_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/garage.mp3
-      - id: guest_bathroom_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/guest-bathroom.mp3
-      - id: kitchen_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/kitchen.mp3
-      - id: laundry_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/laundry.mp3
-      - id: living_room_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/living-room.mp3
-      - id: master_bathroom_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-bathroom.mp3
-      - id: master_toilet_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-toilet.mp3
-      - id: master_bedroom_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-bedroom.mp3
-      - id: master_closet_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/master-closet.mp3
-      - id: office_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/${ref}/media/office.mp3
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/${voice_name}/${room_name}/operational.mp3
 
 number:
   - platform: template
@@ -300,7 +271,7 @@ number:
     max_value: 100
     min_value: 0
     step: 1
-    initial_value: 90
+    initial_value: 75
     restore_value: true
 
 power_supply:
@@ -322,35 +293,39 @@ speaker:
   - platform: i2s_audio
     id: speaker_id
     i2s_audio_id: speaker_i2s
-    dac_type: external
     i2s_dout_pin: GPIO10
+    dac_type: external
+    channel: mono
+    timeout: never
     sample_rate: 48000
+    bits_per_sample: 16bit
   - platform: mixer
     id: mixer_speaker_id
     output_speaker: speaker_id
     source_speakers:
       - id: announcement_spk_mixer_input
+        timeout: never
       - id: media_spk_mixer_input
+        timeout: never
   - platform: resampler
     id: media_spk_resampling_input
     output_speaker: media_spk_mixer_input
-    sample_rate: 48000
   - platform: resampler
     id: announcement_spk_resampling_input
     output_speaker: announcement_spk_mixer_input
-    sample_rate: 48000
 
 switch:
   - platform: template
     name: "PIR Enable"
     id: pir_enable
+    internal: ${pir_enabled}
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
   - platform: template
     name: "LED Enable"
     id: led_enable
     optimistic: true
-    restore_mode: RESTORE_DEFAULT_OFF
+    restore_mode: RESTORE_DEFAULT_ON
     on_turn_on:
       script.execute: update_status_led
     on_turn_off:

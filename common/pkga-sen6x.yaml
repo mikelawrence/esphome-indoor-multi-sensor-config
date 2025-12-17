@@ -5,6 +5,7 @@
 #     Particulate Matter (PM)
 #   Not compatible with PACKAGE B packages
 substitutions:
+  # These are the default values for substitutions that are not defined in the main config file
   sen66_skip_initial: "300"
   temperature_offset: "0.0"
   humidity_offset: "0.0"
@@ -17,10 +18,12 @@ external_components:
 
 esphome:
   on_boot:
-    priority: 600.0
+    priority: 800.0
     then:
       - lambda: |-
+          // Let other parts of config know there is a CO₂ sensor
           id(co2_available_var) = true;
+          // Let other parts of config know there is a Particulate Matter sensor
           id(pm25_available_var) = true;
 
 api:
@@ -40,7 +43,7 @@ i2c:
   - id: i2c2_bus
     sda: GPIO43
     scl: GPIO44
-    frequency: 400kHz
+    frequency: 100kHz
     scan: true
 
 number:
@@ -85,7 +88,6 @@ sensor:
     i2c_id: i2c2_bus
     address: 0x6B
     update_interval: 1s
-    # setup_priority: -400
     model: SEN66
     store_baseline: true
     temperature:
@@ -95,18 +97,8 @@ sensor:
       accuracy_decimals: 2
       filters:
         - filter_out: NAN
-        - lambda: |-
-            // get the first board temperature out quickly
-            if(!id(sht4x_available_var) && isnan(id(board_temperature_var)))
-              id(board_temperature_var) = x;
-            return x;
         - skip_initial: ${sen66_skip_initial}
         - throttle_average: 60s
-      on_value:
-        then:
-          - lambda: |-
-              if(!id(sht4x_available_var))
-                id(board_temperature_var) = x;
     humidity:
       # humidity 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -120,7 +112,7 @@ sensor:
     pm_1_0:
       # PM 1µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <1µm Mass concentration"
+      name: "PM <1um Mass concentration"
       id: pm_1_0
       accuracy_decimals: 2
       filters:
@@ -130,7 +122,7 @@ sensor:
     pm_2_5:
       # PM 2.5µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <2.5µm Mass concentration"
+      name: "PM <2.5um Mass concentration"
       id: pm_2_5
       accuracy_decimals: 2
       filters:
@@ -140,7 +132,7 @@ sensor:
     pm_4_0:
       # PM 4µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <4µm Mass concentration"
+      name: "PM <4um Mass concentration"
       id: pm_4_0
       accuracy_decimals: 2
       filters:
@@ -150,7 +142,7 @@ sensor:
     pm_10_0:
       # PM 10µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <10µm Mass concentration"
+      name: "PM <10um Mass concentration"
       id: pm_10_0
       accuracy_decimals: 2
       filters:
@@ -171,6 +163,8 @@ sensor:
       on_value:
         then:
           - lambda: |-
+              if (id(pressure_hpa_var) > 0.0)
+                id(sen66_sensor).set_ambient_pressure_compensation(id(pressure_hpa_var));
               if (x > 2000.0)
                 id(co2_warning_var) = true;
               if (x < 1800.0)

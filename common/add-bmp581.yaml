@@ -12,3 +12,7 @@ sensor:
       oversampling: 128x
       filters:
         - throttle_average: 60s
+      on_value:
+        then:
+          - lambda: |-
+              id(pressure_hpa_var) = x * 0.01; // convert to hPa

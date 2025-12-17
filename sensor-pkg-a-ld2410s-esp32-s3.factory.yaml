@@ -1,6 +1,6 @@
 substitutions:
   name: "sensor-rev-b-pkg-a"
-  friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-A LD2410"
+  friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-A LD2410S"
   voice_name: "lily-wolff-female"
   room_name: "none"
   pir_installed: "true"
@@ -8,7 +8,7 @@ substitutions:
 packages:
   - !include common/common.yaml
   - !include common/pkga-sen6x.yaml
-  - !include common/radar-ld2410.yaml
+  - !include common/radar-ld2410s.yaml
   - !include common/add-co.yaml
   - !include common/add-ina2xx.yaml
   - !include common/add-tsl2591.yaml
@@ -32,13 +32,13 @@ update:
   - platform: http_request
     id: update_http_request
     name: Indoor Multi-Sensor Firmware
-    source: https://mikelawrence.github.io/esphome-indoor-multi-sensor-config/firmware/sensor-pkg-a-ld2410.manifest.json
+    source: https://mikelawrence.github.io/esphome-indoor-multi-sensor-config/firmware/sensor-pkg-a-ld2410s.manifest.json
 
 http_request: null
 
 dashboard_import:
   # keep @main so that it can be replaced for CI workflows
-  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/sensor-pkg-a-ld2410-esp32-s3.yaml@main
+  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/sensor-pkg-a-ld2410s-esp32-s3.yaml@main
   import_full_config: true
 
 wifi:

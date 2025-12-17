@@ -1,9 +1,15 @@
 substitutions:
-  name: "sensor-pkg-a-ld2450"
-  friendly_name: "Indoor Multi-Sensor Pkg A Radar LD2450"
+  name: "sensor-rev-b-pkg-a"
+  friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-A LD2450"
 
   # Settings
-  room_sound_id: "xxx_sound"
+  # Voice name allows you to change the voice of spoken announcements to fit your preferences.
+  #   For a list of voice names see https://github.com/mikelawrence/esphome-indoor-multi-sensor-sounds/#available-voices
+  voice_name: "lily-wolff-female"
+  # Room name allows you to personalize the room name in which the sensor is installed.
+  #   For a list of room names see https://github.com/mikelawrence/esphome-indoor-multi-sensor-sounds/?tab=readme-ov-file#available-rooms
+  room_name: "none"
+  pir_installed: "true"
   # Status LED Configuration
   status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
@@ -32,9 +38,6 @@ substitutions:
   vent_co2_on_trigger: "1100"
   vent_co2_off_trigger: "900"
 
-  # git ref, leave at main unless you know what you are doing
-  ref: "main"
-
 packages:
   remote:
     url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config
@@ -51,7 +54,7 @@ packages:
       # - common/pkga-sht4x.yaml
       # Carbon Dioxide (CO) - Figaro TGS5141 sensor
       - common/add-co.yaml
-      # Energy Usage - INA2XX sensor to measure Voltage, Power and Energy Usage
+      # Energy Usage - INA2XX sensors to measure Voltage, Current, Power and Energy Usage
       - common/add-ina2xx.yaml
       # Light Level - TSL2591 sensor
       - common/add-tsl2591.yaml
@@ -61,18 +64,17 @@ packages:
       - common/add-microphone.yaml
 
       # FEATURES
-      # SEN6X Pressure Compensation - Adds pressure compensation to SEN6X
-      - common/feat-sen6x-press-comp.yaml
       # Automatic Vent - Use humidity and CO₂ to control a bathroom vent
       # - common/feat-auto-vent.yaml
       # Smoke Alarm - Use PM and CO₂ for smoke alarm functionality
+      # Danger: !!!This is experimental and may not work as expected!!!
+      #         !!!DO NOT USE AS A PRIMARY SMOKE ALARM!!!
+      #         !!!Use at your own risk!!!
       # - common/feat-smoke-alarm.yaml
 
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
-  project:
-    name: Mike Lawrence.Indoor Multi-Sensor Sens-Pkg-A
 
 # API is a requirement of the dashboard import.
 # Grab a key from https://esphome.io/components/api.html

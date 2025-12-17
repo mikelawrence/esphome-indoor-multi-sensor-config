@@ -1,8 +1,7 @@
-# Adds Hi-Link LD2410 mmWave Radar
-#   Multi-Target, Multi-Zone version
-#   Intended for the ESPHome Built-In Component
+# Adds Hi-Link LD2450 mmWave Radar
+#   Uses the ESPHome Built-In Component
 #   Not compatible with any other radar package
-#   this sensor is mounted upside down target x and angle sensors are inverted
+#   This sensor is mounted upside down target x and angle sensors are inverted
 api:
   on_client_connected:
     then:
@@ -31,7 +30,8 @@ globals:
     initial_value: "{0.0}"
 
 power_supply:
-  # this enables power the ld2450 module
+  # This enables power the ld2450 module
+  # Only for Rev A and older boards, will not bother Rev B and newer boards
   - id: ld2450_enable
     pin: GPIO4
     enable_on_boot: true

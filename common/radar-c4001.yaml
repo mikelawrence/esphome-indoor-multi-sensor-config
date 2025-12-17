@@ -1,6 +1,5 @@
 # Adds DFRobot C4001 (SEN0609 or SEN0610) mmWave Radar
-# Current this is my PR on ESPHome, there is a new PR from the DFRobot in progress
-#   Expect changes to that component when ready
+# Currently this is my PR on ESPHome, there is a new PR from the DFRobot in progress
 # Not compatible with any other radar package
 external_components:
   - source: github://pr#9810
@@ -31,6 +30,18 @@ dfrobot_c4001:
   uart_id: c4001_uart
   model: SEN0609
   mode: PRESENCE
+
+binary_sensor:
+  - platform: dfrobot_c4001
+    occupancy:
+      name: MMWAVE Presence
+      id: presence_mmwave
+    config_changed:
+      name: C4001 Config Changed
+  - platform: gpio
+    pin: GPIO16
+    name: MMWAVE Presence GPIO
+    device_class: presence
 
 button:
   - platform: dfrobot_c4001
@@ -71,14 +82,6 @@ number:
     inhibit_time:
       name: Inhibit Time
       id: inhibit_time
-
-binary_sensor:
-  - platform: dfrobot_c4001
-    occupancy:
-      name: MMWAVE Presence
-      id: presence_mmwave
-    config_changed:
-      name: C4001 Config Changed
 
 switch:
   - platform: dfrobot_c4001

@@ -1,16 +1,27 @@
 # Adds CO sensor using the Figaro TGS5141
 substitutions:
+  # These are the default values for substitutions that are not defined in the main config file
   co_offset: "0.0"
   co_sensitivity: "2.000e-9"
   co_manufacture_date: "Not Set"
   co_serial_number: "Not Set"
 
+logger:
+  logs:
+    ads1115.sensor: ERROR
+
 esphome:
   on_boot:
-    priority: 600.0
-    then:
-      - lambda: |-
-          id(co_available_var) = true;
+    - priority: 100.0
+      then:
+        - lambda: |-
+            // don't wait for update rate, force an immediate temperature update
+            id(co_temperature).update();
+    - priority: 600.0
+      then:
+        - lambda: |-
+            // Let other parts of config know there is a CO sensor
+            id(co_available_var) = true;
 
 api:
   on_client_connected:
@@ -21,10 +32,6 @@ api:
       - text_sensor.template.publish:
           id: co_manufacture_date
           state: "${co_manufacture_date}"
-
-logger:
-  logs:
-    ads1115.sensor: INFO
 
 globals:
   - id: co_sensitivity_const
@@ -42,12 +49,21 @@ globals:
       1.12, 1.1275, 1.135, 1.1425, 1.15, 1.1575, 1.165, 1.1725, 1.18, 1.1875,
       1.195, 1.2025, 1.21, 1.2175, 1.225}"
 
+one_wire:
+  - platform: gpio
+    pin:
+      number: GPIO21
+      mode: INPUT_OUTPUT_OPEN_DRAIN
+
 ads1115:
   - address: 0x48
     i2c_id: i2c1_bus
     continuous_mode: false
 
 sensor:
+  - platform: dallas_temp
+    id: co_temperature
+    update_interval: 60s
   - platform: ads1115
     id: co
     name: "CO"
@@ -56,7 +72,6 @@ sensor:
     unit_of_measurement: ppm
     update_interval: 1s
     accuracy_decimals: 0
-    setup_priority: -400
     multiplexer: A0_A1
     gain: 0.512
     resolution: 16_BITS
@@ -65,7 +80,7 @@ sensor:
           static bool error = false;
           float sensitivity = id(co_sensitivity_const);
           float cf = 1.0;
-          float temp = round(id(board_temperature_var));
+          float temp = round(id(co_temperature).state);
 
           if (isnan(temp)) {
             // temperature is not valid
@@ -96,10 +111,6 @@ sensor:
           send_every: 1
       - throttle: 60s
       - skip_initial: 2
-
-  - platform: copy
-    id: co_internal
-    source_id: co
 
   - platform: copy
     id: co_5min_avg

@@ -3,13 +3,15 @@
 #     Carbon Dioxide (CO₂)
 #   Not compatible with PACKAGE A package
 substitutions:
+  # These are the default values for substitutions that are not defined in the main config file
   co2_calibration_date: "Not Set"
 
 esphome:
   on_boot:
-    priority: 600.0
+    priority: 800.0
     then:
       - lambda: |-
+          // Let other parts of config know there is a CO₂ sensor
           id(co2_available_var) = true;
 
 api:
@@ -32,16 +34,15 @@ sensor:
       filters:
         - filter_out: NAN
         - throttle_average: 60s
-  - platform: copy
-    id: co2_internal
-    source_id: co2
-    on_value:
-      then:
-        - lambda: |-
-            if (x > 2000.0)
-              id(co2_warning_var) = true;
-            if (x < 1800.0)
-              id(co2_warning_var) = false;
+      on_value:
+        then:
+          - lambda: |-
+              if (id(pressure_hpa_var) > 0.0)
+                id(scd41_sensor).set_ambient_pressure_compensation(id(pressure_hpa_var));
+              if (x > 2000.0)
+                id(co2_warning_var) = true;
+              if (x < 1800.0)
+                id(co2_warning_var) = false;
 
 number:
   - platform: template
