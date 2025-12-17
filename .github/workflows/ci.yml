@@ -42,8 +42,13 @@ jobs:
       - name: Update reference
         run: |
           echo "Update ref: ${{ github.head_ref || github.ref_name }}"
-          sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./*s3.yaml
-          sed -i 's|@main.*$|@${{ github.head_ref || github.ref_name }}|g' ./*factory.yaml
+          find . -type f -name '*.yaml' -print0 | xargs -0 sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g'
+          find . -type f -name '*.yaml' -print0 | xargs -0 sed -i 's|@main.*$|@${{ github.head_ref || github.ref_name }}|g'
+
+# sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./*.yaml
+# sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./common/*.yaml
+# sed -i 's|@main.*$|@${{ github.head_ref || github.ref_name }}|g' ./*.yaml
+# sed -i 's|@main.*$|@${{ github.head_ref || github.ref_name }}|g' ./common/*.yaml
 
       - name: ESPHome ${{ matrix.esphome-version }} Factory
         uses: esphome/build-action@v7
