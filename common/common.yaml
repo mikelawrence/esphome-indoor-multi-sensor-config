@@ -10,24 +10,24 @@ substitutions:
   status_nighttime_lux: "3.0"
   presence_ha_entity: "binary_sensor.unknown_room_occupancy"
 
-# esphome:
-#   min_version: 2025.11.0
-#   name_add_mac_suffix: false
-#   project:
-#     version: ${config_version}
-#     name: Mike Lawrence.Indoor Multi-Sensor Rev-B
-#   on_boot:
-#     - priority: 500.0
-#       then:
-#         - script.execute: update_status_led
-#     - priority: -100.0
-#       then:
-#         - script.execute: announce_operational
-#   on_shutdown:
-#     - priority: 600.0
-#       then:
-#         - light.turn_off:
-#             id: led_status
+esphome:
+  min_version: 2025.11.0
+  name_add_mac_suffix: false
+  project:
+    version: ${config_version}
+    name: Mike Lawrence.Indoor Multi-Sensor Rev-B
+  on_boot:
+    - priority: 500.0
+      then:
+        - script.execute: update_status_led
+    - priority: -100.0
+      then:
+        - script.execute: announce_operational
+  on_shutdown:
+    - priority: 600.0
+      then:
+        - light.turn_off:
+            id: led_status
 
 # ESP32-S3-WROOM-2-N32R16V
 # Even though there is 32MB of flash, OTA updates with that size are not reliable
