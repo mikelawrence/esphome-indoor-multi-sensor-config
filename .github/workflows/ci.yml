@@ -42,8 +42,9 @@ jobs:
       - name: Update reference
         run: |
           echo "Update ref: ${{ github.head_ref || github.ref_name }}"
-          echo "${find . -type f -name '*.yaml' -print0 | xargs -0 sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g'}"
-          find . -type f -name '*.yaml' -print0 | xargs -0 sed -i 's|@main.*$|@${{ github.head_ref || github.ref_name }}|g'
+          YAML_CHANGES=$(find . -type f -name '*.yaml' -exec sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' {} +)
+          find . -type f -name '*.yaml' -exec sed -i 's|@main.*$|@${{ github.head_ref || github.ref_name }}|g' {} +
+          echo "$YAML_CHANGES"
 
 # sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./*.yaml
 # sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./common/*.yaml
