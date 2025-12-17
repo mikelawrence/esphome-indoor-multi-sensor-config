@@ -8,7 +8,7 @@ substitutions:
   status_night_brightness: "0.15"
   status_daytime_lux: "10.0"
   status_nighttime_lux: "3.0"
-  presence_ha_entity: ""
+  presence_ha_entity: "binary_sensor.unknown_room_occupancy"
 
 esphome:
   min_version: 2025.11.0
