@@ -42,7 +42,7 @@ packages:
   remote:
     url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config
     refresh: 1min
-    ref: main
+    ref: mainsss
     files:
       # Main Config Files
       - common/common.yaml
