@@ -38,7 +38,7 @@ update:
 http_request: null
 
 dashboard_import:
-  dashboard_package_file:
+  package_import_url:
     url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config
     files:
       - sensor-pkg-a-c4001-esp32-s3.yaml
