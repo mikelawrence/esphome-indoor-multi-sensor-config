@@ -25,9 +25,11 @@ jobs:
         file:
           - sensor-pkg-a-c4001-esp32-s3
           - sensor-pkg-a-ld2410-esp32-s3
+          - sensor-pkg-a-ld2410s-esp32-s3
           - sensor-pkg-a-ld2450-esp32-s3
           - sensor-pkg-b-c4001-esp32-s3
           - sensor-pkg-b-ld2410-esp32-s3
+          - sensor-pkg-b-ld2410s-esp32-s3
           - sensor-pkg-b-ld2450-esp32-s3
         #### Modify above here to match your project ####
         esphome-version:
@@ -39,8 +41,9 @@ jobs:
 
       - name: Update reference
         run: |
-          sed -i 's|ref:.*$|ref: ${{ github.ref_name }}|g' ./*s3.yaml
-          sed -i 's|@main.*$|@${{ github.ref_name }}|g' ./*factory.yaml
+          echo "GITHUB_CONTEXT: ${{ toJson(github) }}"
+          sed -i 's|ref:.*$|ref: ${{ github.base_ref || github.ref_name }}|g' ./*s3.yaml
+          sed -i 's|@main.*$|@${{ github.base_ref || github.ref_name }}|g' ./*factory.yaml
 
       - name: ESPHome ${{ matrix.esphome-version }} Factory
         uses: esphome/build-action@v7
