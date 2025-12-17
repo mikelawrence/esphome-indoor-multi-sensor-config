@@ -44,16 +44,22 @@ jobs:
           echo "Update ref: ${{ github.head_ref || github.ref_name }}"
           YAML_FILES=$(find . -type f -name '*.yaml')
           find . -type f -name '*.yaml' | while read file; do
-            CHANGED_FILES_1=$(sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' "$file");
-            CHANGED_FILES_2=$(sed -i 's|@main$|@${{ github.head_ref || github.ref_name }}|g' "$file");
+            CHANGED=""
+            CHANGED+=$(sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g; s|@main$|@${{ github.head_ref || github.ref_name }}|g w /dev/stdout' "$file");
+            if [ "$CHANGED" != "" ]; then
+              echo "$file Changed!"
+            else
+              echo "$file Unchanged."
+            fi
           done
-          echo "Find files: $YAML_FILES"
-          echo "Changed files 1: $CHANGED_FILES_1"
-          echo "Changed files 2: $CHANGED_FILES_2"
-          YAML_FILE=$(cat ./sensor-pkg-a-ld2410-esp32-s3.factory.yaml)
-          echo "File: $YAML_FILE"
-          YAML_FILE=$(cat ./sensor-pkg-a-ld2410-esp32-s3.yaml)
-          echo "File: $YAML_FILE"
+
+# echo "Find files: $YAML_FILES"
+# echo "Changed files 1: $CHANGED_FILES_1"
+# echo "Changed files 2: $CHANGED_FILES_2"
+# YAML_FILE=$(cat ./sensor-pkg-a-ld2410-esp32-s3.factory.yaml)
+# echo "File: $YAML_FILE"
+# YAML_FILE=$(cat ./sensor-pkg-a-ld2410-esp32-s3.yaml)
+# echo "File: $YAML_FILE"
 
 # sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./*.yaml
 # sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./common/*.yaml
