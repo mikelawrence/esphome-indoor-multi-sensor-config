@@ -41,9 +41,30 @@ jobs:
 
       - name: Update reference
         run: |
-          echo "selected ref: ${{ github.head_ref || github.ref_name }}"
-          sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./*s3.yaml
-          sed -i 's|@main.*$|@${{ github.head_ref || github.ref_name }}|g' ./*factory.yaml
+          echo "Update ref: ${{ github.head_ref || github.ref_name }}"
+          YAML_FILES=$(find . -type f -name '*.yaml')
+          find . -type f -name '*.yaml' | while read file; do
+            CHANGED=""
+            CHANGED+=$(sed -i.bak 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g; s|@main$|@${{ github.head_ref || github.ref_name }}|g w /dev/stdout' "$file");
+            if [ "$CHANGED" != "" ]; then
+              echo "Changed file: $file"
+              diff "$file.bak" "$file" || true | sed 's/^/    /'
+            fi
+            rm "$file.bak"
+          done
+
+# echo "Find files: $YAML_FILES"
+# echo "Changed files 1: $CHANGED_FILES_1"
+# echo "Changed files 2: $CHANGED_FILES_2"
+# YAML_FILE=$(cat ./sensor-pkg-a-ld2410-esp32-s3.factory.yaml)
+# echo "File: $YAML_FILE"
+# YAML_FILE=$(cat ./sensor-pkg-a-ld2410-esp32-s3.yaml)
+# echo "File: $YAML_FILE"
+
+# sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./*.yaml
+# sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./common/*.yaml
+# sed -i 's|@main.*$|@${{ github.head_ref || github.ref_name }}|g' ./*.yaml
+# sed -i 's|@main.*$|@${{ github.head_ref || github.ref_name }}|g' ./common/*.yaml
 
       - name: ESPHome ${{ matrix.esphome-version }} Factory
         uses: esphome/build-action@v7

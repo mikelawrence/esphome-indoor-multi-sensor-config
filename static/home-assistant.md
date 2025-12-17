@@ -19,7 +19,7 @@ This Lovelace configuration makes it easier to visualize and set the range bin v
 
 ![LD2410 Lovelace](ld2410-lovelace.png){: .align-center}
 
-Here is the [yaml](https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/blob/main/lovelace/indoor-multi-sensor-ld2410-section.yaml) for this Lovelace configuration.
+Here is the [yaml](https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/blob/main/lovelace/indoor-multi-sensor-ld2410-section.yml) for this Lovelace configuration.
 
 # LD2450 Lovelace
 
@@ -29,6 +29,6 @@ config for this sensor too.
 
 ![LD2450 Lovelace](ld2450-lovelace.png){: .align-center}
 
-Here is the [yaml](https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/blob/main/lovelace/indoor-multi-sensor-ld2450-section.yaml) for this Lovelace configuration.
+Here is the [yaml](https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/blob/main/lovelace/indoor-multi-sensor-ld2450-section.yml) for this Lovelace configuration.
 
 [back](./)
