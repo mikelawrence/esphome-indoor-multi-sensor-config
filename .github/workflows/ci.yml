@@ -19,18 +19,24 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      max-parallel: 8
+      max-parallel: 4
       matrix:
         #### Modify below here to match your project ####
         file:
-          - sensor-pkg-a-c4001-esp32-s3
-          - sensor-pkg-a-ld2410-esp32-s3
-          - sensor-pkg-a-ld2410s-esp32-s3
-          - sensor-pkg-a-ld2450-esp32-s3
-          - sensor-pkg-b-c4001-esp32-s3
-          - sensor-pkg-b-ld2410-esp32-s3
-          - sensor-pkg-b-ld2410s-esp32-s3
-          - sensor-pkg-b-ld2450-esp32-s3
+          - test-rev-a-pkg-a-c4001
+          - test-rev-a-pkg-a-ld2410
+          - test-rev-a-pkg-a-ld2450
+          - test-rev-a-pkg-b-c4001
+          - test-rev-a-pkg-b-ld2410
+          - test-rev-a-pkg-b-ld2450
+          - test-rev-b-pkg-a-c4001
+          - test-rev-b-pkg-a-ld2410
+          - test-rev-b-pkg-a-ld2410s
+          - test-rev-b-pkg-a-ld2450
+          - test-rev-b-pkg-b-c4001
+          - test-rev-b-pkg-b-ld2410
+          - test-rev-b-pkg-b-ld2410s
+          - test-rev-b-pkg-b-ld2450
         #### Modify above here to match your project ####
         esphome-version:
           - stable
@@ -52,25 +58,6 @@ jobs:
             fi
             rm "$file.bak"
           done
-
-# echo "Find files: $YAML_FILES"
-# echo "Changed files 1: $CHANGED_FILES_1"
-# echo "Changed files 2: $CHANGED_FILES_2"
-# YAML_FILE=$(cat ./sensor-pkg-a-ld2410-esp32-s3.factory.yaml)
-# echo "File: $YAML_FILE"
-# YAML_FILE=$(cat ./sensor-pkg-a-ld2410-esp32-s3.yaml)
-# echo "File: $YAML_FILE"
-
-# sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./*.yaml
-# sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./common/*.yaml
-# sed -i 's|@main.*$|@${{ github.head_ref || github.ref_name }}|g' ./*.yaml
-# sed -i 's|@main.*$|@${{ github.head_ref || github.ref_name }}|g' ./common/*.yaml
-
-      - name: ESPHome ${{ matrix.esphome-version }} Factory
-        uses: esphome/build-action@v7
-        with:
-          yaml-file: ${{ matrix.file }}.factory.yaml
-          version: ${{ matrix.esphome-version }}
 
       - name: ESPHome ${{ matrix.esphome-version }}
         uses: esphome/build-action@v7

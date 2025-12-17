@@ -1,6 +1,6 @@
 substitutions:
-  name: "sensor-rev-b-pkg-a"
-  friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-A LD2410S"
+  name: "sensor-rev-a-pkg-a"
+  friendly_name: "Indoor Multi-Sensor Rev-A Sens-Pkg-A LD2450"
 
   # Settings
   # Voice name allows you to change the voice of spoken announcements to fit your preferences.
@@ -47,12 +47,12 @@ packages:
       # Main Config Files
       - common/common.yaml
       - common/pkga-sen6x.yaml
-      - common/radar-ld2410s.yaml
+      - common/radar-ld2450.yaml
 
       # ADDITIONAL SENSORS
       # Carbon Dioxide (CO) - Figaro TGS5141 sensor
       - common/add-co.yaml
-      # Energy Usage - INA2XX sensors to measure Voltage, Current, Power and Energy Usage
+      # Energy Usage - INA2XX sensor to measure Voltage, Current, Power and Energy Usage
       - common/add-ina2xx.yaml
       # Light Level - TSL2591 sensor
       - common/add-tsl2591.yaml

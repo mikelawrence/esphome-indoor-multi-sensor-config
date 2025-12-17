@@ -40,14 +40,20 @@ jobs:
       - getReleaseInfo
     with:
       files: |
-        sensor-pkg-a-c4001-esp32-s3.factory.yaml
-        sensor-pkg-a-ld2410-esp32-s3.factory.yaml
-        sensor-pkg-a-ld2450-esp32-s3.factory.yaml
-        sensor-pkg-a-ld2410s-esp32-s3.factory.yaml
-        sensor-pkg-b-c4001-esp32-s3.factory.yaml
-        sensor-pkg-b-ld2410-esp32-s3.factory.yaml
-        sensor-pkg-b-ld2450-esp32-s3.factory.yaml
-        sensor-pkg-b-ld2410s-esp32-s3.factory.yaml
+        rev-a-pkg-a-c4001-esp32-s3.factory.yaml
+        rev-a-pkg-a-ld2410-esp32-s3.factory.yaml
+        rev-a-pkg-a-ld2450-esp32-s3.factory.yaml
+        rev-a-pkg-b-c4001-esp32-s3.factory.yaml
+        rev-a-pkg-b-ld2410-esp32-s3.factory.yaml
+        rev-a-pkg-b-ld2450-esp32-s3.factory.yaml
+        rev-b-pkg-a-c4001-esp32-s3.factory.yaml
+        rev-b-pkg-a-ld2410-esp32-s3.factory.yaml
+        rev-b-pkg-a-ld2410s-esp32-s3.factory.yaml
+        rev-b-pkg-a-ld2450-esp32-s3.factory.yaml
+        rev-b-pkg-b-c4001-esp32-s3.factory.yaml
+        rev-b-pkg-b-ld2410-esp32-s3.factory.yaml
+        rev-b-pkg-b-ld2410s-esp32-s3.factory.yaml
+        rev-b-pkg-b-ld2450-esp32-s3.factory.yaml
       esphome-version: latest
       # combined-name: project-template
       release-summary: ${{ needs.getReleaseInfo.outputs.summary }}

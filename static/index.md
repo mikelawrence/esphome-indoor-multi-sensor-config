@@ -12,9 +12,21 @@ Each of these these builds include all supported sensors: pressure, light, sound
 
 If you are really new to ESPHome I would recommend searching on Youtube for getting started videos.
 
-# Web Installation
+> [!WARNING]  
+> The Hi-Link LD2410S and Hi-Link LD2420 only work on Rev-B boards. Rev-A and below boards will apply 5V to these modules and most likely burn them out. 
 
-Use the buttons below to install pre-built firmware directly to your device via USB. You must use Google Chrome or Microsoft Edge to program your device. Firefox does not work.
+# Rev-A Hardware Web Installation
+
+Use the buttons below to install pre-built firmware directly to your Rev-B hardware via USB. You must use Google Chrome or Microsoft Edge to program your device. Firefox does not work.
+
+| Sensor Pkg | Radar LD2410 | Radar C4001 | Radar LD2450 | Radar LD2410S | Radar LD2420 |
+|---|---|---|---|
+| Pkg A | <esp-web-install-button manifest="firmware/sensor-pkg-a-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-a-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-a-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-a-ld2410s.manifest.json"></esp-web-install-button> | Coming Soon |
+| Pkg B | <esp-web-install-button manifest="firmware/sensor-pkg-b-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-b-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-b-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-b-ld2410s.manifest.json"></esp-web-install-button> | Coming Soon |
+
+# Rev-B Hardware Web Installation
+
+Use the buttons below to install pre-built firmware directly to your Rev-B hardware via USB. You must use Google Chrome or Microsoft Edge to program your device. Firefox does not work.
 
 | Sensor Pkg | Radar LD2410 | Radar C4001 | Radar LD2450 | Radar LD2410S | Radar LD2420 |
 |---|---|---|---|

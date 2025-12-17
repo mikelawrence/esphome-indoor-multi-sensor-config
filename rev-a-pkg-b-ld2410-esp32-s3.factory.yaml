@@ -1,0 +1,52 @@
+substitutions:
+  # name must be unique across all factory builds in this project and 24 characters or less
+  name: "rev-a-pkg-b-ld2410"
+  friendly_name: "Indoor Multi-Sensor Rev-A Sens-Pkg-B LD2410"
+  voice_name: "lily-wolff-female"
+  room_name: "none"
+  pir_installed: "true"
+
+packages:
+  - !include common/common.yaml
+  - !include common/pkgb-sht4x.yaml
+  - !include common/pkgb-scd4x.yaml
+  - !include common/pkgb-sgp4x.yaml
+  - !include common/radar-ld2410.yaml
+  - !include common/add-co.yaml
+  - !include common/add-ina2xx.yaml
+  - !include common/add-tsl2591.yaml
+  - !include common/add-bmp581.yaml
+  - !include common/add-microphone.yaml
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  project:
+    name: Mike Lawrence.${friendly_name}
+    # keep "version: dev" so that it will be replaced by Github workflows with the `release` version
+    version: dev
+  name_add_mac_suffix: true
+
+ota:
+  - platform: http_request
+    id: ota_http_request
+
+update:
+  - platform: http_request
+    id: update_http_request
+    name: ${friendly_name} Firmware
+    source: https://mikelawrence.github.io/esphome-indoor-multi-sensor-config/firmware/${name}.manifest.json
+
+http_request: null
+
+dashboard_import:
+  # keep "@main" so that it can be replaced as necessary for Github workflows
+  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/${name}-esp32-s3.yaml@main
+  import_full_config: true
+
+wifi:
+
+esp32_improv:
+  authorizer: none
+
+improv_serial:
