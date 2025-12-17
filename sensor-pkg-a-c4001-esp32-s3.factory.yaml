@@ -32,12 +32,12 @@ update:
   - platform: http_request
     id: update_http_request
     name: Indoor Multi-Sensor Firmware
-    source: https://mikelawrence.github.io/esphome-indoor-multi-sensor-config/firmware/sensor-pkg-a-c4001.manifest.json@main
+    source: https://mikelawrence.github.io/esphome-indoor-multi-sensor-config/firmware/sensor-pkg-a-c4001.manifest.json
 
 http_request:
 
 dashboard_import:
-  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/sensor-pkg-a-c4001-esp32-s3.yaml
+  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/sensor-pkg-a-c4001-esp32-s3.yaml@main
   import_full_config: true
 
 wifi:
