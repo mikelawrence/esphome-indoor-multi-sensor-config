@@ -42,9 +42,9 @@ jobs:
       - name: Update reference
         run: |
           echo "Update ref: ${{ github.head_ref || github.ref_name }}"
-          echo ${find . -type f -name '*.yaml' -print0 | xargs -0 sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g'}
+          find . -type f -name '*.yaml' -print0 | xargs -0 sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' | echo
           find . -type f -name '*.yaml' -print0 | xargs -0 sed -i 's|@main.*$|@${{ github.head_ref || github.ref_name }}|g'
-          echo ${more sensor-pkg-a-c4001-esp32-s3.yaml}
+          more sensor-pkg-a-c4001-esp32-s3.yaml | echo
 
 # sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./*.yaml
 # sed -i 's|ref:.*$|ref: ${{ github.head_ref || github.ref_name }}|g' ./common/*.yaml
