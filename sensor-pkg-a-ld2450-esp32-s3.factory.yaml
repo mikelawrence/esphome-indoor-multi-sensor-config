@@ -38,12 +38,8 @@ update:
 http_request: null
 
 dashboard_import:
-  package_import_url:
-    url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config
-    files:
-      - sensor-pkg-a-ld2450-esp32-s3.yaml
-    # keep "ref: main" so that it can be replaced as necessary by Github workflows
-    ref: main
+  # keep "@main" so that it can be replaced as necessary for Github workflows
+  package_import_url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config/sensor-pkg-a-ld2450-esp32-s3.yaml@main
   import_full_config: true
 
 wifi:
