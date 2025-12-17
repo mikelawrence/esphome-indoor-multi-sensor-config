@@ -4,7 +4,7 @@ title: ESPHome Indoor Multi-Sensor
 description: Configuration in ESPHome after taking control
 ---
 
-# Configuration
+## Configuration
 
 Once you take control in ESPHome, there are two sections you need to configure, `substitutions:` and `packages:`. In the `substitutions:` section you will find settings for many of the available sensors.
 You only need to declare substitutions if you need a value other than default.
@@ -14,22 +14,16 @@ You only need to declare substitutions if you need a value other than default.
 
 ```yaml
 substitutions:
-  name: "sensor-pkg-a-c4001"
-  friendly_name: "Indoor Multi-Sensor Pkg A Radar C4001"
+  name: "sensor-rev-b-pkg-a"
+  friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-A C4001"
 
   # Settings
-  # Voice name allow to change the voice of spoken announcements to fit your preferences. One of: 
-  #   adam-male, eryn-informative-female, katie-x-female, lucy-fresh-female, northern-terry-male,
-  #  river-female
-  voice_name: "adam-male"
-  # Room name allows you to personalize the room name in which the sensor is installed. One of: 
-  #   none, aj-room, bedroom, brisa-room, dining-room, entry-hallway, family-room, game-room, garage, 
-  #   guest-bathroom, guest-bedroom, hallway, kids-bathroom, kids-bedroom, kitchen, laundry-room, 
-  #   living-room, master-bathroom, master-bedroom, master-closet, master-toilet, noah-room, 
-  #   nursery, office, pantry, spare-bathroom, spare-bedroom, stairs, study, theater, utility-room, 
-  #   up-bathroom
-  #   none is default and will not announce room name.
-  room_name: "xxx_sound"
+  # Voice name allows you to change the voice of spoken announcements to fit your preferences.
+  #   For a list of voice names see https://github.com/mikelawrence/esphome-indoor-multi-sensor-sounds/#available-voices
+  voice_name: "lily-wolff-female"
+  # Room name allows you to personalize the room name in which the sensor is installed.
+  #   For a list of room names see https://github.com/mikelawrence/esphome-indoor-multi-sensor-sounds/?tab=readme-ov-file#available-rooms
+  room_name: "none"
   pir_installed: "true"
   # Status LED Configuration
   status_nightlight_brightness: "1.0"
@@ -115,7 +109,12 @@ The Main Config Files vary based on Sensor Package and Radar. Only these combina
   sen6x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkga-sen6x.yaml@main
   radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2450.yaml@main
 
-  # Main Config Files for Sensor Package-B and C4001 Radar
+  # Main Config Files for Sensor Package-A and LD2410S Radar
+  common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
+  sen6x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkga-sen6x.yaml@main
+  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2410s.yaml@main
+
+# Main Config Files for Sensor Package-B and C4001 Radar
   common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
   sht4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sht4x.yaml@main
   scd4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-scd4x.yaml@main
@@ -135,13 +134,20 @@ The Main Config Files vary based on Sensor Package and Radar. Only these combina
   scd4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-scd4x.yaml@main
   sgp4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sgp4x.yaml@main
   radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2450.yaml@main
+
+  # Main Config Files for Sensor Package-B and LD2410S Radar
+  common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
+  sht4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sht4x.yaml@main
+  scd4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-scd4x.yaml@main
+  sgp4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sgp4x.yaml@main
+  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2410s.yaml@main
 ```
 
 The additional Sensors and Features packages can mostly be included or not based on whether or not the sensors are populated on the board.
 
 As an example, if you enable SCD4X pressure compensation but don't have a SCD4X sensor installed it's not going to work.
 
-# Settings
+## Settings
 
 ```yaml
 substitutions:
@@ -187,7 +193,7 @@ These are base settings available for any configuration.
 + **humidity_offset** (float): The humidity sensor may have also have an offset. Use this to subtract out this error. Default is `0.0`.
 + **co2_calibration_date** (string): Enter the last time the CO₂ was calibrated here and it will be reported as a text_sensor in the diagnostic section. Default is `Not Set`.
 
-# Carbon Monoxide(CO) Configuration
+## Carbon Monoxide(CO) Configuration
 
 ```yaml
 packages:
@@ -211,7 +217,7 @@ substitutions:
 + **co_manufacture_date** (float): From the QR code on the sensor. The sensor has a 10 year life expectancy. Reported as a `text_sensor` in the diagnostic section. Default is `Not Set`.
 + **co_serial_number** (float): From the QR code on the sensor. Not necessary but might come in handy down the road. Reported as a `text_sensor` in the diagnostic section. Default is `Not Set`.
 
-# Energy Usage Configuration
+## Energy Usage Configuration
 
 ```yaml
 packages:
@@ -221,7 +227,7 @@ packages:
 
 If you have included this package the Energy Usage Sensor is enabled. Voltage, Power and Energy Usage will be reported as sensors. There are no substitutions to edit.
 
-# Light Sensor Configuration
+## Light Sensor Configuration
 
 ```yaml
 packages:
@@ -231,7 +237,7 @@ packages:
 
 If you have included this package the TSL2591 Light Level Sensor is enabled. Light Level in lux will be reported as a sensor. There are no substitutions to edit.
 
-# Barometric Pressure Sensor Configuration
+## Barometric Pressure Sensor Configuration
 
 ```yaml
 packages:
@@ -241,7 +247,7 @@ packages:
 
 If you have included this package the BMP581 Barometric Pressure Sensor is enabled. The sensor reports absolute pressure. There are no substitutions to edit.
 
-# Microphone Configuration
+## Microphone Configuration
 
 ```yaml
 packages:
@@ -251,7 +257,7 @@ packages:
 
 If you have included this package the ICS-43434 MEMS microphone is enabled. The microphone measures sound levels and reports to levels a one minute average and one minute peak. There are no substitutions to edit.
 
-# Automatically controlled Vent Configuration
+## Automatically controlled Vent Configuration
 
 ```yaml
 packages:
@@ -283,7 +289,7 @@ substitutions:
 + **vent_co2_on_trigger** (integer): This is the CO₂ level that will cause the vent to turn on. Make 100-200 higher than `vent_co2_off_trigger` to give the vent a bit of hysteresis. Default is `1500`.
 + **vent_co2_off_trigger** (integer): This is the CO₂ level that will cause the vent to turn off. Default is `1400`.
 
-# Smoke Alarm Configuration
+## Smoke Alarm Configuration
 
 ```yaml
 packages:
