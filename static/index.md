@@ -28,10 +28,10 @@ Use the buttons below to install pre-built firmware directly to your Rev-B hardw
 
 Use the buttons below to install pre-built firmware directly to your Rev-B hardware via USB. You must use Google Chrome or Microsoft Edge to program your device. Firefox does not work.
 
-| Sensor Pkg | Radar LD2410 | Radar C4001 | Radar LD2450 | Radar LD2410S | Radar LD2420 |
+| Sensor Pkg | Radar LD2410 | Radar C4001 | Radar LD2450 |  Radar LD2420 |
 |---|---|---|---|
-| Pkg A | <esp-web-install-button manifest="firmware/rev-a-pkg-a-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-a-pkg-a-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-a-pkg-a-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-a-pkg-a-ld2410s.manifest.json"></esp-web-install-button> | Coming Soon |
-| Pkg B | <esp-web-install-button manifest="firmware/rev-a-pkg-b-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-a-pkg-b-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-a-pkg-b-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-a-pkg-b-ld2410s.manifest.json"></esp-web-install-button> | Coming Soon |
+| Pkg A | <esp-web-install-button manifest="firmware/rev-a-pkg-a-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-a-pkg-a-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-a-pkg-a-ld2450.manifest.json"></esp-web-install-button> | Coming Soon |
+| Pkg B | <esp-web-install-button manifest="firmware/rev-a-pkg-b-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-a-pkg-b-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-a-pkg-b-ld2450.manifest.json"></esp-web-install-button> | Coming Soon |
 
 <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
 
