@@ -15,23 +15,23 @@ If you are really new to ESPHome I would recommend searching on Youtube for gett
 > [!WARNING]  
 > The Hi-Link LD2410S and Hi-Link LD2420 only work on Rev-B boards. Rev-A and below boards will apply 5V to these modules and most likely burn them out. 
 
-# Rev-A Hardware Web Installation
-
-Use the buttons below to install pre-built firmware directly to your Rev-B hardware via USB. You must use Google Chrome or Microsoft Edge to program your device. Firefox does not work.
-
-| Sensor Pkg | Radar LD2410 | Radar C4001 | Radar LD2450 | Radar LD2410S | Radar LD2420 |
-|---|---|---|---|
-| Pkg A | <esp-web-install-button manifest="firmware/sensor-pkg-a-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-a-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-a-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-a-ld2410s.manifest.json"></esp-web-install-button> | Coming Soon |
-| Pkg B | <esp-web-install-button manifest="firmware/sensor-pkg-b-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-b-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-b-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-b-ld2410s.manifest.json"></esp-web-install-button> | Coming Soon |
-
 # Rev-B Hardware Web Installation
 
 Use the buttons below to install pre-built firmware directly to your Rev-B hardware via USB. You must use Google Chrome or Microsoft Edge to program your device. Firefox does not work.
 
 | Sensor Pkg | Radar LD2410 | Radar C4001 | Radar LD2450 | Radar LD2410S | Radar LD2420 |
 |---|---|---|---|
-| Pkg A | <esp-web-install-button manifest="firmware/sensor-pkg-a-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-a-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-a-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-a-ld2410s.manifest.json"></esp-web-install-button> | Coming Soon |
-| Pkg B | <esp-web-install-button manifest="firmware/sensor-pkg-b-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-b-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-b-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/sensor-pkg-b-ld2410s.manifest.json"></esp-web-install-button> | Coming Soon |
+| Pkg A | <esp-web-install-button manifest="firmware/rev-b-pkg-a-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-b-pkg-a-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-b-pkg-a-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-b-pkg-a-ld2410s.manifest.json"></esp-web-install-button> | Coming Soon |
+| Pkg B | <esp-web-install-button manifest="firmware/rev-b-pkg-b-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-b-pkg-b-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-b-pkg-b-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-b-pkg-b-ld2410s.manifest.json"></esp-web-install-button> | Coming Soon |
+
+# Rev-A Hardware Web Installation
+
+Use the buttons below to install pre-built firmware directly to your Rev-B hardware via USB. You must use Google Chrome or Microsoft Edge to program your device. Firefox does not work.
+
+| Sensor Pkg | Radar LD2410 | Radar C4001 | Radar LD2450 | Radar LD2410S | Radar LD2420 |
+|---|---|---|---|
+| Pkg A | <esp-web-install-button manifest="firmware/rev-a-pkg-a-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-a-pkg-a-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-a-pkg-a-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-a-pkg-a-ld2410s.manifest.json"></esp-web-install-button> | Coming Soon |
+| Pkg B | <esp-web-install-button manifest="firmware/rev-a-pkg-b-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-a-pkg-b-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-a-pkg-b-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-a-pkg-b-ld2410s.manifest.json"></esp-web-install-button> | Coming Soon |
 
 <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
 
