@@ -18,7 +18,7 @@ media_player:
       - id: four_beep_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/four-beep.mp3
       - id: alarm_silenced_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/${voice_name}/alarm_silenced.mp3
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/${voice_name}/alarm-silenced.mp3
       - id: alarm_cannot_be_silenced_sound
         file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/${voice_name}/alarm-cannot-be-silenced.mp3
       - id: warning_carbon_dioxide_levels_are_elevated_sound
