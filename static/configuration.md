@@ -63,84 +63,87 @@ The `packages:` section will allow you to disable sensors by commenting out it's
 
 ```yaml
 packages:
-  # Main Config Files for Sensor Package-A and C4001 Radar
-  common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
-  sen6x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkga-sen6x.yaml@main
-  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-c4001.yaml@main
+  remote:
+    url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config
+    refresh: 1min
+    ref: main
+    files:
+      # Main Config Files for Sensor Package-A and C4001 Radar
+      - common/common.yaml
+      - common/pkga-sen6x.yaml
+      - common/radar-ld2410s.yaml
 
-  # ADDITIONAL SENSORS
-  # Carbon Dioxide (CO) - Figaro TGS5141 sensor
-  co: github://mikelawrence/esphome-indoor-multi-sensor-config/common/add-co.yaml@main
-  # Energy Usage - INA2XX sensor to measure Voltage, Power and Energy Usage
-  ina2xx: github://mikelawrence/esphome-indoor-multi-sensor-config/common/add-ina2xx.yaml@main
-  # Light Level - TSL2591 sensor
-  tsl2591: github://mikelawrence/esphome-indoor-multi-sensor-config/common/add-tsl2591.yaml@main
-  # Barometric Pressure - BMP581 sensor
-  bmp581: github://mikelawrence/esphome-indoor-multi-sensor-config/common/add-bmp581.yaml@main
-  # Microphone - Adds Sound Level meter
-  mic: github://mikelawrence/esphome-indoor-multi-sensor-config/common/add-microphone.yaml@main
+      # ADDITIONAL SENSORS
+      # Carbon Dioxide (CO) - Figaro TGS5141 sensor
+      - common/add-co.yaml
+      # Energy Usage Rev-B - INA2XX sensor to measure Voltage, Power and Energy Usage, Rev B only
+      - common/add-ina2xx-rev-b.yaml
+      # Energy Usage - INA2XX sensor to measure Voltage, Power and Energy Usage
+      - common/add-ina2xx.yaml
+      # Light Level - TSL2591 sensor
+      - common/add-tsl2591.yaml
+      # Barometric Pressure - BMP581 sensor
+      - common/add-bmp581.yaml
+      # Microphone - Adds Sound Level meter
+      - common/add-microphone.yaml
 
-  # FEATURES
-  # SEN6X Pressure Compensation - Adds pressure compensation to SEN6X
-  press-comp: github://mikelawrence/esphome-indoor-multi-sensor-config/common/feat-sen6x-press-comp.yaml@main
-  # SCD4X Pressure Compensation - Adds pressure compensation to SCD4X
-  # press-comp: github://mikelawrence/esphome-indoor-multi-sensor-config/common/feat-scd4x-press-comp.yaml@main
-  # Automatic Vent - Use humidity and CO₂ to control a bathroom vent
-  # auto-vent: github://mikelawrence/esphome-indoor-multi-sensor-config/common/feat-auto-vent.yaml@main
-  # Smoke Alarm - Use PM and CO₂ for smoke alarm functionality
-  # smoke-alarm: github://mikelawrence/esphome-indoor-multi-sensor-config/common/feat-smoke-alarm.yaml@main
+      # FEATURES
+      # Automatic Vent - Use humidity and CO₂ to control a bathroom vent
+      # - common/feat-auto-vent.yaml
+      # Smoke Alarm - Use PM and CO₂ for smoke alarm functionality
+      # - common/feat-smoke-alarm.yaml
 ```
 
 The Main Config Files vary based on Sensor Package and Radar. Only these combinations of Main Config Files will work.
 
 ```yaml
-  # Main Config Files for Sensor Package-A and C4001 Radar
-  common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
-  sen6x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkga-sen6x.yaml@main
-  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-c4001.yaml@main
+      # Main Config Files for Sensor Package-A and C4001 Radar
+      - common/common.yaml
+      - common/pkga-sen6x.yaml
+      - common/radar-c4001.yaml
 
-  # Main Config Files for Sensor Package-A and LD2410 Radar
-  common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
-  sen6x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkga-sen6x.yaml@main
-  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2410.yaml@main
+      # Main Config Files for Sensor Package-A and LD2410 Radar
+      - common/common.yaml
+      - common/pkga-sen6x.yaml
+      - common/radar-ld2410.yaml
 
-  # Main Config Files for Sensor Package-A and LD2450 Radar
-  common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
-  sen6x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkga-sen6x.yaml@main
-  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2450.yaml@main
+      # Main Config Files for Sensor Package-A and LD2450 Radar
+      - common/common.yaml
+      - common/pkga-sen6x.yaml
+      - common/radar-ld2450.yaml
 
-  # Main Config Files for Sensor Package-A and LD2410S Radar
-  common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
-  sen6x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkga-sen6x.yaml@main
-  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2410s.yaml@main
+      # Main Config Files for Sensor Package-A and LD2410S Radar, Warning: Rev-B only!
+      - common/common.yaml
+      - common/pkga-sen6x.yaml
+      - common/radar-ld2410s.yaml
 
-# Main Config Files for Sensor Package-B and C4001 Radar
-  common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
-  sht4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sht4x.yaml@main
-  scd4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-scd4x.yaml@main
-  sgp4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sgp4x.yaml@main
-  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-c4001.yaml@main
+      # Main Config Files for Sensor Package-B and C4001 Radar
+      - common/common.yaml
+      - common/pkgb-sht4x.yaml
+      - common/pkgb-scd4x.yaml
+      - common/pkgb-sgp4x.yaml
+      - common/radar-c4001.yaml
 
-  # Main Config Files for Sensor Package-B and LD2410 Radar
-  common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
-  sht4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sht4x.yaml@main
-  scd4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-scd4x.yaml@main
-  sgp4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sgp4x.yaml@main
-  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2410.yaml@main
+      # Main Config Files for Sensor Package-B and LD2410 Radar
+      - common/common.yaml
+      - common/pkgb-sht4x.yaml
+      - common/pkgb-scd4x.yaml
+      - common/pkgb-sgp4x.yaml
+      - common/radar-ld2410.yaml
 
-  # Main Config Files for Sensor Package-B and LD2450 Radar
-  common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
-  sht4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sht4x.yaml@main
-  scd4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-scd4x.yaml@main
-  sgp4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sgp4x.yaml@main
-  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2450.yaml@main
+      # Main Config Files for Sensor Package-B and LD2450 Radar
+      - common/common.yaml
+      - common/pkgb-sht4x.yaml
+      - common/pkgb-scd4x.yaml
+      - common/pkgb-sgp4x.yaml
+      - common/radar-ld2450.yaml
 
-  # Main Config Files for Sensor Package-B and LD2410S Radar
-  common: github://mikelawrence/esphome-indoor-multi-sensor-config/common/common.yaml@main
-  sht4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sht4x.yaml@main
-  scd4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-scd4x.yaml@main
-  sgp4x: github://mikelawrence/esphome-indoor-multi-sensor-config/common/pkgb-sgp4x.yaml@main
-  radar: github://mikelawrence/esphome-indoor-multi-sensor-config/common/radar-ld2410s.yaml@main
+      # Main Config Files for Sensor Package-B and LD2410S Radar, Warning: Rev-B only!
+      - common/common.yaml
+      - common/pkgb-sht4x.yaml
+      - common/pkgb-scd4x.yaml
+      - common/pkgb-sgp4x.yaml
+      - common/radar-ld2410s.yaml
 ```
 
 The additional Sensors and Features packages can mostly be included or not based on whether or not the sensors are populated on the board.

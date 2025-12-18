@@ -1,7 +1,7 @@
 substitutions:
   # name must be unique across all factory builds in this project and 24 characters or less
-  name: "sensor-pkg-b-c4001"
-  friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-B C4001"
+  name: "rev-b-pkg-b-ld2450"
+  friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-B LD2450"
   voice_name: "lily-wolff-female"
   room_name: "none"
   pir_installed: "true"
@@ -11,9 +11,9 @@ packages:
   - !include common/pkgb-sht4x.yaml
   - !include common/pkgb-scd4x.yaml
   - !include common/pkgb-sgp4x.yaml
-  - !include common/radar-c4001.yaml
+  - !include common/radar-ld2450.yaml
   - !include common/add-co.yaml
-  - !include common/add-ina2xx.yaml
+  - !include common/add-ina2xx-rev-b.yaml
   - !include common/add-tsl2591.yaml
   - !include common/add-bmp581.yaml
   - !include common/add-microphone.yaml

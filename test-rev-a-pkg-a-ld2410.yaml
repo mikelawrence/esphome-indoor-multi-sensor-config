@@ -1,0 +1,74 @@
+substitutions:
+  name: "sensor-rev-a-pkg-a"
+  friendly_name: "Indoor Multi-Sensor Rev-A Sens-Pkg-A LD2410"
+
+  # Settings
+  voice_name: "lily-wolff-female"
+  room_name: "none"
+  pir_installed: "true"
+  # Status LED Configuration
+  status_nightlight_brightness: "1.0"
+  status_day_brightness: "0.5"
+  status_night_brightness: "0.20"
+  status_daytime_lux: "12.0"
+  status_nighttime_lux: "7.0"
+  presence_ha_entity: "binary_sensor.unknown_room_occupancy"
+  # CO Configuration
+  co_offset: "0.0"
+  co_sensitivity: "2.000e-9"
+  co_manufacture_date: "Not Set"
+  co_serial_number: "Not Set"
+  # Temperature Configuration
+  temperature_offset: "0.0"
+  # Humidity Configuration
+  humidity_offset: "0.0"
+  # CO₂ Configuration
+  co2_calibration_date: "Not Set"
+  # Automatically controlled Vent
+  vent_ha_entity: "fan.vent_id"
+  vent_use_humidity: "true"
+  vent_use_co2: "true"
+  vent_min_on_time: "15"
+  vent_hum_on_trigger: "10.0"
+  vent_hum_off_trigger: "2.5"
+  vent_co2_on_trigger: "1100"
+  vent_co2_off_trigger: "900"
+
+packages:
+  remote:
+    url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config
+    refresh: 1min
+    ref: main
+    files:
+      # Main Config Files
+      - common/common.yaml
+      - common/pkga-sen6x.yaml
+      - common/radar-ld2410.yaml
+
+      # ADDITIONAL SENSORS
+      - common/add-co.yaml
+      - common/add-ina2xx.yaml
+      - common/add-tsl2591.yaml
+      - common/add-bmp581.yaml
+      - common/add-microphone.yaml
+
+      # FEATURES
+      - common/feat-auto-vent.yaml
+      - common/feat-smoke-alarm.yaml
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+
+api:
+
+ota:
+  - platform: esphome
+    id: ota_esphome
+
+wifi:
+
+esp32_improv:
+  authorizer: none
+
+improv_serial:

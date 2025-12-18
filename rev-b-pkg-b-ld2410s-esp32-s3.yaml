@@ -1,6 +1,6 @@
 substitutions:
   name: "sensor-rev-b-pkg-b"
-  friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-B C4001"
+  friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-B LD2410S"
 
   # Settings
   # Voice name allows you to change the voice of spoken announcements to fit your preferences.
@@ -49,13 +49,13 @@ packages:
       - common/pkgb-sht4x.yaml
       - common/pkgb-scd4x.yaml
       - common/pkgb-sgp4x.yaml
-      - common/radar-c4001.yaml
+      - common/radar-ld2410s.yaml
 
       # ADDITIONAL SENSORS
       # Carbon Dioxide (CO) - Figaro TGS5141 sensor
       - common/add-co.yaml
-      # Energy Usage - INA2XX sensors to measure Voltage, Current, Power and Energy Usage
-      - common/add-ina2xx.yaml
+      # Energy Usage Rev-B - INA2XX sensors to measure Voltage, Current, Power and Energy Usage
+      - common/add-ina2xx-rev-b.yaml
       # Light Level - TSL2591 sensor
       - common/add-tsl2591.yaml
       # Barometric Pressure - BMP581 sensor

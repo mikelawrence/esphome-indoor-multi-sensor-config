@@ -1,6 +1,6 @@
 substitutions:
   # name must be unique across all factory builds in this project and 24 characters or less
-  name: "sensor-pkg-a-ld2410"
+  name: "rev-b-pkg-a-ld2410"
   friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-A LD2410"
   voice_name: "lily-wolff-female"
   room_name: "none"
@@ -11,7 +11,7 @@ packages:
   - !include common/pkga-sen6x.yaml
   - !include common/radar-ld2410.yaml
   - !include common/add-co.yaml
-  - !include common/add-ina2xx.yaml
+  - !include common/add-ina2xx-rev-b.yaml
   - !include common/add-tsl2591.yaml
   - !include common/add-bmp581.yaml
   - !include common/add-microphone.yaml

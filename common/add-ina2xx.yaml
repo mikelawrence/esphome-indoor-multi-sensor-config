@@ -1,4 +1,5 @@
-# Adds Energy monitoring using the INA228 and INA238 I2C digital power monitors
+# Adds Energy monitoring using the INA228 and INA238 I2C digital power monitors\
+# Only works with Rev-A and below
 
 # logger:
 #   logs:
@@ -38,43 +39,3 @@ sensor:
     energy:
       name: "USB-C Energy"
       accuracy_decimals: 2
-  # This sensor includes everything powered by +3.3V power supply
-  # ESP32, SEN0609/LD2410S/LD2420
-  - platform: ina2xx_i2c
-    id: digital_power_sensor
-    i2c_id: i2c1_bus
-    model: INA238
-    address: 0x42
-    shunt_resistance: 0.068ohm
-    max_current: 600mA
-    adc_range: 0
-    update_interval: 60s
-    bus_voltage:
-      name: "Digital Voltage"
-      accuracy_decimals: 2
-    power:
-      name: "Digital Power"
-      accuracy_decimals: 2
-    current:
-      name: "Digital Current"
-      accuracy_decimals: 3
-  # This sensor includes everything powered by +3.3VA power supply
-  # PIR, SHT4x, SGP4x, SCD4x, BMP581, TSL2591, Carbon Monoxide circuit, and SEN6X
-  - platform: ina2xx_i2c
-    id: analog_power_sensor
-    i2c_id: i2c1_bus
-    model: INA238
-    address: 0x43
-    shunt_resistance: 0.080ohm
-    max_current: 600mA
-    adc_range: 0
-    update_interval: 60s
-    bus_voltage:
-      name: "Analog Voltage"
-      accuracy_decimals: 2
-    power:
-      name: "Analog Power"
-      accuracy_decimals: 2
-    current:
-      name: "Analog Current"
-      accuracy_decimals: 3
