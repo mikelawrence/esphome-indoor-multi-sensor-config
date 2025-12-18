@@ -71,5 +71,4 @@ wifi:
 esp32_improv:
   authorizer: none
 
-# Allow user to provision WiFi credentials with USB port using Improv standard
-mprov_serial:
+improv_serial:
