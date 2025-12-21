@@ -12,7 +12,7 @@ substitutions:
   co2_calibration_date: "Not Set"
 
 external_components:
-  - source: github://pr#9254
+  - source: github://pr#12598
     components: [sen5x]
     refresh: 1min
 
