@@ -213,6 +213,7 @@ binary_sensor:
             }
         - script.execute: update_status_led
   - platform: template
+    # executed every loop() call, about 16 ms
     name: "Presence"
     id: presence
     device_class: presence
@@ -272,6 +273,15 @@ number:
     min_value: 0
     step: 1
     initial_value: 75
+    restore_value: true
+  - platform: template
+    id: timeout
+    name: "Timeout"
+    optimistic: true
+    max_value: 10000
+    min_value: 0
+    step: 1
+    initial_value: 60
     restore_value: true
 
 power_supply:

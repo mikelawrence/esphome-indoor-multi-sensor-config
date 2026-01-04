@@ -6,6 +6,7 @@ api:
       - text_sensor.template.publish:
           id: radar_included
           state: "Hi-Link LD2410"
+      - button.press: ld2410_query_params
 
 power_supply:
   # this enables power to the ld2410 module
@@ -45,6 +46,7 @@ button:
       entity_category: config
     query_params:
       name: LD2410 Query Params
+      id: ld2410_query_params
       entity_category: config
 
 number:

@@ -12,8 +12,8 @@ substitutions:
   co2_calibration_date: "Not Set"
 
 external_components:
-  - source: github://pr#12598
-    components: [sen5x]
+  - source: github://mikelawrence/esphome@add-sen6x
+    components: [sen6x]
     refresh: 1min
 
 esphome:
@@ -112,7 +112,7 @@ sensor:
     pm_1_0:
       # PM 1µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <1um Mass concentration"
+      name: "PM <1µm Mass concentration"
       id: pm_1_0
       accuracy_decimals: 2
       filters:
@@ -122,7 +122,7 @@ sensor:
     pm_2_5:
       # PM 2.5µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <2.5um Mass concentration"
+      name: "PM <2.5µm Mass concentration"
       id: pm_2_5
       accuracy_decimals: 2
       filters:
@@ -132,7 +132,7 @@ sensor:
     pm_4_0:
       # PM 4µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <4um Mass concentration"
+      name: "PM <4µm Mass concentration"
       id: pm_4_0
       accuracy_decimals: 2
       filters:
@@ -142,7 +142,7 @@ sensor:
     pm_10_0:
       # PM 10µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <10um Mass concentration"
+      name: "PM <10µm Mass concentration"
       id: pm_10_0
       accuracy_decimals: 2
       filters:
