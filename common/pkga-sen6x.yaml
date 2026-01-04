@@ -37,7 +37,7 @@ interval:
   - interval: 7d
     startup_delay: 1d
     then:
-      - sen5x.start_fan_autoclean: sen66_sensor
+      - sen6x.start_fan_autoclean: sen66_sensor
 
 i2c:
   - id: i2c2_bus
@@ -65,17 +65,17 @@ button:
     name: "Start Fan Auto Clean"
     entity_category: config
     on_press:
-      - sen5x.start_fan_autoclean: sen66_sensor
+      - sen6x.start_fan_autoclean: sen66_sensor
   - platform: template
     name: "Activate SHT Heater"
     entity_category: config
     on_press:
-      - sen5x.activate_heater: sen66_sensor
+      - sen6x.activate_heater: sen66_sensor
   - platform: template
     name: "CO₂ Calibrate"
     entity_category: config
     on_press:
-      - sen5x.perform_forced_co2_calibration:
+      - sen6x.perform_forced_co2_calibration:
           value: !lambda |-
             float value = id(co2_forced_cal_value).state;
             ESP_LOGD("scd4x", "CO₂ Calibration executed, CO₂=%0.0f", value);
@@ -83,13 +83,11 @@ button:
           id: sen66_sensor
 
 sensor:
-  - platform: sen5x
+  - platform: sen6x
     id: sen66_sensor
     i2c_id: i2c2_bus
-    address: 0x6B
     update_interval: 1s
     model: SEN66
-    store_baseline: true
     temperature:
       # temperature 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -185,6 +183,7 @@ sensor:
       name: "VOC"
       id: voc
       accuracy_decimals: 0
+      store_baseline: true
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
