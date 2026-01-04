@@ -51,8 +51,8 @@ number:
   - platform: ld2410
     ld2410_id: ld2410_radar
     timeout:
-      name: Timeout
-      id: timeout
+      name: LD2410 Timeout
+      id: ld2410_timeout
     max_move_distance_gate:
       name: Max Move Distance Gate
     max_still_distance_gate:
