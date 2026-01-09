@@ -92,6 +92,7 @@ sensor:
   - platform: sen5x
     id: sen66_sensor
     i2c_id: i2c2_bus
+    address: 0x6B
     update_interval: 1s
     model: SEN66
     store_baseline: true
