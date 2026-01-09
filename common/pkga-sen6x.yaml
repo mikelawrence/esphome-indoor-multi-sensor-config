@@ -11,10 +11,17 @@ substitutions:
   humidity_offset: "0.0"
   co2_calibration_date: "Not Set"
 
+# external_components:
+#   - source: github://mikelawrence/esphome@add-sen6x
+#     components: [sen6x]
+#     refresh: 1min
+
 external_components:
-  - source: github://mikelawrence/esphome@add-sen6x
-    components: [sen6x]
+  - source:
+      type: git
+      url: https://github.com/mikelawrence/esphome-components
     refresh: 1min
+    components: [ sen5x ]
 
 esphome:
   on_boot:

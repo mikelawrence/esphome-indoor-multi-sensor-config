@@ -33,7 +33,6 @@ esphome:
 # Even though there is 32MB of flash, OTA updates with that size are not reliable
 # so we configure as 16MB
 esp32:
-  board: esp32s3box
   variant: ESP32S3
   flash_size: 16MB
   cpu_frequency: 240MHz
