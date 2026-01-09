@@ -25,7 +25,7 @@ external_components:
 
 esphome:
   on_boot:
-    priority: 800.0
+    priority: 100.0
     then:
       - lambda: |-
           // Let other parts of config know there is a CO₂ sensor
