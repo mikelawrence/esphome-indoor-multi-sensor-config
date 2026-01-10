@@ -11,19 +11,12 @@ substitutions:
   humidity_offset: "0.0"
   co2_calibration_date: "Not Set"
 
-# external_components:
-#   - source: github://mikelawrence/esphome@add-sen6x
-#     components: [sen6x]
-#     refresh: 1min
-
 external_components:
-  - source:
-      type: git
-      url: https://github.com/mikelawrence/esphome-components
+  - source: github://pr#12598
+    components: [sen5x]
     refresh: 1min
-    components: [ sen5x ]
 
-esphome:
+esphome: 
   on_boot:
     priority: 800.0
     then:
@@ -93,7 +86,7 @@ sensor:
     id: sen66_sensor
     i2c_id: i2c2_bus
     address: 0x6B
-    update_interval: 1s
+    update_interval: 1s 
     model: SEN66
     store_baseline: true
     temperature:
