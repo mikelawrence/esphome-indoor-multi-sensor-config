@@ -219,6 +219,8 @@ binary_sensor:
     lambda: |-
       return id(presence_mmwave).state or
         (${pir_enabled} && id(pir_enable).state && id(motion_pir).state);
+    filters:
+      - delayed_off: !lambda "return id(timeout).state;"
     on_state:
       then:
         script.execute: update_status_led
@@ -275,7 +277,7 @@ number:
     restore_value: true
   - platform: template
     id: timeout
-    name: "Timeout"
+    name: "Presence Timeout"
     optimistic: true
     max_value: 10000
     min_value: 0
