@@ -76,7 +76,7 @@ button:
     name: "CO₂ Calibrate"
     entity_category: config
     on_press:
-      - sen5x.perform_forced_co2_calibration:
+      - sen5x.perform_forced_co2_recalibration:
           value: !lambda |-
             float value = id(co2_forced_cal_value).state;
             return value;
