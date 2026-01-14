@@ -38,7 +38,7 @@ interval:
   - interval: 7d
     startup_delay: 1d
     then:
-      - sen5x.start_fan_cleaning: sen66_sensor
+      - sen5x.start_fan_autoclean: sen66_sensor
 
 i2c:
   - id: i2c2_bus
