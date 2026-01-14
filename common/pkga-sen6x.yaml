@@ -7,12 +7,13 @@
 substitutions:
   # These are the default values for substitutions that are not defined in the main config file
   sen66_skip_initial: "300"
+  sen66_throttle_average: "60s"
   temperature_offset: "0.0"
   humidity_offset: "0.0"
   co2_calibration_date: "Not Set"
 
 external_components:
-  - source: github://pr#12598
+  - source: github://pr#9254
     components: [sen5x]
     refresh: 1min
 
@@ -97,7 +98,7 @@ sensor:
       filters:
         - filter_out: NAN
         - skip_initial: ${sen66_skip_initial}
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
     humidity:
       # humidity 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -107,7 +108,7 @@ sensor:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
         - offset: ${humidity_offset}
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
     pm_1_0:
       # PM 1µm 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -117,7 +118,7 @@ sensor:
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
     pm_2_5:
       # PM 2.5µm 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -127,7 +128,7 @@ sensor:
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
     pm_4_0:
       # PM 4µm 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -137,7 +138,7 @@ sensor:
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
     pm_10_0:
       # PM 10µm 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -147,7 +148,7 @@ sensor:
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
     co2:
       # CO₂ internal 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -158,7 +159,7 @@ sensor:
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
       on_value:
         then:
           - lambda: |-
@@ -171,13 +172,13 @@ sensor:
     nox:
       # NOₓ 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "NOₓ"
+      name: "NOx"
       id: nox
       accuracy_decimals: 0
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
     voc:
       # VOC 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -188,7 +189,7 @@ sensor:
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
   - platform: copy
     # temperature_internal median over last 5 minutes, output every minute
     id: temperature
