@@ -31,10 +31,16 @@ binary_sensor:
       name: MMWave Presence
       id: presence_mmwave
       device_class: presence
+      filters:
+        - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
     has_moving_target:
       name: Moving Target
+      filters:
+        - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
     has_still_target:
       name: Still Target
+      filters:
+        - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
 
 button:
   - platform: ld2410

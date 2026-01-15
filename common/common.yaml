@@ -218,8 +218,6 @@ binary_sensor:
     device_class: presence
     lambda: |-
       return id(presence_mmwave).state or (id(pir_enable).state && id(motion_pir).state);
-    filters:
-      - delayed_off: !lambda "return id(timeout).state;"
     on_state:
       then:
         script.execute: update_status_led
@@ -233,7 +231,7 @@ binary_sensor:
     filters:
       - lambda: |-
           return ${pir_enabled} && x;
-      - delayed_off: 10s
+      - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
 
 button:
   - platform: restart

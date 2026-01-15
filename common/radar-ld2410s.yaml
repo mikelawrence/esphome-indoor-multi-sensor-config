@@ -29,6 +29,8 @@ binary_sensor:
     has_target:
       name: MMWAVE Presence
       id: presence_mmwave
+      filters:
+        - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
     has_calibration_running:
       name: LD2410S Calibration Running
 
