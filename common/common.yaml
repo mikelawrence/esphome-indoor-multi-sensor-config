@@ -217,8 +217,7 @@ binary_sensor:
     id: presence
     device_class: presence
     lambda: |-
-      return id(presence_mmwave).state or
-        (${pir_enabled} && id(pir_enable).state && id(motion_pir).state);
+      return id(presence_mmwave).state or (id(pir_enable).state && id(motion_pir).state);
     filters:
       - delayed_off: !lambda "return id(timeout).state;"
     on_state:
@@ -228,10 +227,12 @@ binary_sensor:
     id: motion_pir
     name: "PIR Motion"
     device_class: motion
-    internal: ${pir_enabled}
+    internal: ${not pir_enabled}
     pin:
       number: GPIO38
     filters:
+      - lambda: |-
+          return ${pir_enabled} && x;
       - delayed_off: 10s
 
 button:
