@@ -88,7 +88,7 @@ sensor:
     i2c_id: i2c2_bus
     address: 0x6B
     update_interval: 1s 
-    model: SEN66
+    type: SEN66
     store_baseline: true
     temperature:
       # temperature 1s interval averaged to once a minute
