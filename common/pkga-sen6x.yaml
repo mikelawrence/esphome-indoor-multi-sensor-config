@@ -17,7 +17,7 @@ external_components:
       path: /esphome-components/components
       components: [sen6x]
 
-esphome: 
+esphome:
   on_boot:
     priority: 800.0
     then:
@@ -87,7 +87,7 @@ sensor:
     id: sen66_sensor
     i2c_id: i2c2_bus
     address: 0x6B
-    update_interval: 1s 
+    update_interval: 1s
     type: SEN66
     store_baseline: true
     temperature:
