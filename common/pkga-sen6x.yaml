@@ -14,8 +14,9 @@ substitutions:
 
 external_components:
   - source:
+      type: local
       path: /esphome-components/components
-      components: [sen6x]
+    components: [sen6x]
 
 esphome:
   on_boot:
