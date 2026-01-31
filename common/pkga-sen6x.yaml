@@ -90,7 +90,6 @@ sensor:
     address: 0x6B
     update_interval: 1s
     type: SEN66
-    store_baseline: true
     temperature:
       # temperature 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -186,7 +185,7 @@ sensor:
       name: "VOC"
       id: voc
       accuracy_decimals: 0
-      # store_baseline: true
+      store_algorithm_state: true
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
