@@ -67,7 +67,7 @@ button:
     name: "Start Fan Auto Clean"
     entity_category: config
     on_press:
-      - sen5x.start_fan_autoclean: sen66_sensor
+      - sen5x.start_fan_cleaning: sen66_sensor
   - platform: template
     name: "Activate SHT Heater"
     entity_category: config
