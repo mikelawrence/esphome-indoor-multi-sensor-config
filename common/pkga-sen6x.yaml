@@ -64,7 +64,7 @@ number:
 
 button:
   - platform: template
-    name: "Start Fan Auto Clean"
+    name: "Start Fan Cleaning"
     entity_category: config
     on_press:
       - sen6x.start_fan_cleaning: sen66_sensor
@@ -185,7 +185,8 @@ sensor:
       name: "VOC"
       id: voc
       accuracy_decimals: 0
-      store_algorithm_state: true
+      algorithm_state_recovery: true
+      algorithm_state_time_source: homeassistant_time
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
