@@ -14,7 +14,7 @@ substitutions:
 external_components:
   - source: github://mikelawrence/esphome-components@main
     components: [sen5x]
-    refresh: 1day
+    refresh: 1days
 
 esphome:
   on_boot:
