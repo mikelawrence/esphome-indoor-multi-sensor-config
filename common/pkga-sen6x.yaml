@@ -12,9 +12,9 @@ substitutions:
   co2_calibration_date: "Not Set"
 
 external_components:
-  - source: github://pr#12598
+  - source: github://mikelawrence/esphome-components@main
     components: [sen5x]
-    refresh: 1min
+    refresh: 1day
 
 esphome:
   on_boot:
