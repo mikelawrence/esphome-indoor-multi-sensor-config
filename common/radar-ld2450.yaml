@@ -461,7 +461,7 @@ switch:
       name: LD2450 Bluetooth Enable
     multi_target:
       name: LD2450 Multi Target Tracking
-  # - platform: template
+  - platform: template
     name: "Flip X-Axis"
     id: flip_x_axis
     optimistic: true
