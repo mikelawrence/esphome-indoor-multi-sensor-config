@@ -265,26 +265,26 @@ binary_sensor:
     name: "Presence mmWave"
     id: presence_mmwave
     device_class: presence
-  #   filters:
-  #     - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
-  # - platform: template
-  #   name: "Zone-1 Presence"
-  #   id: zone_1_presence
-  #   device_class: presence
-  #   filters:
-  #     - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
-  # - platform: template
-  #   name: "Zone-2 Presence"
-  #   id: zone_2_presence
-  #   device_class: presence
-  #   filters:
-  #     - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
-  # - platform: template
-  #   name: "Zone-3 Presence"
-  #   id: zone_3_presence
-  #   device_class: presence
-  #   filters:
-  #     - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
+    filters:
+      - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
+  - platform: template
+    name: "Zone-1 Presence"
+    id: zone_1_presence
+    device_class: presence
+    filters:
+      - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
+  - platform: template
+    name: "Zone-2 Presence"
+    id: zone_2_presence
+    device_class: presence
+    filters:
+      - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
+  - platform: template
+    name: "Zone-3 Presence"
+    id: zone_3_presence
+    device_class: presence
+    filters:
+      - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
 
 button:
   - platform: ld2450
@@ -461,12 +461,12 @@ switch:
       name: LD2450 Bluetooth Enable
     multi_target:
       name: LD2450 Multi Target Tracking
-#   # - platform: template
-  #   name: "Flip X-Axis"
-  #   id: flip_x_axis
-  #   optimistic: true
-  #   restore_mode: RESTORE_DEFAULT_OFF
-  #   entity_category: config
+  # - platform: template
+    name: "Flip X-Axis"
+    id: flip_x_axis
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF
+    entity_category: config
 
 sensor:
   # - platform: template
@@ -517,106 +517,106 @@ sensor:
         id: target_3_s_int
         filters:
           - lambda: "id(s_in)[2] = x; id(update_timer).execute(); return {};"
-  # - platform: template
-  #   name: "Target-1 X"
-  #   id: target_1_x
-  #   device_class: distance
-  #   unit_of_measurement: ft
-  #   accuracy_decimals: 0
-  # - platform: template
-  #   name: "Target-1 Y"
-  #   id: target_1_y
-  #   device_class: distance
-  #   unit_of_measurement: ft
-  #   accuracy_decimals: 0
-  # - platform: template
-  #   name: "Target-1 Speed"
-  #   id: target_1_s
-  #   device_class: speed
-  #   unit_of_measurement: ft/s
-  #   accuracy_decimals: 2
-  # - platform: template
-  #   name: "Target-2 X"
-  #   id: target_2_x
-  #   device_class: distance
-  #   unit_of_measurement: ft
-  #   accuracy_decimals: 0
-  # - platform: template
-  #   name: "Target-2 Y"
-  #   id: target_2_y
-  #   device_class: distance
-  #   unit_of_measurement: ft
-  #   accuracy_decimals: 0
-  # - platform: template
-  #   name: "Target-2 Speed"
-  #   id: target_2_s
-  #   device_class: speed
-  #   unit_of_measurement: ft/s
-  #   accuracy_decimals: 2
-  # - platform: template
-  #   name: "Target-3 X"
-  #   id: target_3_x
-  #   device_class: distance
-  #   unit_of_measurement: ft
-  #   accuracy_decimals: 0
-  # - platform: template
-  #   name: "Target-3 Y"
-  #   id: target_3_y
-  #   device_class: distance
-  #   unit_of_measurement: ft
-  #   accuracy_decimals: 0
-  # - platform: template
-  #   name: "Target-3 Speed"
-  #   id: target_3_s
-  #   device_class: speed
-  #   unit_of_measurement: ft/s
-  #   accuracy_decimals: 2
-  # - platform: template
-  #   name: "Zone-1 Target Count"
-  #   id: z1_tgt_cnt
-  #   accuracy_decimals: 0
-  # - platform: template
-  #   name: "Zone-1 Still Target Count"
-  #   id: z1_still_tgt_cnt
-  #   accuracy_decimals: 0
-  # - platform: template
-  #   name: "Zone-1 Moving Target Count"
-  #   id: z1_move_tgt_cnt
-  #   accuracy_decimals: 0
-  # - platform: template
-  #   name: "Zone-2 Target Count"
-  #   id: z2_tgt_cnt
-  #   accuracy_decimals: 0
-  # - platform: template
-  #   name: "Zone-2 Still Target Count"
-  #   id: z2_still_tgt_cnt
-  #   accuracy_decimals: 0
-  # - platform: template
-  #   name: "Zone-2 Moving Target Count"
-  #   id: z2_move_tgt_cnt
-  #   accuracy_decimals: 0
-  # - platform: template
-  #   name: "Zone-3 Target Count"
-  #   id: z3_tgt_cnt
-  #   accuracy_decimals: 0
-  # - platform: template
-  #   name: "Zone-3 Still Target Count"
-  #   id: z3_still_tgt_cnt
-  #   accuracy_decimals: 0
-  # - platform: template
-  #   name: "Zone-3 Moving Target Count"
-  #   id: z3_move_tgt_cnt
-  #   accuracy_decimals: 0
+  - platform: template
+    name: "Target-1 X"
+    id: target_1_x
+    device_class: distance
+    unit_of_measurement: ft
+    accuracy_decimals: 0
+  - platform: template
+    name: "Target-1 Y"
+    id: target_1_y
+    device_class: distance
+    unit_of_measurement: ft
+    accuracy_decimals: 0
+  - platform: template
+    name: "Target-1 Speed"
+    id: target_1_s
+    device_class: speed
+    unit_of_measurement: ft/s
+    accuracy_decimals: 2
+  - platform: template
+    name: "Target-2 X"
+    id: target_2_x
+    device_class: distance
+    unit_of_measurement: ft
+    accuracy_decimals: 0
+  - platform: template
+    name: "Target-2 Y"
+    id: target_2_y
+    device_class: distance
+    unit_of_measurement: ft
+    accuracy_decimals: 0
+  - platform: template
+    name: "Target-2 Speed"
+    id: target_2_s
+    device_class: speed
+    unit_of_measurement: ft/s
+    accuracy_decimals: 2
+  - platform: template
+    name: "Target-3 X"
+    id: target_3_x
+    device_class: distance
+    unit_of_measurement: ft
+    accuracy_decimals: 0
+  - platform: template
+    name: "Target-3 Y"
+    id: target_3_y
+    device_class: distance
+    unit_of_measurement: ft
+    accuracy_decimals: 0
+  - platform: template
+    name: "Target-3 Speed"
+    id: target_3_s
+    device_class: speed
+    unit_of_measurement: ft/s
+    accuracy_decimals: 2
+  - platform: template
+    name: "Zone-1 Target Count"
+    id: z1_tgt_cnt
+    accuracy_decimals: 0
+  - platform: template
+    name: "Zone-1 Still Target Count"
+    id: z1_still_tgt_cnt
+    accuracy_decimals: 0
+  - platform: template
+    name: "Zone-1 Moving Target Count"
+    id: z1_move_tgt_cnt
+    accuracy_decimals: 0
+  - platform: template
+    name: "Zone-2 Target Count"
+    id: z2_tgt_cnt
+    accuracy_decimals: 0
+  - platform: template
+    name: "Zone-2 Still Target Count"
+    id: z2_still_tgt_cnt
+    accuracy_decimals: 0
+  - platform: template
+    name: "Zone-2 Moving Target Count"
+    id: z2_move_tgt_cnt
+    accuracy_decimals: 0
+  - platform: template
+    name: "Zone-3 Target Count"
+    id: z3_tgt_cnt
+    accuracy_decimals: 0
+  - platform: template
+    name: "Zone-3 Still Target Count"
+    id: z3_still_tgt_cnt
+    accuracy_decimals: 0
+  - platform: template
+    name: "Zone-3 Moving Target Count"
+    id: z3_move_tgt_cnt
+    accuracy_decimals: 0
 
-  # - platform: template
-  #   name: "Target Count"
-  #   id: tgt_cnt
-  # - platform: template
-  #   name: "Still Target Count"
-  #   id: still_tgt_cnt
-  # - platform: template
-  #   name: "Moving Target Count"
-  #   id: move_tgt_cnt
+  - platform: template
+    name: "Target Count"
+    id: tgt_cnt
+  - platform: template
+    name: "Still Target Count"
+    id: still_tgt_cnt
+  - platform: template
+    name: "Moving Target Count"
+    id: move_tgt_cnt
 
 text_sensor:
   - platform: ld2450
