@@ -72,7 +72,6 @@ script:
     mode: restart
     then:
       lambda: |-
-        return;
         constexpr const char *const ESP_LOG_TAG = "ld2450_mtmz";
         uint64_t time = millis();
         if (id(global_timer_running))
