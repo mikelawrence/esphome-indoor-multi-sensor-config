@@ -89,72 +89,69 @@ script:
     mode: restart
     then:
       lambda: |-
-        return;
-      # lambda: |-
-      #   return;
-      #   constexpr const char *const ESP_LOG_TAG = "ld2450_mtmz";
-      #   static uint64_t last_update_time = 0llu - 100000000llu;
-      #   //static float x_in[3] = {0.0}, y_in[3] = {0.0}, s_in[3] = {0.0};
-      #   static float x[3] = {0.0}, y[3] = {0.0}, s[3] = {0.0};
-      #   uint8_t zone_all_targets[3] = {0}, zone_still_targets[3] = {0},
-      #     zone_moving_targets[3] = {0};
-      #   uint8_t still_tgt_count = 0, move_tgt_count = 0, total_tgt_count = 0;
-      #   uint64_t time = millis();
-      #   esphome::sensor::Sensor* sens_tgt_x[] = {
-      #     id(target_1_x),
-      #     id(target_2_x),
-      #     id(target_3_x)
-      #   };
-      #   esphome::sensor::Sensor* sens_tgt_y[] = {
-      #     id(target_1_y),
-      #     id(target_2_y),
-      #     id(target_3_y)
-      #   };
-      #   esphome::sensor::Sensor* sens_tgt_s[] = {
-      #     id(target_1_s),
-      #     id(target_2_s),
-      #     id(target_3_s)
-      #   };
-      #   esphome::template_::TemplateNumber* sens_zone_x1[] = {
-      #     id(z1_x1),
-      #     id(z2_x1),
-      #     id(z3_x1)
-      #   };
-      #   esphome::template_::TemplateNumber* sens_zone_x2[] = {
-      #     id(z1_x2),
-      #     id(z2_x2),
-      #     id(z3_x2)
-      #   };
-      #   esphome::template_::TemplateNumber* sens_zone_y1[] = {
-      #     id(z1_y1),
-      #     id(z2_y1),
-      #     id(z3_y1)
-      #   };
-      #   esphome::template_::TemplateNumber* sens_zone_y2[] = {
-      #     id(z1_y2),
-      #     id(z2_y2),
-      #     id(z3_y2)
-      #   };
-      #   esphome::binary_sensor::BinarySensor* sens_zone_pres[] = {
-      #     id(zone_1_presence),
-      #     id(zone_2_presence),
-      #     id(zone_3_presence)
-      #   };
-      #   esphome::sensor::Sensor* sens_zone_tgt_cnt[] = {
-      #     id(z1_tgt_cnt),
-      #     id(z2_tgt_cnt),
-      #     id(z3_tgt_cnt)
-      #   };
-      #   esphome::sensor::Sensor* sens_zone_still_tgt_cnt[] = {
-      #     id(z1_still_tgt_cnt),
-      #     id(z2_still_tgt_cnt),
-      #     id(z3_still_tgt_cnt)
-      #   };
-      #   esphome::sensor::Sensor* sens_zone_move_tgt_cnt[] = {
-      #     id(z1_move_tgt_cnt),
-      #     id(z2_move_tgt_cnt),
-      #     id(z3_move_tgt_cnt)
-      #   };
+        constexpr const char *const ESP_LOG_TAG = "ld2450_mtmz";
+        static uint64_t last_update_time = 0llu - 100000000llu;
+        //static float x_in[3] = {0.0}, y_in[3] = {0.0}, s_in[3] = {0.0};
+        static float x[3] = {0.0}, y[3] = {0.0}, s[3] = {0.0};
+        uint8_t zone_all_targets[3] = {0}, zone_still_targets[3] = {0},
+          zone_moving_targets[3] = {0};
+        uint8_t still_tgt_count = 0, move_tgt_count = 0, total_tgt_count = 0;
+        uint64_t time = millis();
+        esphome::sensor::Sensor* sens_tgt_x[] = {
+          id(target_1_x),
+          id(target_2_x),
+          id(target_3_x)
+        };
+        esphome::sensor::Sensor* sens_tgt_y[] = {
+          id(target_1_y),
+          id(target_2_y),
+          id(target_3_y)
+        };
+        esphome::sensor::Sensor* sens_tgt_s[] = {
+          id(target_1_s),
+          id(target_2_s),
+          id(target_3_s)
+        };
+        esphome::template_::TemplateNumber* sens_zone_x1[] = {
+          id(z1_x1),
+          id(z2_x1),
+          id(z3_x1)
+        };
+        esphome::template_::TemplateNumber* sens_zone_x2[] = {
+          id(z1_x2),
+          id(z2_x2),
+          id(z3_x2)
+        };
+        esphome::template_::TemplateNumber* sens_zone_y1[] = {
+          id(z1_y1),
+          id(z2_y1),
+          id(z3_y1)
+        };
+        esphome::template_::TemplateNumber* sens_zone_y2[] = {
+          id(z1_y2),
+          id(z2_y2),
+          id(z3_y2)
+        };
+        esphome::binary_sensor::BinarySensor* sens_zone_pres[] = {
+          id(zone_1_presence),
+          id(zone_2_presence),
+          id(zone_3_presence)
+        };
+        esphome::sensor::Sensor* sens_zone_tgt_cnt[] = {
+          id(z1_tgt_cnt),
+          id(z2_tgt_cnt),
+          id(z3_tgt_cnt)
+        };
+        esphome::sensor::Sensor* sens_zone_still_tgt_cnt[] = {
+          id(z1_still_tgt_cnt),
+          id(z2_still_tgt_cnt),
+          id(z3_still_tgt_cnt)
+        };
+        esphome::sensor::Sensor* sens_zone_move_tgt_cnt[] = {
+          id(z1_move_tgt_cnt),
+          id(z2_move_tgt_cnt),
+          id(z3_move_tgt_cnt)
+        };
       #   // Handle target unit conversion, coord transforms and updates
       #   for(uint8_t tgt = 0; tgt < 3; tgt++)
       #   {
