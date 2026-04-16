@@ -229,7 +229,7 @@ binary_sensor:
     pin:
       number: GPIO38
     filters:
-      - lambda: |-
+      - lambda: |- 
           return ${pir_installed} && x;
       - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
 
@@ -328,7 +328,7 @@ switch:
   - platform: template
     name: "PIR Enable"
     id: pir_enable
-    internal: ${pir_installed}
+    internal: ${not pir_installed}
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
   - platform: template
