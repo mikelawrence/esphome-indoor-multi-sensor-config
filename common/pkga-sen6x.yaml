@@ -20,13 +20,14 @@ external_components:
 
 esphome:
   on_boot:
-    priority: 500.0
+    # priority: 400.0
     then:
       - lambda: |-
           // Let other parts of config know there is a CO₂ sensor
           id(co2_available_var) = true;
           // Let other parts of config know there is a Particulate Matter sensor
           id(pm25_available_var) = true;
+          ESP_LOGD("", "pm25_available_var set to true");
 
 api:
   on_client_connected:
