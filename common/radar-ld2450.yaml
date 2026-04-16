@@ -218,44 +218,46 @@ script:
         if(!id(presence_mmwave).has_state() || id(presence_mmwave).state != total_tgt_count > 0)
           id(presence_mmwave).publish_state(total_tgt_count > 0);
 
-      #   if(time - last_update_time > static_cast<uint64_t>(id(update_rate).state * 1000.0))
-      #   {
-      #     // publish target values
-      #     for(uint8_t tgt = 0; tgt < 3; tgt++)
-      #     {
-      #       if (sens_tgt_x[tgt]->state != x[tgt] || sens_tgt_y[tgt]->state != y[tgt] ||
-      #           sens_tgt_s[tgt]->state != s[tgt])
-      #       {
-      #         sens_tgt_x[tgt]->publish_state(x[tgt]);
-      #         sens_tgt_y[tgt]->publish_state(y[tgt]);
-      #         sens_tgt_s[tgt]->publish_state(s[tgt]);
-      #       }
-      #     }
-      #     // publish zone values
-      #     for (uint8_t zone = 0; zone < 3; zone++)
-      #     {
-      #       if (sens_zone_tgt_cnt[zone]->state != zone_all_targets[zone])
-      #         sens_zone_tgt_cnt[zone]->publish_state(zone_all_targets[zone]);
-      #       if (sens_zone_still_tgt_cnt[zone]->state != zone_still_targets[zone])
-      #         sens_zone_still_tgt_cnt[zone]->publish_state(zone_still_targets[zone]);
-      #       if(sens_zone_move_tgt_cnt[zone]->state != zone_moving_targets[zone])
-      #         sens_zone_move_tgt_cnt[zone]->publish_state(zone_moving_targets[zone]);
-      #     }
-      #     if (id(still_tgt_cnt).state != still_tgt_count)
-      #       id(still_tgt_cnt).publish_state(still_tgt_count);
-      #     if (id(move_tgt_cnt).state != move_tgt_count)
-      #       id(move_tgt_cnt).publish_state(move_tgt_count);
-      #     if (id(tgt_cnt).state != total_tgt_count)
-      #       id(tgt_cnt).publish_state(total_tgt_count);
-      #     last_update_time = time;
-      #   }
-      #   /*for (uint8_t tgt = 0; tgt < 3; tgt++) {
-      #     ESP_LOGD(ESP_LOG_TAG, "Target-%d: "
-      #       "In -> x=%5.0f mm, y=%5.0f mm, spd=%8.2f mm/s: "
-      #       "Out-> x=%6.2f ft, y=%6.2f ft, spd=%6.2f ft/s", tgt + 1,
-      #       id(x_in)[tgt], id(y_in)[tgt], id(s_in)[tgt],
-      #       x[tgt], y[tgt], s[tgt]);
-      #   }*/
+        // if(time - last_update_time > static_cast<uint64_t>(id(update_rate).state * 1000.0))
+        if(time - last_update_time > 5000)
+        {
+          ESP_LOGD(ESP_LOG_TAG, "Updtae Rate = %d", static_cast<uint64_t>(id(update_rate).state * 1000.0));
+          // publish target values
+          for(uint8_t tgt = 0; tgt < 3; tgt++)
+          {
+            if (sens_tgt_x[tgt]->state != x[tgt] || sens_tgt_y[tgt]->state != y[tgt] ||
+                sens_tgt_s[tgt]->state != s[tgt])
+            {
+              sens_tgt_x[tgt]->publish_state(x[tgt]);
+              sens_tgt_y[tgt]->publish_state(y[tgt]);
+              sens_tgt_s[tgt]->publish_state(s[tgt]);
+            }
+          }
+          // publish zone values
+          for (uint8_t zone = 0; zone < 3; zone++)
+          {
+            if (sens_zone_tgt_cnt[zone]->state != zone_all_targets[zone])
+              sens_zone_tgt_cnt[zone]->publish_state(zone_all_targets[zone]);
+            if (sens_zone_still_tgt_cnt[zone]->state != zone_still_targets[zone])
+              sens_zone_still_tgt_cnt[zone]->publish_state(zone_still_targets[zone]);
+            if(sens_zone_move_tgt_cnt[zone]->state != zone_moving_targets[zone])
+              sens_zone_move_tgt_cnt[zone]->publish_state(zone_moving_targets[zone]);
+          }
+          if (id(still_tgt_cnt).state != still_tgt_count)
+            id(still_tgt_cnt).publish_state(still_tgt_count);
+          if (id(move_tgt_cnt).state != move_tgt_count)
+            id(move_tgt_cnt).publish_state(move_tgt_count);
+          if (id(tgt_cnt).state != total_tgt_count)
+            id(tgt_cnt).publish_state(total_tgt_count);
+          last_update_time = time;
+        }
+        /*for (uint8_t tgt = 0; tgt < 3; tgt++) {
+          ESP_LOGD(ESP_LOG_TAG, "Target-%d: "
+            "In -> x=%5.0f mm, y=%5.0f mm, spd=%8.2f mm/s: "
+            "Out-> x=%6.2f ft, y=%6.2f ft, spd=%6.2f ft/s", tgt + 1,
+            id(x_in)[tgt], id(y_in)[tgt], id(s_in)[tgt],
+            x[tgt], y[tgt], s[tgt]);
+        }*/
 
 binary_sensor:
   - platform: template
