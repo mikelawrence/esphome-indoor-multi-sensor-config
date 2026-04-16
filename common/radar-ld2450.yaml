@@ -476,47 +476,47 @@ sensor:
       id(check_timeout).execute();
       return {};
 
-  - platform: ld2450
-    ld2450_id: ld2450_radar
-    target_1:
-      x:
-        id: target_1_x_int
-        filters:
-          - lambda: "id(x_in)[0] = x; id(update_timer).execute(); return {};"
-      y:
-        id: target_1_y_int
-        filters:
-          - lambda: "id(y_in)[0] = x; id(update_timer).execute(); return {};"
-      speed:
-        id: target_1_s_int
-        filters:
-          - lambda: "id(s_in)[0] = x; id(update_timer).execute(); return {};"
-    target_2:
-      x:
-        id: target_2_x_int
-        filters:
-          - lambda: "id(x_in)[1] = x; id(update_timer).execute(); return {};"
-      y:
-        id: target_2_y_int
-        filters:
-          - lambda: "id(y_in)[1] = x; id(update_timer).execute(); return {};"
-      speed:
-        id: target_2_s_int
-        filters:
-          - lambda: "id(s_in)[1] = x; id(update_timer).execute(); return {};"
-    target_3:
-      x:
-        id: target_3_x_int
-        filters:
-          - lambda: "id(x_in)[2] = x; id(update_timer).execute(); return {};"
-      y:
-        id: target_3_y_int
-        filters:
-          - lambda: "id(y_in)[2] = x; id(update_timer).execute(); return {};"
-      speed:
-        id: target_3_s_int
-        filters:
-          - lambda: "id(s_in)[2] = x; id(update_timer).execute(); return {};"
+  # - platform: ld2450
+  #   ld2450_id: ld2450_radar
+  #   target_1:
+  #     x:
+  #       id: target_1_x_int
+  #       filters:
+  #         - lambda: "id(x_in)[0] = x; id(update_timer).execute(); return {};"
+  #     y:
+  #       id: target_1_y_int
+  #       filters:
+  #         - lambda: "id(y_in)[0] = x; id(update_timer).execute(); return {};"
+  #     speed:
+  #       id: target_1_s_int
+  #       filters:
+  #         - lambda: "id(s_in)[0] = x; id(update_timer).execute(); return {};"
+  #   target_2:
+  #     x:
+  #       id: target_2_x_int
+  #       filters:
+  #         - lambda: "id(x_in)[1] = x; id(update_timer).execute(); return {};"
+  #     y:
+  #       id: target_2_y_int
+  #       filters:
+  #         - lambda: "id(y_in)[1] = x; id(update_timer).execute(); return {};"
+  #     speed:
+  #       id: target_2_s_int
+  #       filters:
+  #         - lambda: "id(s_in)[1] = x; id(update_timer).execute(); return {};"
+  #   target_3:
+  #     x:
+  #       id: target_3_x_int
+  #       filters:
+  #         - lambda: "id(x_in)[2] = x; id(update_timer).execute(); return {};"
+  #     y:
+  #       id: target_3_y_int
+  #       filters:
+  #         - lambda: "id(y_in)[2] = x; id(update_timer).execute(); return {};"
+  #     speed:
+  #       id: target_3_s_int
+  #       filters:
+  #         - lambda: "id(s_in)[2] = x; id(update_timer).execute(); return {};"
   - platform: template
     name: "Target-1 X"
     id: target_1_x
