@@ -89,6 +89,7 @@ script:
     mode: restart
     then:
       lambda: |-
+        return;
         constexpr const char *const ESP_LOG_TAG = "ld2450_mtmz";
         static uint64_t last_update_time = 0llu - 100000000llu;
         //static float x_in[3] = {0.0}, y_in[3] = {0.0}, s_in[3] = {0.0};
