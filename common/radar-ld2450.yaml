@@ -152,71 +152,71 @@ script:
           id(z2_move_tgt_cnt),
           id(z3_move_tgt_cnt)
         };
-      #   // Handle target unit conversion, coord transforms and updates
-      #   for(uint8_t tgt = 0; tgt < 3; tgt++)
-      #   {
-      #     float angle;
-      #     float distance;
+        // Handle target unit conversion, coord transforms and updates
+        for(uint8_t tgt = 0; tgt < 3; tgt++)
+        {
+          float angle;
+          float distance;
 
-      #     x[tgt] = id(x_in)[tgt] / 25.4 / 12;
-      #     if(id(flip_x_axis).state)
-      #     {
-      #       x[tgt] = 0 - x[tgt];
-      #     }
-      #     y[tgt] = id(y_in)[tgt] / 25.4 / 12;
-      #     distance = sqrt(pow(x[tgt], 2) + pow(y[tgt], 2));
-      #     angle = atan2(y[tgt], x[tgt]);
-      #     if (id(installation_angle).state != 0)
-      #     {
-      #       angle = angle - id(installation_angle).state * (M_PI / 180.0);
-      #       // we are using x and y flipped coordinates, sensor outputs this way
-      #       x[tgt] = distance * cos(angle);
-      #       y[tgt] = distance * sin(angle);
-      #     }
-      #     // angle = angle * (180.0 / M_PI) - 90.0;
-      #     if (x[tgt] == 0.0 && y[tgt] == 0.0)
-      #       s[tgt] = 0.0;
-      #     else
-      #       s[tgt] = id(s_in)[tgt] / 25.4 / 12;
+          x[tgt] = id(x_in)[tgt] / 25.4 / 12;
+          if(id(flip_x_axis).state)
+          {
+            x[tgt] = 0 - x[tgt];
+          }
+          y[tgt] = id(y_in)[tgt] / 25.4 / 12;
+          distance = sqrt(pow(x[tgt], 2) + pow(y[tgt], 2));
+          angle = atan2(y[tgt], x[tgt]);
+          if (id(installation_angle).state != 0)
+          {
+            angle = angle - id(installation_angle).state * (M_PI / 180.0);
+            // we are using x and y flipped coordinates, sensor outputs this way
+            x[tgt] = distance * cos(angle);
+            y[tgt] = distance * sin(angle);
+          }
+          // angle = angle * (180.0 / M_PI) - 90.0;
+          if (x[tgt] == 0.0 && y[tgt] == 0.0)
+            s[tgt] = 0.0;
+          else
+            s[tgt] = id(s_in)[tgt] / 25.4 / 12;
 
-      #   }
-      #   for (uint8_t zone = 0; zone < 3; zone++)
-      #   {
-      #     float z_x_begin = std::min(sens_zone_x1[zone]->state, sens_zone_x2[zone]->state);
-      #     float z_x_end = std::max(sens_zone_x1[zone]->state, sens_zone_x2[zone]->state);
-      #     float z_y_begin = std::min(sens_zone_y1[zone]->state, sens_zone_y2[zone]->state);
-      #     float z_y_end = std::max(sens_zone_y1[zone]->state, sens_zone_y2[zone]->state);
-      #     for (uint8_t tgt = 0; tgt < 3; tgt++)
-      #     {
-      #       if ((x[tgt] != 0.0) || (y[tgt] != 0.0))
-      #       {
-      #         if ((x[tgt] >= z_x_begin) and (x[tgt] <= z_x_end) and
-      #             (y[tgt] >= z_y_begin) and (y[tgt] <= z_y_end))
-      #         {
-      #           if (s[tgt] > 0.0)
-      #           {
-      #             zone_moving_targets[zone]++;
-      #             zone_all_targets[zone]++;
-      #           }
-      #           else
-      #           {
-      #             zone_still_targets[zone]++;
-      #             zone_all_targets[zone]++;
-      #           }
-      #         }
-      #       }
-      #     }
-      #   }
-      #   still_tgt_count = zone_still_targets[0] + zone_still_targets[1] + zone_still_targets[2];
-      #   move_tgt_count = zone_moving_targets[0] + zone_moving_targets[1] + zone_moving_targets[2];
-      #   total_tgt_count = still_tgt_count + move_tgt_count;
-      #   for (uint8_t zone = 0; zone < 3; zone++)
-      #   {
-      #     if(!sens_zone_pres[zone]->has_state() || sens_zone_pres[zone]->state != zone_all_targets[zone] > 0)
-      #       sens_zone_pres[zone]->publish_state(zone_all_targets[zone] > 0);
-      #   }
-      #   if(!id(presence_mmwave).has_state() || id(presence_mmwave).state != total_tgt_count > 0)
-      #     id(presence_mmwave).publish_state(total_tgt_count > 0);
+        }
+        for (uint8_t zone = 0; zone < 3; zone++)
+        {
+          float z_x_begin = std::min(sens_zone_x1[zone]->state, sens_zone_x2[zone]->state);
+          float z_x_end = std::max(sens_zone_x1[zone]->state, sens_zone_x2[zone]->state);
+          float z_y_begin = std::min(sens_zone_y1[zone]->state, sens_zone_y2[zone]->state);
+          float z_y_end = std::max(sens_zone_y1[zone]->state, sens_zone_y2[zone]->state);
+          for (uint8_t tgt = 0; tgt < 3; tgt++)
+          {
+            if ((x[tgt] != 0.0) || (y[tgt] != 0.0))
+            {
+              if ((x[tgt] >= z_x_begin) and (x[tgt] <= z_x_end) and
+                  (y[tgt] >= z_y_begin) and (y[tgt] <= z_y_end))
+              {
+                if (s[tgt] > 0.0)
+                {
+                  zone_moving_targets[zone]++;
+                  zone_all_targets[zone]++;
+                }
+                else
+                {
+                  zone_still_targets[zone]++;
+                  zone_all_targets[zone]++;
+                }
+              }
+            }
+          }
+        }
+        still_tgt_count = zone_still_targets[0] + zone_still_targets[1] + zone_still_targets[2];
+        move_tgt_count = zone_moving_targets[0] + zone_moving_targets[1] + zone_moving_targets[2];
+        total_tgt_count = still_tgt_count + move_tgt_count;
+        for (uint8_t zone = 0; zone < 3; zone++)
+        {
+          if(!sens_zone_pres[zone]->has_state() || sens_zone_pres[zone]->state != zone_all_targets[zone] > 0)
+            sens_zone_pres[zone]->publish_state(zone_all_targets[zone] > 0);
+        }
+        if(!id(presence_mmwave).has_state() || id(presence_mmwave).state != total_tgt_count > 0)
+          id(presence_mmwave).publish_state(total_tgt_count > 0);
 
       #   if(time - last_update_time > static_cast<uint64_t>(id(update_rate).state * 1000.0))
       #   {
