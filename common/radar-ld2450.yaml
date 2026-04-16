@@ -454,11 +454,11 @@ number:
 #     unit_of_measurement: ft
 #     entity_category: config
 
-# switch:
-#   - platform: ld2450
-#     ld2450_id: ld2450_radar
-#     bluetooth:
-#       name: LD2450 Bluetooth Enable
+switch:
+  - platform: ld2450
+    ld2450_id: ld2450_radar
+    bluetooth:
+      name: LD2450 Bluetooth Enable
 #     multi_target:
 #       name: LD2450 Multi Target Tracking
 #   # - platform: template
