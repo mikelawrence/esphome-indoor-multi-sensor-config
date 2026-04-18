@@ -468,12 +468,12 @@ switch:
     entity_category: config
 
 sensor:
-  # - platform: template
-  #   update_interval: 0ms
-  #   id: sub_second_timer
-  #   lambda: |-
-  #     id(check_timeout).execute();
-  #     return {};
+  - platform: template
+    update_interval: 100ms
+    id: sub_second_timer
+    lambda: |-
+      id(check_timeout).execute();
+      return {};
 
   - platform: ld2450
     ld2450_id: ld2450_radar
