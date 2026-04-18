@@ -622,8 +622,8 @@ text_sensor:
     ld2450_id: ld2450_radar
     version:
       name: LD2450 Firmware
+      entity_category: diagnostic
   - platform: template
     name: "Radar Included"
-    id: radar_included
-    entity_category: config
+    entity_category: diagnostic
     update_interval: never
