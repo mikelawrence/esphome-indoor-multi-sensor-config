@@ -218,6 +218,7 @@ binary_sensor:
     device_class: presence
     lambda: |-
       return id(presence_mmwave).state or id(motion_pir).state;
+      return id(presence_mmwave).state or id(motion_pir).state;
     on_state:
       then:
         script.execute: update_status_led
@@ -226,9 +227,12 @@ binary_sensor:
     name: "PIR Motion"
     device_class: motion
     internal: ${not pir_installed}
+    internal: ${not pir_installed}
     pin:
       number: GPIO38
     filters:
+      - lambda: |- 
+          return ${pir_installed} && id(pir_enable).state && x;
       - lambda: |- 
           return ${pir_installed} && id(pir_enable).state && x;
       - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
@@ -328,6 +332,7 @@ switch:
   - platform: template
     name: "PIR Enable"
     id: pir_enable
+    internal: ${not pir_installed}
     internal: ${not pir_installed}
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
