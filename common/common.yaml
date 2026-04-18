@@ -2,7 +2,7 @@
 substitutions:
   # These are the default values for substitutions that are not defined in the main config file
   config_version: 2025.12.1
-  pir_enabled: "false"
+  pir_installed: "false"
   status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
   status_night_brightness: "0.15"
@@ -20,14 +20,12 @@ esphome:
     - priority: 500.0
       then:
         - script.execute: update_status_led
-    - priority: -100.0
-      then:
-        - script.execute: announce_operational
-  on_shutdown:
+        - logger.log: "on_boot priority 500 fired (Common)"
     - priority: 600.0
       then:
         - light.turn_off:
             id: led_status
+        - logger.log: "on_boot priority 600 fired (Common)"
 
 # ESP32-S3-WROOM-2-N32R16V
 # Even though there is 32MB of flash, OTA updates with that size are not reliable
@@ -43,9 +41,6 @@ esp32:
 psram:
   mode: octal
   speed: 80MHz
-
-logger:
-  level: DEBUG
 
 globals:
   - id: ha_presence_var
@@ -217,7 +212,7 @@ binary_sensor:
     id: presence
     device_class: presence
     lambda: |-
-      return id(presence_mmwave).state or (id(pir_enable).state && id(motion_pir).state);
+      return id(presence_mmwave).state or id(motion_pir).state;
     on_state:
       then:
         script.execute: update_status_led
@@ -225,12 +220,12 @@ binary_sensor:
     id: motion_pir
     name: "PIR Motion"
     device_class: motion
-    internal: ${not pir_enabled}
+    internal: ${not pir_installed}
     pin:
       number: GPIO38
     filters:
-      - lambda: |-
-          return ${pir_enabled} && x;
+      - lambda: |- 
+          return ${pir_installed} && id(pir_enable).state && x;
       - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
 
 button:
@@ -328,7 +323,7 @@ switch:
   - platform: template
     name: "PIR Enable"
     id: pir_enable
-    internal: ${pir_enabled}
+    internal: ${not pir_installed}
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
   - platform: template

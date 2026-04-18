@@ -4,6 +4,7 @@
 #         !!!Use at your own risk!!!
 interval:
   - interval: 10s
+    startup_delay: 10s
     then:
       - script.execute: smoke_alarm_state_machine
 
