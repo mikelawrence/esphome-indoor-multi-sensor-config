@@ -42,9 +42,6 @@ psram:
   mode: octal
   speed: 80MHz
 
-logger:
-  level: DEBUG
-
 globals:
   - id: ha_presence_var
     type: bool
