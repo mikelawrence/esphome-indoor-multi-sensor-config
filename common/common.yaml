@@ -227,7 +227,6 @@ binary_sensor:
     name: "PIR Motion"
     device_class: motion
     internal: ${not pir_installed}
-    internal: ${not pir_installed}
     pin:
       number: GPIO38
     filters:
