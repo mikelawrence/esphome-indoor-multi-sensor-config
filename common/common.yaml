@@ -2,7 +2,7 @@
 substitutions:
   # These are the default values for substitutions that are not defined in the main config file
   config_version: 2025.12.1
-  pir_enabled: "false"
+  pir_installed: "false"
   status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
   status_night_brightness: "0.15"
@@ -20,20 +20,22 @@ esphome:
     - priority: 500.0
       then:
         - script.execute: update_status_led
+        - logger.log: "on_boot priority 500 fired (Common)"
     - priority: -100.0
       then:
         - script.execute: announce_operational
+        - logger.log: "on_boot priority -100 fired (Common)"
   on_shutdown:
     - priority: 600.0
       then:
         - light.turn_off:
             id: led_status
+        - logger.log: "on_shutdown priority 600 fired (Common)"
 
 # ESP32-S3-WROOM-2-N32R16V
 # Even though there is 32MB of flash, OTA updates with that size are not reliable
 # so we configure as 16MB
 esp32:
-  board: esp32s3box
   variant: ESP32S3
   flash_size: 16MB
   cpu_frequency: 240MHz
@@ -44,9 +46,6 @@ esp32:
 psram:
   mode: octal
   speed: 80MHz
-
-logger:
-  level: DEBUG
 
 globals:
   - id: ha_presence_var
@@ -213,12 +212,12 @@ binary_sensor:
             }
         - script.execute: update_status_led
   - platform: template
+    # executed every loop() call, about 16 ms
     name: "Presence"
     id: presence
     device_class: presence
     lambda: |-
-      return id(presence_mmwave).state or
-        (${pir_enabled} && id(pir_enable).state && id(motion_pir).state);
+      return id(presence_mmwave).state or id(motion_pir).state;
     on_state:
       then:
         script.execute: update_status_led
@@ -226,11 +225,13 @@ binary_sensor:
     id: motion_pir
     name: "PIR Motion"
     device_class: motion
-    internal: ${pir_enabled}
+    internal: ${not pir_installed}
     pin:
       number: GPIO38
     filters:
-      - delayed_off: 10s
+      - lambda: |-
+          return ${pir_installed} && id(pir_enable).state && x;
+      - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
 
 button:
   - platform: restart
@@ -272,6 +273,15 @@ number:
     min_value: 0
     step: 1
     initial_value: 75
+    restore_value: true
+  - platform: template
+    id: timeout
+    name: "Presence Timeout"
+    optimistic: true
+    max_value: 10000
+    min_value: 0
+    step: 1
+    initial_value: 60
     restore_value: true
 
 power_supply:
@@ -318,7 +328,7 @@ switch:
   - platform: template
     name: "PIR Enable"
     id: pir_enable
-    internal: ${pir_enabled}
+    internal: ${not pir_installed}
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
   - platform: template

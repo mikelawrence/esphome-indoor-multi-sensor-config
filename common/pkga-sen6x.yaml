@@ -7,24 +7,28 @@
 substitutions:
   # These are the default values for substitutions that are not defined in the main config file
   sen66_skip_initial: "300"
+  sen66_throttle_average: "60s"
   temperature_offset: "0.0"
   humidity_offset: "0.0"
   co2_calibration_date: "Not Set"
 
 external_components:
-  - source: github://mikelawrence/esphome-components@main
-    components: [sen5x]
+  - source:
+      type: git
+      url: https://github.com/mikelawrence/esphome-components
     refresh: 1days
+    components: [sen6x]
 
 esphome:
   on_boot:
-    priority: 800.0
-    then:
-      - lambda: |-
-          // Let other parts of config know there is a CO₂ sensor
-          id(co2_available_var) = true;
-          // Let other parts of config know there is a Particulate Matter sensor
-          id(pm25_available_var) = true;
+    - priority: 600.0
+      then:
+        - lambda: |-
+            // Let other parts of config know there is a CO₂ sensor
+            id(co2_available_var) = true;
+            // Let other parts of config know there is a Particulate Matter sensor
+            id(pm25_available_var) = true;
+        - logger.log: "on_boot priority 600 fired (SEN6X sensor)"
 
 api:
   on_client_connected:
@@ -37,7 +41,7 @@ interval:
   - interval: 7d
     startup_delay: 1d
     then:
-      - sen5x.start_fan_autoclean: sen66_sensor
+      - sen6x.start_fan_cleaning: sen66_sensor
 
 i2c:
   - id: i2c2_bus
@@ -62,34 +66,32 @@ number:
 
 button:
   - platform: template
-    name: "Start Fan Auto Clean"
+    name: "Start Fan Cleaning"
     entity_category: config
     on_press:
-      - sen5x.start_fan_autoclean: sen66_sensor
+      - sen6x.start_fan_cleaning: sen66_sensor
   - platform: template
     name: "Activate SHT Heater"
     entity_category: config
     on_press:
-      - sen5x.activate_heater: sen66_sensor
+      - sen6x.activate_heater: sen66_sensor
   - platform: template
     name: "CO₂ Calibrate"
     entity_category: config
     on_press:
-      - sen5x.perform_forced_co2_recalibration:
+      - sen6x.perform_forced_co2_recalibration:
           value: !lambda |-
             float value = id(co2_forced_cal_value).state;
-            ESP_LOGD("scd5x", "CO₂ Calibration executed, CO₂=%0.0f", value);
             return value;
           id: sen66_sensor
 
 sensor:
-  - platform: sen5x
+  - platform: sen6x
     id: sen66_sensor
     i2c_id: i2c2_bus
     address: 0x6B
     update_interval: 1s
     type: SEN66
-    store_baseline: true
     temperature:
       # temperature 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -98,7 +100,7 @@ sensor:
       filters:
         - filter_out: NAN
         - skip_initial: ${sen66_skip_initial}
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
     humidity:
       # humidity 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -108,47 +110,47 @@ sensor:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
         - offset: ${humidity_offset}
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
     pm_1_0:
       # PM 1µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <1um Mass concentration"
+      name: "PM <1µm Mass concentration"
       id: pm_1_0
       accuracy_decimals: 2
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
     pm_2_5:
       # PM 2.5µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <2.5um Mass concentration"
+      name: "PM <2.5µm Mass concentration"
       id: pm_2_5
       accuracy_decimals: 2
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
     pm_4_0:
       # PM 4µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <4um Mass concentration"
+      name: "PM <4µm Mass concentration"
       id: pm_4_0
       accuracy_decimals: 2
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
     pm_10_0:
       # PM 10µm 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "PM <10um Mass concentration"
+      name: "PM <10µm Mass concentration"
       id: pm_10_0
       accuracy_decimals: 2
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
     co2:
       # CO₂ internal 1s interval averaged to once a minute
       # first 5 minutes ignored
@@ -159,7 +161,7 @@ sensor:
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
       on_value:
         then:
           - lambda: |-
@@ -172,23 +174,25 @@ sensor:
     nox:
       # NOₓ 1s interval averaged to once a minute
       # first 5 minutes ignored
-      name: "NOₓ"
+      name: "NOx"
       id: nox
       accuracy_decimals: 0
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
     voc:
       # VOC 1s interval averaged to once a minute
       # first 5 minutes ignored
       name: "VOC"
       id: voc
       accuracy_decimals: 0
+      algorithm_state_recovery: true
+      algorithm_state_time_source: homeassistant_time
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - throttle_average: 60s
+        - throttle_average: ${sen66_throttle_average}
   - platform: copy
     # temperature_internal median over last 5 minutes, output every minute
     id: temperature

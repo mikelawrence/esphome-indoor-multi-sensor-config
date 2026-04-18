@@ -4,6 +4,7 @@
 #         !!!Use at your own risk!!!
 interval:
   - interval: 10s
+    startup_delay: 10s
     then:
       - script.execute: smoke_alarm_state_machine
 
@@ -154,7 +155,7 @@ script:
           first = false;
           if (!id(pm25_available_var)) {
             ESP_LOGE(ESP_LOG_TAG, "Required SEN66 sensor missing, Smoke Alarms disabled");
-            if (!id(co2_available_var)) {
+            if (id(co2_available_var)) {
               ESP_LOGI(ESP_LOG_TAG, "Using SCD42 sensor for CO₂");
             }
           } else {

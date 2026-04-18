@@ -6,6 +6,7 @@ api:
       - text_sensor.template.publish:
           id: radar_included
           state: "Hi-Link LD2410"
+      - button.press: ld2410_query_params
 
 power_supply:
   # this enables power to the ld2410 module
@@ -30,10 +31,16 @@ binary_sensor:
       name: MMWave Presence
       id: presence_mmwave
       device_class: presence
+      filters:
+        - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
     has_moving_target:
       name: Moving Target
+      filters:
+        - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
     has_still_target:
       name: Still Target
+      filters:
+        - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
 
 button:
   - platform: ld2410
@@ -45,14 +52,15 @@ button:
       entity_category: config
     query_params:
       name: LD2410 Query Params
+      id: ld2410_query_params
       entity_category: config
 
 number:
   - platform: ld2410
     ld2410_id: ld2410_radar
     timeout:
-      name: Timeout
-      id: timeout
+      name: LD2410 Timeout
+      id: ld2410_timeout
     max_move_distance_gate:
       name: Max Move Distance Gate
     max_still_distance_gate:

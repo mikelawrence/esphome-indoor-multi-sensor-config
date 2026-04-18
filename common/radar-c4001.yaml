@@ -2,9 +2,10 @@
 # Currently this is my PR on ESPHome, there is a new PR from the DFRobot in progress
 # Not compatible with any other radar package
 external_components:
-  - source: github://pr#9810
+  - source:
+      type: git
+      url: https://github.com/mikelawrence/esphome-components
     components: [dfrobot_c4001]
-    refresh: 1min
 
 api:
   on_client_connected:
@@ -36,6 +37,8 @@ binary_sensor:
     occupancy:
       name: MMWAVE Presence
       id: presence_mmwave
+      filters:
+        - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
     config_changed:
       name: C4001 Config Changed
   - platform: gpio
