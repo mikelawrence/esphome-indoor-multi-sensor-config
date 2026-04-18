@@ -14,9 +14,9 @@ substitutions:
 
 external_components:
   - source:
-      type: local
-      path: esphome-components/components
-    components: [sen6x]
+      type: git
+      url: https://github.com/mikelawrence/esphome-components
+    components: [ sen6x ]
 
 esphome:
   on_boot:
