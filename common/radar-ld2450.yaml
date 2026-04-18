@@ -219,9 +219,7 @@ script:
           id(presence_mmwave).publish_state(total_tgt_count > 0);
 
         if(time - last_update_time > static_cast<uint64_t>(id(update_rate).state * 1000.0))
-        // if(time - last_update_time > 5000)
         {
-          ESP_LOGD(ESP_LOG_TAG, "Update Rate = %d", static_cast<uint64_t>(id(update_rate).state * 1000.0));
           // publish target values
           for(uint8_t tgt = 0; tgt < 3; tgt++)
           {
