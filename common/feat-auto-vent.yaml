@@ -10,17 +10,23 @@ substitutions:
   vent_co2_off_trigger: "1400"
 
 esphome:
+  # Use unique priority values for each on_boot 
+  # Prevents multi-file config merging from dropping older priorities
   on_boot:
-    then:
-      - binary_sensor.template.publish:
-          id: vent_auto_hum
-          state: false
-      - binary_sensor.template.publish:
-          id: vent_auto_co2
-          state: false
-      - binary_sensor.template.publish:
-          id: vent_manual
-          state: false
+    - priority: 601.0
+      then:
+        - binary_sensor.template.publish:
+            id: vent_auto_hum
+            state: false
+        - binary_sensor.template.publish:
+            id: vent_auto_co2
+            state: false
+        - binary_sensor.template.publish:
+            id: vent_manual
+            state: false
+        - logger.log:
+            level: VERBOSE
+            format: "on_boot priority 601.0 fired (feat-auto-vent.yaml)"
 
 interval:
   - interval: 10s

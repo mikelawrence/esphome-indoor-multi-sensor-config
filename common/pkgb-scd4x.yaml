@@ -8,11 +8,14 @@ substitutions:
 
 esphome:
   on_boot:
-    priority: 800.0
-    then:
-      - lambda: |-
-          // Let other parts of config know there is a CO₂ sensor
-          id(co2_available_var) = true;
+    - priority: 800.0
+      then:
+        - lambda: |-
+            // Let other parts of config know there is a CO₂ sensor
+            id(co2_available_var) = true;
+        - logger.log:
+            level: VERBOSE
+            format: "on_boot priority 800.0 fired (pkgb-scd4x.yaml)"
 
 api:
   on_client_connected:

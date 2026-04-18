@@ -16,16 +16,22 @@ esphome:
   project:
     version: ${config_version}
     name: Mike Lawrence.Indoor Multi-Sensor Rev-B
+  # Use unique priority values for each on_boot 
+  # Prevents multi-file config merging from dropping older priorities
   on_boot:
     - priority: 500.0
       then:
         - script.execute: update_status_led
-        - logger.log: "on_boot priority 500 fired (Common)"
+        - logger.log:
+            level: VERBOSE
+            format: "on_boot priority 500 fired (common.yaml)"
     - priority: 600.0
       then:
         - light.turn_off:
             id: led_status
-        - logger.log: "on_boot priority 600 fired (Common)"
+        - logger.log:
+            level: VERBOSE
+            format: "on_boot priority 600 fired (common.yaml)"
 
 # ESP32-S3-WROOM-2-N32R16V
 # Even though there is 32MB of flash, OTA updates with that size are not reliable
