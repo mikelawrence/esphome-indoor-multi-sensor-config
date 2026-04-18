@@ -229,7 +229,7 @@ binary_sensor:
     pin:
       number: GPIO38
     filters:
-      - lambda: |- 
+      - lambda: |-
           return ${pir_installed} && id(pir_enable).state && x;
       - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
 

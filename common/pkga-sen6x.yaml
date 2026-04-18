@@ -17,7 +17,7 @@ external_components:
       type: git
       url: https://github.com/mikelawrence/esphome-components
     refresh: 1days
-    components: [ sen6x ]
+    components: [sen6x]
 
 esphome:
   on_boot:

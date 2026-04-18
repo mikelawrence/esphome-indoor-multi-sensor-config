@@ -5,7 +5,7 @@ external_components:
   - source:
       type: git
       url: https://github.com/mikelawrence/esphome-components
-    components: [ dfrobot_c4001 ]
+    components: [dfrobot_c4001]
 
 api:
   on_client_connected:
