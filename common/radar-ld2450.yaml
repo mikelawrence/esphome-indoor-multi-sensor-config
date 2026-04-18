@@ -55,14 +55,14 @@ script:
         uint64_t time = millis();
         if (id(global_timer_running))
         {
-          /*ESP_LOGD(ESP_LOG_TAG, "Continue: millis=%8llu, time=%4llu, diff=%4llu",
-            time, time - id(global_timer_start_time), time - id(global_timer_last_time));*/
+          ESP_LOGV(ESP_LOG_TAG, "Continue: millis=%8llu, time=%4llu, diff=%4llu",
+            time, time - id(global_timer_start_time), time - id(global_timer_last_time));
           id(global_timer_last_time) = time;
         }
         else
         {
-          /*ESP_LOGD(ESP_LOG_TAG, "   Start: millis=%8llu, time=%4llu, diff=%4llu",
-            time, 0ull, 0ull);*/
+          ESP_LOGV(ESP_LOG_TAG, "   Start: millis=%8llu, time=%4llu, diff=%4llu",
+            time, 0ull, 0ull);
           id(global_timer_last_time) = time;
           id(global_timer_start_time) = time;
         }
@@ -79,8 +79,8 @@ script:
           if (time - id(global_timer_last_time) > 50)
           {
             id(global_timer_running) = false;
-            /*ESP_LOGD(ESP_LOG_TAG, " Timeout: millis=%8llu, time=%4llu, diff=%4llu",
-              time, time - id(global_timer_start_time), time - id(global_timer_last_time));*/
+            ESP_LOGV(ESP_LOG_TAG, " Timeout: millis=%8llu, time=%4llu, diff=%4llu",
+              time, time - id(global_timer_start_time), time - id(global_timer_last_time));
             id(update_state).execute();
           }
         }
@@ -251,13 +251,13 @@ script:
             id(tgt_cnt).publish_state(total_tgt_count);
           last_update_time = time;
         }
-        /*for (uint8_t tgt = 0; tgt < 3; tgt++) {
-          ESP_LOGD(ESP_LOG_TAG, "Target-%d: "
+        for (uint8_t tgt = 0; tgt < 3; tgt++) {
+          ESP_LOGV(ESP_LOG_TAG, "Target-%d: "
             "In -> x=%5.0f mm, y=%5.0f mm, spd=%8.2f mm/s: "
             "Out-> x=%6.2f ft, y=%6.2f ft, spd=%6.2f ft/s", tgt + 1,
             id(x_in)[tgt], id(y_in)[tgt], id(s_in)[tgt],
             x[tgt], y[tgt], s[tgt]);
-        }*/
+        }
 
 binary_sensor:
   - platform: template
