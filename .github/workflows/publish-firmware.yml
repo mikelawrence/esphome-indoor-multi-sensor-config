@@ -62,7 +62,7 @@ jobs:
 
   uploadFirmwareToRelease:
     name: Upload Firmware to Release
-    uses: esphome/workflows/.github/workflows/upload-to-gh-release.yml@2025.10.0
+    uses: esphome/workflows/.github/workflows/upload-to-gh-release.yml@2026.4.0
     needs:
       - getReleaseInfo
       - buildFirmware
