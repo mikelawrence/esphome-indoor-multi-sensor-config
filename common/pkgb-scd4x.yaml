@@ -37,7 +37,6 @@ number:
     name: "CO₂ Forced Calibration Offset"
     device_class: carbon_dioxide
     entity_category: config
-    entity_category: config
     optimistic: true
     max_value: 1200
     min_value: 400
