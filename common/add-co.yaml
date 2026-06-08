@@ -91,7 +91,7 @@ sensor:
     filters:
       - lambda: |-
           static bool error = false;
-          float sensitivity = id(co_calibration_sensitivity);
+          float sensitivity = id(co_calibration_sensitivity).state;
           float cf = 1.0;
           float temp = round(id(co_temperature).state);
 
@@ -116,7 +116,7 @@ sensor:
           ESP_LOGV("co", "Sensitivity=%0.9f, temp=%0.0f, cf=%0.9f, result=%0.1f"
             , sensitivity * 133000.0, temp, cf, result);
           return result;
-      - offset: !lambda return id(co_calibration_offset);
+      - offset: !lambda return id(co_calibration_offset).state;
       - clamp:
           min_value: 0.0
       - sliding_window_moving_average:
