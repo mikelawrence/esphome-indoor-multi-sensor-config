@@ -1,8 +1,8 @@
 # common setup for all devices
 substitutions:
-  # These are the default values for substitutions that are not defined in the main config file
-  config_version: 2025.12.1
-  pir_installed: "false"
+  # Voice name allows you to change the voice of spoken announcements to fit your preferences.
+  #   For a list of voice names see https://github.com/mikelawrence/esphome-indoor-multi-sensor-sounds/#available-voices
+  voice_name: "lily-wolff-female"
   status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
   status_night_brightness: "0.15"
@@ -11,11 +11,10 @@ substitutions:
   presence_ha_entity: "binary_sensor.unknown_room_occupancy"
 
 esphome:
-  min_version: 2025.12.0
   name_add_mac_suffix: false
   project:
-    version: ${config_version}
-    name: Mike Lawrence.Indoor Multi-Sensor Rev-B
+    version: 2025.12.1
+    name: Mike Lawrence.Indoor Multi-Sensor
   on_boot:
     - priority: 500.0
       then:
@@ -225,12 +224,10 @@ binary_sensor:
     id: motion_pir
     name: "PIR Motion"
     device_class: motion
-    internal: ${not pir_installed}
     pin:
       number: GPIO38
     filters:
-      - lambda: |-
-          return ${pir_installed} && id(pir_enable).state && x;
+      - lambda: !lambda return id(pir_enable).state && x;
       - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
 
 button:
@@ -262,7 +259,7 @@ media_player:
       sample_rate: 48000
     files:
       - id: multi_sensor_operational_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/${voice_name}/${room_name}/operational.mp3
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/${voice_name}/none/operational.mp3
 
 number:
   - platform: template
@@ -328,7 +325,6 @@ switch:
   - platform: template
     name: "PIR Enable"
     id: pir_enable
-    internal: ${not pir_installed}
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
   - platform: template

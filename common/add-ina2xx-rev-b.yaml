@@ -1,10 +1,5 @@
 # Adds Energy monitoring using the INA228 and INA238 I2C digital power monitors
 # Work with Rev-B PCB and above
-
-# logger:
-#   logs:
-#     ina2xx: INFO
-
 time:
   - platform: homeassistant
     id: !extend homeassistant_time

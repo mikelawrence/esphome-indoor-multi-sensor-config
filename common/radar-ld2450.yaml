@@ -30,7 +30,7 @@ globals:
     initial_value: "{0.0}"
 
 power_supply:
-  # This enables power the ld2450 module
+  # This enables power on the ld2450 module
   # Only for Rev A and older boards, will not bother Rev B and newer boards
   - id: ld2450_enable
     pin: GPIO4

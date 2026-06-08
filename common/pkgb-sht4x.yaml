@@ -2,10 +2,29 @@
 #   Adds SHT45 sensors:
 #     Temperature and Humidity
 #   Not compatible with PACKAGE A package
-substitutions:
-  # These are the default values for substitutions that are not defined in the main config file
-  temperature_offset: "0.0"
-  humidity_offset: "0.0"
+number:
+  - platform: template
+    name: "Temperature Calibration Offset"
+    id: temperature_calibration_offset
+    device_class: temperature
+    entity_category: config
+    optimistic: true
+    max_value: 10.0
+    min_value: -10.0
+    step: 0.1
+    initial_value: 0.0
+    restore_value: true
+  - platform: template
+    name: "Humidity Calibration Offset"
+    id: humidity_calibration_offset
+    device_class: humidity
+    entity_category: config
+    optimistic: true
+    max_value: 20.0
+    min_value: -20.0
+    step: 0.1
+    initial_value: 0.0
+    restore_value: true
 
 sensor:
   - platform: sht4x
@@ -18,14 +37,15 @@ sensor:
       accuracy_decimals: 2
       filters:
         - filter_out: NAN
+        - offset: !lambda return id(temperature_calibration_offset).state;
         - throttle_average: 60s
     humidity:
       # humidity_internal has 1s interval averaged to once a minute
       id: humidity_internal
       accuracy_decimals: 2
       filters:
-        - offset: ${humidity_offset}
         - filter_out: NAN
+        - offset: !lambda return id(humidity_calibration_offset).state;
         - throttle_average: 60s
   - platform: copy
     # temperature median over last 5 minutes, output every minute
@@ -38,10 +58,6 @@ sensor:
       - median:
           window_size: 5
           send_every: 1
-  # - platform: copy
-  #   id: sht4x_temperature
-  #   accuracy_decimals: 2
-  #   source_id: temperature_internal
   - platform: copy
     # humidity median over last 5 minutes, output every minute
     id: humidity

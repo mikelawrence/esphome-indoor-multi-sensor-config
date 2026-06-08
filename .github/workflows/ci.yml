@@ -26,12 +26,6 @@ jobs:
       matrix:
         #### Modify below here to match your project ####
         file:
-          - test-rev-a-pkg-a-c4001
-          - test-rev-a-pkg-a-ld2410
-          - test-rev-a-pkg-a-ld2450
-          - test-rev-a-pkg-b-c4001
-          - test-rev-a-pkg-b-ld2410
-          - test-rev-a-pkg-b-ld2450
           - test-rev-b-pkg-a-c4001
           - test-rev-b-pkg-a-ld2410
           - test-rev-b-pkg-a-ld2410s

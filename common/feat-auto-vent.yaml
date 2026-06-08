@@ -38,7 +38,7 @@ binary_sensor:
     name: "Vent Manual"
     id: vent_manual
 
-#   Uses humidity, VOC and CO₂ to control a bathroom vent
+# Uses humidity, VOC and CO₂ to control a bathroom vent
 sensor:
   # Long'ish humidity average
   - platform: copy
@@ -50,7 +50,6 @@ sensor:
       - exponential_moving_average:
           alpha: 0.003
           send_every: 1
-
   # Short'ish humidity average
   - platform: copy
     id: humidity_short_avg

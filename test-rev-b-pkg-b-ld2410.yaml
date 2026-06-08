@@ -1,6 +1,6 @@
 substitutions:
   name: "sensor-rev-b-pkg-b"
-  friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-B LD2410"
+  friendly_name: "Multi-Sensor Rev-B Sens-Pkg-B LD2410"
 
   # Settings
   voice_name: "lily-wolff-female"
