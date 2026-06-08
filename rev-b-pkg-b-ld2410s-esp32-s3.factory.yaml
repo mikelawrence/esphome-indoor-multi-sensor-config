@@ -2,9 +2,6 @@ substitutions:
   # name must be unique across all factory builds in this project and 24 characters or less
   name: "multi-sensor-pkgb-2410s"
   friendly_name: "Multi-Sensor Sens-Pkg-B LD2410S"
-  voice_name: "lily-wolff-female"
-  room_name: "none"
-  pir_installed: "true"
 
 packages:
   - !include common/common.yaml
