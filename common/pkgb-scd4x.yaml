@@ -2,10 +2,6 @@
 #   Adds SCD41 sensors:
 #     Carbon Dioxide (CO₂)
 #   Not compatible with PACKAGE A package
-substitutions:
-  # These are the default values for substitutions that are not defined in the main config file
-  co2_calibration_date: "Not Set"
-
 esphome:
   on_boot:
     priority: 800.0
@@ -13,13 +9,6 @@ esphome:
       - lambda: |-
           // Let other parts of config know there is a CO₂ sensor
           id(co2_available_var) = true;
-
-api:
-  on_client_connected:
-    then:
-      - text_sensor.template.publish:
-          id: co2_calibration_date
-          state: ${co2_calibration_date}
 
 button:
   - platform: template
