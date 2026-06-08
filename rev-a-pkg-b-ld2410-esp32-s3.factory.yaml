@@ -1,7 +1,7 @@
 substitutions:
   # name must be unique across all factory builds in this project and 24 characters or less
-  name: "rev-a-pkg-b-ld2410"
-  friendly_name: "Indoor Multi-Sensor Rev-A Sens-Pkg-B LD2410"
+  name: "multi-sensor-pkgb-ld2410"
+  friendly_name: "Multi-Sensor Sens-Pkg-B LD2410"
 
 packages:
   - !include common/common.yaml

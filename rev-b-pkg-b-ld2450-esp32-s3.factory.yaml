@@ -1,10 +1,7 @@
 substitutions:
   # name must be unique across all factory builds in this project and 24 characters or less
-  name: "rev-b-pkg-b-ld2450"
-  friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-B LD2450"
-  voice_name: "lily-wolff-female"
-  room_name: "none"
-  pir_installed: "true"
+  name: "multi-sensor-pkgb-ld2450"
+  friendly_name: "Multi-Sensor Sens-Pkg-B LD2450"
 
 packages:
   - !include common/common.yaml

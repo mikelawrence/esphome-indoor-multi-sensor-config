@@ -1,6 +1,6 @@
 substitutions:
-  name: "sensor-rev-a-pkg-a"
-  friendly_name: "Indoor Multi-Sensor Rev-A Sens-Pkg-A LD2410"
+  name: "multi-sensor-pkga-ld2410"
+  friendly_name: "Multi-Sensor Sens-Pkg-A LD2410"
 
   # Settings
   # Status LED Configuration

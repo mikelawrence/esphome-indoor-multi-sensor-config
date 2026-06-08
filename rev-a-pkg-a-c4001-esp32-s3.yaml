@@ -1,6 +1,6 @@
 substitutions:
-  name: "sensor-rev-a-pkg-a"
-  friendly_name: "Indoor Multi-Sensor Rev-A Sens-Pkg-A C4001"
+  name: "multi-sensor-pkga-c4001"
+  friendly_name: "Multi-Sensor Sens-Pkg-A C4001"
 
   # Settings
   # Status LED Configuration
