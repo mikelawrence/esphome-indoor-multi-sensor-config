@@ -58,7 +58,7 @@ button:
     entity_category: config
     on_press:
       - sen6x.perform_forced_co2_recalibration:
-          value: !lambda return value = id(co2_forced_calibration_offset).state;
+          value: !lambda return id(co2_forced_calibration_offset).state;
           id: sen66_sensor
 
 datetime:
