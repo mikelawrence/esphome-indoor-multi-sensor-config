@@ -3,13 +3,6 @@ substitutions:
   friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-B LD2410S"
 
   # Settings
-  # Voice name allows you to change the voice of spoken announcements to fit your preferences.
-  #   For a list of voice names see https://github.com/mikelawrence/esphome-indoor-multi-sensor-sounds/#available-voices
-  voice_name: "lily-wolff-female"
-  # Room name allows you to personalize the room name in which the sensor is installed.
-  #   For a list of room names see https://github.com/mikelawrence/esphome-indoor-multi-sensor-sounds/?tab=readme-ov-file#available-rooms
-  room_name: "none"
-  pir_installed: "true"
   # Status LED Configuration
   status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
@@ -17,17 +10,6 @@ substitutions:
   status_daytime_lux: "12.0"
   status_nighttime_lux: "7.0"
   presence_ha_entity: "binary_sensor.unknown_room_occupancy"
-  # CO Configuration
-  co_offset: "0.0"
-  co_sensitivity: "2.000e-9"
-  co_manufacture_date: "Not Set"
-  co_serial_number: "Not Set"
-  # Temperature Configuration
-  temperature_offset: "0.0"
-  # Humidity Configuration
-  humidity_offset: "0.0"
-  # CO₂ Configuration
-  co2_calibration_date: "Not Set"
   # Automatically controlled Vent
   vent_ha_entity: "fan.vent_id"
   vent_use_humidity: "true"
