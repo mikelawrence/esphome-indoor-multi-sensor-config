@@ -4,19 +4,17 @@
 #     Volatile Organic Compounds (VOC), Nitrous Oxides (NOx) and
 #     Particulate Matter (PM)
 #   Not compatible with PACKAGE B packages
+# SEN66 sensor readings are dropped for the first 5 minutes to allow the sensor to stabilize and self-calibrate, then averaged to once a minute to reduce noise and improve accuracy. The CO₂ sensor's automatic self-calibration is disabled since it is unreliable in indoor environments with variable occupancy and ventilation. Instead, a manual forced calibration can be triggered via a Home Assistant service call after taking a reference CO₂ measurement with an accurate handheld meter. The temperature and humidity readings can also be manually calibrated with user-provided offsets to correct for any bias in the sensor's measurements.
+# SEN66 sensor readings averaged to once a minute
 substitutions:
-  # These are the default values for substitutions that are not defined in the main config file
   sen66_skip_initial: "300"
   sen66_throttle_average: "60s"
-  temperature_offset: "0.0"
-  humidity_offset: "0.0"
-  co2_calibration_date: "Not Set"
 
 external_components:
   - source:
       type: git
       url: https://github.com/mikelawrence/esphome-components
-    refresh: 1days
+    refresh: 1d
     components: [sen6x]
 
 esphome:
@@ -30,39 +28,19 @@ esphome:
             id(pm25_available_var) = true;
         - logger.log: "on_boot priority 600 fired (SEN6X sensor)"
 
-api:
-  on_client_connected:
-    then:
-      - text_sensor.template.publish:
-          id: co2_calibration_date
-          state: ${co2_calibration_date}
-
 interval:
   - interval: 7d
     startup_delay: 1d
     then:
       - sen6x.start_fan_cleaning: sen66_sensor
 
+# Only the SEN66 is on this bus and 100kHz is the maximum speed
 i2c:
   - id: i2c2_bus
     sda: GPIO43
     scl: GPIO44
     frequency: 100kHz
     scan: true
-
-number:
-  - platform: template
-    id: co2_forced_cal_value
-    name: "CO₂ Calibration Value"
-    device_class: carbon_dioxide
-    entity_category: config
-    optimistic: true
-    max_value: 1200
-    min_value: 400
-    step: 1
-    initial_value: 420
-    set_action:
-      - delay: 1s
 
 button:
   - platform: template
@@ -80,10 +58,54 @@ button:
     entity_category: config
     on_press:
       - sen6x.perform_forced_co2_recalibration:
-          value: !lambda |-
-            float value = id(co2_forced_cal_value).state;
-            return value;
+          value: !lambda return value = id(co2_forced_calibration_offset).state;
           id: sen66_sensor
+
+datetime:
+  # Example Date
+  - platform: template
+    id: co2_calibration_date
+    type: date
+    name: "CO₂ Calibration Date" 
+    optimistic: yes
+    initial_value: "1970-01-01"
+    restore_value: true
+
+number:
+  - platform: template
+    id: co2_forced_calibration_offset
+    name: "CO₂ Forced Calibration Offset"
+    device_class: carbon_dioxide
+    entity_category: config
+    optimistic: true
+    max_value: 1200
+    min_value: 400
+    step: 1
+    initial_value: 420
+    set_action:
+      - delay: 1s
+  - platform: template
+    name: "Temperature Calibration Offset"
+    id: temperature_calibration_offset
+    device_class: temperature
+    entity_category: config
+    optimistic: true
+    max_value: 10.0
+    min_value: -10.0
+    step: 0.1
+    initial_value: 0.0
+    restore_value: true
+  - platform: template
+    name: "Humidity Calibration Offset"
+    id: humidity_calibration_offset
+    device_class: humidity
+    entity_category: config
+    optimistic: true
+    max_value: 20.0
+    min_value: -20.0
+    step: 0.1
+    initial_value: 0.0
+    restore_value: true
 
 sensor:
   - platform: sen6x
@@ -98,8 +120,9 @@ sensor:
       id: temperature_internal
       accuracy_decimals: 2
       filters:
-        - filter_out: NAN
         - skip_initial: ${sen66_skip_initial}
+        - filter_out: NAN
+        - offset: !lambda return id(temperature_calibration_offset).state;
         - throttle_average: ${sen66_throttle_average}
     humidity:
       # humidity 1s interval averaged to once a minute
@@ -109,7 +132,7 @@ sensor:
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - offset: ${humidity_offset}
+        - offset: !lambda return id(humidity_calibration_offset).state;
         - throttle_average: ${sen66_throttle_average}
     pm_1_0:
       # PM 1µm 1s interval averaged to once a minute
@@ -200,7 +223,6 @@ sensor:
     accuracy_decimals: 2
     source_id: temperature_internal
     filters:
-      - offset: ${temperature_offset}
       - median:
           window_size: 5
           send_every: 1
@@ -252,10 +274,3 @@ sensor:
               id(pm25_alarm_var) = true;
             else if (x < 135.0)
               id(pm25_alarm_var) = false;
-text_sensor:
-  - platform: template
-    name: "CO₂ Calibration Date"
-    id: co2_calibration_date
-    entity_category: diagnostic
-    update_interval: never
-    lambda: 'return {""};'
