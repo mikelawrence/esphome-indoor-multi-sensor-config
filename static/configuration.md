@@ -6,6 +6,9 @@ description: Configuration in ESPHome after taking control
 
 ## Configuration
 
+> [!WARNING]  
+> This documentation is out of date! I'm currently in the process of making this project usable without always taking over after the first install. All options, settings and configuration will be available via Home Assistant.
+
 Once you take control in ESPHome, there are two sections you need to configure, `substitutions:` and `packages:`. In the `substitutions:` section you will find settings for many of the available sensors.
 You only need to declare substitutions if you need a value other than default.
 
