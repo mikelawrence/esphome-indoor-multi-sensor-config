@@ -62,7 +62,6 @@ button:
           id: sen66_sensor
 
 datetime:
-  # Example Date
   - platform: template
     id: co2_calibration_date
     type: date

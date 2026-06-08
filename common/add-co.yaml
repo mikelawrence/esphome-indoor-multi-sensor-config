@@ -1,11 +1,4 @@
 # Adds CO sensor using the Figaro TGS5141
-substitutions:
-  # These are the default values for substitutions that are not defined in the main config file
-  co_offset: "0.0"
-  co_sensitivity: "2.000e-9"
-  co_manufacture_date: "Not Set"
-  co_serial_number: "Not Set"
-
 logger:
   logs:
     ads1115.sensor: ERROR
@@ -25,21 +18,7 @@ esphome:
             id(co_available_var) = true;
         - logger.log: "on_boot priority 600 fired (CO sensor)"
 
-api:
-  on_client_connected:
-    then:
-      - text_sensor.template.publish:
-          id: co_serial_number
-          state: "${co_serial_number}"
-      - text_sensor.template.publish:
-          id: co_manufacture_date
-          state: "${co_manufacture_date}"
-
 globals:
-  - id: co_sensitivity_const
-    type: double
-    restore_value: false
-    initial_value: ${co_sensitivity}
   - id: co_temp_calibration
     type: double[51]
     restore_value: false
@@ -62,6 +41,38 @@ ads1115:
     i2c_id: i2c1_bus
     continuous_mode: false
 
+datetime:
+  - platform: template
+    id: co_manufacture_date
+    type: date
+    name: "CO Manufacture Date" 
+    optimistic: yes
+    initial_value: "1970-01-01"
+    restore_value: true
+
+number:
+  - platform: template
+    name: "CO Calibrate Offset"
+    id: co_calibration_offset
+    device_class: temperature
+    entity_category: config
+    optimistic: true
+    max_value: 100.0
+    min_value: -100.0
+    step: 0.01
+    initial_value: 0.0
+    restore_value: true
+  - platform: template
+    name: "CO Calibration Sensitivity"
+    id: co_calibration_sensitivity
+    entity_category: config
+    optimistic: true
+    max_value: 5.0e-9
+    min_value: -5.0e-9
+    step: 0.001e-9
+    initial_value: 2.000e-9
+    restore_value: true
+
 sensor:
   - platform: dallas_temp
     id: co_temperature
@@ -80,7 +91,7 @@ sensor:
     filters:
       - lambda: |-
           static bool error = false;
-          float sensitivity = id(co_sensitivity_const);
+          float sensitivity = id(co_calibration_sensitivity);
           float cf = 1.0;
           float temp = round(id(co_temperature).state);
 
@@ -105,7 +116,7 @@ sensor:
           ESP_LOGV("co", "Sensitivity=%0.9f, temp=%0.0f, cf=%0.9f, result=%0.1f"
             , sensitivity * 133000.0, temp, cf, result);
           return result;
-      - offset: ${co_offset}
+      - offset: !lambda return id(co_calibration_offset);
       - clamp:
           min_value: 0.0
       - sliding_window_moving_average:
@@ -203,17 +214,3 @@ sensor:
             if (x < 9.0) {
               id(co_warning_var) = false;
             }
-
-text_sensor:
-  - platform: template
-    name: "CO Serial Number"
-    id: co_serial_number
-    entity_category: diagnostic
-    update_interval: never
-    lambda: 'return {""};'
-  - platform: template
-    name: "CO Manufacture Date"
-    id: co_manufacture_date
-    entity_category: diagnostic
-    update_interval: never
-    lambda: 'return {""};'
