@@ -43,6 +43,40 @@ number:
     step: 1
     initial_value: 420
 
+number:
+  - platform: template
+    id: co2_forced_calibration_offset
+    name: "CO₂ Forced Calibration Offset"
+    device_class: carbon_dioxide
+    entity_category: config
+    optimistic: true
+    max_value: 1200
+    min_value: 400
+    step: 1
+    initial_value: 420
+  - platform: template
+    name: "Temperature Calibration Offset"
+    id: temperature_calibration_offset
+    device_class: temperature
+    entity_category: config
+    optimistic: true
+    max_value: 10.0
+    min_value: -10.0
+    step: 0.1
+    initial_value: 0.0
+    restore_value: true
+  - platform: template
+    name: "Humidity Calibration Offset"
+    id: humidity_calibration_offset
+    device_class: humidity
+    entity_category: config
+    optimistic: true
+    max_value: 20.0
+    min_value: -20.0
+    step: 0.1
+    initial_value: 0.0
+    restore_value: true
+
 sensor:
   - platform: scd4x
     id: scd41_sensor
