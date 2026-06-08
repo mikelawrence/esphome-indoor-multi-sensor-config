@@ -1,6 +1,8 @@
 # common setup for all devices
 substitutions:
-  # These are the default values for substitutions that are not defined in the main config file
+  # Voice name allows you to change the voice of spoken announcements to fit your preferences.
+  #   For a list of voice names see https://github.com/mikelawrence/esphome-indoor-multi-sensor-sounds/#available-voices
+  voice_name: "lily-wolff-female"
   config_version: 2025.12.1
   status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
@@ -10,7 +12,6 @@ substitutions:
   presence_ha_entity: "binary_sensor.unknown_room_occupancy"
 
 esphome:
-  min_version: 2025.12.0
   name_add_mac_suffix: false
   project:
     version: ${config_version}
@@ -260,7 +261,7 @@ media_player:
       sample_rate: 48000
     files:
       - id: multi_sensor_operational_sound
-        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/${voice_name}/${room_name}/operational.mp3
+        file: https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-sounds/main/sounds/${voice_name}/none/operational.mp3
 
 number:
   - platform: template
