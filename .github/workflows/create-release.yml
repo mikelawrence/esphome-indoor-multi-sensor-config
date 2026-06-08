@@ -23,7 +23,7 @@ jobs:
 
       - name: Get calendar version
         id: calendar-version
-        uses: harm-matthias-harms/calendar-version@v3.0.1
+        uses: harm-matthias-harms/calendar-version@v3.0.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
