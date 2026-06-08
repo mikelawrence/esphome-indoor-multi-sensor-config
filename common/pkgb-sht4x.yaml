@@ -54,7 +54,6 @@ sensor:
     source_id: temperature_internal
     accuracy_decimals: 2
     filters:
-      - offset: ${temperature_offset}
       - median:
           window_size: 5
           send_every: 1
