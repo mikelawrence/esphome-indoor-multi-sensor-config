@@ -8,7 +8,7 @@ packages:
   - !include common/pkga-sen6x.yaml
   - !include common/radar-c4001.yaml
   - !include common/add-co.yaml
-  - !include common/add-ina2xx.yaml
+  - !include common/add-ina2xx-rev-b.yaml
   - !include common/add-tsl2591.yaml
   - !include common/add-bmp581.yaml
   - !include common/add-microphone.yaml
