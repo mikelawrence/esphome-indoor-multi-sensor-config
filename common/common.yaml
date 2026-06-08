@@ -2,7 +2,6 @@
 substitutions:
   # These are the default values for substitutions that are not defined in the main config file
   config_version: 2025.12.1
-  pir_installed: "false"
   status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
   status_night_brightness: "0.15"
@@ -225,12 +224,11 @@ binary_sensor:
     id: motion_pir
     name: "PIR Motion"
     device_class: motion
-    internal: ${not pir_installed}
     pin:
       number: GPIO38
     filters:
       - lambda: |-
-          return ${pir_installed} && id(pir_enable).state && x;
+          id(pir_enable).state && x;
       - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
 
 button:
@@ -328,7 +326,6 @@ switch:
   - platform: template
     name: "PIR Enable"
     id: pir_enable
-    internal: ${not pir_installed}
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
   - platform: template
