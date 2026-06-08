@@ -21,6 +21,39 @@ api:
           id: co2_calibration_date
           state: ${co2_calibration_date}
 
+button:
+  - platform: template
+    name: "CO₂ Force Calibrate"
+    entity_category: config
+    on_press:
+      - scd4x.perform_forced_calibration:
+          value: !lambda |-
+            float value = id(co2_forced_calibration_offset).state;
+            ESP_LOGD("scd4x", "CO₂ Force Calibration executed, CO₂=%0.0f", value);
+            return value;
+          id: scd41_sensor
+
+datetime:
+  - platform: template
+    id: co2_calibration_date
+    type: date
+    name: "CO₂ Calibration Date" 
+    optimistic: yes
+    initial_value: "1970-01-01"
+    restore_value: true
+
+number:
+  - platform: template
+    id: co2_forced_calibration_offset
+    name: "CO₂ Forced Calibration Offset"
+    device_class: carbon_dioxide
+    entity_category: config
+    optimistic: true
+    max_value: 1200
+    min_value: 400
+    step: 1
+    initial_value: 420
+
 sensor:
   - platform: scd4x
     id: scd41_sensor
@@ -43,38 +76,3 @@ sensor:
                 id(co2_warning_var) = true;
               if (x < 1800.0)
                 id(co2_warning_var) = false;
-
-number:
-  - platform: template
-    id: co2_forced_cal_value
-    name: "CO₂ Calibration Value"
-    device_class: carbon_dioxide
-    entity_category: config
-    optimistic: true
-    max_value: 1200
-    min_value: 400
-    step: 1
-    initial_value: 420
-    set_action:
-      - delay: 1s
-
-button:
-  - platform: template
-    name: "CO₂ Calibrate"
-    id: co2_calibrate
-    entity_category: config
-    on_press:
-      - scd4x.perform_forced_calibration:
-          value: !lambda |-
-            float value = id(co2_forced_cal_value).state;
-            ESP_LOGD("scd4x", "CO₂ Calibration executed, CO₂=%0.0f", value);
-            return value;
-          id: scd41_sensor
-
-text_sensor:
-  - platform: template
-    name: "CO₂ Calibration Date"
-    id: co2_calibration_date
-    entity_category: diagnostic
-    update_interval: never
-    lambda: 'return {""};'

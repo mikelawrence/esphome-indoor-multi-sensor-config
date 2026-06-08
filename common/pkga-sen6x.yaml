@@ -54,7 +54,7 @@ button:
     on_press:
       - sen6x.activate_heater: sen66_sensor
   - platform: template
-    name: "CO₂ Calibrate"
+    name: "CO₂ Force Calibrate"
     entity_category: config
     on_press:
       - sen6x.perform_forced_co2_recalibration:
@@ -81,8 +81,6 @@ number:
     min_value: 400
     step: 1
     initial_value: 420
-    set_action:
-      - delay: 1s
   - platform: template
     name: "Temperature Calibration Offset"
     id: temperature_calibration_offset
