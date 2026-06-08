@@ -37,9 +37,6 @@ jobs:
         #### Modify above here to match your project ####
         esphome-version:
           - stable
-        # include:
-        #   - file: test-rev-b-pkg-a-ld2410
-        #     esphome-version: dev
     steps:
       - name: Checkout source code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
