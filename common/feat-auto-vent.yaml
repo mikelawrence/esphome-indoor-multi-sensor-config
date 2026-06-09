@@ -237,15 +237,15 @@ switch:
   - platform: template
     name: Auto Vent
     id: auto_vent
-    on_turn_on:
+    turn_on_action:
       - script.execute: update_vent_state_machine
-    on_turn_off:
+    turn_off_action:
       - script.execute: update_vent_state_machine
   - platform: template
     name: "Auto Vent Use CO₂"
     entity_id: vent_use_co2
     entity_category: config
-    on_turn_on:
+    turn_on_action:
       - script.execute: update_vent_state_machine
-    on_turn_off:
+    turn_off_action:
       - script.execute: update_vent_state_machine
