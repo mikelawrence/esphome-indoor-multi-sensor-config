@@ -1,6 +1,6 @@
 substitutions:
   name: "multi-sensor-pkgb-c4001"
-  friendly_name: "Multi-Sensor Sens-Pkg-B C4001"
+  friendly_name: "Multi-Sensor Pkg-B C4001"
 
   # Settings
   # Status LED Configuration

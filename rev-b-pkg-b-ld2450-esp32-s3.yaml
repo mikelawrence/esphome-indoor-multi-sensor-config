@@ -1,6 +1,6 @@
 substitutions:
   name: "multi-sensor-pkgb-ld2450"
-  friendly_name: "Multi-Sensor Sens-Pkg-B LD2450"
+  friendly_name: "Multi-Sensor Pkg-B LD2450"
 
   # Settings
   # Status LED Configuration
