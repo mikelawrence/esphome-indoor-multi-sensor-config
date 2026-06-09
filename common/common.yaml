@@ -350,3 +350,9 @@ switch:
       script.execute: update_status_led
     on_turn_off:
       script.execute: update_status_led
+  - platform: template
+    id: alarm_disable
+    name: "Alarm Disable"
+    restore_mode: ALWAYS_OFF
+    optimistic: true
+    icon: mdi:alarm-off

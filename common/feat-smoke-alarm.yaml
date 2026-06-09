@@ -197,11 +197,3 @@ script:
             state = 50;
           }
         }
-
-switch:
-  - platform: template
-    id: alarm_disable
-    name: "Alarm Disable"
-    restore_mode: ALWAYS_OFF
-    optimistic: true
-    icon: mdi:alarm-off
