@@ -1,56 +1,100 @@
-name: Publish Pages
+name: Publish Firmware
 
 on:
-  release:
-    types:
-      - published
+  workflow_run:
+    workflows:
+      - Create Pre-Release
+    types: [completed]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build:
-    name: Build
+  get-release-info:
+    name: Get Release Info
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@v6
-
-      - run: mkdir -p output/firmware
-
-      - name: Build
-        uses: actions/jekyll-build-pages@v1
+      - name: Get Latest Release
+        id: get-latest-release
+        uses: joutvhu/get-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          source: ./static
-          destination: ./output
-
-      - name: Fetch firmware files
-        uses: robinraju/release-downloader@v1
-        with:
+          debug: true
           latest: true
-          fileName: "*"
-          out-file-path: output/firmware
+          prerelease: true
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: output
-          retention-days: 1
+    outputs:
+      summary: ${{ steps.get-latest-release.outputs.body }}
+      url: ${{ steps.get-latest-release.outputs.html_url }}
+      version: ${{ steps.get-latest-release.outputs.tag_name }}
 
-  publish:
-    if: github.event_name != 'pull_request'
-    name: Publish
+  build-firmware:
+    name: Build Firmware
+    needs: get-release-info
+    uses: esphome/workflows/.github/workflows/build.yml@2026.4.0
+    with:
+      files: |
+        rev-b-pkg-a-c4001-esp32-s3.factory.yaml
+        rev-b-pkg-a-ld2410-esp32-s3.factory.yaml
+        rev-b-pkg-a-ld2410s-esp32-s3.factory.yaml
+        rev-b-pkg-a-ld2450-esp32-s3.factory.yaml
+        rev-b-pkg-b-c4001-esp32-s3.factory.yaml
+        rev-b-pkg-b-ld2410-esp32-s3.factory.yaml
+        rev-b-pkg-b-ld2410s-esp32-s3.factory.yaml
+        rev-b-pkg-b-ld2450-esp32-s3.factory.yaml
+      esphome-version: latest
+      release-summary: ${{ needs.get-release-info.outputs.summary }}
+      release-url: ${{ needs.get-release-info.outputs.url }}
+      release-version: ${{ needs.get-release-info.outputs.version }}
+
+  rewind-pre-release:
+    name: Rewind Pre-Release on Build Firmware Failure
+    needs: build-firmware
     runs-on: ubuntu-latest
-    needs:
-      - build
+    if: failure()
     permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Setup Pages
-        uses: actions/configure-pages@v6
+      contents: write
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+    steps:
+      - uses: ClementTsang/delete-tag-and-release@v0.4.0
+        with:
+          delete_release: true
+          tag_name: ${{ needs.build-firmware.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  upload-firmware:
+    name: Upload Firmware
+    needs: build-firmware
+    uses: esphome/workflows/.github/workflows/upload-to-gh-release.yml@2026.4.1
+    with:
+      version: ${{ needs.build-firmware.outputs.version }}
+
+  promote-pre-release:
+    name: Promote Pre-Release to Release
+    needs:
+      - build-firmware
+      - upload-firmware
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Get Release ID
+        id: get_release
+        uses: joutvhu/get-release@v1
+        with:
+          tag_name: ${{ needs.build-firmware.outputs.version }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Promote Pre-Release to Release
+        uses: irongut/EditRelease@v1.2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          id: ${{ steps.get_release.outputs.id }}
+          prerelease: false
