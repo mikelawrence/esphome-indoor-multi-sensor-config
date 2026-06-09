@@ -1,4 +1,4 @@
-![Sensor]((https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-hardware/main/enclosure/meta/ESPHome-Indoor-Multi-Sensor-Corner-Mount-Render.png)
+![Sensor](https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-hardware/main/enclosure/meta/ESPHome-Indoor-Multi-Sensor-Corner-Mount-Render.png)
 
 # Initial Programming
 
@@ -17,7 +17,7 @@ If you are really new to ESPHome I would recommend searching on Youtube for gett
 
 # Rev B Web Installation
 
-Use the buttons below to install pre-built firmware directly to your Rev-B hardware via USB. You must use Google Chrome or Microsoft Edge to program your device. Firefox does not work.
+Use the buttons below to install pre-built firmware directly to your Rev-B hardware via USB.
 
 | Sensor Pkg | Radar LD2410 | Radar C4001 | Radar LD2450 | Radar LD2410S | Radar LD2420 |
 |---|---|---|---|
