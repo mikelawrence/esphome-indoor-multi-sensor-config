@@ -1,6 +1,6 @@
 # Automatic Vent Control
 substitutions:
-  # These are the default values for substitutions that are not defined in the main config file 
+  # These are the default values for substitutions that are not defined in the main config file
   vent_min_on_time: "15"
   vent_hum_on_trigger: "10.0"
   vent_hum_off_trigger: "2.5"
@@ -209,7 +209,7 @@ script:
             vent_on_min_time ? "True" : "False", on_time_seconds);
         }
 
-# Add some filters to humidity 
+# Add some filters to humidity
 sensor:
   # Long'ish humidity average
   - platform: copy
@@ -243,7 +243,7 @@ switch:
       - script.execute: update_vent_state_machine
   - platform: template
     name: "Auto Vent Use CO₂"
-    entity_id: vent_use_co2
+    id: vent_use_co2
     entity_category: config
     turn_on_action:
       - script.execute: update_vent_state_machine
