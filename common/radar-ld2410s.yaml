@@ -19,7 +19,6 @@ uart:
     baud_rate: 115200
     parity: NONE
     stop_bits: 1
-    # rx_buffer_size: 512
 
 ld2410s:
   uart_id: ld2410s_uart
@@ -30,7 +29,7 @@ binary_sensor:
       name: MMWAVE Presence
       id: presence_mmwave
       filters:
-        - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
+        - delayed_off: !lambda return static_cast<uint32_t>(id(timeout).state * 1000);
     has_calibration_running:
       name: LD2410S Calibration Running
 
@@ -97,4 +96,3 @@ text_sensor:
     id: radar_included
     entity_category: diagnostic
     update_interval: never
-    lambda: 'return {""};'

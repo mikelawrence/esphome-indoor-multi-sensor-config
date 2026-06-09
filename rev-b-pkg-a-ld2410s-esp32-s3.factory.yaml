@@ -1,7 +1,7 @@
 substitutions:
   # name must be unique across all factory builds in this project and 24 characters or less
   name: "multi-sensor-pkga-2410s"
-  friendly_name: "Multi-Sensor Sens-Pkg-A LD2410S"
+  friendly_name: "Multi-Sensor Pkg-A LD2410S"
 
 packages:
   - !include common/common.yaml

@@ -1,6 +1,6 @@
 substitutions:
   name: "multi-sensor-pkga-2410s"
-  friendly_name: "Multi-Sensor Sens-Pkg-A LD2410S"
+  friendly_name: "Multi-Sensor Pkg-A LD2410S"
 
   # Settings
   # Status LED Configuration
@@ -10,15 +10,6 @@ substitutions:
   status_daytime_lux: "12.0"
   status_nighttime_lux: "7.0"
   presence_ha_entity: "binary_sensor.unknown_room_occupancy"
-  # Automatically controlled Vent
-  vent_ha_entity: "fan.vent_id"
-  vent_use_humidity: "true"
-  vent_use_co2: "true"
-  vent_min_on_time: "15"
-  vent_hum_on_trigger: "10.0"
-  vent_hum_off_trigger: "2.5"
-  vent_co2_on_trigger: "1100"
-  vent_co2_off_trigger: "900"
 
 packages:
   remote:

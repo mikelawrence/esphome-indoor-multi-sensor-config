@@ -1,8 +1,6 @@
-# Add Automatic Vent Control
+# Automatic Vent Control
 substitutions:
   # These are the default values for substitutions that are not defined in the main config file
-  vent_use_humidity: "true"
-  vent_use_co2: "false"
   vent_min_on_time: "15"
   vent_hum_on_trigger: "10.0"
   vent_hum_off_trigger: "2.5"
@@ -38,38 +36,6 @@ binary_sensor:
     name: "Vent Manual"
     id: vent_manual
 
-# Uses humidity, VOC and CO₂ to control a bathroom vent
-sensor:
-  # Long'ish humidity average
-  - platform: copy
-    id: humidity_long_avg
-    source_id: humidity_internal
-    unit_of_measurement: "%"
-    accuracy_decimals: 2
-    filters:
-      - exponential_moving_average:
-          alpha: 0.003
-          send_every: 1
-  # Short'ish humidity average
-  - platform: copy
-    id: humidity_short_avg
-    source_id: humidity_internal
-    unit_of_measurement: "%"
-    accuracy_decimals: 2
-    filters:
-      - exponential_moving_average:
-          alpha: 0.09
-          send_every: 1
-
-switch:
-  - platform: homeassistant
-    id: ha_vent
-    entity_id: ${vent_ha_entity}
-    on_turn_on:
-      - script.execute: update_vent_state_machine
-    on_turn_off:
-      - script.execute: update_vent_state_machine
-
 script:
   - id: update_vent_state_machine
     mode: restart
@@ -89,7 +55,7 @@ script:
           first = false;
         }
         // grab co2 if we are controlling the fan for co2 too
-        if (${vent_use_co2}) {
+        if (id(vent_use_co2).state) {
           co2_value = id(co2).state;
         }
         if (state != 0) {
@@ -98,11 +64,11 @@ script:
           on_time_seconds = 0.0;
         }
         // compute conditions
-        bool humidity_is_high = (hum - hum_long_avg >= ${vent_hum_on_trigger}) && ${vent_use_humidity};
+        bool humidity_is_high = (hum - hum_long_avg >= ${vent_hum_on_trigger});
         bool humidity_is_low  = (hum - hum_long_avg <= ${vent_hum_off_trigger}) &&
                                 (hum_short_avg - hum_long_avg <= ${vent_hum_off_trigger});
         bool vent_on_min_time = on_time_seconds >= static_cast<float>(${vent_min_on_time} * 60);
-        bool co2_is_high = co2_value >= ${vent_co2_on_trigger} && ${vent_use_co2};
+        bool co2_is_high = co2_value >= ${vent_co2_on_trigger} && id(vent_use_co2).state;
         bool co2_is_low  = co2_value <= ${vent_co2_off_trigger};
         // State Machine
         switch (state) {
@@ -111,15 +77,15 @@ script:
           if (humidity_is_high) {
             ESP_LOGD(ESP_LOG_TAG,  "Detected high humidity");
             start_time = millis();
-            id(ha_vent).turn_on();
+            id(auto_vent).turn_on();
             id(vent_auto_hum).publish_state(true);
             state = 10;
           } else if (co2_is_high) {
             ESP_LOGD(ESP_LOG_TAG,  "Detected high CO₂");
-            id(ha_vent).turn_on();
+            id(auto_vent).turn_on();
             id(vent_auto_co2).publish_state(true);
             state = 60;
-          } else if (id(ha_vent).state == true) {
+          } else if (id(auto_vent).state == true) {
             ESP_LOGD(ESP_LOG_TAG,  "Manually turned on");
             start_time = millis();
             id(vent_manual).publish_state(true);
@@ -144,9 +110,9 @@ script:
           } else if (vent_on_min_time) {
             ESP_LOGV(ESP_LOG_TAG,  "Humidity still high, min on time met");
             state = 30;
-          } else if (id(ha_vent).state == false) {
+          } else if (id(auto_vent).state == false) {
             ESP_LOGV(ESP_LOG_TAG,  "Manually turned off, turning back on");
-            id(ha_vent).turn_on();
+            id(auto_vent).turn_on();
           }
           break;
         // Low Humidity and not Minimum On Time
@@ -159,9 +125,9 @@ script:
             ESP_LOGV(ESP_LOG_TAG,  "Detected high humidity");
             start_time = millis();
             state = 10;
-          } else if (id(ha_vent).state == false) {
+          } else if (id(auto_vent).state == false) {
             ESP_LOGV(ESP_LOG_TAG,  "Manually turned off, turning back on");
-            id(ha_vent).turn_on();
+            id(auto_vent).turn_on();
           }
           break;
         // High Humidity and Minimum On Time
@@ -170,9 +136,9 @@ script:
             ESP_LOGV(ESP_LOG_TAG,  "Humidity normal, delaying vent off");
             start_time = millis();
             state = 40;
-          } else if (id(ha_vent).state == false) {
+          } else if (id(auto_vent).state == false) {
             ESP_LOGD(ESP_LOG_TAG,  "Manually turned off, turning back on");
-            id(ha_vent).turn_on();
+            id(auto_vent).turn_on();
           }
           break;
         // Delay off for 5 minutes
@@ -183,7 +149,7 @@ script:
             state = 10;
           } else if (millis() - start_time >= 5 * 60 * 1000) {
             ESP_LOGD(ESP_LOG_TAG,  "Automatic humidity cycle complete");
-            id(ha_vent).turn_off();
+            id(auto_vent).turn_off();
             id(vent_auto_hum).publish_state(false);
             if (co2_is_high) {
               id(vent_auto_co2).publish_state(true);
@@ -205,13 +171,13 @@ script:
             id(vent_auto_co2).publish_state(true);
             id(vent_manual).publish_state(false);
             state = 60;
-          } else if (id(ha_vent).state == false) {
+          } else if (id(auto_vent).state == false) {
             ESP_LOGD(ESP_LOG_TAG,  "Manual cycle terminated");
             id(vent_manual).publish_state(false);
             state = 0;
           } else if (vent_on_min_time) {
             ESP_LOGD(ESP_LOG_TAG,  "Manual cycle is complete");
-            id(ha_vent).turn_off();
+            id(auto_vent).turn_off();
             id(vent_manual).publish_state(false);
             state = 0;
           }
@@ -226,12 +192,12 @@ script:
             state = 10;
           } else if (co2_is_low) {
             ESP_LOGD(ESP_LOG_TAG,  "Vent high CO₂ cycle complete");
-            id(ha_vent).turn_off();
+            id(auto_vent).turn_off();
             id(vent_auto_co2).publish_state(false);
             state = 0;
-          } else if (id(ha_vent).state == false) {
+          } else if (id(auto_vent).state == false) {
             ESP_LOGD(ESP_LOG_TAG,  "Vent manually turned off, turning back on");
-            id(ha_vent).turn_on();
+            id(auto_vent).turn_on();
           }
           break;
         }
@@ -242,3 +208,44 @@ script:
             humidity_is_low ? "True" : "False",
             vent_on_min_time ? "True" : "False", on_time_seconds);
         }
+
+# Add some filters to humidity
+sensor:
+  # Long'ish humidity average
+  - platform: copy
+    id: humidity_long_avg
+    source_id: humidity_internal
+    unit_of_measurement: "%"
+    accuracy_decimals: 2
+    filters:
+      - exponential_moving_average:
+          alpha: 0.003
+          send_every: 1
+  # Short'ish humidity average
+  - platform: copy
+    id: humidity_short_avg
+    source_id: humidity_internal
+    unit_of_measurement: "%"
+    accuracy_decimals: 2
+    filters:
+      - exponential_moving_average:
+          alpha: 0.09
+          send_every: 1
+
+switch:
+  # Add this switch to the vent group and it will both control the vent and update status
+  - platform: template
+    name: Auto Vent
+    id: auto_vent
+    turn_on_action:
+      - script.execute: update_vent_state_machine
+    turn_off_action:
+      - script.execute: update_vent_state_machine
+  - platform: template
+    name: "Auto Vent Use CO₂"
+    id: vent_use_co2
+    entity_category: config
+    turn_on_action:
+      - script.execute: update_vent_state_machine
+    turn_off_action:
+      - script.execute: update_vent_state_machine
