@@ -150,7 +150,7 @@ script:
           }
         }
         if(!id(nightlight_enable).state && id(led_enable).state) {
-          if (id(presence).state or id(ha_presence_var)) {
+          if (id(presence).state or id(status_light_input).state) {
             state = true;
             r = 0.0; g = 0.0; b = 1.0;
           }
@@ -198,18 +198,18 @@ script:
                 enqueue: true
 
 binary_sensor:
-  - platform: homeassistant
-    id: ha_presence
-    entity_id: ${presence_ha_entity}
-    on_state_change:
-      then:
-        - lambda: |-
-            if(x.has_value()) {
-              id(ha_presence_var) = x.value();
-            } else {
-              id(ha_presence_var) = false;
-            }
-        - script.execute: update_status_led
+  # - platform: homeassistant
+  #   id: ha_presence
+  #   entity_id: ${presence_ha_entity}
+  #   on_state_change:
+  #     then:
+  #       - lambda: |-
+  #           if(x.has_value()) {
+  #             id(ha_presence_var) = x.value();
+  #           } else {
+  #             id(ha_presence_var) = false;
+  #           }
+  #       - script.execute: update_status_led
   - platform: template
     # executed every loop() call, about 16 ms
     name: "Presence"
@@ -356,3 +356,13 @@ switch:
     restore_mode: ALWAYS_OFF
     optimistic: true
     icon: mdi:alarm-off
+  - platform: template
+    name: "Status Light Input"
+    id: status_light_input
+    optimistic: true
+    restore_mode: ALWAYS_OFF
+    turn_on_action:
+      script.execute: update_status_led
+    turn_off_action:
+      script.execute: update_status_led
+    

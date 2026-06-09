@@ -55,7 +55,7 @@ script:
           first = false;
         }
         // grab co2 if we are controlling the fan for co2 too
-        if (${vent_use_co2}) {
+        if (id(vent_use_co2).state) {
           co2_value = id(co2).state;
         }
         if (state != 0) {
@@ -68,7 +68,7 @@ script:
         bool humidity_is_low  = (hum - hum_long_avg <= ${vent_hum_off_trigger}) &&
                                 (hum_short_avg - hum_long_avg <= ${vent_hum_off_trigger});
         bool vent_on_min_time = on_time_seconds >= static_cast<float>(${vent_min_on_time} * 60);
-        bool co2_is_high = co2_value >= ${vent_co2_on_trigger} && ${vent_use_co2};
+        bool co2_is_high = co2_value >= ${vent_co2_on_trigger} && id(vent_use_co2).state;
         bool co2_is_low  = co2_value <= ${vent_co2_off_trigger};
         // State Machine
         switch (state) {
