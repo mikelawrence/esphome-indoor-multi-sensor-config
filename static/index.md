@@ -1,4 +1,4 @@
-![Sensor]((https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-hardware/main/enclosure/meta/ESPHome-Indoor-Multi-Sensor-Corner-Mount-Render.png){: width="50%"}
+![Sensor]((https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-hardware/main/enclosure/meta/ESPHome-Indoor-Multi-Sensor-Corner-Mount-Render.png)
 
 # Initial Programming
 
