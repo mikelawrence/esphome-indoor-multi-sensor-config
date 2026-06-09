@@ -55,7 +55,7 @@ script:
           - wait_until:
               not:
                 media_player.is_announcing:
-          - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
+          - media_player.volume_set: !lambda return id(volume).state / 100.0;
   - id: announce_warning_pm25
     mode: restart
     then:

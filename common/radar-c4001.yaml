@@ -38,7 +38,7 @@ binary_sensor:
       name: MMWAVE Presence
       id: presence_mmwave
       filters:
-        - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
+        - delayed_off: !lambda return static_cast<uint32_t>(id(timeout).state * 1000);
     config_changed:
       name: C4001 Config Changed
   - platform: gpio
@@ -106,4 +106,3 @@ text_sensor:
     id: radar_included
     entity_category: diagnostic
     update_interval: never
-    lambda: 'return {""};'
