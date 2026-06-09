@@ -1,4 +1,4 @@
-![Sensor](https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-hardware/main/enclosure/meta/ESPHome-Multi-Sensor-Enclosure-Render.png)
+![Sensor]((https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-hardware/main/enclosure/meta/ESPHome-Indoor-Multi-Sensor-Corner-Mount-Render.png){: width="50%"}
 
 # Initial Programming
 
@@ -12,7 +12,7 @@ Each of these these builds include all supported sensors: pressure, light, sound
 
 If you are really new to ESPHome I would recommend searching on Youtube for getting started videos.
 
-> [!WARNING]  
+> WARNING
 > The Hi-Link LD2410S and Hi-Link LD2420 only work on Rev-B boards.
 
 # Rev B Web Installation
@@ -23,6 +23,8 @@ Use the buttons below to install pre-built firmware directly to your Rev-B hardw
 |---|---|---|---|
 | Pkg A | <esp-web-install-button manifest="firmware/rev-b-pkg-a-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-b-pkg-a-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-b-pkg-a-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-b-pkg-a-ld2410s.manifest.json"></esp-web-install-button> | Coming Soon |
 | Pkg B | <esp-web-install-button manifest="firmware/rev-b-pkg-b-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-b-pkg-b-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-b-pkg-b-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/rev-b-pkg-b-ld2410s.manifest.json"></esp-web-install-button> | Coming Soon |
+
+<script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
 
 # Next steps
 
