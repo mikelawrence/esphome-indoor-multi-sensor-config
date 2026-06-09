@@ -85,16 +85,11 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Get Release ID
-        id: get_release
-        uses: joutvhu/get-release@v1
-        with:
-          tag_name: ${{ needs.build-firmware.outputs.version }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Promote Pre-Release to Release
-        uses: irongut/EditRelease@v1.2.0
+        uses: ncipollo/release-action@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          id: ${{ steps.get_release.outputs.id }}
+          allowUpdates: true
+          tag: ${{ needs.build-firmware.outputs.version }}
           prerelease: false
+          makeLatest: true
+          token: ${{ secrets.GITHUB_TOKEN }}
