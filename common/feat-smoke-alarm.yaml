@@ -197,3 +197,14 @@ script:
             state = 50;
           }
         }
+
+switch:
+  - platform: template
+    name: "Smoke Alarm Enable"
+    id: smoke_alarm_enable
+    entity_category: config
+    optimistic: true
+    turn_on_action:
+      script.execute: smoke_alarm_state_machine
+    turn_off_action:
+      script.execute: smoke_alarm_state_machine
