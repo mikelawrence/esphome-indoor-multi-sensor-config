@@ -200,7 +200,7 @@ script:
 
 switch:
   - platform: template
-    name: "Smoke Alarm Enable"
+    name: "Enable Smoke Alarm"
     id: smoke_alarm_enable
     entity_category: config
     optimistic: true
