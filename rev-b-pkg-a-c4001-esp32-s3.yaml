@@ -36,12 +36,12 @@ packages:
 
       # FEATURES
       # Automatic Vent - Use humidity and CO₂ to control a bathroom vent
-      # - common/feat-auto-vent.yaml
+      - common/feat-auto-vent.yaml
       # Smoke Alarm - Use PM and CO₂ for smoke alarm functionality
       # Danger: !!!This is experimental and may not work as expected!!!
       #         !!!DO NOT USE AS A PRIMARY SMOKE ALARM!!!
       #         !!!Use at your own risk!!!
-      # - common/feat-smoke-alarm.yaml
+      - common/feat-smoke-alarm.yaml
 
 esphome:
   name: ${name}

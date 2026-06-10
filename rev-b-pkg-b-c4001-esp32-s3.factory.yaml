@@ -14,6 +14,8 @@ packages:
   - !include common/add-tsl2591.yaml
   - !include common/add-bmp581.yaml
   - !include common/add-microphone.yaml
+  - !include common/feat-auto-vent.yaml
+  - !include common/feat-smoke-alarm.yaml
 
 esphome:
   name: ${name}
