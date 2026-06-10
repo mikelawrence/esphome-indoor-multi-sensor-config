@@ -4,7 +4,7 @@
 #   Not compatible with PACKAGE A package
 number:
   - platform: template
-    name: "Temperature Calibration Offset"
+    name: "Cal Temperature Offset"
     id: temperature_calibration_offset
     device_class: temperature
     entity_category: config
@@ -15,7 +15,7 @@ number:
     initial_value: 0.0
     restore_value: true
   - platform: template
-    name: "Humidity Calibration Offset"
+    name: "Cal Humidity Offset"
     id: humidity_calibration_offset
     device_class: humidity
     entity_category: config
