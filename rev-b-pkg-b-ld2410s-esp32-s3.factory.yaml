@@ -20,7 +20,6 @@ esphome:
   friendly_name: ${friendly_name}
   project:
     name: Mike Lawrence.${friendly_name}
-  name_add_mac_suffix: true
 
 ota:
   - platform: http_request
