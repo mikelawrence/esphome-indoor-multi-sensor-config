@@ -18,9 +18,6 @@ esphome:
   friendly_name: ${friendly_name}
   project:
     name: Mike Lawrence.${friendly_name}
-    # # keep "version: dev" so that it can be replaced by Github workflows with the `release` version
-    # version: dev
-  name_add_mac_suffix: true
 
 ota:
   - platform: http_request

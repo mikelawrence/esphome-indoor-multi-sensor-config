@@ -365,4 +365,3 @@ switch:
       script.execute: update_status_led
     turn_off_action:
       script.execute: update_status_led
-    
