@@ -323,12 +323,12 @@ speaker:
 
 switch:
   - platform: template
-    name: "PIR Enable"
+    name: "Enable PIR"
     id: pir_enable
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
   - platform: template
-    name: "LED Enable"
+    name: "Enable LED"
     id: led_enable
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
@@ -342,7 +342,7 @@ switch:
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
   - platform: template
-    name: "Nightlight Enable"
+    name: "Enable Nightlight"
     id: nightlight_enable
     optimistic: true
     restore_mode: RESTORE_DEFAULT_OFF

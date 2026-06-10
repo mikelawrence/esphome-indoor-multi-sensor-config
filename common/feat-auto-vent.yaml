@@ -235,7 +235,7 @@ sensor:
 switch:
   # Add this switch to the vent group and it will both control the vent and update status
   - platform: template
-    name: Auto Vent
+    name: "Enable Auto Vent"
     id: auto_vent
     turn_on_action:
       script.execute: update_vent_state_machine
@@ -243,7 +243,7 @@ switch:
       script.execute: update_vent_state_machine
   # turn on to enable CO₂ control of the vent, turn off to disable CO₂ control (vent will still operate based on humidity if that is enabled)
   - platform: template
-    name: "Auto Vent Use CO₂"
+    name: "Enable Auto Vent CO₂"
     id: vent_use_co2
     entity_category: config
     turn_on_action:
