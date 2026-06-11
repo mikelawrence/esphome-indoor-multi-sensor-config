@@ -12,7 +12,7 @@ esphome:
 
 button:
   - platform: template
-    name: "CO₂ Force Calibrate"
+    name: "Cal CO₂ Force"
     entity_category: config
     on_press:
       - scd4x.perform_forced_calibration:
@@ -26,7 +26,7 @@ datetime:
   - platform: template
     id: co2_calibration_date
     type: date
-    name: "CO₂ Calibration Date"
+    name: "Cal CO₂ Date"
     optimistic: yes
     initial_value: "1970-01-01"
     restore_value: true
@@ -34,7 +34,7 @@ datetime:
 number:
   - platform: template
     id: co2_forced_calibration_offset
-    name: "CO₂ Forced Calibration Offset"
+    name: "Cal CO₂ Offset"
     device_class: carbon_dioxide
     entity_category: config
     optimistic: true
