@@ -47,9 +47,6 @@ psram:
   speed: 80MHz
 
 globals:
-  - id: ha_presence_var
-    type: bool
-    initial_value: "false"
   - id: co_available_var
     type: bool
     initial_value: "false"
@@ -192,24 +189,12 @@ script:
           condition:
             switch.is_on: announcements
           then:
-            - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
+            - media_player.volume_set: !lambda return id(volume).state / 100.0;
             - media_player.speaker.play_on_device_media_file:
                 media_file: multi_sensor_operational_sound
                 enqueue: true
 
 binary_sensor:
-  # - platform: homeassistant
-  #   id: ha_presence
-  #   entity_id: ${presence_ha_entity}
-  #   on_state_change:
-  #     then:
-  #       - lambda: |-
-  #           if(x.has_value()) {
-  #             id(ha_presence_var) = x.value();
-  #           } else {
-  #             id(ha_presence_var) = false;
-  #           }
-  #       - script.execute: update_status_led
   - platform: template
     # executed every loop() call, about 16 ms
     name: "Presence"
@@ -228,7 +213,7 @@ binary_sensor:
       number: GPIO38
     filters:
       - lambda: !lambda return id(pir_enable).state && x;
-      - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
+      - delayed_off: !lambda return static_cast<uint32_t>(id(timeout).state * 1000);
 
 button:
   - platform: restart
