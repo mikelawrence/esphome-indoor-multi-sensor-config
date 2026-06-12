@@ -47,6 +47,9 @@ psram:
   speed: 80MHz
 
 globals:
+  - id: silence_alarms_var
+    type: bool
+    initial_value: 'false'
   - id: co_available_var
     type: bool
     initial_value: "false"
@@ -200,7 +203,12 @@ binary_sensor:
     name: "Presence"
     id: presence
     device_class: presence
-    lambda: !lambda return id(presence_mmwave).state or (return id(pir_enable).state && id(motion_pir).state);
+    lambda: |-
+      if (id(pir_enable).state) {
+        return id(presence_mmwave).state || id(motion_pir).state;
+      } else {
+        return id(presence_mmwave).state;
+      }
     on_state:
       then:
         script.execute: update_status_led
@@ -212,10 +220,10 @@ binary_sensor:
       number: GPIO38
     filters:
       - lambda: |-
-          if (id(enable_pir).state) {
-            return id(pir_enable).state && x;
+          if (id(pir_enable).state) {
+            return x;
           } else {
-            return { };
+            return NAN;
           }
       - delayed_off: !lambda return static_cast<uint32_t>(id(timeout).state * 1000);
 
@@ -223,7 +231,16 @@ button:
   - platform: restart
     name: "Restart"
     entity_category: config
-
+  - platform: template
+    name: "Silence Alarms"
+    on_press:
+      - globals.set:
+          id: silence_alarms_var
+          value: 'true'
+      - delay: 3 hours
+      - globals.set:
+          id: silence_alarms_var
+          value: 'false'
 light:
   - platform: esp32_rmt_led_strip
     id: led_status
@@ -339,12 +356,6 @@ switch:
       script.execute: update_status_led
     on_turn_off:
       script.execute: update_status_led
-  - platform: template
-    id: alarm_disable
-    name: "Alarm Disable"
-    restore_mode: ALWAYS_OFF
-    optimistic: true
-    icon: mdi:alarm-off
   - platform: template
     name: "Status Light Input"
     id: status_light_input
