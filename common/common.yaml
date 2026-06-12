@@ -13,7 +13,7 @@ substitutions:
 esphome:
   name_add_mac_suffix: false
   project:
-    version: 2026.06.2
+    version: 2026.06.3
     name: Mike Lawrence.Indoor Multi-Sensor
   on_boot:
     - priority: 500.0
@@ -50,12 +50,6 @@ globals:
   - id: silence_alarms_var
     type: bool
     initial_value: 'false'
-  - id: ha_presence_var
-    type: bool
-    initial_value: "false"
-  - id: co_available_var
-    type: bool
-    initial_value: "false"
   - id: co2_available_var
     type: bool
     initial_value: "false"
@@ -195,31 +189,18 @@ script:
           condition:
             switch.is_on: announcements
           then:
-            - media_player.volume_set: !lambda "return id(volume).state / 100.0;"
+            - media_player.volume_set: !lambda return id(volume).state / 100.0;
             - media_player.speaker.play_on_device_media_file:
                 media_file: multi_sensor_operational_sound
                 enqueue: true
 
 binary_sensor:
-  # - platform: homeassistant
-  #   id: ha_presence
-  #   entity_id: ${presence_ha_entity}
-  #   on_state_change:
-  #     then:
-  #       - lambda: |-
-  #           if(x.has_value()) {
-  #             id(ha_presence_var) = x.value();
-  #           } else {
-  #             id(ha_presence_var) = false;
-  #           }
-  #       - script.execute: update_status_led
   - platform: template
     # executed every loop() call, about 16 ms
     name: "Presence"
     id: presence
     device_class: presence
-    lambda: |-
-      return id(presence_mmwave).state or id(motion_pir).state;
+    lambda: !lambda return id(presence_mmwave).state or (return id(pir_enable).state && id(motion_pir).state);
     on_state:
       then:
         script.execute: update_status_led
@@ -230,8 +211,13 @@ binary_sensor:
     pin:
       number: GPIO38
     filters:
-      - lambda: !lambda return id(pir_enable).state && x;
-      - delayed_off: !lambda "return static_cast<uint32_t>(id(timeout).state * 1000);"
+      - lambda: |-
+          if (id(enable_pir).state) {
+            return id(pir_enable).state && x;
+          } else {
+            return { };
+          }
+      - delayed_off: !lambda return static_cast<uint32_t>(id(timeout).state * 1000);
 
 button:
   - platform: restart
