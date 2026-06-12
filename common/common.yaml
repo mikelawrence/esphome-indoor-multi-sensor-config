@@ -212,8 +212,8 @@ binary_sensor:
       number: GPIO38
     filters:
       - lambda: |-
-          if (id(enable_pir).state) {
-            return id(pir_enable).state && x;
+          if (id(pir_enable).state) {
+            return x;
           } else {
             return { };
           }
