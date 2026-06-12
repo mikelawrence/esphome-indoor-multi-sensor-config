@@ -203,7 +203,7 @@ binary_sensor:
     name: "Presence"
     id: presence
     device_class: presence
-    lambda: !lambda return id(presence_mmwave).state || (return id(pir_enable).state && id(motion_pir).state);
+    lambda: !lambda return id(presence_mmwave).state || return id(pir_enable).state && id(motion_pir).state;
     on_state:
       then:
         script.execute: update_status_led
