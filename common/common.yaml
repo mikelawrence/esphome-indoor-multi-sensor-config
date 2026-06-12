@@ -223,7 +223,7 @@ binary_sensor:
           if (id(pir_enable).state) {
             return x;
           } else {
-            return { };
+            return NAN;
           }
       - delayed_off: !lambda return static_cast<uint32_t>(id(timeout).state * 1000);
 
