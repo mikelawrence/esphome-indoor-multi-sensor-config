@@ -47,6 +47,9 @@ psram:
   speed: 80MHz
 
 globals:
+  - id: silence_alarms_var
+    type: bool
+    initial_value: 'false'
   - id: ha_presence_var
     type: bool
     initial_value: "false"
@@ -234,7 +237,16 @@ button:
   - platform: restart
     name: "Restart"
     entity_category: config
-
+  - platform: template
+    name: "Silence Alarms"
+    on_press:
+      - globals.set:
+          id: silence_alarms_var
+          value: 'true'
+      - delay: 3 hours
+      - globals.set:
+          id: silence_alarms_var
+          value: 'false'
 light:
   - platform: esp32_rmt_led_strip
     id: led_status
@@ -350,12 +362,6 @@ switch:
       script.execute: update_status_led
     on_turn_off:
       script.execute: update_status_led
-  - platform: template
-    id: alarm_disable
-    name: "Alarm Disable"
-    restore_mode: ALWAYS_OFF
-    optimistic: true
-    icon: mdi:alarm-off
   - platform: template
     name: "Status Light Input"
     id: status_light_input

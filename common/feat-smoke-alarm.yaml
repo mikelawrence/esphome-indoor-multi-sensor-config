@@ -39,8 +39,8 @@ script:
     then:
       while:
         condition:
-          - switch.is_off: alarm_disable
-          - lambda: "return id(pm25_alarm_var) == true;"
+          - lambda: !lambda return !id(silence_alarms_var);
+          - lambda: !lambda return id(pm25_alarm_var);
         then:
           - media_player.volume_set: 100%
           - media_player.speaker.play_on_device_media_file:
@@ -61,8 +61,8 @@ script:
     then:
       while:
         condition:
-          - switch.is_off: alarm_disable
-          - lambda: "return id(pm25_warning_var) == true;"
+          - lambda: !lambda return !id(silence_alarms_var);
+          - lambda: !lambda return id(pm25_warning_var);
         then:
           - media_player.volume_set: 100%
           - media_player.speaker.play_on_device_media_file:
@@ -83,8 +83,8 @@ script:
     then:
       while:
         condition:
-          - switch.is_off: alarm_disable
-          - lambda: "return id(co_alarm_var) == true;"
+          - lambda: !lambda return !id(silence_alarms_var);
+          - lambda: !lambda return id(co_alarm_var);
         then:
           - media_player.volume_set: 100%
           - media_player.speaker.play_on_device_media_file:
@@ -104,8 +104,8 @@ script:
     then:
       while:
         condition:
-          - switch.is_off: alarm_disable
-          - lambda: "return id(co_warning_var) == true;"
+          - lambda: !lambda return !id(silence_alarms_var);
+          - lambda: !lambda return id(co_warning_var);
         then:
           - media_player.volume_set: 100%
           - media_player.speaker.play_on_device_media_file:
@@ -126,8 +126,8 @@ script:
     then:
       while:
         condition:
-          - switch.is_off: alarm_disable
-          - lambda: "return id(co2_warning_var) == true;"
+          - lambda: !lambda return !id(silence_alarms_var);
+          - lambda: !lambda return id(co2_warning_var);
         then:
           - media_player.volume_set: 100%
           - media_player.speaker.play_on_device_media_file:
