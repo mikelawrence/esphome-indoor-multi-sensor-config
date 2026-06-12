@@ -200,8 +200,7 @@ binary_sensor:
     name: "Presence"
     id: presence
     device_class: presence
-    lambda: |-
-      return id(presence_mmwave).state or id(motion_pir).state;
+    lambda: !lambda return id(presence_mmwave).state or (return id(pir_enable).state && id(motion_pir).state);
     on_state:
       then:
         script.execute: update_status_led
@@ -212,7 +211,12 @@ binary_sensor:
     pin:
       number: GPIO38
     filters:
-      - lambda: !lambda return id(pir_enable).state && x;
+      - lambda: |-
+          if (id(enable_pir).state) {
+            return id(pir_enable).state && x;
+          } else {
+            return { };
+          }
       - delayed_off: !lambda return static_cast<uint32_t>(id(timeout).state * 1000);
 
 button:
