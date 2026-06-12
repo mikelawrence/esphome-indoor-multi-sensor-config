@@ -50,6 +50,9 @@ globals:
   - id: silence_alarms_var
     type: bool
     initial_value: 'false'
+  - id: co_available_var
+    type: bool
+    initial_value: "false"
   - id: co2_available_var
     type: bool
     initial_value: "false"
