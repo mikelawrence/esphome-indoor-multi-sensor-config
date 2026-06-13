@@ -30,6 +30,22 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 ## Sensors
 
++ **USB-C Current** (*Sensor*): This measures the current (A) the USB-C section is using. Updates every minute.
+
++ **USB-C Power** (*Sensor*): This measures the current (A) the USB-C section is using. Updates every minute.
+
++ **USB-C Voltage** (*Sensor*): This measures the current (A) the USB-C section is using. Updates every minute.
+
++ **USB-C Energy** (*Sensor*): This measures the accumulated energy (W Hr) the USB-C section is using. Updates every minute.
+
++ **Digital Current** (*Sensor*): This measures the current (A) the digital section is using. Updates every minute.
+
++ **Digital Power** (*Sensor*): This measures the current (A) the digital section is using. Updates every minute.
+
++ **Digital Voltage** (*Sensor*): This measures the current (A) the digital section is using. Updates every minute.
+
++ **Digital Energy** (*Sensor*): This measures the accumulated energy (W Hr) the digital section is using. Updates every minute.
+
 + **Analog Current** (*Sensor*): This measures the current (A) the analog section is using. Updates every minute.
 
 + **Analog Power** (*Sensor*): This measures the current (A) the analog section is using. Updates every minute.
