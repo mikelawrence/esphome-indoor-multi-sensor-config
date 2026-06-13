@@ -239,6 +239,7 @@ switch:
   - platform: template
     name: "Enable Auto Vent"
     id: auto_vent
+    entity_category: config
     turn_on_action:
       script.execute: update_vent_state_machine
     turn_off_action:

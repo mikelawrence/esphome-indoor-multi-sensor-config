@@ -332,11 +332,13 @@ switch:
     name: "Enable PIR"
     id: pir_enable
     optimistic: true
+    entity_category: config
     restore_mode: RESTORE_DEFAULT_ON
   - platform: template
     name: "Enable LED"
     id: led_enable
     optimistic: true
+    entity_category: config
     restore_mode: RESTORE_DEFAULT_ON
     on_turn_on:
       script.execute: update_status_led
@@ -346,11 +348,13 @@ switch:
     name: "Enable Announcements"
     id: announcements_enable
     optimistic: true
+    entity_category: config
     restore_mode: RESTORE_DEFAULT_ON
   - platform: template
     name: "Enable Nightlight"
     id: nightlight_enable
     optimistic: true
+    entity_category: config
     restore_mode: RESTORE_DEFAULT_OFF
     on_turn_on:
       script.execute: update_status_led
