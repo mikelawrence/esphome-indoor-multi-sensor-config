@@ -72,6 +72,7 @@ number:
     min_value: -5.0e-9
     step: 0.001e-9
     initial_value: 2.000e-9
+    mode: box
     restore_value: true
 
 sensor:

@@ -17,7 +17,7 @@ button:
     on_press:
       - scd4x.perform_forced_calibration:
           value: !lambda |-
-            float value = id(co2_forced_calibration_offset).state;
+            float value = id(co2_forced_calibration_value).state;
             ESP_LOGD("scd4x", "CO₂ Force Calibration executed, CO₂=%0.0f", value);
             return value;
           id: scd41_sensor
@@ -33,8 +33,8 @@ datetime:
 
 number:
   - platform: template
-    id: co2_forced_calibration_offset
-    name: "Cal CO₂ Offset"
+    id: co2_forced_calibration_value
+    name: "Cal CO₂ Value"
     device_class: carbon_dioxide
     entity_category: config
     optimistic: true
@@ -42,6 +42,8 @@ number:
     min_value: 400
     step: 1
     initial_value: 420
+    mode: box
+    restore_value: true
 
 sensor:
   - platform: scd4x

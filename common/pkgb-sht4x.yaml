@@ -4,8 +4,8 @@
 #   Not compatible with PACKAGE A package
 number:
   - platform: template
-    name: "Cal Temperature Offset"
-    id: temperature_calibration_offset
+    name: "Cal Temperature Value"
+    id: temperature_calibration_value
     device_class: temperature
     entity_category: config
     optimistic: true
@@ -13,10 +13,11 @@ number:
     min_value: -10.0
     step: 0.01
     initial_value: 0.0
+    mode: box
     restore_value: true
   - platform: template
-    name: "Cal Humidity Offset"
-    id: humidity_calibration_offset
+    name: "Cal Humidity Value"
+    id: humidity_calibration_value
     device_class: humidity
     entity_category: config
     optimistic: true
@@ -24,6 +25,7 @@ number:
     min_value: -20.0
     step: 0.01
     initial_value: 0.0
+    mode: box
     restore_value: true
 
 sensor:
@@ -37,7 +39,7 @@ sensor:
       accuracy_decimals: 2
       filters:
         - filter_out: NAN
-        - offset: !lambda return id(temperature_calibration_offset).state;
+        - offset: !lambda return id(temperature_calibration_value).state;
         - throttle_average: 60s
     humidity:
       # humidity_internal has 1s interval averaged to once a minute
@@ -45,7 +47,7 @@ sensor:
       accuracy_decimals: 2
       filters:
         - filter_out: NAN
-        - offset: !lambda return id(humidity_calibration_offset).state;
+        - offset: !lambda return id(humidity_calibration_value).state;
         - throttle_average: 60s
   - platform: copy
     # temperature median over last 5 minutes, output every minute

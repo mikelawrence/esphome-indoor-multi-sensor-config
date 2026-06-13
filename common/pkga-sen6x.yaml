@@ -54,18 +54,18 @@ button:
     on_press:
       - sen6x.activate_heater: sen66_sensor
   - platform: template
-    name: "Cal CO₂ Force"
+    name: "CO₂ Calibrate"
     entity_category: config
     on_press:
       - sen6x.perform_forced_co2_recalibration:
-          value: !lambda return id(co2_forced_calibration_offset).state;
+          value: !lambda return id(co2_forced_calibration_value).state;
           id: sen66_sensor
 
 datetime:
   - platform: template
     id: co2_calibration_date
     type: date
-    name: "Cal CO₂ Date"
+    name: "CO₂ Cal Date"
     entity_category: config
     optimistic: yes
     initial_value: "1970-01-01"
@@ -73,8 +73,8 @@ datetime:
 
 number:
   - platform: template
-    id: co2_forced_calibration_offset
-    name: "Cal CO₂ Offset"
+    id: co2_forced_calibration_value
+    name: "CO₂ Cal Value"
     device_class: carbon_dioxide
     entity_category: config
     optimistic: true
@@ -82,8 +82,10 @@ number:
     min_value: 400
     step: 1
     initial_value: 420
+    mode: box
+    restore_value: true
   - platform: template
-    name: "Cal Temperature Offset"
+    name: "Temperature Cal Offset"
     id: temperature_calibration_offset
     device_class: temperature
     entity_category: config
@@ -92,9 +94,10 @@ number:
     min_value: -10.0
     step: 0.01
     initial_value: 0.0
+    mode: box
     restore_value: true
   - platform: template
-    name: "Cal Humidity Offset"
+    name: "Humidity Cal Offset"
     id: humidity_calibration_offset
     device_class: humidity
     entity_category: config
@@ -103,6 +106,7 @@ number:
     min_value: -20.0
     step: 0.01
     initial_value: 0.0
+    mode: box
     restore_value: true
 
 sensor:
@@ -120,7 +124,7 @@ sensor:
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - offset: !lambda return id(temperature_calibration_offset).state;
+        - offset: !lambda return id(temperature_calibration_value).state;
         - throttle_average: ${sen66_throttle_average}
     humidity:
       # humidity 1s interval averaged to once a minute
@@ -130,7 +134,7 @@ sensor:
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - offset: !lambda return id(humidity_calibration_offset).state;
+        - offset: !lambda return id(humidity_calibration_value).state;
         - throttle_average: ${sen66_throttle_average}
     pm_1_0:
       # PM 1µm 1s interval averaged to once a minute
