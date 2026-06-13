@@ -14,13 +14,9 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **Enable Announcements** (*Switch*): When on Announcements are enabled. 
 
-+ **Enable Auto Vent** (*Switch*): When on the Automatic Vent based on humidity and CO2 levels will be enabled. 
-
 + **Enable LED** (*Switch*): When on the Status LED will be enabled.
 
 + **Enable Nightlight** (*Switch*): When on the Status LED will act as a nightlight. The nightlight is controlled by light levels and automatically comes on when the room is dark.
-
-+ **Enable PIR** (*Switch*): When on the PIR sensor will be enabled. The PIR sensor is included in presence detection when enabled.
 
 + **Media Player** (*Media Player*): Can be used to play any media from Home Assistant.
 
@@ -146,7 +142,33 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **CO Sensitivity** (*Number*): This calibration sensitivity is multiplied with CO readings. This should be read from the Figaro Sensor bar code.
 
-+ **CO₂ Date** (*Number*): This is user input for the last date the CO₂ sensor was calibrated. This calibration should be performed every 3-4 months.
++ **CO₂ Cal Date** (*Number*): This is user input for the last date the CO₂ sensor was calibrated. This calibration should be performed every 3-4 months.
+
++ **CO₂ Cal Value** (*Number*): This calibration offset is added to CO readings.
+
++ **CO₂ Calibrate** (*Button*): Force CO₂ calibration. Sensor set output CO₂ reading to match CO₂ Cal Value.,
+
++ **Enable Auto Vent** (*Switch*): When on the Automatic Vent based on humidity and/or CO2 levels will be enabled.
+
++ **Enable Smoke Alarm** (*Switch*): When on the Smoke Alarm functionality will be enabled. This is experimental. DO NOT USE AS A PRIMARY SMOKE ALARM!
+
++ **Enable PIR** (*Switch*): When on the PIR sensor will be enabled. The PIR sensor is included in presence detection when enabled.
+
++ **Humidity Cal Offset** (*Number*): This calibration offset is added to Humidity readings.
+
++ **LD2450 Installation Angle** (*Number*): Changes the installation angle of the LD2450. Rotates the coordinates of the sensor to allow mounting in a corner. -45° would be mounted in a left corner and 45° would be mounted in a right corner. Only available with the LD2450 config.
+
++ **LD2450 Bluetooth Enable** (*Switch*): Turns Bluetooth on the in LD2450 Sensor. Only available with the LD2450 config.
+
++ **LD2450 Factory Reset** (*Button*): Will reset the LD2450 Sensor to factory defaults. Only available with the LD2450 config.
+
++ **LD2450 Multi Target Tracking** (*Switch*): Enables up to three target tracking at the same time. Only available with the LD2450 config.
+
++ **LD2450 Timeout** (*Number*): This the timeout for all Target an Presence entities. This is effectivity and Auto-Off filter and means entities using this turn off after this time if not triggered again. Only available with the LD2450 config.
+
++ **Restart** (*Button*): Will reset the LD2450 Sensor to factory defaults. Only available with the LD2450 config.
+
+Still in progress!!!
 
 # Lovelace Configurations
 
