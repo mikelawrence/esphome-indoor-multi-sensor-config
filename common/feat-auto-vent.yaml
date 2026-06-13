@@ -9,16 +9,18 @@ substitutions:
 
 esphome:
   on_boot:
-    then:
-      - binary_sensor.template.publish:
-          id: vent_auto_hum
-          state: false
-      - binary_sensor.template.publish:
-          id: vent_auto_co2
-          state: false
-      - binary_sensor.template.publish:
-          id: vent_manual
-          state: false
+    - priority: -101.0
+      then:
+        - binary_sensor.template.publish:
+            id: vent_auto_hum
+            state: false
+        - binary_sensor.template.publish:
+            id: vent_auto_co2
+            state: false
+        - binary_sensor.template.publish:
+            id: vent_manual
+            state: false
+        - logger.log: "on_boot priority -101 fired (Auto Vent)"
 
 interval:
   - interval: 10s
