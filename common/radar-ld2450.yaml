@@ -617,7 +617,6 @@ sensor:
 text_sensor:
   - platform: ld2450
     ld2450_id: ld2450_radar
-    entity_category: diagnostic
     version:
       name: LD2450 Firmware
   - platform: template
