@@ -49,7 +49,7 @@ psram:
 globals:
   - id: silence_alarms_var
     type: bool
-    initial_value: 'false'
+    initial_value: "false"
   - id: co_available_var
     type: bool
     initial_value: "false"
@@ -190,7 +190,7 @@ script:
     then:
       - if:
           condition:
-            switch.is_on: announcements
+            switch.is_on: announcements_enable
           then:
             - media_player.volume_set: !lambda return id(volume).state / 100.0;
             - media_player.speaker.play_on_device_media_file:
@@ -236,11 +236,11 @@ button:
     on_press:
       - globals.set:
           id: silence_alarms_var
-          value: 'true'
+          value: "true"
       - delay: 3 hours
       - globals.set:
           id: silence_alarms_var
-          value: 'false'
+          value: "false"
 light:
   - platform: esp32_rmt_led_strip
     id: led_status
@@ -343,8 +343,8 @@ switch:
     on_turn_off:
       script.execute: update_status_led
   - platform: template
-    name: "Announcements"
-    id: announcements
+    name: "Enable Announcements"
+    id: announcements_enable
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
   - platform: template
