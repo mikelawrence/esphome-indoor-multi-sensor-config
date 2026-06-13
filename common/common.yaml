@@ -270,7 +270,7 @@ media_player:
 number:
   - platform: template
     id: volume
-    name: "Default Volume"
+    name: "Announcement Volume"
     optimistic: true
     max_value: 100
     min_value: 0
