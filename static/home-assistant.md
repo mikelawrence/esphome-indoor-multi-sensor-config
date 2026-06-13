@@ -6,6 +6,46 @@ description: Using the ESPHome Indoor Multi-Sensor with Home Assistant
 
 # Home Assistant
 
+There are numerous entities presented to Home Assistant here is a complete list of each with a description.
+
+## Controls
+
++ **Announcement Volume** (*Number*): The default volume for announcements over the speaker. The range is 0 - 100 with 100 as the maximum. Announcements change the volume to this value during an announcement. The previous volume will be restored once the announcement is complete.
+
++ **Enable Announcements** (*Switch*): When on Announcements are enabled. 
+
++ **Enable Auto Vent** (*Switch*): When on the Automatic Vent based on humidity and CO2 levels will be enabled. 
+
++ **Enable LED** (*Switch*): When on the Status LED will be enabled.
+
++ **Enable Nightlight** (*Switch*): When on the Status LED will act as a nightlight. The nightlight is controlled by light levels and automatically comes on when the room is dark.
+
++ **Enable PIR** (*Switch*): When on the PIR sensor will be enabled. The PIR sensor is included in presence detection when enabled.
+
++ **Media Player** (*Media Player*): Can be used to play any media from Home Assistant.
+
++ **Silience Alarms** (*Button*): When pressed will silence alarms for 3 hours or until the sensor is restarted.
+
++ **Status Light** (*Switch*): When set to on the Status Light will be forced on. This only applies to presence status. Include this switch in a group and it will turn on the Presense status LED when the group is on. Handy when other sensors are involved in room presense.
+
+## Sensors
+
++ **Analog Current** (*Sensor*): This measures the current (A) the analog section is using. Updates every minute.
+
++ **Analog Power** (*Sensor*): This measures the current (A) the analog section is using. Updates every minute.
+
++ **Analog Voltage** (*Sensor*): This measures the current (A) the analog section is using. Updates every minute.
+
+## Multi-Sensor Pkg-A LD2410
+
+## Multi-Sensor Pkg-A LD2450
+
+## Multi-Sensor Pkg-B C4001
+
+## Multi-Sensor Pkg-B LD2410
+
+## Multi-Sensor Pkg-B LD2450
+
 # Lovelace Configurations
 
 Over time I found helpful lovelace configurations on the Internet. I really
