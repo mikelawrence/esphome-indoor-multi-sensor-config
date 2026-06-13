@@ -332,6 +332,7 @@ switch:
     name: "Enable PIR"
     id: pir_enable
     optimistic: true
+    entity_category: config
     restore_mode: RESTORE_DEFAULT_ON
   - platform: template
     name: "Enable LED"
