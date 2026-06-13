@@ -114,6 +114,40 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **VOC** (*Sensor*): Current Volatile Organic Compound reading. For Sensor-Pkg-A configs the SEN66 sensor provides this reading. For Sensor-Pkg-B configs it is the SGP41 sensor. Updates every minute.
 
++ **Zone-1 Moving Target Count** (*Sensor*): The current number of targets in Zone-1. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
+
++ **Zone-1 Presence** (*Binary Sensor*): Current Zone-1 presence. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
+
++ **Zone-1 Still Target Count** (*Sensor*): The current number of still targets in Zone-1. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
+
++ **Zone-1 Target Count** (*Sensor*): The total number of targets in Zone-1. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
+
++ **Zone-2 Moving Target Count** (*Sensor*): The current number of targets in Zone-2. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
+
++ **Zone-2 Presence** (*Binary Sensor*): Current Zone-2 presence. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
+
++ **Zone-2 Still Target Count** (*Sensor*): The current number of still targets in Zone-2. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
+
++ **Zone-2 Target Count** (*Sensor*): The total number of targets in Zone-2. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
+
++ **Zone-3 Moving Target Count** (*Sensor*): The current number of targets in Zone-3. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
+
++ **Zone-3 Presence** (*Binary Sensor*): Current Zone-3 presence. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
+
++ **Zone-3 Still Target Count** (*Sensor*): The current number of still targets in Zone-3. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
+
++ **Zone-3 Target Count** (*Sensor*): The total number of targets in Zone-3. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
+
+## Configuration
+
++ **Activate SHT Heater** (*Button*): Activate SHT Heater to clear the humidity sensor of saturation. Only available with Sensor-Pkg-A configs.
+
++ **CO Offset** (*Number*): This calibration offset is added to CO readings.
+
++ **CO Sensitivity** (*Number*): This calibration sensitivity is multiplied with CO readings. This should be read from the Figaro Sensor bar code.
+
++ **CO₂ Date** (*Number*): This is user input for the last date the CO₂ sensor was calibrated. This calibration should be performed every 3-4 months.
+
 # Lovelace Configurations
 
 Over time I found helpful lovelace configurations on the Internet. I really
