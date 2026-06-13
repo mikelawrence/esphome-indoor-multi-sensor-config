@@ -5,18 +5,22 @@ logger:
 
 esphome:
   on_boot:
-    - priority: 100.0
+    - priority: 101.0
       then:
         - lambda: |-
             // don't wait for update rate, force an immediate temperature update
             id(co_temperature).update();
-        - logger.log: "on_boot priority 100 fired (CO sensor)"
-    - priority: 600.0
+        - logger.log:
+          format: "on_boot priority 101 fired (CO sensor)"
+          level: VERBOSE
+    - priority: 601.0
       then:
         - lambda: |-
             // Let other parts of config know there is a CO sensor
             id(co_available_var) = true;
-        - logger.log: "on_boot priority 600 fired (CO sensor)"
+        - logger.log:
+          format: "on_boot priority 601 fired (CO sensor)"
+          level: VERBOSE
 
 globals:
   - id: co_temp_calibration

@@ -19,14 +19,16 @@ external_components:
 
 esphome:
   on_boot:
-    - priority: 601.0
+    - priority: 603.0
       then:
         - lambda: |-
             // Let other parts of config know there is a CO₂ sensor
             id(co2_available_var) = true;
             // Let other parts of config know there is a Particulate Matter sensor
             id(pm25_available_var) = true;
-        - logger.log: "on_boot priority 600 fired (SEN6X sensor)"
+        - logger.log:
+          format: "on_boot priority 603 fired (SEN6X sensor)"
+          level: VERBOSE
 
 interval:
   - interval: 7d
