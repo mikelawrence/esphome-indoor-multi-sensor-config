@@ -9,7 +9,7 @@ substitutions:
 
 esphome:
   on_boot:
-    - priority: -101.0
+    - priority: -102.0
       then:
         - binary_sensor.template.publish:
             id: vent_auto_hum
@@ -20,7 +20,9 @@ esphome:
         - binary_sensor.template.publish:
             id: vent_manual
             state: false
-        - logger.log: "on_boot priority -101 fired (Auto Vent)"
+        - logger.log:
+            format: "on_boot priority -102 fired (Auto Vent)"
+            level: VERBOSE
 
 interval:
   - interval: 10s
