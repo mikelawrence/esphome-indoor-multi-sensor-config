@@ -459,10 +459,9 @@ switch:
     multi_target:
       name: LD2450 Multi Target Tracking
   - platform: template
-    name: "Flip X-Axis"
     id: flip_x_axis
     optimistic: true
-    restore_mode: RESTORE_DEFAULT_OFF
+    restore_mode: RESTORE_ALWAYS_ON
     entity_category: config
 
 sensor:
