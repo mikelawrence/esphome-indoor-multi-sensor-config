@@ -45,7 +45,7 @@ datetime:
   - platform: template
     id: co_manufacture_date
     type: date
-    name: "CO Manufacture Date"
+    name: "Cal CO Manufacture Date"
     entity_category: config
     optimistic: yes
     initial_value: "1970-01-01"
