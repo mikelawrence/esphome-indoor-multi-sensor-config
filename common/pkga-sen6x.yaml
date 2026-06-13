@@ -124,7 +124,7 @@ sensor:
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - offset: !lambda return id(temperature_calibration_value).state;
+        - offset: !lambda return id(temperature_calibration_offset).state;
         - throttle_average: ${sen66_throttle_average}
     humidity:
       # humidity 1s interval averaged to once a minute
@@ -134,7 +134,7 @@ sensor:
       filters:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
-        - offset: !lambda return id(humidity_calibration_value).state;
+        - offset: !lambda return id(humidity_calibration_offset).state;
         - throttle_average: ${sen66_throttle_average}
     pm_1_0:
       # PM 1µm 1s interval averaged to once a minute
