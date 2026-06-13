@@ -27,8 +27,8 @@ esphome:
             // Let other parts of config know there is a Particulate Matter sensor
             id(pm25_available_var) = true;
         - logger.log:
-          format: "on_boot priority 603 fired (SEN6X sensor)"
-          level: VERBOSE
+            format: "on_boot priority 603 fired (SEN6X sensor)"
+            level: VERBOSE
 
 interval:
   - interval: 7d

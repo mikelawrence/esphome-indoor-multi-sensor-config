@@ -21,8 +21,8 @@ esphome:
             id: vent_manual
             state: false
         - logger.log:
-          format: "on_boot priority -102 fired (Auto Vent)"
-          level: VERBOSE
+            format: "on_boot priority -102 fired (Auto Vent)"
+            level: VERBOSE
 
 interval:
   - interval: 10s
