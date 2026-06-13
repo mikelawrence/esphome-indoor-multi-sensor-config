@@ -36,6 +36,8 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **Analog Voltage** (*Sensor*): This measures the current (A) the analog section is using. Updates every minute.
 
++ **Analog Energy** (*Sensor*): This measures the accumulated energy (W Hr) the analog section is using. Updates every minute.
+
 ## Multi-Sensor Pkg-A LD2410
 
 ## Multi-Sensor Pkg-A LD2450
