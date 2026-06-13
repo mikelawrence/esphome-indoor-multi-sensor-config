@@ -2,6 +2,8 @@ name: CI
 
 on:
   push:
+    branches-ignore:
+      - main
     paths:
       - "**.yaml"
       - ".github/workflows/ci.yml"
@@ -12,6 +14,7 @@ on:
   schedule:
     # Weekly on Sunday at midnight
     - cron: "0 0 * * 0"
+  workflow_dispatch:
 
 concurrency:
   group: "Only one at a time"
