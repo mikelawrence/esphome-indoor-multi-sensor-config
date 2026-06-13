@@ -26,8 +26,8 @@ esphome:
       then:
         - script.execute: announce_operational
         - globals.set:
-          id: boot_completed
-          value: 'true'
+            id: boot_completed
+            value: 'true'
         - logger.log:
             format: "on_boot priority -100 fired (Common)"
             level: VERBOSE
