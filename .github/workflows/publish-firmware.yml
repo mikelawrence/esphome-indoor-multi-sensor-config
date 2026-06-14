@@ -37,7 +37,8 @@ jobs:
   build-firmware:
     name: Build Firmware
     needs: get-release-info
-    uses: esphome/workflows/.github/workflows/build.yml@2026.4.0
+    uses: ./.github/workflows/build.yml 
+    # uses: esphome/workflows/.github/workflows/build.yml@2026.4.0
     with:
       files: |
         rev-b-pkg-a-c4001-esp32-s3.factory.yaml
