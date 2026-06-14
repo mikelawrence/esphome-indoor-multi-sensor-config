@@ -20,7 +20,7 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **Media Player** (*Media Player*): Can be used to play any media from Home Assistant.
 
-+ **Silience Alarms** (*Button*): When pressed will silence alarms for 3 hours or until the sensor is restarted.
++ **Silence Alarms** (*Button*): When pressed will silence alarms for 3 hours or until the sensor is restarted.
 
 + **Status Light** (*Switch*): When set to on the Status Light will be forced on. This only applies to presence status. Include this switch in a group and it will turn on the Presense status LED when the group is on. Handy when other sensors are involved in room presense.
 
@@ -46,7 +46,7 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **Lux** (*Sensor*): Current lux reading from the TSL2591 sensor. Updates every minute.
 
-+ **Moving Target Count** (*Sensor*): The number of moving target detected (up to 3 targets). Only available in the LD2450 Radar config. Updates at Update Rate.
++ **Moving Target Count** (*Sensor*): The number of moving target detected (up to 3 targets). Only available in the LD2450 Radar config. Updates at LD2450 Update Rate.
 
 + **NOx** (*Sensor*): Current Nitrous-Oxide reading. For Sensor-Pkg-A configs the SEN66 sensor provides this reading. For Sensor-Pkg-B configs it is the SGP41 sensor. Updates every minute.
 
@@ -60,9 +60,9 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **PM <10µm Mass concentration** (*Sensor*): Current Particulate Matter <10µm Mass concentration. Only available with Sensor-Pkg-A. Updates every minute.
 
-+ **Presence** (*Binary Sensor*): Includes both Presence mmWave from LD2450 and PIR Motion if enabled. For the LD2450 config updates at LD2450 Timeout rate.
++ **Presence** (*Binary Sensor*): Includes both Presence mmWave from LD2450 and PIR Motion if enabled. For the LD2450 config updates at LD2450 Update Rate.
 
-+ **Presence mmWave** (*Binary Sensor*): This is presence from from installed radar. For the LD2450 config updates at LD2450 Timeout rate.
++ **Presence mmWave** (*Binary Sensor*): This is presence from from installed radar. For the LD2450 config updates at LD2450 Update Rate.
 
 + **Pressure** (*Sensor*): This is most recent absolute pressure from from BMP581. Updates every minute.
 
@@ -70,27 +70,27 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **Sound Level RMS** (*Sensor*): This is the most recent Sound Level RMS (average) over the last minute as measured from microphone. Updates every minute.
 
-+ **Still Target Count** (*Sensor*): The current number of still targets in the LD2450 field of view. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Still Target Count** (*Sensor*): The current number of still targets in the LD2450 field of view. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Target Count** (*Sensor*): The current number of targets in the LD2450 field of view. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Target Count** (*Sensor*): The current number of targets in the LD2450 field of view. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Target-1 Speed** (*Sensor*): Target-1 speed if there is at least one target in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Target-1 Speed** (*Sensor*): Target-1 speed if there is at least one target in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Target-1 X** (*Sensor*): Target-1 x position if there is at least one target in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Target-1 X** (*Sensor*): Target-1 x position if there is at least one target in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Target-1 Y** (*Sensor*): Target-1 y position if there is at least one target in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Target-1 Y** (*Sensor*): Target-1 y position if there is at least one target in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Target-2 Speed** (*Sensor*): Target-2 speed if there is at least two targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Target-2 Speed** (*Sensor*): Target-2 speed if there is at least two targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Target-2 X** (*Sensor*): Target-2 x position if there is at least two targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Target-2 X** (*Sensor*): Target-2 x position if there is at least two targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Target-2 Y** (*Sensor*): Target-2 y position if there is at least two targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Target-2 Y** (*Sensor*): Target-2 y position if there is at least two targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Target-3 Speed** (*Sensor*): Target-3 speed if there is at least three targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Target-3 Speed** (*Sensor*): Target-3 speed if there is at least three targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Target-3 X** (*Sensor*): Target-3 x position if there is at least three targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Target-3 X** (*Sensor*): Target-3 x position if there is at least three targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Target-3 Y** (*Sensor*): Target-3 y position if there is at least three targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Target-3 Y** (*Sensor*): Target-3 y position if there is at least three targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
 + **Temperature** (*Sensor*): Current Temperature sensor reading. For Sensor-Pkg-A configs the SEN66 sensor provides this reading. For Sensor-Pkg-B configs it is the SHT45 sensor. Updates every minute.
 
@@ -110,37 +110,37 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **VOC** (*Sensor*): Current Volatile Organic Compound reading. For Sensor-Pkg-A configs the SEN66 sensor provides this reading. For Sensor-Pkg-B configs it is the SGP41 sensor. Updates every minute.
 
-+ **Zone-1 Moving Target Count** (*Sensor*): The current number of targets in Zone-1. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Zone-1 Moving Target Count** (*Sensor*): The current number of targets in Zone-1. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Zone-1 Presence** (*Binary Sensor*): Current Zone-1 presence. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Zone-1 Presence** (*Binary Sensor*): Current Zone-1 presence. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Zone-1 Still Target Count** (*Sensor*): The current number of still targets in Zone-1. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Zone-1 Still Target Count** (*Sensor*): The current number of still targets in Zone-1. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Zone-1 Target Count** (*Sensor*): The total number of targets in Zone-1. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Zone-1 Target Count** (*Sensor*): The total number of targets in Zone-1. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Zone-2 Moving Target Count** (*Sensor*): The current number of targets in Zone-2. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Zone-2 Moving Target Count** (*Sensor*): The current number of targets in Zone-2. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Zone-2 Presence** (*Binary Sensor*): Current Zone-2 presence. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Zone-2 Presence** (*Binary Sensor*): Current Zone-2 presence. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Zone-2 Still Target Count** (*Sensor*): The current number of still targets in Zone-2. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Zone-2 Still Target Count** (*Sensor*): The current number of still targets in Zone-2. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Zone-2 Target Count** (*Sensor*): The total number of targets in Zone-2. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Zone-2 Target Count** (*Sensor*): The total number of targets in Zone-2. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Zone-3 Moving Target Count** (*Sensor*): The current number of targets in Zone-3. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Zone-3 Moving Target Count** (*Sensor*): The current number of targets in Zone-3. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Zone-3 Presence** (*Binary Sensor*): Current Zone-3 presence. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Zone-3 Presence** (*Binary Sensor*): Current Zone-3 presence. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Zone-3 Still Target Count** (*Sensor*): The current number of still targets in Zone-3. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Zone-3 Still Target Count** (*Sensor*): The current number of still targets in Zone-3. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
-+ **Zone-3 Target Count** (*Sensor*): The total number of targets in Zone-3. Only available with the LD2450 config. Updates at LD2450 Timeout rate.
++ **Zone-3 Target Count** (*Sensor*): The total number of targets in Zone-3. Only available with the LD2450 config. Updates at LD2450 Update Rate.
 
 ## Configuration
 
 + **Activate SHT Heater** (*Button*): Activate SHT Heater to clear the humidity sensor of saturation. Only available with Sensor-Pkg-A configs.
 
-+ **CO Offset** (*Number*): This calibration offset is added to CO readings.
++ **CO Cal Offset** (*Number*): This calibration offset is added to CO readings.
 
-+ **CO Sensitivity** (*Number*): This calibration sensitivity is multiplied with CO readings. This should be read from the Figaro Sensor bar code.
++ **CO Cal Sensitivity** (*Number*): This calibration sensitivity is multiplied with CO readings. This should be read from the Figaro Sensor bar code.
 
 + **CO₂ Cal Date** (*Number*): This is user input for the last date the CO₂ sensor was calibrated. This calibration should be performed every 3-4 months.
 
@@ -148,13 +148,57 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **CO₂ Calibrate** (*Button*): Force CO₂ calibration. Sensor set output CO₂ reading to match CO₂ Cal Value.,
 
-+ **Enable Auto Vent** (*Switch*): When on the Automatic Vent based on humidity and/or CO2 levels will be enabled.
++ **Enable Auto Vent** (*Switch*): When on the Automatic Vent be enabled.
+
++ **Enable Auto Vent CO₂** (*Switch*): When on the Automatic Vent will use CO2 levels in addition to humidity.
 
 + **Enable Smoke Alarm** (*Switch*): When on the Smoke Alarm functionality will be enabled. This is experimental. DO NOT USE AS A PRIMARY SMOKE ALARM!
 
 + **Enable PIR** (*Switch*): When on the PIR sensor will be enabled. The PIR sensor is included in presence detection when enabled.
 
++ **G0 Move Threshold** (*Number*): This sets the move threshold for Gate 0. Only available with the LD2410 config.
+
++ **G0 Still Threshold** (*Number*): This sets the still threshold for Gate 0. Only available with the LD2410 config.
+
++ **G1 Move Threshold** (*Number*): This sets the move threshold for Gate 1. Only available with the LD2410 config.
+
++ **G1 Still Threshold** (*Number*): This sets the still threshold for Gate 1. Only available with the LD2410 config.
+
++ **G2 Move Threshold** (*Number*): This sets the move threshold for Gate 2. Only available with the LD2410 config.
+
++ **G2 Still Threshold** (*Number*): This sets the still threshold for Gate 2. Only available with the LD2410 config.
+
++ **G3 Move Threshold** (*Number*): This sets the move threshold for Gate 3. Only available with the LD2410 config.
+
++ **G3 Still Threshold** (*Number*): This sets the still threshold for Gate 3. Only available with the LD2410 config.
+
++ **G4 Move Threshold** (*Number*): This sets the move threshold for Gate 4. Only available with the LD2410 config.
+
++ **G4 Still Threshold** (*Number*): This sets the still threshold for Gate 4. Only available with the LD2410 config.
+
++ **G5 Move Threshold** (*Number*): This sets the move threshold for Gate 5.  Only available with the LD2410 config.
+
++ **G5 Still Threshold** (*Number*): This sets the still threshold for Gate 5. Only available with the LD2410 config.
+
++ **G6 Move Threshold** (*Number*): This sets the move threshold for Gate 6. Only available with the LD2410 config.
+
++ **G6 Still Threshold** (*Number*): This sets the still threshold for Gate 6. Only available with the LD2410 config.
+
++ **G7 Move Threshold** (*Number*): This sets the move threshold for Gate 7. Only available with the LD2410 config.
+
++ **G7 Still Threshold** (*Number*): This sets the still threshold for Gate 7. Only available with the LD2410 config.
+
++ **G8 Move Threshold** (*Number*): This sets the move threshold for Gate 8. Only available with the LD2410 config.
+
++ **G8 Still Threshold** (*Number*): This sets the still threshold for Gate 8. Only available with the LD2410 config.
+
 + **Humidity Cal Offset** (*Number*): This calibration offset is added to Humidity readings.
+
++ **LD2410 Bluetooth Enable** (*Switch*): Turns Bluetooth on the in LD2410 Sensor. Only available with the LD2410 config.
+
++ **LD2410 Engineering Mode** (*Switch*): Turns Engineering Mode on the in LD2410 Sensor. LD2410 Bluetooth Enable must be on. Only available with the LD2410 config.
+
++ **LD2410 Factory Reset** (*Button*): Will reset the LD2450 Sensor to factory defaults. Only available with the LD2450 config.
 
 + **LD2450 Installation Angle** (*Number*): Changes the installation angle of the LD2450. Rotates the coordinates of the sensor to allow mounting in a corner. -45° would be mounted in a left corner and 45° would be mounted in a right corner. Only available with the LD2450 config.
 
@@ -164,11 +208,73 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **LD2450 Multi Target Tracking** (*Switch*): Enables up to three target tracking at the same time. Only available with the LD2450 config.
 
-+ **LD2450 Timeout** (*Number*): This the timeout for all Target an Presence entities. This is effectivity and Auto-Off filter and means entities using this turn off after this time if not triggered again. Only available with the LD2450 config.
++ **LD2450 Timeout** (*Number*): This the timeout for the LD2450 sensor itself. Only available with the LD2450 config.
 
-+ **Restart** (*Button*): Will reset the LD2450 Sensor to factory defaults. Only available with the LD2450 config.
++ **Max Move Distance** (*Number*): The sets the maximum move distance bin. Only available with the LD2410 config.
 
-Still in progress!!!
++ **Max Still Distance** (*Number*): The sets the maximum still distance bin. Only available with the LD2410 config.
+
++ **Restart** (*Button*): Will restart entire module.
+
++ **Start Fan Cleaning** (*Button*): Start a fan cleaning for the SEN66 sensor. Only available with the Sensor-Pkg-A config.
+
++ **Temperature Cal Offset** (*Number*): This calibration offset is added to Temperature readings.
+
++ **Update Rate** (*Number*): This the update rate for LD2450 sensors. This is effectivity and Auto-Off filter and means entities using this turn off after this time if not triggered again. Only available with the LD2450 config.
+
+## Diagnostic
+
++ **G0 Move Energy** (*Button*): Gate 0 Move Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **G0 Still Energy** (*Button*): Gate 0 Still Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **G1 Move Energy** (*Button*): Gate 1 Move Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **G1 Still Energy** (*Button*): Gate 1 Still Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **G2 Move Energy** (*Button*): Gate 2 Move Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **G2 Still Energy** (*Button*): Gate 2 Still Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **G3 Move Energy** (*Button*): Gate 3 Move Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **G3 Still Energy** (*Button*): Gate 3 Still Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **G4 Move Energy** (*Button*): Gate 4 Move Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **G4 Still Energy** (*Button*): Gate 4 Still Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **G5 Move Energy** (*Button*): Gate 5 Move Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **G5 Still Energy** (*Button*): Gate 5 Still Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **G6 Move Energy** (*Button*): Gate 6 Move Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **G6 Still Energy** (*Button*): Gate 6 Still Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **G7 Move Energy** (*Button*): Gate 7 Move Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **G7 Still Energy** (*Button*): Gate 7 Still Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **G8 Move Energy** (*Button*): Gate 8 Move Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **G8 Still Energy** (*Button*): Gate 8 Still Energy. Only works when LD2410 Engineering Mode is on. Only available with the LD2410 config.
+
++ **Heap Free** (*Sensor*): From ESPHome diagnostic.
+
++ **Heap Max Block** (*Sensor*): From ESPHome diagnostic.
+
++ **Loop Time** (*Sensor*): From ESPHome diagnostic.
+
++ **LD2410 BT MAC** (*Sensor*): Bluetooth MAC address. Only available when Engineering Mode is on. Only available with the LD2410 config.
+
++ **LD2410 Firmware** (*Sensor*): LD2410 module firmware version. Only available when Engineering Mode is on. Only available with the LD2410 config.
+
++ **LD2450 Firmware** (*Sensor*): LD2450 module firmware version. Only available with the LD2450 config.
+
++ **LD2450 Restart** (*Button*): Will restart LD2450 module. Only available with the LD2450 config.
+
++ **Radar Included** (*Sensor*): Indicates the installed Radar sensor. Will be one of LD2410, LD2410S, LD2420 and LD2450.
 
 # Lovelace Configurations
 
