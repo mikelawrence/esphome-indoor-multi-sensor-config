@@ -309,8 +309,8 @@ number:
     unit_of_measurement: s
     entity_category: config
   - platform: template
-    name: "Installation Angle"
-    id: "installation_angle"
+    name: "LD2450 Installation Angle"
+    id: installation_angle
     optimistic: true
     min_value: -45
     max_value: 45
@@ -622,5 +622,5 @@ text_sensor:
   - platform: template
     name: "Radar Included"
     id: radar_included
-    entity_category: config
+    entity_category: diagnostic
     update_interval: never
