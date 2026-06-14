@@ -13,23 +13,32 @@ substitutions:
 esphome:
   name_add_mac_suffix: false
   project:
-    version: 2026.06.6
+    version: 2026.06.8
     name: Mike Lawrence.Indoor Multi-Sensor
   on_boot:
     - priority: 500.0
       then:
         - script.execute: update_status_led
-        - logger.log: "on_boot priority 500 fired (Common)"
+        - logger.log:
+            format: "on_boot priority 500 fired (Common)"
+            level: VERBOSE
     - priority: -100.0
       then:
         - script.execute: announce_operational
-        - logger.log: "on_boot priority -100 fired (Common)"
+        - globals.set:
+            id: boot_completed
+            value: 'true'
+        - logger.log:
+            format: "on_boot priority -100 fired (Common)"
+            level: VERBOSE
   on_shutdown:
     - priority: 600.0
       then:
         - light.turn_off:
             id: led_status
-        - logger.log: "on_shutdown priority 600 fired (Common)"
+        - logger.log:
+            format: "on_shutdown priority 600 fired (Common)"
+            level: VERBOSE
 
 # ESP32-S3-WROOM-2-N32R16V
 # Even though there is 32MB of flash, OTA updates with that size are not reliable
@@ -46,7 +55,31 @@ psram:
   mode: octal
   speed: 80MHz
 
+# All but the SEN6X is on this bus
+i2c:
+  - id: i2c1_bus
+    sda: GPIO48
+    scl: GPIO47
+    frequency: 400kHz
+    scan: true
+
+# audio DAC for speaker
+i2s_audio:
+  - id: speaker_i2s
+    i2s_lrclk_pin: GPIO12
+    i2s_bclk_pin: GPIO11
+
+debug:
+  update_interval: 60s
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
 globals:
+  - id: boot_completed
+    type: bool
+    initial_value: "false"
   - id: silence_alarms_var
     type: bool
     initial_value: "false"
@@ -98,27 +131,6 @@ globals:
   - id: pressure_hpa_var
     type: float
     initial_value: "0.0"
-
-# All but the SEN6X is on this bus
-i2c:
-  - id: i2c1_bus
-    sda: GPIO48
-    scl: GPIO47
-    frequency: 400kHz
-    scan: true
-
-# audio DAC for speaker
-i2s_audio:
-  - id: speaker_i2s
-    i2s_lrclk_pin: GPIO12
-    i2s_bclk_pin: GPIO11
-
-debug:
-  update_interval: 60s
-
-time:
-  - platform: homeassistant
-    id: homeassistant_time
 
 script:
   - id: update_status_led

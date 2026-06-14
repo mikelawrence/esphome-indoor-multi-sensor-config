@@ -5,18 +5,22 @@ logger:
 
 esphome:
   on_boot:
-    - priority: 100.0
+    - priority: 101.0
       then:
         - lambda: |-
             // don't wait for update rate, force an immediate temperature update
             id(co_temperature).update();
-        - logger.log: "on_boot priority 100 fired (CO sensor)"
-    - priority: 600.0
+        - logger.log:
+            format: "on_boot priority 101 fired (CO sensor)"
+            level: VERBOSE
+    - priority: 601.0
       then:
         - lambda: |-
             // Let other parts of config know there is a CO sensor
             id(co_available_var) = true;
-        - logger.log: "on_boot priority 600 fired (CO sensor)"
+        - logger.log:
+            format: "on_boot priority 601 fired (CO sensor)"
+            level: VERBOSE
 
 globals:
   - id: co_temp_calibration
@@ -45,7 +49,7 @@ datetime:
   - platform: template
     id: co_manufacture_date
     type: date
-    name: "Cal CO Manufacture Date"
+    name: "CO Cal Manufacture Date"
     entity_category: config
     optimistic: yes
     initial_value: "1970-01-01"
@@ -53,7 +57,7 @@ datetime:
 
 number:
   - platform: template
-    name: "Cal CO Offset"
+    name: "CO Cal Offset"
     id: co_calibration_offset
     device_class: temperature
     entity_category: config
@@ -64,7 +68,7 @@ number:
     initial_value: 0.0
     restore_value: true
   - platform: template
-    name: "Cal CO Sensitivity"
+    name: "CO Cal Sensitivity"
     id: co_calibration_sensitivity
     entity_category: config
     optimistic: true
@@ -72,6 +76,7 @@ number:
     min_value: -5.0e-9
     step: 0.001e-9
     initial_value: 2.000e-9
+    mode: box
     restore_value: true
 
 sensor:
