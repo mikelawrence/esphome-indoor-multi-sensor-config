@@ -37,7 +37,7 @@ jobs:
   build-firmware:
     name: Build Firmware
     needs: get-release-info
-    uses: ./.github/workflows/build.yml 
+    uses: ./.github/workflows/build.yml
     # uses: esphome/workflows/.github/workflows/build.yml@2026.4.0
     with:
       files: |
