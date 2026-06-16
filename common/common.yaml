@@ -295,6 +295,7 @@ number:
     max_value: 10000
     min_value: 0
     step: 1
+    mode: box
     initial_value: 60
     restore_value: true
 
