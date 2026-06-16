@@ -22,7 +22,19 @@ esphome:
   project:
     name: Mike Lawrence.${friendly_name}
 
+wifi:
+
+web_server:
+  port: 80
+  version: 3
+  
+esp32_improv:
+  authorizer: none
+
+improv_serial:
+
 ota:
+  - platform: web_server
   - platform: http_request
     id: ota_http_request
 
@@ -32,16 +44,7 @@ update:
     name: ${friendly_name} Firmware
     source: https://mikelawrence.github.io/esphome-indoor-multi-sensor-config/firmware/${name}.manifest.json
 
-http_request: null
-
 dashboard_import:
   # keep "@main" so that it can be replaced as necessary for Github workflows
   package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/rev-b-pkg-a-ld2450-esp32-s3.yaml@main
   import_full_config: true
-
-wifi:
-
-esp32_improv:
-  authorizer: none
-
-improv_serial:
