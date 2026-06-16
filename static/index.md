@@ -28,4 +28,6 @@ Use the buttons below to install pre-built firmware directly to your Rev-B hardw
 
 # Next steps
 
-Right now Home Assistant is the only destination for this sensor. Click [here](./home-assistant.html) to learn what's available in Home Assistant.
+Right now Home Assistant is the only destination for this sensor. Click [Home Assistant configuration page](./home-assistant.html) to learn what's available in Home Assistant.
+
+So you have taken control what's next? Go to the [ESPHome configuration page](./configuration.html) to learn just how much trouble you can get into with this sensor!

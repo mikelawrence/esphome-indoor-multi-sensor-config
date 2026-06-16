@@ -3,13 +3,23 @@ substitutions:
   friendly_name: "Multi-Sensor Pkg-A LD2450"
 
   # Settings
+  # Voice name allows you to change the voice of spoken announcements to fit your preferences.
+  #   For a list of voice names see https://github.com/mikelawrence/esphome-indoor-multi-sensor-sounds/#available-voices
+  voice_name: "lily-wolff-female"
   # Status LED Configuration
   status_nightlight_brightness: "1.0"
   status_day_brightness: "0.5"
   status_night_brightness: "0.20"
   status_daytime_lux: "12.0"
   status_nighttime_lux: "7.0"
-  presence_ha_entity: "binary_sensor.unknown_room_occupancy"
+  # Automatically controlled Vent
+  vent_use_humidity: "true"
+  vent_use_co2: "true"
+  vent_min_on_time: "15"
+  vent_hum_on_trigger: "10.0"
+  vent_hum_off_trigger: "2.5"
+  vent_co2_on_trigger: "1100"
+  vent_co2_off_trigger: "900"
 
 packages:
   remote:
