@@ -35,6 +35,8 @@ esp32_improv:
 
 improv_serial:
 
+http_request:
+
 ota:
   - platform: web_server
   - platform: http_request
