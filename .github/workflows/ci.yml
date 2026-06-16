@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: "Only one at a time"
+  group: ${{github.ref_name}}-${{github.workflow}}
   cancel-in-progress: true
 
 jobs:
