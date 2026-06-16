@@ -29,22 +29,22 @@ jobs:
       matrix:
         #### Modify below here to match your project ####
         file:
-        - rev-b-pkg-a-c4001-esp32-s3.factory.yaml
-        - rev-b-pkg-a-ld2410-esp32-s3.factory.yaml
-        - rev-b-pkg-a-ld2410s-esp32-s3.factory.yaml
-        - rev-b-pkg-a-ld2450-esp32-s3.factory.yaml
-        - rev-b-pkg-b-c4001-esp32-s3.factory.yaml
-        - rev-b-pkg-b-ld2410-esp32-s3.factory.yaml
-        - rev-b-pkg-b-ld2410s-esp32-s3.factory.yaml
-        - rev-b-pkg-b-ld2450-esp32-s3.factory.yaml
-        - rev-b-pkg-a-c4001-esp32-s3.yaml
-        - rev-b-pkg-a-ld2410-esp32-s3.yaml
-        - rev-b-pkg-a-ld2410s-esp32-s3.yaml
-        - rev-b-pkg-a-ld2450-esp32-s3.yaml
-        - rev-b-pkg-b-c4001-esp32-s3.yaml
-        - rev-b-pkg-b-ld2410-esp32-s3.yaml
-        - rev-b-pkg-b-ld2410s-esp32-s3.yaml
-        - rev-b-pkg-b-ld2450-esp32-s3.yaml
+        - rev-b-pkg-a-c4001-esp32-s3.factory
+        - rev-b-pkg-a-ld2410-esp32-s3.factory
+        - rev-b-pkg-a-ld2410s-esp32-s3.factory
+        - rev-b-pkg-a-ld2450-esp32-s3.factory
+        - rev-b-pkg-b-c4001-esp32-s3.factory
+        - rev-b-pkg-b-ld2410-esp32-s3.factory
+        - rev-b-pkg-b-ld2410s-esp32-s3.factory
+        - rev-b-pkg-b-ld2450-esp32-s3.factory
+        - rev-b-pkg-a-c4001-esp32-s3
+        - rev-b-pkg-a-ld2410-esp32-s3
+        - rev-b-pkg-a-ld2410s-esp32-s3
+        - rev-b-pkg-a-ld2450-esp32-s3
+        - rev-b-pkg-b-c4001-esp32-s3
+        - rev-b-pkg-b-ld2410-esp32-s3
+        - rev-b-pkg-b-ld2410s-esp32-s3
+        - rev-b-pkg-b-ld2450-esp32-s3
         #### Modify above here to match your project ####
         esphome-version:
           - stable
