@@ -28,7 +28,6 @@ substitutions:
   status_daytime_lux: "12.0"
   status_nighttime_lux: "7.0"
   # Automatically controlled Vent
-  vent_use_humidity: "true"
   vent_use_co2: "true"
   vent_min_on_time: "15"
   vent_hum_on_trigger: "10.0"
@@ -220,7 +219,6 @@ If you have included this package the Automatic Vent control is enabled and ther
 ```yaml
 substitutions:
   # Automatically controlled Vent
-  vent_use_humidity: "true"
   vent_use_co2: "false"
   vent_min_on_time: "15"
   vent_hum_on_trigger: "10.0"
@@ -229,7 +227,6 @@ substitutions:
   vent_co2_off_trigger: "1400"
 ```
 
-+ **vent_use_humidity** (bool): Enable humidity based control of the vent by setting this to `true`. Default is `true`.
 + **vent_use_co2** (bool): Enable CO₂ based control of the vent by setting this to `true`. Default is `false`
 + **vent_min_on_time** (integer): This is the minimum on time for a vent for manual mode and how long the vent will stay on after the humidity or CO₂ returns to normal. Default is `15`.
 + **vent_hum_on_trigger** (integer): This is the humidity level (%) rise from baseline that will turn on the vent. Baseline here is a fast exponential average (15 minutes). Showers usually have a sharp rise in humidity when first starting so a value of 10% rise in a few minutes is definitely a shower starting. Default is `10.0`.

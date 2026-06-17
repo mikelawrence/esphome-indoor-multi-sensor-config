@@ -13,7 +13,6 @@ substitutions:
   status_daytime_lux: "12.0"
   status_nighttime_lux: "7.0"
   # Automatically controlled Vent
-  vent_use_humidity: "true"
   vent_use_co2: "true"
   vent_min_on_time: "15"
   vent_hum_on_trigger: "10.0"
