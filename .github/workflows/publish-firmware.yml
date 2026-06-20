@@ -43,11 +43,9 @@ jobs:
       files: |
         rev-b-pkg-a-c4001-esp32-s3.factory.yaml
         rev-b-pkg-a-ld2410-esp32-s3.factory.yaml
-        rev-b-pkg-a-ld2410s-esp32-s3.factory.yaml
         rev-b-pkg-a-ld2450-esp32-s3.factory.yaml
         rev-b-pkg-b-c4001-esp32-s3.factory.yaml
         rev-b-pkg-b-ld2410-esp32-s3.factory.yaml
-        rev-b-pkg-b-ld2410s-esp32-s3.factory.yaml
         rev-b-pkg-b-ld2450-esp32-s3.factory.yaml
       esphome-version: latest
       release-summary: ${{ needs.get-release-info.outputs.summary }}
