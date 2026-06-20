@@ -12,7 +12,7 @@ substitutions:
 esphome:
   name_add_mac_suffix: false
   project:
-    version: 2026.06.14
+    version: 2026.06.13
     name: Mike Lawrence.Multi-Sensor
   on_boot:
     - priority: 500.0
@@ -161,7 +161,7 @@ script:
           }
         }
         if(!id(nightlight_enable).state && id(led_enable).state) {
-          if (id(presence).state) {
+          if (id(presence).state or id(status_light_input).state) {
             state = true;
             r = 0.0; g = 0.0; b = 1.0;
           }
@@ -224,24 +224,19 @@ binary_sensor:
       then:
         script.execute: update_status_led
   - platform: gpio
-    id: motion_pir_int
-    pin:
-      number: GPIO38
-  - platform: template
-    # executed every loop() call, about 16 ms
     id: motion_pir
     name: "PIR Motion"
     device_class: motion
-    lambda: |-
-        constexpr const char *const ESP_LOG_TAG = "PIR";
-        if (id(pir_enable).state) {
-          return id(motion_pir_int).state;
-        } else {
-          return {};
-        }
+    pin:
+      number: GPIO38
     filters:
+      - lambda: |-
+          if (id(pir_enable).state) {
+            return x;
+          } else {
+            return NAN;
+          }
       - delayed_off: !lambda return static_cast<uint32_t>(id(timeout).state * 1000);
-    trigger_on_initial_state: true
 
 button:
   - platform: restart
@@ -348,14 +343,13 @@ switch:
   - platform: template
     name: "Enable PIR"
     id: pir_enable
-    optimistic: true
     entity_category: config
-    restore_mode: RESTORE_DEFAULT_OFF
-    on_turn_off:
-      lambda: !lambda id(motion_pir).invalidate_state();
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
   - platform: template
     name: "Enable LED"
     id: led_enable
+    entity_category: config
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
     on_turn_on:
@@ -365,14 +359,25 @@ switch:
   - platform: template
     name: "Enable Announcements"
     id: announcements_enable
+    entity_category: config
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
   - platform: template
     name: "Enable Nightlight"
     id: nightlight_enable
+    entity_category: config
     optimistic: true
     restore_mode: RESTORE_DEFAULT_OFF
     on_turn_on:
       script.execute: update_status_led
     on_turn_off:
+      script.execute: update_status_led
+  - platform: template
+    name: "Status Light Input"
+    id: status_light_input
+    optimistic: true
+    restore_mode: ALWAYS_OFF
+    turn_on_action:
+      script.execute: update_status_led
+    turn_off_action:
       script.execute: update_status_led
