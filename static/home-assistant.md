@@ -12,7 +12,7 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **Announcement Volume** (*Number*): The default volume for announcements over the speaker. The range is 0 - 100 with 100 as the maximum. Announcements change the volume to this value during an announcement. The previous volume will be restored once the announcement is complete.
 
-+ **Enable Announcements** (*Switch*): When on Announcements are enabled. 
++ **Enable Announcements** (*Switch*): When on Announcements are enabled.
 
 + **Enable LED** (*Switch*): When on the Status LED will be enabled.
 
@@ -46,7 +46,9 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **Lux** (*Sensor*): Current lux reading from the TSL2591 sensor. Updates every minute.
 
-+ **Moving Target Count** (*Sensor*): The number of moving target detected (up to 3 targets). Only available in the LD2450 Radar config. Updates at LD2450 Update Rate.
++ **inhibit_time** (*Optional*): The dead-time after switching to the not present state before presence can be detected again. Default is 1 (seconds) with a range of 0.1 to 255.0. The ```Config Save``` button must be clicked to save the sensor configuration to flash and make operational. Only available with C4001 config.
+
++ **Moving Target Count** (*Sensor*): The number of moving target detected (up to 3 targets). Only available in the LD2450 Radar config. Update Rate is equivalent to Timeout seconds.
 
 + **NOx** (*Sensor*): Current Nitrous-Oxide reading. For Sensor-Pkg-A configs the SEN66 sensor provides this reading. For Sensor-Pkg-B configs it is the SGP41 sensor. Updates every minute.
 
@@ -60,9 +62,9 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **PM <10µm Mass concentration** (*Sensor*): Current Particulate Matter <10µm Mass concentration. Only available with Sensor-Pkg-A. Updates every minute.
 
-+ **Presence** (*Binary Sensor*): Includes both Presence mmWave from LD2450 and PIR Motion if enabled. For the LD2450 config updates at LD2450 Update Rate.
++ **Presence** (*Binary Sensor*): Includes both Presence mmWave from Radar and PIR Motion if enabled. Clear presence will delay off for Timeout seconds.
 
-+ **Presence mmWave** (*Binary Sensor*): This is presence from from installed radar. For the LD2450 config updates at LD2450 Update Rate.
++ **Presence mmWave** (*Binary Sensor*): This is presence from from installed radar. Clear presence will delay off for Timeout seconds.
 
 + **Pressure** (*Sensor*): This is most recent absolute pressure from from BMP581. Updates every minute.
 
@@ -70,27 +72,27 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **Sound Level RMS** (*Sensor*): This is the most recent Sound Level RMS (average) over the last minute as measured from microphone. Updates every minute.
 
-+ **Still Target Count** (*Sensor*): The current number of still targets in the LD2450 field of view. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Still Target Count** (*Sensor*): The current number of still targets in the LD2450 field of view. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Target Count** (*Sensor*): The current number of targets in the LD2450 field of view. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Target Count** (*Sensor*): The current number of targets in the LD2450 field of view. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Target-1 Speed** (*Sensor*): Target-1 speed if there is at least one target in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Target-1 Speed** (*Sensor*): Target-1 speed if there is at least one target in the field of view, unknown otherwise. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Target-1 X** (*Sensor*): Target-1 x position if there is at least one target in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Target-1 X** (*Sensor*): Target-1 x position if there is at least one target in the field of view, unknown otherwise. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Target-1 Y** (*Sensor*): Target-1 y position if there is at least one target in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Target-1 Y** (*Sensor*): Target-1 y position if there is at least one target in the field of view, unknown otherwise. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Target-2 Speed** (*Sensor*): Target-2 speed if there is at least two targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Target-2 Speed** (*Sensor*): Target-2 speed if there is at least two targets in the field of view, unknown otherwise. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Target-2 X** (*Sensor*): Target-2 x position if there is at least two targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Target-2 X** (*Sensor*): Target-2 x position if there is at least two targets in the field of view, unknown otherwise. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Target-2 Y** (*Sensor*): Target-2 y position if there is at least two targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Target-2 Y** (*Sensor*): Target-2 y position if there is at least two targets in the field of view, unknown otherwise. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Target-3 Speed** (*Sensor*): Target-3 speed if there is at least three targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Target-3 Speed** (*Sensor*): Target-3 speed if there is at least three targets in the field of view, unknown otherwise. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Target-3 X** (*Sensor*): Target-3 x position if there is at least three targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Target-3 X** (*Sensor*): Target-3 x position if there is at least three targets in the field of view, unknown otherwise. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Target-3 Y** (*Sensor*): Target-3 y position if there is at least three targets in the field of view, unknown otherwise. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Target-3 Y** (*Sensor*): Target-3 y position if there is at least three targets in the field of view, unknown otherwise. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
 + **Temperature** (*Sensor*): Current Temperature sensor reading. For Sensor-Pkg-A configs the SEN66 sensor provides this reading. For Sensor-Pkg-B configs it is the SHT45 sensor. Updates every minute.
 
@@ -110,29 +112,29 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **VOC** (*Sensor*): Current Volatile Organic Compound reading. For Sensor-Pkg-A configs the SEN66 sensor provides this reading. For Sensor-Pkg-B configs it is the SGP41 sensor. Updates every minute.
 
-+ **Zone-1 Moving Target Count** (*Sensor*): The current number of targets in Zone-1. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Zone-1 Moving Target Count** (*Sensor*): The current number of targets in Zone-1. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Zone-1 Presence** (*Binary Sensor*): Current Zone-1 presence. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Zone-1 Presence** (*Binary Sensor*): Current Zone-1 presence. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Zone-1 Still Target Count** (*Sensor*): The current number of still targets in Zone-1. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Zone-1 Still Target Count** (*Sensor*): The current number of still targets in Zone-1. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Zone-1 Target Count** (*Sensor*): The total number of targets in Zone-1. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Zone-1 Target Count** (*Sensor*): The total number of targets in Zone-1. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Zone-2 Moving Target Count** (*Sensor*): The current number of targets in Zone-2. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Zone-2 Moving Target Count** (*Sensor*): The current number of targets in Zone-2. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Zone-2 Presence** (*Binary Sensor*): Current Zone-2 presence. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Zone-2 Presence** (*Binary Sensor*): Current Zone-2 presence. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Zone-2 Still Target Count** (*Sensor*): The current number of still targets in Zone-2. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Zone-2 Still Target Count** (*Sensor*): The current number of still targets in Zone-2. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Zone-2 Target Count** (*Sensor*): The total number of targets in Zone-2. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Zone-2 Target Count** (*Sensor*): The total number of targets in Zone-2. Only available with the LD2450 config.
 
-+ **Zone-3 Moving Target Count** (*Sensor*): The current number of targets in Zone-3. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Zone-3 Moving Target Count** (*Sensor*): The current number of targets in Zone-3. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Zone-3 Presence** (*Binary Sensor*): Current Zone-3 presence. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Zone-3 Presence** (*Binary Sensor*): Current Zone-3 presence. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Zone-3 Still Target Count** (*Sensor*): The current number of still targets in Zone-3. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Zone-3 Still Target Count** (*Sensor*): The current number of still targets in Zone-3. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
-+ **Zone-3 Target Count** (*Sensor*): The total number of targets in Zone-3. Only available with the LD2450 config. Updates at LD2450 Update Rate.
++ **Zone-3 Target Count** (*Sensor*): The total number of targets in Zone-3. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
 ## Configuration
 
@@ -194,6 +196,8 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **Humidity Cal Offset** (*Number*): This calibration offset is added to Humidity readings.
 
++ **Hold Sensitivity** (*Optional*): The number represents the ease in which the sensor switches to the present state when someone enters the sensing range of the sensor. Default is 7 (no units) with a range of 0 to 9, higher is more sensitive. The ```Config Save``` button must be clicked to save the sensor configuration to flash and make operational. Only available with C4001 config.
+
 + **LD2410 Bluetooth Enable** (*Switch*): Turns Bluetooth on the in LD2410 Sensor. Only available with the LD2410 config.
 
 + **LD2410 Engineering Mode** (*Switch*): Turns Engineering Mode on the in LD2410 Sensor. LD2410 Bluetooth Enable must be on. Only available with the LD2410 config.
@@ -208,11 +212,15 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **LD2450 Multi Target Tracking** (*Switch*): Enables up to three target tracking at the same time. Only available with the LD2450 config.
 
-+ **LD2450 Timeout** (*Number*): This the timeout for the LD2450 sensor itself. Only available with the LD2450 config.
++ **Min Range** (*Optional*): This is the minimum detection range. Default is 0.6 meters (m) with a range of 0.6 to 25.0 m. The manual recommends not changing this value. The ```Config Save``` button must be clicked to save the sensor configuration to flash and make operational. Only available with C4001 config.
 
 + **Max Move Distance** (*Number*): The sets the maximum move distance bin. Only available with the LD2410 config.
 
 + **Max Still Distance** (*Number*): The sets the maximum still distance bin. Only available with the LD2410 config.
+
++ **Max Range** (*Optional*): This is the maximum detection range. Default is 6 meters (m) with a range of 0.6 to 25.0 m. The ```Config Save``` button must be clicked to save the sensor configuration to flash and make operational. Only available with C4001 config.
+
++ **On Latency** (*Optional*): This time value is how long presence is detected before switching to the present state. Default is 0.050 (seconds) with a range of 0.0 to 100.0. The ```Config Save``` button must be clicked to save the sensor configuration to flash and make operational. Only available with C4001 config.
 
 + **Restart** (*Button*): Will restart entire module.
 
@@ -220,7 +228,11 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 + **Temperature Cal Offset** (*Number*): This calibration offset is added to Temperature readings.
 
-+ **Update Rate** (*Number*): This the update rate for LD2450 sensors. This is effectivity and Auto-Off filter and means entities using this turn off after this time if not triggered again. Only available with the LD2450 config.
++ **Timeout** (*Number*): This the timeout for binary sensor presence outputs. ESPHome would call this delay off, or how much time after presence is no longer detected to delay an off or clear presence. For C4001 default is 15s. For LD2410 and LD2450 default is 5s.
+
++ **Trigger Range** (*Optional*): Sets the maximum range at which occupancy can switch to present. The range between max detection range and trigger detection range can NOT cause occupancy to switch to present. Default is 0.6 meters (m) with a range of 0.6 to 25.0 m. The ```Config Save``` button must be clicked to save the sensor configuration to flash and make operational. Only available with C4001 config.
+
++ **Trigger Sensitivity** (*Optional*): This number represents ease of continued presence detection after the sensor switched to the present state. Default is 5 (no units) with a range of 0 to 9, higher is more sensitive. The ```Config Save``` button must be clicked to save the sensor configuration to flash and make operational. Only available with C4001 config.
 
 ## Diagnostic
 
