@@ -52,7 +52,6 @@ number:
       name: Status Reporting Frequency
     distance_reporting_frequency:
       name: Distance Reporting Frequency
-
     threshold_trigger:
       name: Threshold Trigger
     threshold_hold:
@@ -61,6 +60,16 @@ number:
       name: Threshold SNR
     threshold_selected_gate:
       name: Threshold Selected Gate
+  - platform: template
+    id: timeout
+    name: "Timeout"
+    optimistic: true
+    max_value: 10000
+    min_value: 0
+    step: 1
+    mode: box
+    initial_value: 60
+    restore_value: true
 
 sensor:
   - platform: ld2410s
