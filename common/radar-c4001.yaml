@@ -80,8 +80,9 @@ number:
       name: Latency On
       id: on_latency
     off_latency:
-      name: Latency Off
-      id: off_latency
+      # This is the common name across all radars for the delay off style timeout
+      name: Timeout
+      id: timeout
     inhibit_time:
       name: Inhibit Time
       id: inhibit_time

@@ -12,7 +12,7 @@ substitutions:
 esphome:
   name_add_mac_suffix: false
   project:
-    version: 2026.06.15
+    version: 2026.06.13
     name: Mike Lawrence.Multi-Sensor
   on_boot:
     - priority: 500.0
@@ -26,7 +26,7 @@ esphome:
         - script.execute: announce_operational
         - globals.set:
             id: boot_completed
-            value: 'true'
+            value: "true"
         - logger.log:
             format: "on_boot priority -100 fired (Common)"
             level: VERBOSE
@@ -236,6 +236,7 @@ binary_sensor:
           } else {
             return NAN;
           }
+      # timeout is a number from one of the radar modules, in seconds
       - delayed_off: !lambda return static_cast<uint32_t>(id(timeout).state * 1000);
 
 button:
@@ -287,16 +288,6 @@ number:
     min_value: 0
     step: 1
     initial_value: 75
-    restore_value: true
-  - platform: template
-    id: timeout
-    name: "Presence Timeout"
-    optimistic: true
-    max_value: 10000
-    min_value: 0
-    step: 1
-    mode: box
-    initial_value: 60
     restore_value: true
 
 power_supply:

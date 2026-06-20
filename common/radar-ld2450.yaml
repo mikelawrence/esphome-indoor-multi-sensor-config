@@ -295,14 +295,9 @@ button:
       name: LD2450 Restart
 
 number:
-  - platform: ld2450
-    ld2450_id: ld2450_radar
-    presence_timeout:
-      id: ld2450_timeout
-      name: "LD2450 Timeout"
   - platform: template
-    name: "Update Rate"
-    id: update_rate
+    name: "Timeout"
+    id: timeout
     optimistic: true
     min_value: 0.1
     max_value: 3600.0
