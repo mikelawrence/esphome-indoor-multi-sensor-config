@@ -462,6 +462,8 @@ switch:
     multi_target:
       name: LD2450 Multi Target Tracking
   - platform: template
+    # For this application this needs to be always flipped
+    # There is no reason to expose this to the user
     id: flip_x_axis
     optimistic: true
     restore_mode: ALWAYS_ON
