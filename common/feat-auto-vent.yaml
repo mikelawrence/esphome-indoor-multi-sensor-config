@@ -242,6 +242,8 @@ switch:
     name: "Enable Auto Vent"
     id: auto_vent
     entity_category: config
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF
     turn_on_action:
       script.execute: update_vent_state_machine
     turn_off_action:
@@ -251,6 +253,8 @@ switch:
     name: "Enable Auto Vent CO₂"
     id: vent_use_co2
     entity_category: config
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF
     turn_on_action:
       script.execute: update_vent_state_machine
     turn_off_action:
