@@ -5,8 +5,7 @@ on:
     branches-ignore:
       - main
   pull_request:
-    paths:
-      - "**.yaml"
+
   schedule:
     # Weekly on Sunday at midnight
     - cron: "0 0 * * 0"
