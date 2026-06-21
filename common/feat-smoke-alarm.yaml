@@ -4,12 +4,7 @@
 #         !!!Use at your own risk!!!
 interval:
   - interval: 10s
-    then:
-      if:
-        condition:
-          lambda: !lambda return id(boot_completed);
-        then:
-          script.execute: smoke_alarm_state_machine
+    script.execute: smoke_alarm_state_machine
 
 media_player:
   - platform: speaker

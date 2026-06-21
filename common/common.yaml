@@ -25,7 +25,7 @@ esphome:
       then:
         - script.execute: announce_operational
         - globals.set:
-            id: boot_completed
+            id: boot_completed_var
             value: "true"
         - logger.log:
             format: "on_boot priority -100 fired (Common)"
@@ -76,7 +76,7 @@ time:
     id: homeassistant_time
 
 globals:
-  - id: boot_completed
+  - id: boot_completed_var
     type: bool
     initial_value: "false"
   - id: silence_alarms_var
