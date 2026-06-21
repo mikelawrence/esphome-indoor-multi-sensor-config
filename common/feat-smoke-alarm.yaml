@@ -5,11 +5,7 @@
 interval:
   - interval: 10s
     then:
-      if:
-        condition:
-          lambda: !lambda return id(boot_completed);
-        then:
-          script.execute: smoke_alarm_state_machine
+      script.execute: smoke_alarm_state_machine
 
 media_player:
   - platform: speaker
@@ -153,6 +149,10 @@ script:
         static bool first = true;
         static int state = 0;
         constexpr const char *const ESP_LOG_TAG = "smoke_alarm";
+        // do nothing processor has not booted yet or smoke alarm is not enabled
+        if (id(smoke_alarm_enable).state == false || !id(boot_completed_var)) {
+          return;
+        }
         // handle initialization
         if (first) {
           first = false;
