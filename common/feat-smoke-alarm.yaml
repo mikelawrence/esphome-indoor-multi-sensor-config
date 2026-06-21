@@ -153,6 +153,10 @@ script:
         static bool first = true;
         static int state = 0;
         constexpr const char *const ESP_LOG_TAG = "smoke_alarm";
+        // do nothing when smoke alarm is not enabled or processor has not booted yet
+        if (id(smoke_alarm_enable).state == false || !id(boot_completed_var)) {
+          return;
+        }
         // handle initialization
         if (first) {
           first = false;
