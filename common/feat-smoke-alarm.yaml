@@ -4,7 +4,8 @@
 #         !!!Use at your own risk!!!
 interval:
   - interval: 10s
-    script.execute: smoke_alarm_state_machine
+    then:
+      script.execute: smoke_alarm_state_machine
 
 media_player:
   - platform: speaker
