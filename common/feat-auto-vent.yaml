@@ -278,7 +278,7 @@ switch:
       # CO₂ cannot be used to control vent when auto vent is turned off
       - switch.turn_off: vent_use_co2
       - script.execute: update_vent_state_machine
-    # turn on to enable CO₂ control of the vent, turn off to disable CO₂ control (vent will still operate based on humidity if that is enabled)
+  # turn on to enable CO₂ control of the vent, turn off to disable CO₂ control (vent will still operate based on humidity if that is enabled)
   - platform: template
     name: "Enable Auto Vent CO₂"
     id: vent_use_co2
