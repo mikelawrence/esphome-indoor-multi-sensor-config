@@ -1,18 +1,20 @@
-name: CI
-
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main           # PRs targeting main only
     paths:
-      - "**.yml"
       - "**.yaml"
+
   schedule:
-    # Weekly on Sunday at midnight
-    - cron: "0 0 * * 0"
+    - cron: "0 0 * * 0"   # Weekly on Sunday at midnight
+
   workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
+
 jobs:
   ci:
     name: Building ${{ matrix.file }} / ${{ matrix.esphome-version }}
