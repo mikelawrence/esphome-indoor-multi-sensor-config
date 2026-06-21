@@ -1,11 +1,9 @@
 name: CI
 
 on:
-  push:
-    branches-ignore:
-      - main
   pull_request:
     paths:
+      - "**.yml"
       - "**.yaml"
   schedule:
     # Weekly on Sunday at midnight
@@ -13,11 +11,8 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.event_name == 'pull_request'
-      && format('pr-{0}-{1}', github.workflow, github.event.pull_request.number)
-      || format('other-{0}-{1}', github.workflow, github.ref_name) }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
-
 jobs:
   ci:
     name: Building ${{ matrix.file }} / ${{ matrix.esphome-version }}
