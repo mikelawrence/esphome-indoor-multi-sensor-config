@@ -161,7 +161,7 @@ script:
           }
         }
         if(!id(nightlight_enable).state && id(led_enable).state) {
-          if (id(presence).state or id(status_light_input).state) {
+          if (id(presence).state or id(presence_input).state) {
             state = true;
             r = 0.0; g = 0.0; b = 1.0;
           }
@@ -214,30 +214,23 @@ binary_sensor:
     name: "Presence"
     id: presence
     device_class: presence
-    lambda: |-
-      if (id(pir_enable).state) {
-        return id(presence_mmwave).state || id(motion_pir).state;
-      } else {
-        return id(presence_mmwave).state;
-      }
+    lambda: !lambda return id(presence_mmwave).state || id(motion_pir).state;
     on_state:
       then:
         script.execute: update_status_led
   - platform: gpio
+    id: motion_pir_int
+    pin:
+      number: GPIO38
+  - platform: template
+    # executed every loop() call, about 16 ms
     id: motion_pir
     name: "PIR Motion"
     device_class: motion
-    pin:
-      number: GPIO38
+    lambda: !lambda return id(pir_enable).state && id(motion_pir_int).state;
     filters:
-      - lambda: |-
-          if (id(pir_enable).state) {
-            return x;
-          } else {
-            return NAN;
-          }
-      # timeout is a number from one of the radar modules, in seconds
       - delayed_off: !lambda return static_cast<uint32_t>(id(timeout).state * 1000);
+    trigger_on_initial_state: true
 
 button:
   - platform: restart
@@ -364,8 +357,8 @@ switch:
     on_turn_off:
       script.execute: update_status_led
   - platform: template
-    name: "Status Light Input"
-    id: status_light_input
+    name: "Presence Input"
+    id: presence_input
     optimistic: true
     restore_mode: ALWAYS_OFF
     turn_on_action:
