@@ -4,7 +4,6 @@ on:
     branches:
       - main           # PRs targeting main only
     paths:
-      - "**.yml"
       - "**.yaml"
 
   schedule:
@@ -15,7 +14,7 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
-  
+
 jobs:
   ci:
     name: Building ${{ matrix.file }} / ${{ matrix.esphome-version }}
