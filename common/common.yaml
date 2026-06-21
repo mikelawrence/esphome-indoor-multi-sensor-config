@@ -132,6 +132,7 @@ globals:
     initial_value: "0.0"
 
 script:
+  # update status LED with presence and alarm conditions
   - id: update_status_led
     mode: restart
     then:
