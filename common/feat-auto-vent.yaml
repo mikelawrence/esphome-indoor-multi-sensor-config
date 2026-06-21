@@ -29,7 +29,16 @@ interval:
     then:
       - script.execute: update_vent_state_machine
 
+globals:
+  - id: vent_var
+    type: bool
+    initial_value: "false"
+
 binary_sensor:
+  - platform: template
+    name: "Vent"
+    id: vent
+    lambda: !lambda return id(vent_var);
   - platform: template
     name: "Vent Auto Hum"
     id: vent_auto_hum
@@ -54,8 +63,15 @@ script:
         float hum = id(humidity_internal).state;
         float hum_long_avg = id(humidity_long_avg).state;
         float hum_short_avg = id(humidity_short_avg).state;
+
+        // Do nothing if auto vent is not enabled
+        if (id(vent_enabled).state == false) {
+          first = true;
+          return;
+        }
         // handle initialization
         if (first) {
+          state = 0;
           first = false;
         }
         // grab co2 if we are controlling the fan for co2 too
@@ -81,15 +97,15 @@ script:
           if (humidity_is_high) {
             ESP_LOGD(ESP_LOG_TAG,  "Detected high humidity");
             start_time = millis();
-            id(auto_vent).turn_on();
+            id(vent_var) = true;
             id(vent_auto_hum).publish_state(true);
             state = 10;
           } else if (co2_is_high) {
             ESP_LOGD(ESP_LOG_TAG,  "Detected high CO₂");
-            id(auto_vent).turn_on();
+            id(vent_var) = true;
             id(vent_auto_co2).publish_state(true);
             state = 60;
-          } else if (id(auto_vent).state == true) {
+          } else if (id(vent_var) == true) {
             ESP_LOGD(ESP_LOG_TAG,  "Manually turned on");
             start_time = millis();
             id(vent_manual).publish_state(true);
@@ -114,9 +130,9 @@ script:
           } else if (vent_on_min_time) {
             ESP_LOGV(ESP_LOG_TAG,  "Humidity still high, min on time met");
             state = 30;
-          } else if (id(auto_vent).state == false) {
+          } else if (id(vent_var) == false) {
             ESP_LOGV(ESP_LOG_TAG,  "Manually turned off, turning back on");
-            id(auto_vent).turn_on();
+            id(vent_var) = true;
           }
           break;
         // Low Humidity and not Minimum On Time
@@ -129,9 +145,9 @@ script:
             ESP_LOGV(ESP_LOG_TAG,  "Detected high humidity");
             start_time = millis();
             state = 10;
-          } else if (id(auto_vent).state == false) {
+          } else if (id(vent_var) == false) {
             ESP_LOGV(ESP_LOG_TAG,  "Manually turned off, turning back on");
-            id(auto_vent).turn_on();
+            id(vent_var) = true;
           }
           break;
         // High Humidity and Minimum On Time
@@ -140,9 +156,9 @@ script:
             ESP_LOGV(ESP_LOG_TAG,  "Humidity normal, delaying vent off");
             start_time = millis();
             state = 40;
-          } else if (id(auto_vent).state == false) {
+          } else if (id(vent_var) == false) {
             ESP_LOGD(ESP_LOG_TAG,  "Manually turned off, turning back on");
-            id(auto_vent).turn_on();
+            id(vent_var) = true;
           }
           break;
         // Delay off for 5 minutes
@@ -153,7 +169,7 @@ script:
             state = 10;
           } else if (millis() - start_time >= 5 * 60 * 1000) {
             ESP_LOGD(ESP_LOG_TAG,  "Automatic humidity cycle complete");
-            id(auto_vent).turn_off();
+            id(vent_var) = false;
             id(vent_auto_hum).publish_state(false);
             if (co2_is_high) {
               id(vent_auto_co2).publish_state(true);
@@ -175,13 +191,13 @@ script:
             id(vent_auto_co2).publish_state(true);
             id(vent_manual).publish_state(false);
             state = 60;
-          } else if (id(auto_vent).state == false) {
+          } else if (id(vent_var) == false) {
             ESP_LOGD(ESP_LOG_TAG,  "Manual cycle terminated");
             id(vent_manual).publish_state(false);
             state = 0;
           } else if (vent_on_min_time) {
             ESP_LOGD(ESP_LOG_TAG,  "Manual cycle is complete");
-            id(auto_vent).turn_off();
+            id(vent_var) = false;
             id(vent_manual).publish_state(false);
             state = 0;
           }
@@ -196,12 +212,12 @@ script:
             state = 10;
           } else if (co2_is_low) {
             ESP_LOGD(ESP_LOG_TAG,  "Vent high CO₂ cycle complete");
-            id(auto_vent).turn_off();
+            id(vent_var) = false;
             id(vent_auto_co2).publish_state(false);
             state = 0;
-          } else if (id(auto_vent).state == false) {
+          } else if (id(vent_var) == false) {
             ESP_LOGD(ESP_LOG_TAG,  "Vent manually turned off, turning back on");
-            id(auto_vent).turn_on();
+            id(vent_var) = true;
           }
           break;
         }
@@ -240,13 +256,28 @@ switch:
   # Add this switch to the vent group and it will both control the vent and update status
   - platform: template
     name: "Enable Auto Vent"
-    id: auto_vent
+    id: vent_enabled
     entity_category: config
     optimistic: true
     turn_on_action:
       script.execute: update_vent_state_machine
     turn_off_action:
-      script.execute: update_vent_state_machine
+      # clear all vent states when we turn off auto vent
+      - globals.set:
+          id: vent_var
+          value: "false"
+      - binary_sensor.template.publish:
+          id: vent_auto_hum
+          state: OFF
+      - binary_sensor.template.publish:
+          id: vent_auto_co2
+          state: OFF
+      - binary_sensor.template.publish:
+          id: vent_manual
+          state: OFF
+      # CO₂ cannot be used to control vent when auto vent is turned off
+      - switch.turn_off: vent_use_co2
+      - script.execute: update_vent_state_machine
   # turn on to enable CO₂ control of the vent, turn off to disable CO₂ control (vent will still operate based on humidity if that is enabled)
   - platform: template
     name: "Enable Auto Vent CO₂"
