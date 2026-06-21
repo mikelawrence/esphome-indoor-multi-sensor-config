@@ -161,7 +161,7 @@ script:
           }
         }
         if(!id(nightlight_enable).state && id(led_enable).state) {
-          if (id(presence).state or id(status_light_input).state) {
+          if (id(presence).state or id(presence_input).state) {
             state = true;
             r = 0.0; g = 0.0; b = 1.0;
           }
@@ -357,8 +357,8 @@ switch:
     on_turn_off:
       script.execute: update_status_led
   - platform: template
-    name: "Status Light Input"
-    id: status_light_input
+    name: "Presence Input"
+    id: presence_input
     optimistic: true
     restore_mode: ALWAYS_OFF
     turn_on_action:
