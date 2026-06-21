@@ -59,6 +59,7 @@ number:
   - platform: ld2410
     ld2410_id: ld2410_radar
     timeout:
+      # This is the common name across all radars for the delay off style timeout
       name: Timeout
       id: timeout
       entity_category: ""

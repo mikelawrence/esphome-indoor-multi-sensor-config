@@ -83,6 +83,7 @@ number:
       # This is the common name across all radars for the delay off style timeout
       name: Timeout
       id: timeout
+      entity_category: ""
     inhibit_time:
       name: Inhibit Time
       id: inhibit_time

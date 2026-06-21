@@ -296,6 +296,7 @@ button:
 
 number:
   - platform: template
+    # This is the common name across all radars for the delay off style timeout
     name: "Timeout"
     id: timeout
     optimistic: true
@@ -305,7 +306,7 @@ number:
     step: 0.1
     restore_value: true
     unit_of_measurement: s
-    entity_category: config
+    entity_category: None
   - platform: template
     name: "LD2450 Installation Angle"
     id: installation_angle

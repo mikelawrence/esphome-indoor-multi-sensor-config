@@ -61,6 +61,7 @@ number:
     threshold_selected_gate:
       name: Threshold Selected Gate
   - platform: template
+    # This is the common name across all radars for the delay off style timeout
     id: timeout
     name: "Timeout"
     optimistic: true
