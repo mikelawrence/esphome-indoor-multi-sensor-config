@@ -12,7 +12,7 @@ substitutions:
 esphome:
   name_add_mac_suffix: false
   project:
-    version: 2026.06.19
+    version: 2026.06.17
     name: Mike Lawrence.Multi-Sensor
   on_boot:
     - priority: 500.0
@@ -223,6 +223,8 @@ binary_sensor:
     id: motion_pir_int
     pin:
       number: GPIO38
+      # If left uninstalled, pulldown will keep line low and prevent motion detection
+      mode: INPUT_PULLDOWN
   - platform: template
     # executed every loop() call, about 16 ms
     id: motion_pir
