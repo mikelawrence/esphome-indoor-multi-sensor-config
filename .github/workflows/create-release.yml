@@ -64,9 +64,9 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.calendar-version.outputs.new-version }}
-          previous_tag: ${{ steps.calendar-version.outputs.old-version }}
-          target_commitish: ${{ steps.auto-commit.outputs.commit_hash || github.sha }}
-          generate_release_notes: true
+          # previous_tag: ${{ steps.calendar-version.outputs.old-version }}
+          # target_commitish: ${{ steps.auto-commit.outputs.commit_hash || github.sha }}
+          # generate_release_notes: true
           prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
