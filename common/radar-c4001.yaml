@@ -7,6 +7,13 @@ external_components:
       url: https://github.com/mikelawrence/esphome-components
     components: [dfrobot_c4001]
 
+api:
+  on_client_connected:
+    then:
+      - text_sensor.template.publish:
+          id: radar_included
+          state: "Hi-Link LD2410"
+
 power_supply:
   # enables power to the C4001 module
   - id: "c4001_enable"
@@ -33,7 +40,14 @@ binary_sensor:
       filters:
         - delayed_off: !lambda return static_cast<uint32_t>(id(timeout).state * 1000);
     config_changed:
-      name: C4001 Config Changed
+      id: c4001_config_changed
+      on_state:
+        then:
+          - delay: 20s
+          - button.press: c4001_config_save
+          - logger.log:
+              format: "Auto Save C4001 config"
+              level: DEBUG
   - platform: gpio
     pin: GPIO16
     name: MMWAVE Presence GPIO
@@ -42,7 +56,7 @@ binary_sensor:
 button:
   - platform: dfrobot_c4001
     config_save:
-      name: C4001 Config Save
+      id: c4001_config_save
     factory_reset:
       name: C4001 Factory Reset
     restart:
@@ -100,5 +114,4 @@ text_sensor:
     name: "Radar Included"
     id: radar_included
     entity_category: diagnostic
-    update_interval: 600s
-    lambda: !lambda return {"DFRobot C4001"};
+    update_interval: never
