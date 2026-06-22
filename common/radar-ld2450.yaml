@@ -2,12 +2,10 @@
 #   Uses the ESPHome Built-In Component
 #   Not compatible with any other radar package
 #   This sensor is mounted upside down target x and angle sensors are inverted
-api:
-  on_client_connected:
+interval:
+  - interval: 250ms
     then:
-      - text_sensor.template.publish:
-          id: radar_included
-          state: "Hi-Link LD2450"
+      script.execute: check_timeout
 
 globals:
   - id: global_timer_running
@@ -464,13 +462,6 @@ switch:
     entity_category: config
 
 sensor:
-  - platform: template
-    update_interval: 100ms
-    id: sub_second_timer
-    lambda: |-
-      id(check_timeout).execute();
-      return {};
-
   - platform: ld2450
     ld2450_id: ld2450_radar
     target_1:
@@ -622,4 +613,5 @@ text_sensor:
     name: "Radar Included"
     id: radar_included
     entity_category: diagnostic
-    update_interval: never
+    update_interval: 600s
+    lambda: !lambda return {"Hi-Link LD2450"};

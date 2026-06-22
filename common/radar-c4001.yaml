@@ -7,13 +7,6 @@ external_components:
       url: https://github.com/mikelawrence/esphome-components
     components: [dfrobot_c4001]
 
-api:
-  on_client_connected:
-    then:
-      - text_sensor.template.publish:
-          id: radar_included
-          state: "Hi-Link LD2410"
-
 power_supply:
   # enables power to the C4001 module
   - id: "c4001_enable"
@@ -107,4 +100,5 @@ text_sensor:
     name: "Radar Included"
     id: radar_included
     entity_category: diagnostic
-    update_interval: never
+    update_interval: 600s
+    lambda: !lambda return {"DFRobot C4001"};
