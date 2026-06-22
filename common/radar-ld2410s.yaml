@@ -1,12 +1,5 @@
 # Adds Hi-Link LD2410S mmWave Radar
 #   Not compatible with any other radar package
-api:
-  on_client_connected:
-    then:
-      - text_sensor.template.publish:
-          id: radar_included
-          state: "Hi-Link LD2410S"
-
 external_components:
   - source: github://pr#8486
     components: [ld2410s]
@@ -105,4 +98,5 @@ text_sensor:
     name: "Radar Included"
     id: radar_included
     entity_category: diagnostic
-    update_interval: never
+    update_interval: 600s
+    lambda: !lambda return {"Hi-Link LD2410S"};
