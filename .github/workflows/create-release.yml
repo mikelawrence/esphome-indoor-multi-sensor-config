@@ -38,6 +38,7 @@ jobs:
       #     echo "$(cat ./common/common.yaml)"
 
       - name: Commit version changes
+        id: auto-commit
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "Update Version automated commit"
@@ -64,6 +65,7 @@ jobs:
         with:
           tag_name: ${{ steps.calendar-version.outputs.new-version }}
           previous_tag: ${{ steps.calendar-version.outputs.old-version }}
+          target_commitish: ${{ steps.auto-commit.outputs.commit_hash || github.sha }}
           generate_release_notes: true
           prerelease: true
         env:
