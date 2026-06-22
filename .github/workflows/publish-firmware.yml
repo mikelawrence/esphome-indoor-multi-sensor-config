@@ -91,4 +91,5 @@ jobs:
           tag: ${{ needs.build-firmware.outputs.version }}
           prerelease: false
           makeLatest: true
+          generateReleaseNotes: true
           token: ${{ secrets.GITHUB_TOKEN }}
