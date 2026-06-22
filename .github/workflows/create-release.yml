@@ -32,41 +32,17 @@ jobs:
           sed -i 's/version:.*$/version: ${{ steps.calendar-version.outputs.new-version }}/g' ./common/common.yaml
           echo "{ \"version\": \"${{ steps.calendar-version.outputs.new-version }}\" }" > version.json
 
-      # - name: echo version changes
-      #   run: |
-      #     echo "$(cat ./version.json)"
-      #     echo "$(cat ./common/common.yaml)"
-
       - name: Commit version changes
         id: auto-commit
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "Update Version automated commit"
 
-      # - name: Update version
-      #   uses: fjogeleit/yaml-update-action@v0.16.1
-      #   with:
-      #     valueFile: 'version.json'
-      #     propertyPath: 'version'
-      #     value: ${{ steps.calendar-version.outputs.new-version }}
-      #     commitChange: true
-      #     message: "Update version"
-      #     branch: main
-
-      # - name: Push release tag
-      #   uses: thejeff77/action-push-tag@v1.0.0
-      #   with:
-      #     ref: main
-      #     tag: ${{ steps.calendar-version.outputs.new-version }}
-      #     message: ${{ steps.calendar-version.outputs.new-version }}
-
       - name: Create release
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.calendar-version.outputs.new-version }}
-          # previous_tag: ${{ steps.calendar-version.outputs.old-version }}
-          # target_commitish: ${{ steps.auto-commit.outputs.commit_hash || github.sha }}
-          # generate_release_notes: true
+          generate_release_notes: true
           prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
