@@ -52,16 +52,19 @@ jobs:
       #     message: "Update version"
       #     branch: main
 
-      - name: Push release tag
-        uses: thejeff77/action-push-tag@v1.0.0
-        with:
-          ref: main
-          tag: ${{ steps.calendar-version.outputs.new-version }}
-          message: ${{ steps.calendar-version.outputs.new-version }}
+      # - name: Push release tag
+      #   uses: thejeff77/action-push-tag@v1.0.0
+      #   with:
+      #     ref: main
+      #     tag: ${{ steps.calendar-version.outputs.new-version }}
+      #     message: ${{ steps.calendar-version.outputs.new-version }}
 
       - name: Create release
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.calendar-version.outputs.new-version }}
+          previous_tag: ${{ steps.calendar-version.outputs.old-version }}
           generate_release_notes: true
           prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
