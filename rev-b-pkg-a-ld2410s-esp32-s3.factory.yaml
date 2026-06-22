@@ -22,6 +22,8 @@ esphome:
   project:
     name: Mike Lawrence.${friendly_name}
 
+api:
+
 wifi:
 
 web_server:
