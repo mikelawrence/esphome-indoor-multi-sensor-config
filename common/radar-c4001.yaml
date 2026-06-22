@@ -94,7 +94,7 @@ number:
     inhibit_time:
       name: Inhibit Time
       id: inhibit_time
-  
+
 switch:
   - platform: dfrobot_c4001
     dfrobot_c4001_id: c4001_radar
