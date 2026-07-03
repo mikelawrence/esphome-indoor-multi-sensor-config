@@ -1,10 +1,11 @@
 # Adds Hi-Link LD2410S mmWave Radar
 #   Not compatible with any other radar package
 external_components:
-  # - source: github://pr#8486
-  #   components: [ld2410s]
-  #   refresh: 1min
-  - source: external_components
+  - source:
+      type: git
+      url: https://github.com/mikelawrence/esphome-components
+    refresh: 1d
+    components: [ld2410s]
 
 uart:
   - id: ld2410s_uart
