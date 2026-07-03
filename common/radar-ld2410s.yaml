@@ -23,11 +23,7 @@ binary_sensor:
       name: MMWAVE Presence
       id: presence_mmwave
       filters:
-        - throttle_with_priority:
-          timeout: 1s
-          value:
-            - nan
-            - 0.0
+        - settle: 1s
         - delayed_off: !lambda return static_cast<uint32_t>(id(timeout).state * 1000);
     cal_running:
       name: LD2410S Cal Running
