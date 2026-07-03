@@ -1,9 +1,10 @@
 # Adds Hi-Link LD2410S mmWave Radar
 #   Not compatible with any other radar package
 external_components:
-  - source: github://pr#8486
-    components: [ld2410s]
-    refresh: 1min
+  # - source: github://pr#8486
+  #   components: [ld2410s]
+  #   refresh: 1min
+  - source: external_components
 
 uart:
   - id: ld2410s_uart
@@ -22,55 +23,235 @@ binary_sensor:
       name: MMWAVE Presence
       id: presence_mmwave
       filters:
+        - throttle_with_priority: 1s
+          value:
+            - nan
+            - 0.0
         - delayed_off: !lambda return static_cast<uint32_t>(id(timeout).state * 1000);
-    has_calibration_running:
-      name: LD2410S Calibration Running
+    cal_running:
+      name: LD2410S Cal Running
+      entity_category: config
 
 button:
   - platform: ld2410s
-    calibration:
-      name: Cal Start Auto
-    factory_reset:
-      name: Factory reset
+    cal_start:
+      name: LD2410S Cal Start
+      entity_category: config
 
 number:
-  - platform: ld2410s
-    max_distance:
-      name: Max Detect Distance
-    min_distance:
-      name: Min Detect Distance
-    no_delay:
-      name: No detect Report Delay
-    status_reporting_frequency:
-      name: Status Reporting Frequency
-    distance_reporting_frequency:
-      name: Distance Reporting Frequency
-    threshold_trigger:
-      name: Threshold Trigger
-    threshold_hold:
-      name: Threshold Hold
-    threshold_snr:
-      name: Threshold SNR
-    threshold_selected_gate:
-      name: Threshold Selected Gate
   - platform: template
     # This is the common name across all radars for the delay off style timeout
-    id: timeout
     name: "Timeout"
+    id: timeout
     optimistic: true
-    max_value: 10000
-    min_value: 0
-    step: 1
-    mode: box
     initial_value: 60
+    min_value: 1
+    max_value: 3600
+    mode: box
+    step: 1
     restore_value: true
+    unit_of_measurement: s
+    entity_category: config
+  - platform: ld2410s
+    max_detect_gate:
+      name: Max Detect Gate
+    min_detect_gate:
+      name: Min Detect Gate
+    no_delay:
+      name: No Detect Report Delay
+    status_reporting_frequency:
+      id: status_reporting_frequency
+      on_value_range:
+        above: 2
+        below: 2
+        then:
+          - number.set:
+              id: distance_reporting_frequency
+              value: 2
+    distance_reporting_frequency:
+      id: distance_reporting_frequency
+      on_value_range:
+        above: 2
+        below: 2
+        then:
+          - number.set:
+              id: distance_reporting_frequency
+              value: 1
+    g0:
+      trigger_threshold:
+        name: G0 Trigger Threshold
+      hold_threshold:
+        name: G0 Hold Threshold
+    g1:
+      trigger_threshold:
+        name: G1 Trigger Threshold
+      hold_threshold:
+        name: G1 Hold Threshold
+    g2:
+      trigger_threshold:
+        name: G2 Trigger Threshold
+      hold_threshold:
+        name: G2 Hold Threshold
+    g3:
+      trigger_threshold:
+        name: G3 Trigger Threshold
+      hold_threshold:
+        name: G3 Hold Threshold
+    g4:
+      trigger_threshold:
+        name: G4 Trigger Threshold
+      hold_threshold:
+        name: G4 Hold Threshold
+    g5:
+      trigger_threshold:
+        name: G5 Trigger Threshold
+      hold_threshold:
+        name: G5 Hold Threshold
+    g6:
+      trigger_threshold:
+        name: G6 Trigger Threshold
+      hold_threshold:
+        name: G6 Hold Threshold
+    g7:
+      trigger_threshold:
+        name: G7 Trigger Threshold
+      hold_threshold:
+        name: G7 Hold Threshold
+    g8:
+      trigger_threshold:
+        name: G8 Trigger Threshold
+      hold_threshold:
+        name: G8 Hold Threshold
+    g9:
+      trigger_threshold:
+        name: G9 Trigger Threshold
+      hold_threshold:
+        name: G9 Hold Threshold
+    g10:
+      trigger_threshold:
+        name: G10 Trigger Threshold
+      hold_threshold:
+        name: G10 Hold Threshold
+    g11:
+      trigger_threshold:
+        name: G11 Trigger Threshold
+      hold_threshold:
+        name: G11 Hold Threshold
+    g12:
+      trigger_threshold:
+        name: G12 Trigger Threshold
+      hold_threshold:
+        name: G12 Hold Threshold
+    g13:
+      trigger_threshold:
+        name: G13 Trigger Threshold
+      hold_threshold:
+        name: G13 Hold Threshold
+    g14:
+      trigger_threshold:
+        name: G14 Trigger Threshold
+      hold_threshold:
+        name: G14 Hold Threshold
+    g15:
+      trigger_threshold:
+        name: G15 Trigger Threshold
+      hold_threshold:
+        name: G15 Hold Threshold
 
 sensor:
   - platform: ld2410s
     target_distance:
       name: Target Distance
-    calibration_progress:
-      name: LD2410S Calibration Progress
+      filters:
+        - throttle_with_priority: 1s
+          value:
+            - nan
+            - 0.0
+    cal_progress:
+      name: LD2410S Cal Progress
+      filters:
+        - throttle_with_priority: 1s
+          value: nan
+    g0_energy:
+      name: G0 Energy
+      filters:
+        - throttle_with_priority: 1s
+          value: nan
+    g1_energy:
+      name: G1 Energy
+      filters:
+        - throttle_with_priority: 1s
+          value: nan
+    g2_energy:
+      name: G2 Energy
+      filters:
+        - throttle_with_priority: 1s
+          value: nan
+    g3_energy:
+      name: G3 Energy
+      filters:
+        - throttle_with_priority: 1s
+          value: nan
+    g4_energy:
+      name: G4 Energy
+      filters:
+        - throttle_with_priority: 1s
+          value: nan
+    g5_energy:
+      name: G5 Energy
+      filters:
+        - throttle_with_priority: 1s
+          value: nan
+    g6_energy:
+      name: G6 Energy
+      filters:
+        - throttle_with_priority: 1s
+          value: nan
+    g7_energy:
+      name: G7 Energy
+      filters:
+        - throttle_with_priority: 1s
+          value: nan
+    g8_energy:
+      name: G8 Energy
+      filters:
+        - throttle_with_priority: 1s
+          value: nan
+    g9_energy:
+      name: G9 Energy
+      filters:
+        - throttle_with_priority: 1s
+          value: nan
+    g10_energy:
+      name: G10 Energy
+      filters:
+        - throttle_with_priority: 1s
+          value: nan
+    g11_energy:
+      name: G11 Energy
+      filters:
+        - throttle_with_priority: 1s
+          value: nan
+    g12_energy:
+      name: G12 Energy
+      filters:
+        - throttle_with_priority: 1s
+          value: nan
+    g13_energy:
+      name: G13 Energy
+      filters:
+        - throttle_with_priority: 1s
+          value: nan
+    g14_energy:
+      name: G14 Energy
+      filters:
+        - throttle_with_priority: 1s
+          value: nan
+    g15_energy:
+      name: G15 Energy
+      filters:
+        - throttle_with_priority: 1s
+          value: nan
 
 select:
   - platform: ld2410s
@@ -86,14 +267,6 @@ text_sensor:
   - platform: ld2410s
     fw_version:
       name: LD2410S Firmware version
-    threshold_triggers:
-      name: Threshold Triggers
-    threshold_holds:
-      name: Threshold Holds
-    threshold_snrs:
-      name: Threshold SNRs
-    energy_values:
-      name: Energy Values
   - platform: template
     name: "Radar Included"
     id: radar_included
