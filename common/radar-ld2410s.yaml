@@ -4,7 +4,6 @@ external_components:
   - source:
       type: git
       url: https://github.com/mikelawrence/esphome-components
-    refresh: 1d
     components: [ld2410s]
 
 uart:
@@ -24,7 +23,8 @@ binary_sensor:
       name: MMWAVE Presence
       id: presence_mmwave
       filters:
-        - throttle_with_priority: 1s
+        - throttle_with_priority:
+          timeout: 1s
           value:
             - nan
             - 0.0
@@ -164,7 +164,8 @@ sensor:
     target_distance:
       name: Target Distance
       filters:
-        - throttle_with_priority: 1s
+        - throttle_with_priority:
+          timeout: 1s
           value:
             - nan
             - 0.0
