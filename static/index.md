@@ -2,6 +2,24 @@
 
 # Initial Programming
 
+<script>
+fetch('./firmware/multi-sensor-pkga-ld2410.manifest.json')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(manifest => {
+        // Insert the specific JSON values into your HTML elements
+        document.getElementById('current-version').textContent = data.version;
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', manifest);
+        // document.getElementById('name-placeholder').textContent = 'Failed to load data';
+    });
+</script>
+
 You need to make two choices before programming the ESPHome Indoor Multi-Sensor.
 
 First is the Sensor package. You can either choose Package A, the Sensirion SEN6X sensor package which is an all-in-one sensor package. Or you can choose Package B which is a lower cost discrete sensor set that is missing particulate matter sensors.
@@ -15,9 +33,9 @@ If you are really new to ESPHome I would recommend searching on Youtube for gett
 > WARNING!
 > The Hi-Link LD2410S and Hi-Link LD2420 only work on Rev-B boards.
 
-# Rev B Web Installation
+# PCB Rev B Web Installation
 
-Use the buttons below to install pre-built firmware directly to your Rev-B hardware via USB.
+Use the buttons below to install pre-built firmware directly to your Rev-B hardware via USB. This will install version <span id="current-version">unknown</span>.
 
 | Sensor Pkg | Radar LD2410 | Radar C4001 | Radar LD2450 | Radar LD2410S | Radar LD2420 |
 |---|---|---|---|
