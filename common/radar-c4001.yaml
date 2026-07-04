@@ -71,9 +71,7 @@ number:
     entity_category: config
     on_value:
       then:
-        - number.set:
-            id: timeout_c4001
-            value: !lambda return static_cast<float>(id(timeout).state);
+        lambda: !lambda id(timeout_c4001).set(x); 
   - platform: dfrobot_c4001
     dfrobot_c4001_id: c4001_radar
     max_range:
