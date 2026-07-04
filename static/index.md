@@ -2,6 +2,8 @@
 
 # Initial Programming
 
+<script src="version.js"></script>
+
 You need to make two choices before programming the ESPHome Indoor Multi-Sensor.
 
 First is the Sensor package. You can either choose Package A, the Sensirion SEN6X sensor package which is an all-in-one sensor package. Or you can choose Package B which is a lower cost discrete sensor set that is missing particulate matter sensors.
@@ -15,9 +17,9 @@ If you are really new to ESPHome I would recommend searching on Youtube for gett
 > WARNING!
 > The Hi-Link LD2410S and Hi-Link LD2420 only work on Rev-B boards.
 
-# Rev B Web Installation
+# PCB Rev B Web Installation
 
-Use the buttons below to install pre-built firmware directly to your Rev-B hardware via USB.
+Use the buttons below to install pre-built firmware directly to your Rev-B hardware via USB. This will install version <span id="current-version">unknown</span>.
 
 | Sensor Pkg | Radar LD2410 | Radar C4001 | Radar LD2450 | Radar LD2410S | Radar LD2420 |
 |---|---|---|---|
