@@ -75,7 +75,7 @@ number:
             id: timeout_c4001
             value: |-
               if (id(timeout).state != id(timeout_c4001).state) {
-                return id(timeout).state;
+                return static_cast<float>(id(timeout).state);
               } else {
                 return {};
               }
@@ -130,4 +130,3 @@ text_sensor:
     entity_category: diagnostic
     update_interval: 600s
     lambda: !lambda return {"DFRobot C4001"};
-    
