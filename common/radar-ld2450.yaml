@@ -298,13 +298,14 @@ number:
     name: "Timeout"
     id: timeout
     optimistic: true
-    min_value: 0.1
-    max_value: 3600.0
+    initial_value: 60
+    min_value: 1
+    max_value: 3600
     mode: box
-    step: 0.1
+    step: 1
     restore_value: true
     unit_of_measurement: s
-    entity_category: ""
+    entity_category: config
   - platform: template
     name: "LD2450 Installation Angle"
     id: installation_angle

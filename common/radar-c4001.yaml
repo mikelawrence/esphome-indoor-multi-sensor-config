@@ -7,13 +7,6 @@ external_components:
       url: https://github.com/mikelawrence/esphome-components
     components: [dfrobot_c4001]
 
-api:
-  on_client_connected:
-    then:
-      - text_sensor.template.publish:
-          id: radar_included
-          state: "Hi-Link LD2410"
-
 power_supply:
   # enables power to the C4001 module
   - id: "c4001_enable"
@@ -63,6 +56,24 @@ button:
       name: C4001 Restart
 
 number:
+  - platform: template
+    # This is the common name across all radars for the delay off style timeout
+    name: "Timeout"
+    id: timeout
+    optimistic: true
+    initial_value: 60
+    min_value: 1
+    max_value: 3600
+    mode: box
+    step: 1
+    restore_value: true
+    unit_of_measurement: s
+    entity_category: config
+    on_value:
+      then:
+        - number.set:
+            id: timeout_c4001
+            value: !lambda return static_cast<float>(id(timeout).state);
   - platform: dfrobot_c4001
     dfrobot_c4001_id: c4001_radar
     max_range:
@@ -87,9 +98,7 @@ number:
       name: Latency On
       id: on_latency
     off_latency:
-      # This is the common name across all radars for the delay off style timeout
-      name: Timeout
-      id: timeout
+      id: timeout_c4001
       entity_category: ""
     inhibit_time:
       name: Inhibit Time
@@ -114,4 +123,5 @@ text_sensor:
     name: "Radar Included"
     id: radar_included
     entity_category: diagnostic
-    update_interval: never
+    update_interval: 600s
+    lambda: !lambda return {"DFRobot C4001"};
