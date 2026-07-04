@@ -65,7 +65,7 @@ number:
       then:
         - number.set:
             id: timeout_ld2450
-            value: !lambda static_cast<float>(id(timeout).state);
+            value: !lambda return static_cast<float>(id(timeout).state);
   - platform: ld2410
     ld2410_id: ld2410_radar
     timeout:
