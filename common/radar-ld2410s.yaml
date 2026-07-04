@@ -27,7 +27,7 @@ binary_sensor:
         - delayed_off: !lambda return static_cast<uint32_t>(id(timeout).state * 1000);
     cal_running:
       name: LD2410S Cal Running
-      entity_category: config
+      entity_category: diagnostic
 
 button:
   - platform: ld2410s
