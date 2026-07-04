@@ -19,7 +19,9 @@ If you are really new to ESPHome I would recommend searching on Youtube for gett
 
 # PCB Rev B Web Installation
 
-Use the buttons below to install pre-built firmware directly to your Rev-B hardware via USB. This will install version <span id="current-version">unknown</span>.
+Use the buttons below to install pre-built firmware directly to your Rev-B hardware via USB. 
+
+> This will install version <span id="current-version">unknown</span>.
 
 | Sensor Pkg | Radar LD2410 | Radar C4001 | Radar LD2450 | Radar LD2410S | Radar LD2420 |
 |---|---|---|---|
