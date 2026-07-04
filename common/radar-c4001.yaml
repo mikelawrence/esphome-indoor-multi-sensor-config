@@ -130,3 +130,4 @@ text_sensor:
     entity_category: diagnostic
     update_interval: 600s
     lambda: !lambda return {"DFRobot C4001"};
+    
