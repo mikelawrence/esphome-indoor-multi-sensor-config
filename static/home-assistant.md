@@ -22,25 +22,7 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 - **Silence Alarms** (*Button*): When pressed will silence alarms for 3 hours or until the sensor is restarted.
 
-- **Status Light** (*Switch*): When set to on the Status Light will be forced on. This only applies to presence status. Include this switch in a group and it will turn on the Presense status LED when the group is on. Handy when other sensors are involved in room presense.
-
-## Binary Sensors
-
-- **Presence mmWave** (*Binary Sensor*): This is presence from from installed radar. Clear presence will delay off for Timeout seconds.
-
-- **Presence** (*Binary Sensor*): Includes both Presence mmWave from Radar and PIR Motion if enabled. Clear presence will delay off for Timeout seconds.
-
-- **Vent Auto CO₂** (*Binary Sensor*): When true Auto Vent has turned on the vent because CO₂ is too high. If Enable Auto Vent is off this sensor is unknown.
-
-- **Vent Auto Hum** (*Binary Sensor*): When true Auto Vent has turned on the vent because Humidity is too high. If Enable Auto Vent is off this sensor is unknown.
-
-- **Vent Manual** (*Binary Sensor*): When true Auto Vent has detected the vent was turned on manually. If Enable Auto Vent is off this sensor is unknown.
-
-- **Zone-1 Presence** (*Binary Sensor*): Current Zone-1 presence. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
-
-- **Zone-2 Presence** (*Binary Sensor*): Current Zone-2 presence. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
-
-- **Zone-3 Presence** (*Binary Sensor*): Current Zone-3 presence. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
+- **Status Light** (*Switch*): When set to on the Status Light will be forced on. This only applies to presence status. Include this switch in a group and it will turn on the Presence status LED when the group is on. Handy when other sensors are involved in room presense.
 
 ## Sensors
 
@@ -80,6 +62,10 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 - **PM <10µm Mass concentration** (*Sensor*): Current Particulate Matter <10µm Mass concentration. Only available with Sensor-Pkg-A. Updates every minute.
 
+- **Presence mmWave** (*Binary Sensor*): This is presence from from installed radar. Clear presence will delay off for Timeout seconds.
+
+- **Presence** (*Binary Sensor*): Includes both Presence mmWave from Radar and PIR Motion if enabled. Clear presence will delay off for Timeout seconds.
+
 - **Pressure** (*Sensor*): This is most recent absolute pressure from from BMP581. Updates every minute.
 
 - **Sound Level Peak** (*Sensor*): This is the most recent Sound Level Peak as measured from microphone. Updates every minute.
@@ -118,9 +104,17 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 - **USB-C Voltage** (*Sensor*): This measures the current (A) the USB-C section is using. Updates every minute.
 
+- **Vent Auto CO₂** (*Binary Sensor*): When true Auto Vent has turned on the vent because CO₂ is too high. If Enable Auto Vent is off this sensor is unknown.
+
+- **Vent Auto Hum** (*Binary Sensor*): When true Auto Vent has turned on the vent because Humidity is too high. If Enable Auto Vent is off this sensor is unknown.
+
+- **Vent Manual** (*Binary Sensor*): When true Auto Vent has detected the vent was turned on manually. If Enable Auto Vent is off this sensor is unknown.
+
 - **VOC** (*Sensor*): Current Volatile Organic Compound reading. For Sensor-Pkg-A configs the SEN66 sensor provides this reading. For Sensor-Pkg-B configs it is the SGP41 sensor. Updates every minute.
 
 - **Zone-1 Moving Target Count** (*Sensor*): The current number of targets in Zone-1. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
+
+- **Zone-1 Presence** (*Binary Sensor*): Current Zone-1 presence. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
 - **Zone-1 Still Target Count** (*Sensor*): The current number of still targets in Zone-1. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
@@ -128,11 +122,15 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 - **Zone-2 Moving Target Count** (*Sensor*): The current number of targets in Zone-2. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
+- **Zone-2 Presence** (*Binary Sensor*): Current Zone-2 presence. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
+
 - **Zone-2 Still Target Count** (*Sensor*): The current number of still targets in Zone-2. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
 - **Zone-2 Target Count** (*Sensor*): The total number of targets in Zone-2. Only available with the LD2450 config.
 
 - **Zone-3 Moving Target Count** (*Sensor*): The current number of targets in Zone-3. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
+
+- **Zone-3 Presence** (*Binary Sensor*): Current Zone-3 presence. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
 - **Zone-3 Still Target Count** (*Sensor*): The current number of still targets in Zone-3. Only available with the LD2450 config. Update Rate is equivalent to Timeout seconds.
 
