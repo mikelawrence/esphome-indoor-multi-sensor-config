@@ -23,7 +23,6 @@ binary_sensor:
       name: MMWAVE Presence
       id: presence_mmwave
       filters:
-        - settle: 1s
         - delayed_off: !lambda return static_cast<uint32_t>(id(timeout).state * 1000);
     cal_running:
       name: LD2410S Cal Running
@@ -59,21 +58,21 @@ number:
     status_reporting_frequency:
       id: status_reporting_frequency
       on_value_range:
-        above: 2
-        below: 2
+        above: 4
+        below: 4
         then:
           - number.set:
               id: distance_reporting_frequency
-              value: 2
+              value: 4
     distance_reporting_frequency:
       id: distance_reporting_frequency
       on_value_range:
-        above: 2
-        below: 2
+        above: 4
+        below: 4
         then:
           - number.set:
               id: distance_reporting_frequency
-              value: 1
+              value: 4
     g0:
       trigger_threshold:
         name: G0 Trigger Threshold
@@ -159,114 +158,40 @@ sensor:
   - platform: ld2410s
     target_distance:
       name: Target Distance
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value:
-              - nan
-              - 0.0
     cal_progress:
       name: LD2410S Cal Progress
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value: nan
     g0_energy:
       name: G0 Energy
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value: nan
     g1_energy:
       name: G1 Energy
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value: nan
     g2_energy:
       name: G2 Energy
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value: nan
     g3_energy:
       name: G3 Energy
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value: nan
     g4_energy:
       name: G4 Energy
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value: nan
     g5_energy:
       name: G5 Energy
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value: nan
     g6_energy:
       name: G6 Energy
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value: nan
     g7_energy:
       name: G7 Energy
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value: nan
     g8_energy:
       name: G8 Energy
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value: nan
     g9_energy:
       name: G9 Energy
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value: nan
     g10_energy:
       name: G10 Energy
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value: nan
     g11_energy:
       name: G11 Energy
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value: nan
     g12_energy:
       name: G12 Energy
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value: nan
     g13_energy:
       name: G13 Energy
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value: nan
     g14_energy:
       name: G14 Energy
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value: nan
     g15_energy:
       name: G15 Energy
-      filters:
-        - throttle_with_priority:
-            timeout: 1s
-            value: nan
 
 select:
   - platform: ld2410s
