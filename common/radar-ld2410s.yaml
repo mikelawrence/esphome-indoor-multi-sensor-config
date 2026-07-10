@@ -58,21 +58,27 @@ number:
     status_reporting_frequency:
       id: status_reporting_frequency
       on_value_range:
-        above: 4
-        below: 4
+        above: 4.1
+        below: 3.9
         then:
           - number.set:
-              id: distance_reporting_frequency
-              value: 4
+              id: status_reporting_frequency
+              value: 4.0
+          - logger.log:
+              format: "Auto Set Status Reporting Frequency to 4.0Hz"
+              tag: "radar-ld2410s"
     distance_reporting_frequency:
       id: distance_reporting_frequency
       on_value_range:
-        above: 4
-        below: 4
+        above: 4.1
+        below: 3.9
         then:
           - number.set:
               id: distance_reporting_frequency
-              value: 4
+              value: 4.0
+          - logger.log:
+              format: "Auto Set Distance Reporting Frequency to 4.0Hz"
+              tag: "radar-ld2410s"
     g0:
       trigger_threshold:
         name: G0 Trigger Threshold
