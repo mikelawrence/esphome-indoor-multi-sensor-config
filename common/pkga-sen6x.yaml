@@ -7,7 +7,8 @@
 # SEN66 sensor readings averaged to once a minute
 
 substitutions:
-  sen66_skip_initial: "300" # SEN66 sensor readings are dropped for the first 5 minutes, allows
+  # SEN66 sensor readings are dropped for the first 5 minutes, allows
+  sen66_skip_initial: "300"
   sen66_throttle_average: "60s"
 
 esphome:
