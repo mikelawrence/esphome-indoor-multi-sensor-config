@@ -1,4 +1,5 @@
 # common setup for all devices
+
 substitutions:
   # Voice name allows you to change the voice of spoken announcements to fit your preferences.
   #   For a list of voice names see https://github.com/mikelawrence/esphome-indoor-multi-sensor-sounds/#available-voices
@@ -8,6 +9,12 @@ substitutions:
   status_night_brightness: "0.15"
   status_daytime_lux: "10.0"
   status_nighttime_lux: "3.0"
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/mikelawrence/esphome-components
+    components: [dfrobot_c4001, ld2410s, sen6x]
 
 esphome:
   name_add_mac_suffix: false
@@ -74,6 +81,9 @@ debug:
 time:
   - platform: homeassistant
     id: homeassistant_time
+
+logger:
+  level: DEBUG
 
 globals:
   - id: boot_completed_var

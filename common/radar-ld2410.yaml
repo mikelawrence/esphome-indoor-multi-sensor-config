@@ -1,5 +1,6 @@
 # Adds Hi-Link LD2410 mmWave Radar
 #   Not compatible with any other radar package
+
 power_supply:
   # this enables power to the ld2410 module
   - id: ld2410_enable

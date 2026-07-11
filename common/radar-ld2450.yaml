@@ -2,6 +2,7 @@
 #   Uses the ESPHome Built-In Component
 #   Not compatible with any other radar package
 #   This sensor is mounted upside down target x and angle sensors are inverted
+
 interval:
   - interval: 250ms
     then:

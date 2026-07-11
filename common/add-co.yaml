@@ -1,4 +1,5 @@
 # Adds CO sensor using the Figaro TGS5141
+
 logger:
   logs:
     ads1115.sensor: ERROR

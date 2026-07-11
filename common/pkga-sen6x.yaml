@@ -4,17 +4,11 @@
 #     Volatile Organic Compounds (VOC), Nitrous Oxides (NOx) and
 #     Particulate Matter (PM)
 #   Not compatible with PACKAGE B packages
-# SEN66 sensor readings are dropped for the first 5 minutes to allow the sensor to stabilize and self-calibrate, then averaged to once a minute to reduce noise and improve accuracy. The CO₂ sensor's automatic self-calibration is disabled since it is unreliable in indoor environments with variable occupancy and ventilation. Instead, a manual forced calibration can be triggered via a Home Assistant service call after taking a reference CO₂ measurement with an accurate handheld meter. The temperature and humidity readings can also be manually calibrated with user-provided offsets to correct for any bias in the sensor's measurements.
 # SEN66 sensor readings averaged to once a minute
-substitutions:
-  sen66_skip_initial: "300"
-  sen66_throttle_average: "60s"
 
-external_components:
-  - source:
-      type: git
-      url: https://github.com/mikelawrence/esphome-components
-    components: [sen6x]
+substitutions:
+  sen66_skip_initial: "300" # SEN66 sensor readings are dropped for the first 5 minutes, allows
+  sen66_throttle_average: "60s"
 
 esphome:
   on_boot:
@@ -118,8 +112,7 @@ sensor:
     update_interval: 1s
     type: SEN66
     temperature:
-      # temperature 1s interval averaged to once a minute
-      # first 5 minutes ignored
+      # temperature 1s interval averaged to once a minute, first 5 minutes ignored
       id: temperature_internal
       accuracy_decimals: 2
       filters:
@@ -128,8 +121,7 @@ sensor:
         - offset: !lambda return id(temperature_calibration_offset).state;
         - throttle_average: ${sen66_throttle_average}
     humidity:
-      # humidity 1s interval averaged to once a minute
-      # first 5 minutes ignored
+      # humidity 1s interval averaged to once a minute, first 5 minutes ignored
       id: humidity_internal
       accuracy_decimals: 2
       filters:
@@ -138,8 +130,7 @@ sensor:
         - offset: !lambda return id(humidity_calibration_offset).state;
         - throttle_average: ${sen66_throttle_average}
     pm_1_0:
-      # PM 1µm 1s interval averaged to once a minute
-      # first 5 minutes ignored
+      # PM 1µm 1s interval averaged to once a minute, first 5 minutes ignored
       name: "PM <1µm Mass concentration"
       id: pm_1_0
       accuracy_decimals: 2
@@ -148,8 +139,7 @@ sensor:
         - filter_out: NAN
         - throttle_average: ${sen66_throttle_average}
     pm_2_5:
-      # PM 2.5µm 1s interval averaged to once a minute
-      # first 5 minutes ignored
+      # PM 2.5µm 1s interval averaged to once a minute, first 5 minutes ignored
       name: "PM <2.5µm Mass concentration"
       id: pm_2_5
       accuracy_decimals: 2
@@ -158,8 +148,7 @@ sensor:
         - filter_out: NAN
         - throttle_average: ${sen66_throttle_average}
     pm_4_0:
-      # PM 4µm 1s interval averaged to once a minute
-      # first 5 minutes ignored
+      # PM 4µm 1s interval averaged to once a minute, first 5 minutes ignored
       name: "PM <4µm Mass concentration"
       id: pm_4_0
       accuracy_decimals: 2
@@ -168,8 +157,7 @@ sensor:
         - filter_out: NAN
         - throttle_average: ${sen66_throttle_average}
     pm_10_0:
-      # PM 10µm 1s interval averaged to once a minute
-      # first 5 minutes ignored
+      # PM 10µm 1s interval averaged to once a minute, first 5 minutes ignored
       name: "PM <10µm Mass concentration"
       id: pm_10_0
       accuracy_decimals: 2
@@ -178,8 +166,7 @@ sensor:
         - filter_out: NAN
         - throttle_average: ${sen66_throttle_average}
     co2:
-      # CO₂ internal 1s interval averaged to once a minute
-      # first 5 minutes ignored
+      # CO₂ internal 1s interval averaged to once a minute, first 5 minutes ignored
       name: "CO₂"
       id: co2
       automatic_self_calibration: false
@@ -198,8 +185,7 @@ sensor:
               if (x < 1800.0)
                 id(co2_warning_var) = false;
     nox:
-      # NOₓ 1s interval averaged to once a minute
-      # first 5 minutes ignored
+      # NOₓ 1s interval averaged to once a minute, first 5 minutes ignored
       name: "NOx"
       id: nox
       accuracy_decimals: 0
@@ -208,8 +194,7 @@ sensor:
         - filter_out: NAN
         - throttle_average: ${sen66_throttle_average}
     voc:
-      # VOC 1s interval averaged to once a minute
-      # first 5 minutes ignored
+      # VOC 1s interval averaged to once a minute, first 5 minutes ignored
       name: "VOC"
       id: voc
       accuracy_decimals: 0
@@ -220,7 +205,8 @@ sensor:
         - filter_out: NAN
         - throttle_average: ${sen66_throttle_average}
   - platform: copy
-    # temperature_internal median over last 5 minutes, output every minute
+    # temperature_internal median over last 5 minutes
+    # this is the main temperature sensor
     id: temperature
     name: "Temperature"
     accuracy_decimals: 2
@@ -230,7 +216,8 @@ sensor:
           window_size: 5
           send_every: 1
   - platform: copy
-    # humidity_internal median over last 5 minutes, output every minute
+    # humidity_internal median over last 5 minutes
+    # this is the main humidity sensor
     id: humidity
     name: "Humidity"
     source_id: humidity_internal

@@ -2,6 +2,7 @@
 # Danger: !!!This is experimental and may not work as expected!!!
 #         !!!DO NOT USE AS A PRIMARY SMOKE ALARM!!!
 #         !!!Use at your own risk!!!
+
 interval:
   - interval: 10s
     then:

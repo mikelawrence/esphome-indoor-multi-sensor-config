@@ -1,5 +1,6 @@
 # Adds Light Sensor using the TSL2591 I2C digital light sensor
 #   Sensors provided: Lux (lx)
+
 logger:
   logs:
     tsl2591.sensor: ERROR

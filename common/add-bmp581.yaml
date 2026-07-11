@@ -1,4 +1,5 @@
 # Adds Absolute Pressure using the BMP581 I2C digital pressure sensor
+
 sensor:
   - platform: bmp581_i2c
     id: bmp581_sensor

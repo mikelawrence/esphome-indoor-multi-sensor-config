@@ -1,4 +1,5 @@
 # Adds I2S microphone with sound level meter
+
 i2s_audio:
   - id: mic_i2s
     i2s_lrclk_pin: GPIO40

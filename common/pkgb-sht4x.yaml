@@ -2,6 +2,7 @@
 #   Adds SHT45 sensors:
 #     Temperature and Humidity
 #   Not compatible with PACKAGE A package
+
 number:
   - platform: template
     name: "Temperature Cal Offset"

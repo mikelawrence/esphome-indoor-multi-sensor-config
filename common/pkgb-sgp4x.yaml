@@ -2,6 +2,7 @@
 #   Adds SGP41 sensors:
 #     Volatile Organic Compounds (VOC) and Nitrous Oxides (NOx)
 #   Not compatible with PACKAGE A package
+
 sensor:
   - platform: sgp4x
     id: sgp41_sensor
