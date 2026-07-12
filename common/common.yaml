@@ -12,7 +12,7 @@ substitutions:
 external_components:
   #  - source:
   #      type: local
-  #      path: my_components
+  #      path: external_components
   - source:
       type: git
       url: https://github.com/mikelawrence/esphome-components
