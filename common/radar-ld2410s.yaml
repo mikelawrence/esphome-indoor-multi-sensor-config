@@ -1,10 +1,10 @@
 # Adds Hi-Link LD2410S mmWave Radar
 #   Not compatible with any other radar package
-external_components:
-  - source:
-      type: git
-      url: https://github.com/mikelawrence/esphome-components
-    components: [ld2410s]
+substitutions:
+  # SEN6X Temperature Compensation values as specific to the LD2410S radar module
+  sen66_tc_offset: "0"
+  sen66_tc_normalized_offset_slope: "0"
+  sen66_tc_time_constant: "0"
 
 uart:
   - id: ld2410s_uart
@@ -15,6 +15,7 @@ uart:
     stop_bits: 1
 
 ld2410s:
+  id: ld2410s_radar
   uart_id: ld2410s_uart
 
 binary_sensor:
@@ -30,6 +31,7 @@ binary_sensor:
 
 button:
   - platform: ld2410s
+    ld2410s_id: ld2410s_radar
     cal_start:
       name: LD2410S Cal Start
       entity_category: config
@@ -49,6 +51,7 @@ number:
     unit_of_measurement: s
     entity_category: config
   - platform: ld2410s
+    ld2410s_id: ld2410s_radar
     max_detect_gate:
       name: Max Detect Gate
     min_detect_gate:
@@ -162,6 +165,7 @@ number:
 
 sensor:
   - platform: ld2410s
+    ld2410s_id: ld2410s_radar
     target_distance:
       name: Target Distance
     cal_progress:
@@ -201,16 +205,19 @@ sensor:
 
 select:
   - platform: ld2410s
+    ld2410s_id: ld2410s_radar
     response_speed:
       name: Response Speed
 
 switch:
   - platform: ld2410s
+    ld2410s_id: ld2410s_radar
     minimal_output:
       name: Minimal Output
 
 text_sensor:
   - platform: ld2410s
+    ld2410s_id: ld2410s_radar
     fw_version:
       name: LD2410S Firmware version
   - platform: template
