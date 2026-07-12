@@ -215,8 +215,7 @@ sensor:
         - filter_out: NAN
         - throttle_average: ${sen66_throttle_average}
   - platform: copy
-    # temperature_internal median over last 5 minutes
-    # this is the main temperature sensor
+    # temperature_internal median over last 5 minutes, this is the main temperature sensor
     id: temperature
     name: "Temperature"
     accuracy_decimals: 2
@@ -226,8 +225,7 @@ sensor:
           window_size: 5
           send_every: 1
   - platform: copy
-    # humidity_internal median over last 5 minutes
-    # this is the main humidity sensor
+    # humidity_internal median over last 5 minutes, this is the main humidity sensor
     id: humidity
     name: "Humidity"
     source_id: humidity_internal
