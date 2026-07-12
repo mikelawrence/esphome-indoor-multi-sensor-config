@@ -9,6 +9,15 @@ substitutions:
   status_daytime_lux: "10.0"
   status_nighttime_lux: "3.0"
 
+external_components:
+  #  - source:
+  #      type: local
+  #      path: my_components
+  - source:
+      type: git
+      url: https://github.com/mikelawrence/esphome-components
+    components: [dfrobot_c4001, ld2410s, sen6x]
+
 esphome:
   name_add_mac_suffix: false
   project:
@@ -74,6 +83,9 @@ debug:
 time:
   - platform: homeassistant
     id: homeassistant_time
+
+logger:
+  level: DEBUG
 
 globals:
   - id: boot_completed_var
