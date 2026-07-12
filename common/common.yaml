@@ -21,7 +21,7 @@ external_components:
 esphome:
   name_add_mac_suffix: false
   project:
-    version: 2026.07.4
+    version: 2026.07.5
     name: Mike Lawrence.Multi-Sensor
   on_boot:
     - priority: 500.0
