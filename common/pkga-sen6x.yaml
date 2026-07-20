@@ -11,7 +11,8 @@ substitutions:
   sen66_throttle_average: "60s"
 
 external_components:
-  - source: github://mikelawrence/esphome-component-ld2410sen6x
+  - source: github://mikelawrence/esphome-component-sen6x
+
 esphome:
   on_boot:
     - priority: 603.0
