@@ -7,6 +7,9 @@ substitutions:
   sen66_tc_normalized_offset_slope: "0"
   sen66_tc_time_constant: "0"
 
+external_components:
+  - source: github://mikelawrence/esphome-component-dfrobot-c4001
+
 power_supply:
   # enables power to the C4001 module
   - id: "c4001_enable"
