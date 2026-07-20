@@ -6,6 +6,9 @@ substitutions:
   sen66_tc_normalized_offset_slope: "0"
   sen66_tc_time_constant: "0"
 
+external_components:
+  - source: github://mikelawrence/esphome-component-ld2410s
+
 uart:
   - id: ld2410s_uart
     tx_pin: GPIO17
