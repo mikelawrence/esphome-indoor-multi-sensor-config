@@ -104,7 +104,7 @@ number:
             normalized_offset_slope: 0
             time_constant: 10
         - logger.log:
-            format: "SEN66 temperature compensation updated: slot: 1, offset=%.2f°C, normalized_offset_slope=%.2f, time_constant=%.2fs"
+            format: "SEN66 temperature compensation updated"
             level: DEBUG
 
 sensor:
