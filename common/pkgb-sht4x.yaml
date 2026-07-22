@@ -2,6 +2,11 @@
 #   Adds SHT45 sensors:
 #     Temperature and Humidity
 #   Not compatible with PACKAGE A package
+external_components:
+  - source: github://pr#17422
+    components: [sensor]
+    refresh: 1h
+
 number:
   - platform: template
     name: "Temperature Cal Offset"
@@ -11,18 +16,6 @@ number:
     optimistic: true
     max_value: 10.0
     min_value: -10.0
-    step: 0.01
-    initial_value: 0.0
-    mode: box
-    restore_value: true
-  - platform: template
-    name: "Humidity Cal Value"
-    id: humidity_calibration_offset
-    device_class: humidity
-    entity_category: config
-    optimistic: true
-    max_value: 20.0
-    min_value: -20.0
     step: 0.01
     initial_value: 0.0
     mode: box
@@ -47,7 +40,10 @@ sensor:
       accuracy_decimals: 2
       filters:
         - filter_out: NAN
-        - offset: !lambda return id(humidity_calibration_offset).state;
+        - rh_correction:
+            # use averaged temperature for humidity correction
+            sensor_id: temperature
+            temperature_offset: !lambda return id(temperature_calibration_offset).state;
         - throttle_average: 60s
   - platform: copy
     # temperature median over last 5 minutes, output every minute
