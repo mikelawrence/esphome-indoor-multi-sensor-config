@@ -86,9 +86,5 @@ wifi:
 esp32_ble:
   id: ble_stack
 
-# Allows user to provision WiFi credentials with Bluetooth using Improv standard
-esp32_improv:
-  authorizer: none
-
 # Allow user to provision WiFi credentials with USB port using Improv standard
 improv_serial:
