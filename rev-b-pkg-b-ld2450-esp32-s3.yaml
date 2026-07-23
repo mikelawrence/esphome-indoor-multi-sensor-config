@@ -82,6 +82,10 @@ wifi:
   # password: !secret wifi_password
   # use_address: xxx.xxx.xxx.xxx
 
+# Normally esp32_improv automatically loads this, but we need to explicitly add it so we can disable BLE during OTA updates
+esp32_ble:
+  id: ble_stack
+
 # Allows user to provision WiFi credentials with Bluetooth using Improv standard
 esp32_improv:
   authorizer: none
