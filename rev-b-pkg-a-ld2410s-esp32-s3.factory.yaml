@@ -25,6 +25,7 @@ esphome:
 api:
 
 wifi:
+  power_save_mode: none
 
 web_server:
   port: 80
