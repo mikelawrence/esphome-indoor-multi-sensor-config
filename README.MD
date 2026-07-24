@@ -3,3 +3,4 @@
 [Click here](https://mikelawrence.github.io/esphome-indoor-multi-sensor-config/) for installation and configuration.
 
 [Click here](https://github.com/mikelawrence/esphome-indoor-multi-sensor-hardware) for hardware.
+
