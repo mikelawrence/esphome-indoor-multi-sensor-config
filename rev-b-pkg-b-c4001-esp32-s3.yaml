@@ -62,22 +62,27 @@ esphome:
 # API is a requirement of the dashboard import.
 # Grab a key from https://esphome.io/components/api.html
 api:
-#   encryption:
-#     key:
+  reboot_timeout: 30min
+  # encryption:
+  #   key:
 
 # OTA is required for Over-the-Air updating
 ota:
   - platform: esphome
     id: ota_esphome
     # password: !secret ota_password
+    on_begin:
+      - ble.disable:
+      - logger.log: "OTA starting: BLE Disabled"
 
 # WiFi is required
 wifi:
-#   ssid: !secret wifi_ssid
-#   password: !secret wifi_password
-#   use_address: xxx.xxx.xxx.xxx
+  power_save_mode: none
+  # ssid: !secret wifi_ssid
+  # password: !secret wifi_password
+  # use_address: xxx.xxx.xxx.xxx
 
-# Allows user to provision WiFi credentials with Bluetooth using Improv standard
+# Allow user to provision WiFi credentials with Bluetooth port using Improv standard
 esp32_improv:
   authorizer: none
 
