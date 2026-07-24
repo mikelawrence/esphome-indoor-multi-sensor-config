@@ -295,11 +295,7 @@ number:
     restore_value: true
     unit_of_measurement: s
     entity_category: config
-    on_value:
-      then:
-        - number.set:
-            id: timeout_c4001
-            value: !lambda return static_cast<float>(id(timeout).state);
+
 power_supply:
   # Enable audio DAC Power
   - id: dac_enable
