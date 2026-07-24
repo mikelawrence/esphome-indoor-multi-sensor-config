@@ -3,9 +3,9 @@
 # Not compatible with any other radar package
 substitutions:
   # SEN6X Temperature Compensation values as specific to the C4001 radar module
-  sen66_tc_offset: "0"
-  sen66_tc_normalized_offset_slope: "0"
-  sen66_tc_time_constant: "0"
+  sen66_tc_offset: "-0.650"
+  sen66_tc_normalized_offset_slope: "-0.0399"
+  sen66_tc_time_constant: "1493"
 
 external_components:
   - source: github://mikelawrence/esphome-component-dfrobot-c4001
