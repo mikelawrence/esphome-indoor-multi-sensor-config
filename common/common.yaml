@@ -79,6 +79,9 @@ logger:
   level: DEBUG
 
 globals:
+  - id: presence_var
+    type: bool
+    initial_value: "false"
   - id: boot_completed_var
     type: bool
     initial_value: "false"
@@ -165,7 +168,7 @@ script:
           }
         }
         if(!id(nightlight_enable).state && id(led_enable).state) {
-          if (id(presence).state or id(presence_input).state) {
+          if (id(presence_var) or id(presence_input).state) {
             state = true;
             r = 0.0; g = 0.0; b = 1.0;
           }
@@ -213,15 +216,6 @@ script:
                 enqueue: true
 
 binary_sensor:
-  - platform: template
-    # executed every loop() call, about 16 ms
-    name: "Presence"
-    id: presence
-    device_class: presence
-    lambda: !lambda return id(presence_mmwave).state || id(motion_pir).state;
-    on_state:
-      then:
-        script.execute: update_status_led
   - platform: gpio
     id: motion_pir_int
     pin:

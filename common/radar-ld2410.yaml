@@ -23,6 +23,17 @@ ld2410:
   uart_id: ld2410_uart
 
 binary_sensor:
+  - platform: template
+    # executed every loop() call, about 16 ms
+    name: "Presence"
+    id: presence
+    device_class: presence
+    lambda: |-
+      id(presence_var) = id(presence_mmwave).state || id(motion_pir).state;
+      return id(presence_var);
+    on_state:
+      then:
+        - script.execute: update_status_led
   - platform: ld2410
     ld2410_id: ld2410_radar
     has_target:

@@ -29,6 +29,17 @@ dfrobot_c4001:
   mode: PRESENCE
 
 binary_sensor:
+  - platform: template
+    # executed every loop() call, about 16 ms
+    name: "Presence"
+    id: presence
+    device_class: presence
+    lambda: |-
+      id(presence_var) = id(presence_mmwave).state || id(motion_pir).state;
+      return id(presence_var);
+    on_state:
+      then:
+        - script.execute: update_status_led
   - platform: dfrobot_c4001
     occupancy:
       name: MMWAVE Presence

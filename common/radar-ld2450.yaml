@@ -266,6 +266,17 @@ script:
 
 binary_sensor:
   - platform: template
+    # executed every loop() call, about 16 ms
+    name: "Presence"
+    id: presence
+    device_class: presence
+    lambda: |-
+      id(presence_var) = id(presence_mmwave).state || id(motion_pir).state;
+      return id(presence_var);
+    on_state:
+      then:
+        - script.execute: update_status_led
+  - platform: template
     name: "Presence mmWave"
     id: presence_mmwave
     device_class: presence

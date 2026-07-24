@@ -23,10 +23,10 @@ Use the buttons below to install pre-built firmware directly to your Rev-B hardw
 
 > This will install version <span id="current-version">unknown</span>.
 
-| Sensor Pkg | Radar LD2410 | Radar C4001 | Radar LD2450 | Radar LD2410S | Radar LD2420 |
+| Sensor Pkg | No Radar | Radar LD2410 | Radar C4001 | Radar LD2450 | Radar LD2410S | Radar LD2420 |
 |---|---|---|---|
-| Pkg A | <esp-web-install-button manifest="firmware/multi-sensor-pkga-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/multi-sensor-pkga-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/multi-sensor-pkga-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/multi-sensor-pkga-2410s.manifest.json"></esp-web-install-button> | Coming Soon |
-| Pkg B | <esp-web-install-button manifest="firmware/multi-sensor-pkgb-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/multi-sensor-pkgb-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/multi-sensor-pkgb-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/multi-sensor-pkgb-2410s.manifest.json"></esp-web-install-button> | Coming Soon |
+| Pkg A | <esp-web-install-button manifest="firmware/multi-sensor-pkga-none.manifest.json"></esp-web-install-button> |  <esp-web-install-button manifest="firmware/multi-sensor-pkga-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/multi-sensor-pkga-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/multi-sensor-pkga-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/multi-sensor-pkga-2410s.manifest.json"></esp-web-install-button> | Coming Soon |
+| Pkg B | <esp-web-install-button manifest="firmware/multi-sensor-pkgb-none.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/multi-sensor-pkgb-ld2410.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/multi-sensor-pkgb-c4001.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/multi-sensor-pkgb-ld2450.manifest.json"></esp-web-install-button> | <esp-web-install-button manifest="firmware/multi-sensor-pkgb-2410s.manifest.json"></esp-web-install-button> | Coming Soon |
 
 <script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
 
