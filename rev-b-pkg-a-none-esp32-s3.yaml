@@ -1,6 +1,6 @@
 substitutions:
-  name: "multi-sensor-pkga"
-  friendly_name: "Multi-Sensor Pkg-A"
+  name: "multi-sensor-pkga-none"
+  friendly_name: "Multi-Sensor Pkg-A No-Radar"
 
   # Settings
   # Voice name allows you to change the voice of spoken announcements to fit your preferences.

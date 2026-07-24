@@ -1,7 +1,7 @@
 substitutions:
   # name must be unique across all factory builds in this project and 24 characters or less
-  name: "multi-sensor-pkgb"
-  friendly_name: "Multi-Sensor Pkg-B"
+  name: "multi-sensor-pkgb-none"
+  friendly_name: "Multi-Sensor Pkg-B No-Radar"
 
 packages:
   - !include common/common.yaml
