@@ -17,6 +17,11 @@ packages:
   - !include common/feat-auto-vent.yaml
   - !include common/feat-smoke-alarm.yaml
 
+dashboard_import:
+  # keep "@main" so that it can be replaced as necessary for Github workflows
+  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/rev-b-pkg-b-ld2410s-esp32-s3.yaml@main
+  import_full_config: true
+
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
@@ -32,16 +37,9 @@ wifi:
 web_server:
   port: 80
   version: 3
-
-esp32_ble:
-  id: ble_stack
-
-esp32_improv:
-  authorizer: none
-
-improv_serial:
-
-http_request:
+  auth:
+    username: "sensor"
+    password: "password"
 
 ota:
   - platform: web_server
@@ -51,13 +49,15 @@ ota:
       - ble.disable:
       - logger.log: "OTA starting: BLE Disabled"
 
+http_request:
+
 update:
   - platform: http_request
     id: update_http_request
     name: ${friendly_name} Firmware
     source: https://mikelawrence.github.io/esphome-indoor-multi-sensor-config/firmware/${name}.manifest.json
 
-dashboard_import:
-  # keep "@main" so that it can be replaced as necessary for Github workflows
-  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/rev-b-pkg-b-ld2410s-esp32-s3.yaml@main
-  import_full_config: true
+esp32_improv:
+  authorizer: none
+
+improv_serial:
