@@ -23,6 +23,17 @@ ld2410:
   uart_id: ld2410_uart
 
 binary_sensor:
+  - platform: template
+    # executed every loop() call, about 16 ms
+    name: "Presence"
+    id: presence
+    device_class: presence
+    lambda: |-
+      id(presence_var) = id(presence_mmwave).state || id(motion_pir).state;
+      return id(presence_var);
+    on_state:
+      then:
+        - script.execute: update_status_led
   - platform: ld2410
     ld2410_id: ld2410_radar
     has_target:
@@ -54,24 +65,6 @@ button:
       entity_category: config
 
 number:
-  - platform: template
-    # This is the common name across all radars for the delay off style timeout
-    name: "Timeout"
-    id: timeout
-    optimistic: true
-    initial_value: 60
-    min_value: 1
-    max_value: 3600
-    mode: box
-    step: 1
-    restore_value: true
-    unit_of_measurement: s
-    entity_category: config
-    on_value:
-      then:
-        - number.set:
-            id: timeout_ld2450
-            value: !lambda return static_cast<float>(id(timeout).state);
   - platform: ld2410
     ld2410_id: ld2410_radar
     timeout:

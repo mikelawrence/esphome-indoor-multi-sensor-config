@@ -29,6 +29,17 @@ dfrobot_c4001:
   mode: PRESENCE
 
 binary_sensor:
+  - platform: template
+    # executed every loop() call, about 16 ms
+    name: "Presence"
+    id: presence
+    device_class: presence
+    lambda: |-
+      id(presence_var) = id(presence_mmwave).state || id(motion_pir).state;
+      return id(presence_var);
+    on_state:
+      then:
+        - script.execute: update_status_led
   - platform: dfrobot_c4001
     occupancy:
       name: MMWAVE Presence
@@ -59,19 +70,7 @@ button:
       name: C4001 Restart
 
 number:
-  - platform: template
-    # This is the common name across all radars for the delay off style timeout
-    name: "Timeout"
-    id: timeout
-    optimistic: true
-    initial_value: 60
-    min_value: 1
-    max_value: 3600
-    mode: box
-    step: 1
-    restore_value: true
-    unit_of_measurement: s
-    entity_category: config
+  - id: !extend timeout
     on_value:
       then:
         - number.set:

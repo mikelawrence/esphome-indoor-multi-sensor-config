@@ -1,0 +1,64 @@
+substitutions:
+  # name must be unique across all factory builds in this project and 24 characters or less
+  name: "multi-sensor-pkgb"
+  friendly_name: "Multi-Sensor Pkg-B"
+
+packages:
+  - !include common/common.yaml
+  - !include common/pkgb-sht4x.yaml
+  - !include common/pkgb-scd4x.yaml
+  - !include common/pkgb-sgp4x.yaml
+  - !include common/radar-none.yaml
+  - !include common/add-co.yaml
+  - !include common/add-ina2xx-rev-b.yaml
+  - !include common/add-tsl2591.yaml
+  - !include common/add-bmp581.yaml
+  - !include common/add-microphone.yaml
+  - !include common/feat-auto-vent.yaml
+  - !include common/feat-smoke-alarm.yaml
+
+dashboard_import:
+  # keep "@main" so that it can be replaced as necessary for Github workflows
+  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/rev-b-pkg-b-c4001-esp32-s3.yaml@main
+  import_full_config: true
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  name_add_mac_suffix: true
+  project:
+    name: Mike Lawrence.${friendly_name}
+
+api:
+
+wifi:
+  power_save_mode: none
+
+web_server:
+  port: 80
+  version: 3
+  auth:
+    username: "sensor"
+    password: "password"
+    type: digest
+
+ota:
+  - platform: web_server
+  - platform: http_request
+    id: ota_http_request
+    on_begin:
+      - ble.disable:
+      - logger.log: "OTA starting: BLE Disabled"
+
+http_request:
+
+update:
+  - platform: http_request
+    id: update_http_request
+    name: ${friendly_name} Firmware
+    source: https://mikelawrence.github.io/esphome-indoor-multi-sensor-config/firmware/${name}.manifest.json
+
+esp32_improv:
+  authorizer: none
+
+improv_serial:
