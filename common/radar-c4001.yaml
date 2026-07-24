@@ -70,6 +70,12 @@ button:
       name: C4001 Restart
 
 number:
+  - id: !extend timeout
+    on_value:
+      then:
+        - number.set:
+            id: timeout_c4001
+            value: !lambda return static_cast<float>(id(timeout).state);
   - platform: dfrobot_c4001
     dfrobot_c4001_id: c4001_radar
     max_range:
