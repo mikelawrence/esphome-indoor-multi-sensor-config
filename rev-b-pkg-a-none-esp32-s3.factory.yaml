@@ -6,6 +6,7 @@ substitutions:
 packages:
   - !include common/common.yaml
   - !include common/pkga-sen6x.yaml
+  - !include common/radar-none.yaml
   - !include common/add-co.yaml
   - !include common/add-ina2xx-rev-b.yaml
   - !include common/add-tsl2591.yaml

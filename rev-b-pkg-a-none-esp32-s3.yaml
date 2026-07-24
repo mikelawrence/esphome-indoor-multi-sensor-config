@@ -29,6 +29,7 @@ packages:
       # Main Config Files
       - common/common.yaml
       - common/pkga-sen6x.yaml
+      - common/radar-none.yaml
 
       # ADDITIONAL SENSORS
       # Carbon Dioxide (CO) - Figaro TGS5141 sensor
