@@ -282,7 +282,24 @@ number:
     step: 1
     initial_value: 75
     restore_value: true
-
+  - platform: template
+    # This is the common name across all radars for the delay off style timeout
+    name: "Timeout"
+    id: timeout
+    optimistic: true
+    initial_value: 60
+    min_value: 1
+    max_value: 3600
+    mode: box
+    step: 1
+    restore_value: true
+    unit_of_measurement: s
+    entity_category: config
+    on_value:
+      then:
+        - number.set:
+            id: timeout_c4001
+            value: !lambda return static_cast<float>(id(timeout).state);
 power_supply:
   # Enable audio DAC Power
   - id: dac_enable
