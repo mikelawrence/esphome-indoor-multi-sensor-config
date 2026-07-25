@@ -58,7 +58,4 @@ update:
     name: ${friendly_name} Firmware
     source: https://mikelawrence.github.io/esphome-indoor-multi-sensor-config/firmware/${name}.manifest.json
 
-esp32_improv:
-  authorizer: none
-
 improv_serial:
