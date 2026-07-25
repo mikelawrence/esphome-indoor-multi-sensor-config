@@ -44,9 +44,6 @@ ota:
   - platform: web_server
   - platform: http_request
     id: ota_http_request
-    on_begin:
-      - ble.disable:
-      - logger.log: "OTA starting: BLE Disabled"
 
 http_request:
 
@@ -55,8 +52,5 @@ update:
     id: update_http_request
     name: ${friendly_name} Firmware
     source: https://mikelawrence.github.io/esphome-indoor-multi-sensor-config/firmware/${name}.manifest.json
-
-esp32_improv:
-  authorizer: none
 
 improv_serial:

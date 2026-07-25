@@ -69,9 +69,6 @@ ota:
   - platform: esphome
     id: ota_esphome
     # password: !secret ota_password
-    on_begin:
-      - ble.disable:
-      - logger.log: "OTA starting: BLE Disabled"
 
 # WiFi is required
 wifi:
@@ -81,8 +78,5 @@ wifi:
   # use_address: xxx.xxx.xxx.xxx
 
 # Allow user to provision WiFi credentials with Bluetooth port using Improv standard
-esp32_improv:
-  authorizer: none
-
 # Allow user to provision WiFi credentials with USB port using Improv standard
 improv_serial:

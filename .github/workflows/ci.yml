@@ -3,11 +3,10 @@ name: CI
 on:
   pull_request:
     paths:
-      - '*.yaml'
-      - '.github/workflows/ci.yml'
+      - "*.yaml"
+      - ".github/workflows/ci.yml"
   schedule:
-    - cron: "0 0 * * 0"   # Weekly on Sunday at midnight
-
+    - cron: "0 0 * * 0"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number }}

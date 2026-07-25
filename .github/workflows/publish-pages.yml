@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-      - 'static/**'
-      - '.github/workflows/publish-pages.yml'
+      - "static/**"
+      - ".github/workflows/publish-pages.yml"
   workflow_run:
     workflows:
       - Publish Firmware
@@ -14,9 +14,8 @@ on:
       - completed
   pull_request:
     paths:
-      - 'static/**'
-      - '.github/workflows/publish-pages.yml'
-
+      - "static/**"
+      - ".github/workflows/publish-pages.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

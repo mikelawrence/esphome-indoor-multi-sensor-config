@@ -46,7 +46,4 @@ ota:
 wifi:
   power_save_mode: none
 
-esp32_improv:
-  authorizer: none
-
 improv_serial:
