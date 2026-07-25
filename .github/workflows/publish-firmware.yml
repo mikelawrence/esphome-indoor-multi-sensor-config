@@ -81,21 +81,21 @@ jobs:
     with:
       version: ${{ needs.build-firmware.outputs.version }}
 
-  promote-pre-release:
-    name: Promote Pre-Release to Release
-    needs:
-      - build-firmware
-      - upload-firmware
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Promote Pre-Release to Release
-        uses: ncipollo/release-action@v1
-        with:
-          allowUpdates: true
-          tag: ${{ needs.build-firmware.outputs.version }}
-          prerelease: false
-          makeLatest: true
-          generateReleaseNotes: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+  # promote-pre-release:
+  #   name: Promote Pre-Release to Release
+  #   needs:
+  #     - build-firmware
+  #     - upload-firmware
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: write
+  #   steps:
+  #     - name: Promote Pre-Release to Release
+  #       uses: ncipollo/release-action@v1
+  #       with:
+  #         allowUpdates: true
+  #         tag: ${{ needs.build-firmware.outputs.version }}
+  #         prerelease: false
+  #         makeLatest: true
+  #         generateReleaseNotes: true
+  #         token: ${{ secrets.GITHUB_TOKEN }}
