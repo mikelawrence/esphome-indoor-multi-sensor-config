@@ -1,11 +1,13 @@
 name: Publish Firmware
 
 on:
-  workflow_run:
-    workflows:
-      - Create Pre-Release
-    types: [completed]
-  workflow_dispatch:
+  release:
+    types: [published]
+  # workflow_run:
+  #   workflows:
+  #     - Create Pre-Release
+  #   types: [completed]
+  # workflow_dispatch:
 
 permissions:
   contents: write
