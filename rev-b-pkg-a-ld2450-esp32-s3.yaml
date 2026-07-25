@@ -69,9 +69,6 @@ ota:
   - platform: esphome
     id: ota_esphome
     # password: !secret ota_password
-    on_begin:
-      - ble.disable:
-      - logger.log: "OTA starting: BLE Disabled"
 
 # WiFi is required
 wifi:
