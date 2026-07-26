@@ -43,7 +43,7 @@ jobs:
           tag_name: ${{ needs.build-firmware.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+ 
   upload-to-release:
     name: Upload to Release
     uses: esphome/workflows/.github/workflows/upload-to-gh-release.yml@025a1e6255610c498ed590403b7e510b69e474df # 2026.4.1
