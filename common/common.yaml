@@ -11,9 +11,6 @@ substitutions:
 
 esphome:
   name_add_mac_suffix: false
-  project:
-    version: 2026.07.13
-    name: Mike Lawrence.Multi-Sensor
   on_boot:
     - priority: 500.0
       then:
