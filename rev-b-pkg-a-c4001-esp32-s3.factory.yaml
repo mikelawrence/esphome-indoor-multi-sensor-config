@@ -3,7 +3,7 @@ substitutions:
   name: "multi-sensor-pkga-c4001"
   friendly_name: "Multi-Sensor Pkg-A C4001"
   ref: "main"
-
+ 
 packages:
   - !include common/common.yaml
   - !include common/pkga-sen6x.yaml
