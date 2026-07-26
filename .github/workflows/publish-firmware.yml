@@ -1,13 +1,9 @@
 name: Publish Firmware
 
 on:
-  # release:
-  #   types: [published]
-  workflow_run:
-    workflows:
-      - Release Drafter
-    types:
-      - completed
+  release:
+    types: [published]
+
 permissions:
   contents: write
 
