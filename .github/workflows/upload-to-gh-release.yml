@@ -68,7 +68,6 @@ jobs:
             cp $f $fnew
             jq '.version = "$version"' "$fnew" > "$fnew.tmp" && mv "$fnew.tmp" "$fnew"
             echo "$fnew"
-          for f in *.manifest.json; do
           done
           popd
 
