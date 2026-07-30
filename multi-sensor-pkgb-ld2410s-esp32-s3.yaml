@@ -70,6 +70,17 @@ ota:
   - platform: esphome
     id: ota_esphome
     # password: !secret ota_password
+  - platform: web_server
+    id: ota_web_server
+
+# Web Server
+web_server:
+  port: 80
+  version: 3
+  # auth:
+  #   username: !secret web_server_username
+  #   password: !secret web_server_password
+
 
 # WiFi is required
 wifi:
