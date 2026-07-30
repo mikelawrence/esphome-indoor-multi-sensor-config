@@ -147,7 +147,7 @@ jobs:
         multi-sensor-pkgb-ld2450-esp32-s3.factory.yaml
       esphome-version: latest
       release-summary: ${{ needs.info.outputs.summary }}
-      release-url: https://github.com/mikelawrence/esphome-rgbcct-led-controller/releases/tag/${{ needs.info.outputs.version }}
+      release-url: https://github.com/${{ github.repository }}/releases/tag/${{ needs.info.outputs.version }}
       release-version: ${{ needs.info.outputs.version }}
 
   upload-to-release:
