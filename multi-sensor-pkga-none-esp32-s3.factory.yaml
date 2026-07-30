@@ -42,6 +42,7 @@ web_server:
 
 ota:
   - platform: web_server
+    id: ota_web_server
   - platform: http_request
     id: ota_http_request
 

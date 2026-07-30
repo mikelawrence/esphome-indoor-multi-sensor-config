@@ -1,15 +1,16 @@
 name: Publish Pages
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "static/**"
-      - ".github/workflows/publish-pages.yml"
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - "static/**"
+  #     - ".github/workflows/publish-pages.yml"
+  workflow_dispatch:
   workflow_run:
     workflows:
-      - Publish Firmware
+      - Create Release
     types:
       - completed
   pull_request:
