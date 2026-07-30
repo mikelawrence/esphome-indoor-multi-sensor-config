@@ -21,16 +21,16 @@ jobs:
       matrix:
         #### Modify below here to match your project ####
         file:
-          - rev-b-pkg-a-none-esp32-s3
-          - rev-b-pkg-a-c4001-esp32-s3
-          - rev-b-pkg-a-ld2410-esp32-s3
-          - rev-b-pkg-a-ld2410s-esp32-s3
-          - rev-b-pkg-a-ld2450-esp32-s3
-          - rev-b-pkg-b-none-esp32-s3
-          - rev-b-pkg-b-c4001-esp32-s3
-          - rev-b-pkg-b-ld2410-esp32-s3
-          - rev-b-pkg-b-ld2410s-esp32-s3
-          - rev-b-pkg-b-ld2450-esp32-s3
+          - multi-sensor-pkga-none-esp32-s3
+          - multi-sensor-pkga-c4001-esp32-s3
+          - multi-sensor-pkga-ld2410-esp32-s3
+          - multi-sensor-pkga-ld2410s-esp32-s3
+          - multi-sensor-pkga-ld2450-esp32-s3
+          - multi-sensor-pkgb-none-esp32-s3
+          - multi-sensor-pkgb-c4001-esp32-s3
+          - multi-sensor-pkgb-ld2410-esp32-s3
+          - multi-sensor-pkgb-ld2410s-esp32-s3
+          - multi-sensor-pkgb-ld2450-esp32-s3
         #### Modify above here to match your project ####
 
         esphome-version:

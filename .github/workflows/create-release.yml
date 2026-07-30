@@ -1,0 +1,177 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  info:
+    name: Draft CalVer Release Info
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Tag and Info
+        id: tag-info
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          # Fail fast:
+          # -e = stop on command error
+          # -u = error on unset variable
+          # -o pipefail = fail pipeline if any command in it fails
+          set -euo pipefail
+
+          # Query GitHub Releases API directly so we can access:
+          # - tag_name
+          # - html_url
+          # - body
+          # - draft
+          gh api "repos/${GH_REPO}/releases" > releases.json
+
+          # Keep only draft releases with tags that match CalVer:
+          #   YY.M.N
+          # Examples:
+          #   25.7.1   -> match
+          #   25.12.3  -> match
+          #   v25.7.1  -> no match
+          #   2025.7.1 -> no match
+          jq -c '
+            .[]
+            | select(.draft == true)
+            | select((.tag_name // "") | test("^[0-9]{2}\\.[0-9]{1,2}\\.[0-9]+$"))
+          ' releases.json > calver_draft_releases.jsonl
+
+          # If no matching draft CalVer releases exist, fail clearly.
+          if [ ! -s calver_draft_releases.jsonl ]; then
+            echo "::error::No draft releases found matching CalVer pattern YY.M.N"
+            exit 1
+          fi
+
+          # Sort numerically by:
+          #   field 1 = YY
+          #   field 2 = M
+          #   field 3 = N
+          #
+          # We print:
+          #   padded_YY padded_M padded_N compact_json
+          #
+          # Then sort by the first 3 columns and keep the highest row.
+          latest_json=$(
+            jq -r '
+              [
+                (.tag_name | split(".")[0] | tonumber),
+                (.tag_name | split(".")[1] | tonumber),
+                (.tag_name | split(".")[2] | tonumber),
+                .
+              ]
+              | @base64
+            ' calver_draft_releases.jsonl \
+            | while read -r row; do
+                obj="$(printf '%s' "$row" | base64 --decode)"
+                yy="$(printf '%s' "$obj" | jq -r '.[0]')"
+                mm="$(printf '%s' "$obj" | jq -r '.[1]')"
+                nn="$(printf '%s' "$obj" | jq -r '.[2]')"
+                json="$(printf '%s' "$obj" | jq -c '.[3]')"
+                printf "%02d %02d %09d %s\n" "$yy" "$mm" "$nn" "$json"
+              done \
+            | sort -k1,1n -k2,2n -k3,3n \
+            | tail -n1 \
+            | cut -d' ' -f4-
+          )
+
+          # Defensive check.
+          if [ -z "$latest_json" ] || [ "$latest_json" = "null" ]; then
+            echo "::error::Failed to determine the latest draft CalVer release"
+            exit 1
+          fi
+
+          latest_tag=$(jq -r '.tag_name // ""' <<< "$latest_json")
+          release_url=$(jq -r '.html_url // ""' <<< "$latest_json")
+          release_body=$(jq -r '.body // ""' <<< "$latest_json")
+
+          if [ -z "$latest_tag" ]; then
+            echo "::error::Latest draft CalVer release did not include a tag"
+            exit 1
+          fi
+
+          if [ -z "$release_url" ]; then
+            echo "::error::Latest draft CalVer release did not include a URL"
+            exit 1
+          fi
+
+          # Export for later steps in the same job.
+          echo "LATEST_DRAFT_TAG=$latest_tag" >> "$GITHUB_ENV"
+          echo "RELEASE_URL=$release_url" >> "$GITHUB_ENV"
+          {
+            echo "RELEASE_BODY<<EOF"
+            echo "$release_body"
+            echo "EOF"
+          } >> "$GITHUB_ENV"
+
+          # Export as step outputs.
+          echo "tag=$latest_tag" >> "$GITHUB_OUTPUT"
+          echo "release_url=$release_url" >> "$GITHUB_OUTPUT"
+          {
+            echo "release_body<<EOF"
+            echo "$release_body"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "Latest draft tag: $latest_tag"
+          echo "Release URL: $release_url"
+          echo "Release Body: $release_body"
+    outputs:
+      summary: ${{ steps.tag-info.outputs.release_body }}
+      url: ${{ steps.tag-info.outputs.release_url }}
+      version: ${{ steps.tag-info.outputs.tag }}
+
+  build-firmware:
+    name: Build Firmware
+    needs:
+      - info
+    uses: esphome/workflows/.github/workflows/build.yml@9f6577fd37b5cf773ab1b9be929714a0dcd15661  # 2026.7.0
+    with:
+      files: |
+        multi-sensor-pkga-none-esp32-s3.factory.yaml
+        multi-sensor-pkga-c4001-esp32-s3.factory.yaml
+        multi-sensor-pkga-ld2410-esp32-s3.factory.yaml
+        multi-sensor-pkga-ld2410s-esp32-s3.factory.yaml
+        multi-sensor-pkga-ld2450-esp32-s3.factory.yaml
+        multi-sensor-pkgb-none-esp32-s3.factory.yaml
+        multi-sensor-pkgb-c4001-esp32-s3.factory.yaml
+        multi-sensor-pkgb-ld2410-esp32-s3.factory.yaml
+        multi-sensor-pkgb-ld2410s-esp32-s3.factory.yaml
+        multi-sensor-pkgb-ld2450-esp32-s3.factory.yaml
+      esphome-version: latest
+      release-summary: ${{ needs.info.outputs.summary }}
+      release-url: https://github.com/mikelawrence/esphome-rgbcct-led-controller/releases/tag/${{ needs.info.outputs.version }}
+      release-version: ${{ needs.info.outputs.version }}
+
+  upload-to-release:
+    name: Upload to Release
+    uses: ./.github/workflows/upload-to-gh-release.yml
+    needs:
+      - build-firmware
+    with:
+      version: ${{ needs.build-firmware.outputs.version }}
+
+  promote-draft:
+    name: Promote Draft to Release
+    needs:
+      - info
+      - upload-to-release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Promote Draft to Release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          tag: ${{ needs.info.outputs.version }}
+          body: ${{ needs.info.outputs.summary }}
+          makeLatest: true
+          token: ${{ secrets.GITHUB_TOKEN }}

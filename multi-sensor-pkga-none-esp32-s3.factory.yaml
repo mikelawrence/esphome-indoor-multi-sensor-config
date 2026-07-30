@@ -1,15 +1,13 @@
 substitutions:
   # name must be unique across all factory builds in this project and 24 characters or less
-  name: "multi-sensor-pkgb-ld2410"
-  friendly_name: "Multi-Sensor Pkg-B LD2410"
+  name: "multi-sensor-pkga-none-new"
+  friendly_name: "Multi-Sensor Pkg-A No-Radar"
   ref: "main"
 
 packages:
   - !include common/common.yaml
-  - !include common/pkgb-sht4x.yaml
-  - !include common/pkgb-scd4x.yaml
-  - !include common/pkgb-sgp4x.yaml
-  - !include common/radar-ld2410.yaml
+  - !include common/pkga-sen6x.yaml
+  - !include common/radar-none.yaml
   - !include common/add-co.yaml
   - !include common/add-ina2xx-rev-b.yaml
   - !include common/add-tsl2591.yaml
@@ -19,13 +17,12 @@ packages:
   - !include common/feat-smoke-alarm.yaml
 
 dashboard_import:
-  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/rev-b-pkg-b-ld2410-esp32-s3.yaml@${ref}
+  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/multi-sensor-pkga-none-esp32-s3.yaml@${ref}
   import_full_config: true
 
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
-  name_add_mac_suffix: true
   project:
     name: Mike Lawrence.${friendly_name}
     version: dev  # This will be replaced by the github workflows with the `release` version
