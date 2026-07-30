@@ -68,7 +68,6 @@ ota:
   - platform: esphome
     id: ota_esphome
     # password: !secret ota_password
-  - platform: web_server
 
 
 # WiFi is required
