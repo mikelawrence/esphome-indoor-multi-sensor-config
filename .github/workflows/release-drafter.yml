@@ -9,32 +9,14 @@ permissions:
   contents: write
   pull-requests: read
 
+concurrency:
+  group: release-drafter
+  cancel-in-progress: true
+
 jobs:
   release-drafter:
-    name: Release Drafter
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
-        with:
-          fetch-depth: 0  # need all tags to compute the next patch
-
-      - name: Compute next version
-        id: version
-        run: |
-          prefix="$(date -u +%y.%-m)"
-          latest="$(git tag --list "${prefix}.*" --sort=-v:refname | head -n1)"
-          if [ -z "$latest" ]; then
-            next="${prefix}.1"
-          else
-            patch="${latest##*.}"
-            next="${prefix}.$((patch + 1))"
-          fi
-          echo "version=$next" >> "$GITHUB_OUTPUT"
-
-      - uses: release-drafter/release-drafter@eada3c96a64734dd381cfbda23511034e328ddb0  # v7.6.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag: ${{ steps.version.outputs.version }}
-          name: ${{ steps.version.outputs.version }}
+    name: Update draft release
+    # Computes the next CalVer version (YY.M.N, reusing the current draft's
+    # sequence number) and runs release-drafter with it. Reads this repo's
+    # .github/release-drafter.yml for the changelog categories.
+    uses: esphome/workflows/.github/workflows/draft-calver-release.yml@9f6577fd37b5cf773ab1b9be929714a0dcd15661  # 2026.7.0

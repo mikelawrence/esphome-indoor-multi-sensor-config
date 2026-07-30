@@ -1,6 +1,6 @@
 substitutions:
-  name: "multi-sensor-pkga-ld2450"
-  friendly_name: "Multi-Sensor Pkg-A LD2450"
+  name: "multi-sensor-pkga-2410s"
+  friendly_name: "Multi-Sensor Pkg-A LD2410S"
 
   # Settings
   # Voice name allows you to change the voice of spoken announcements to fit your preferences.
@@ -29,7 +29,7 @@ packages:
       # Main Config Files
       - common/common.yaml
       - common/pkga-sen6x.yaml
-      - common/radar-ld2450.yaml
+      - common/radar-ld2410s.yaml
 
       # ADDITIONAL SENSORS
       # Carbon Dioxide (CO) - Figaro TGS5141 sensor
@@ -55,7 +55,6 @@ packages:
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
-  name_add_mac_suffix: false
 
 # API is a requirement of the dashboard import.
 # Grab a key from https://esphome.io/components/api.html

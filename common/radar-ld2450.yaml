@@ -216,10 +216,10 @@ script:
         total_tgt_count = still_tgt_count + move_tgt_count;
         for (uint8_t zone = 0; zone < 3; zone++)
         {
-          if(!sens_zone_pres[zone]->has_state() || (sens_zone_pres[zone]->state != zone_all_targets[zone] > 0))
+          if(!sens_zone_pres[zone]->has_state() || sens_zone_pres[zone]->state != (zone_all_targets[zone] > 0))
             sens_zone_pres[zone]->publish_state(zone_all_targets[zone] > 0);
         }
-        if(!id(presence_mmwave).has_state() || (id(presence_mmwave).state != total_tgt_count > 0))
+        if(!id(presence_mmwave).has_state() || id(presence_mmwave).state != (total_tgt_count > 0))
           id(presence_mmwave).publish_state(total_tgt_count > 0);
 
         // Only update if the update rate time has elapsed or target count went from 0 to 1 or more targets

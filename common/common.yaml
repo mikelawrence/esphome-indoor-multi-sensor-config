@@ -10,7 +10,6 @@ substitutions:
   status_nighttime_lux: "3.0"
 
 esphome:
-  name_add_mac_suffix: false
   on_boot:
     - priority: 500.0
       then:

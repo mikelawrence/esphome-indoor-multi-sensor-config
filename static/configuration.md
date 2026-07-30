@@ -14,7 +14,7 @@ You only need to declare substitutions if you need a value other than default.
 
 ```yaml
 substitutions:
-  name: "sensor-rev-b-pkg-a"
+  name: "multi-sensor-pkga-c4001"
   friendly_name: "Indoor Multi-Sensor Rev-B Sens-Pkg-A C4001"
 
   # Settings

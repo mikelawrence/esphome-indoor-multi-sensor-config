@@ -1,6 +1,6 @@
 substitutions:
-  name: "multi-sensor-pkgb-ld2450"
-  friendly_name: "Multi-Sensor Pkg-B LD2450"
+  name: "multi-sensor-pkga-ld2450"
+  friendly_name: "Multi-Sensor Pkg-A LD2450"
 
   # Settings
   # Voice name allows you to change the voice of spoken announcements to fit your preferences.
@@ -28,9 +28,7 @@ packages:
     files:
       # Main Config Files
       - common/common.yaml
-      - common/pkgb-sht4x.yaml
-      - common/pkgb-scd4x.yaml
-      - common/pkgb-sgp4x.yaml
+      - common/pkga-sen6x.yaml
       - common/radar-ld2450.yaml
 
       # ADDITIONAL SENSORS
@@ -57,7 +55,6 @@ packages:
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
-  name_add_mac_suffix: false
 
 # API is a requirement of the dashboard import.
 # Grab a key from https://esphome.io/components/api.html
