@@ -56,7 +56,8 @@ jobs:
           popd
           pushd output
           for f in *.manifest.json; do
-            fnew=${f/-new/}
+            fnew=${f/multi-sensor-pkga/rev-b-pkg-a}
+            fnew=${fnew/multi-sensor-pkgb/rev-b-pkg-b}
             cp $f $fnew
             jq '.version = "20${{ inputs.version }}"' "$fnew" > "$fnew.tmp" && mv "$fnew.tmp" "$fnew"
           done

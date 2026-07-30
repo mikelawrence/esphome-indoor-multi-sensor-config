@@ -1,6 +1,6 @@
 substitutions:
   # name must be unique across all factory builds in this project and 24 characters or less
-  name: "multi-sensor-pkga-ld2410-new"
+  name: "multi-sensor-pkga-ld2410"
   friendly_name: "Multi-Sensor Pkg-A LD2410"
   ref: "main"
 
