@@ -81,7 +81,6 @@ web_server:
   #   username: !secret web_server_username
   #   password: !secret web_server_password
 
-
 # WiFi is required
 wifi:
   power_save_mode: none
