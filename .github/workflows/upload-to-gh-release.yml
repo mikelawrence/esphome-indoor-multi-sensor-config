@@ -68,7 +68,7 @@ jobs:
           echo "Older manifests need a version with a four digit year: ${{ inputs.version }} -> $version"
           for f in *.manifest.json; do
             # Base variant: strip -new and update version
-            fnew1=$(sed 's/-new//g' <<< "$f")
+            fnew1=$(sed 's/-new//g; s/ld2410s/2410s/g' <<< "$f")
             cp "$f" "$fnew1"
             jq --arg v "$version" '.version = $v' "$fnew1" > "$fnew1.tmp" && mv "$fnew1.tmp" "$fnew1"
             # Rev-B variant: rename from the base name and copy from the updated base file
