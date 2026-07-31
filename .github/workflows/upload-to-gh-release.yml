@@ -57,7 +57,22 @@ jobs:
           done
           popd
 
-      - name: Create older manifest files
+      - name: Check legacy cutoff date
+        id: legacy_cutoff
+        shell: bash
+        run: |
+          cutoff="2027-01-31"
+          today="$(date +%F)"
+
+          if [[ "$today" > "$cutoff" ]]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "Legacy step expired on $cutoff"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create legacy manifest files
+        if: steps.legacy_cutoff.outputs.enabled == 'true'
         run: |-
           set -euo pipefail
           shopt -s nullglob
@@ -68,7 +83,7 @@ jobs:
           echo "Older manifests need a version with a four digit year: ${{ inputs.version }} -> $version"
           for f in *.manifest.json; do
             # Base variant: strip -new and update version
-            fnew1=$(sed 's/-new//g' <<< "$f")
+            fnew1=$(sed 's/-new//g; s/ld2410s/2410s/g' <<< "$f")
             cp "$f" "$fnew1"
             jq --arg v "$version" '.version = $v' "$fnew1" > "$fnew1.tmp" && mv "$fnew1.tmp" "$fnew1"
             # Rev-B variant: rename from the base name and copy from the updated base file
