@@ -68,7 +68,7 @@ jobs:
             fnew=$(sed 's/-new//g' <<< "$f")
             cp $f $fnew
             jq '.version = "$version"' "$fnew" > "$fnew.tmp" && mv "$fnew.tmp" "$fnew"
-            fnew=$(sed 's/multi-sensor-pkg/rev-b-pkg-/g' <<< "$f")
+            fnew=$(sed 's/multi-sensor-pkg/rev-a-pkg-/g; 's/multi-sensor-pkg/rev-b-pkg-/g' <<< "$f")
             cp $f $fnew
             echo "$fnew"
           done
