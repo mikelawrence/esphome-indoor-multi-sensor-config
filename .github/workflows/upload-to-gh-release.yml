@@ -54,13 +54,23 @@ jobs:
             popd
           done
           popd
+
+      - name: Create older manifest files
+        run: |-
+          shopt -s nullglob
           pushd output
+          version="$(date +%C)${{ inputs.version }}"
+          echo 'Creating new mainfest.json files...'
+          echo 'As some point this should be removed...'
+          echo 'Older manifests need version with a four digit year: "$version"'
           for f in *.manifest.json; do
             fnew=${f/multi-sensor-pkg/rev-b-pkg-}
             cp $f $fnew
-            jq '.version = "20${{ inputs.version }}"' "$fnew" > "$fnew.tmp" && mv "$fnew.tmp" "$fnew"
+            jq '.version = "$version"' "$fnew" > "$fnew.tmp" && mv "$fnew.tmp" "$fnew"
+            echo "$fnew"
           done
           popd
+
       - name: Upload files to release
         env:
           GH_TOKEN: ${{ github.token }}
