@@ -65,9 +65,11 @@ jobs:
           echo 'As some point this should be removed...'
           echo 'Older manifests need a version with a four digit year: "${{ inputs.version }}" -> "$version"'
           for f in *.manifest.json; do
-            fnew=$(sed 's/multi-sensor-pkg/rev-b-pkg-/g' <<< "$f")
+            fnew=$(sed 's/-new//g' <<< "$f")
             cp $f $fnew
             jq '.version = "$version"' "$fnew" > "$fnew.tmp" && mv "$fnew.tmp" "$fnew"
+            fnew=$(sed 's/multi-sensor-pkg/rev-b-pkg-/g' <<< "$f")
+            cp $f $fnew
             echo "$fnew"
           done
           popd
