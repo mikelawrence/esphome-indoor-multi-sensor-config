@@ -38,6 +38,7 @@ jobs:
 
       - name: Copy files to output
         run: |-
+          set -euo pipefail
           shopt -s nullglob
           mkdir output
           version="${{ inputs.version }}"
@@ -58,6 +59,7 @@ jobs:
 
       - name: Create older manifest files
         run: |-
+          set -euo pipefail
           shopt -s nullglob
           pushd output
           version="$(date +%C)${{ inputs.version }}"
