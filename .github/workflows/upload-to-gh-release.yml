@@ -86,6 +86,7 @@ jobs:
           VERSION: ${{ inputs.version }}
           DRAFT: ${{ inputs.draft }}
         run: |-
+          set -euo pipefail
           shopt -s nullglob
           files=(output/*)
           if [ ${#files[@]} -eq 0 ]; then
