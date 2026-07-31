@@ -1,5 +1,6 @@
 name: Upload firmware to GitHub Release
 # based on this file https://github.com/esphome/workflows/blob/main/.github/workflows/upload-to-gh-release.yml
+
 on:
   workflow_call:
     inputs:
@@ -62,9 +63,9 @@ jobs:
           version="$(date +%C)${{ inputs.version }}"
           echo 'Creating new mainfest.json files...'
           echo 'As some point this should be removed...'
-          echo 'Older manifests need version with a four digit year: "$version"'
+          echo 'Older manifests need a version with a four digit year: "${{ inputs.version }}" -> "$version"'
           for f in *.manifest.json; do
-            fnew=${f/multi-sensor-pkg/rev-b-pkg-}
+            fnew=$(sed 's/multi-sensor-pkg/rev-b-pkg-/g' <<< "$f")
             cp $f $fnew
             jq '.version = "$version"' "$fnew" > "$fnew.tmp" && mv "$fnew.tmp" "$fnew"
             echo "$fnew"
