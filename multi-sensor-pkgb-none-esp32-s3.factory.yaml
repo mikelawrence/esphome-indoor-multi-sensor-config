@@ -19,7 +19,7 @@ packages:
   - !include common/feat-smoke-alarm.yaml
 
 dashboard_import:
-  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/multi-sensor-pkgb-c4001-esp32-s3.yaml@${ref}
+  package_import_url: github://mikelawrence/esphome-indoor-multi-sensor-config/multi-sensor-pkgb-none-esp32-s3.yaml@${ref}
   import_full_config: true
 
 esphome:
