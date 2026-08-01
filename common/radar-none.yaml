@@ -1,8 +1,15 @@
-# Adds DFRobot C4001 (SEN0609 or SEN0610) mmWave Radar
-# Currently this is my PR on ESPHome, there is a new PR from the DFRobot in progress
+# Adds No Radar
 # Not compatible with any other radar package
 substitutions:
   # SEN6X Temperature Compensation values when there is no radar
   sen66_tc_offset: "-1.46"
   sen66_tc_normalized_offset_slope: "-0.043"
   sen66_tc_time_constant: "1186"
+
+text_sensor:
+  - platform: template
+    name: "Radar Included"
+    id: radar_included
+    entity_category: diagnostic
+    update_interval: 600s
+    lambda: !lambda return {"None"};
