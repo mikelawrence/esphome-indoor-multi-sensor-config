@@ -292,7 +292,7 @@ There are numerous entities presented to Home Assistant here is a complete list 
 
 - **Start Fan Cleaning** (*Button*): Start a fan cleaning for the SEN66 sensor. Only available with the Sensor-Pkg-A config.
 
-- **Temperature Cal Offset** (*Number*): This calibration offset is added to Temperature readings.
+- **Temperature Cal Offset** (*Number*): This calibration offset is added to Temperature readings. Temperature readings are averaged so keep in mind changes to this will take time to settle.
 
 - **Timeout** (*Number*): For binary_sensors this is how long the sensor has been quiet before turning off. For sensors this is minimum time between updates. If the is no change there will be no update. Default is 60s with a range of 1 to 3600 s.
 
