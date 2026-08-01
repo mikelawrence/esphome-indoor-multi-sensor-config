@@ -83,10 +83,8 @@ number:
     mode: box
     restore_value: true
   - platform: template
-    name: "Temperature Cal Offset"
+    name: "Temperature Cal Offset (°C)"
     id: temperature_calibration_offset
-    device_class: temperature
-    unit_of_measurement: "°C"
     entity_category: config
     optimistic: true
     max_value: 10.0
