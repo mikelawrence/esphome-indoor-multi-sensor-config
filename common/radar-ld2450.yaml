@@ -4,8 +4,8 @@
 #   This sensor is mounted upside down target x and angle sensors are inverted
 substitutions:
   # SEN6X Temperature Compensation values as specific to the LD2450 radar module
-  sen66_tc_offset: "-2.268"
-  sen66_tc_normalized_offset_slope: "-0.0266"
+  sen66_tc_offset: "-2.28"
+  sen66_tc_normalized_offset_slope: "-0.027"
   sen66_tc_time_constant: "1180"
 
 interval:

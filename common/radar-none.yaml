@@ -2,8 +2,8 @@
 # Not compatible with any other radar package
 substitutions:
   # SEN6X Temperature Compensation values when there is no radar
-  sen66_tc_offset: "-1.46"
-  sen66_tc_normalized_offset_slope: "-0.043"
+  sen66_tc_offset: "-1.462"
+  sen66_tc_normalized_offset_slope: "-0.044"
   sen66_tc_time_constant: "1186"
 
 text_sensor:

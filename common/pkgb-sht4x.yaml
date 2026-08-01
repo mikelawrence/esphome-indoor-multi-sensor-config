@@ -9,9 +9,8 @@ external_components:
 
 number:
   - platform: template
-    name: "Temperature Cal Offset"
+    name: "Temperature Cal Offset (°C)"
     id: temperature_calibration_offset
-    device_class: temperature
     entity_category: config
     optimistic: true
     max_value: 10.0
