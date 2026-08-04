@@ -101,7 +101,7 @@ number:
             id: sen66_sensor
             slot: 1
             offset: !lambda "return x;"
-            normalized_offset_slope: 0
+            slope: 0
             time_constant: 10
         - logger.log:
             format: "SEN66 temperature offset updated"
@@ -120,9 +120,9 @@ sensor:
       t2: 300
       k: 20
       p: 20
-    temperature_compensation:
+    temperature_offset:
       offset: ${sen66_to_offset}
-      normalized_offset_slope: ${sen66_to_slope}
+      slope: ${sen66_to_slope}
       time_constant: ${sen66_to_time_constant}
     temperature:
       # temperature 1s interval averaged to once a minute, first 5 minutes ignored
