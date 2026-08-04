@@ -6,9 +6,11 @@ substitutions:
   sen66_to_offset: "-0.650"
   sen66_to_slope: "-0.040"
   sen66_to_time_constant: "1493"
+  # by default this is the tag to retrieve from github for the dfrobot_c4001 component, can be overridden
+  c4001_tag: "611a2334b3b0e77034daefb9eb3b20019626f163"  # 2026.08.0
 
 external_components:
-  - source: github://mikelawrence/esphome-component-dfrobot-c4001@${ref}
+  - source: github://mikelawrence/esphome-component-dfrobot-c4001@${c4001_tag}
 
 power_supply:
   # enables power to the C4001 module
