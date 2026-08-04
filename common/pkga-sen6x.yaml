@@ -11,7 +11,7 @@ substitutions:
   sen66_throttle_average: "60s"
 
 external_components:
-  - source: github://mikelawrence/esphome-component-sen6x
+  - source: github://mikelawrence/esphome-component-sen6x@{ref}
 
 esphome:
   on_boot:
@@ -95,14 +95,14 @@ number:
     restore_value: true
     on_value:
       then:
-        - sen6x.set_temperature_compensation:
+        - sen6x.set_temperature_offset:
             id: sen66_sensor
             slot: 1
             offset: !lambda "return x;"
             normalized_offset_slope: 0
             time_constant: 10
         - logger.log:
-            format: "SEN66 temperature compensation updated"
+            format: "SEN66 temperature offset updated"
             level: DEBUG
 
 sensor:
@@ -119,9 +119,9 @@ sensor:
       k: 20
       p: 20
     temperature_compensation:
-      offset: ${sen66_tc_offset}
-      normalized_offset_slope: ${sen66_tc_normalized_offset_slope}
-      time_constant: ${sen66_tc_time_constant}
+      offset: ${sen66_to_offset}
+      normalized_offset_slope: ${sen66_to_slope}
+      time_constant: ${sen66_to_time_constant}
     temperature:
       # temperature 1s interval averaged to once a minute, first 5 minutes ignored
       id: temperature_internal
@@ -188,7 +188,7 @@ sensor:
         then:
           - lambda: |-
               if (id(pressure_hpa_var) > 0.0)
-                id(sen66_sensor).set_ambient_pressure_compensation(id(pressure_hpa_var));
+                id(sen66_sensor).set_ambient_pressure(id(pressure_hpa_var));
               if (x > 2000.0)
                 id(co2_warning_var) = true;
               if (x < 1800.0)
