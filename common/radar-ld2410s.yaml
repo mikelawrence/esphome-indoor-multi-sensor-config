@@ -2,12 +2,14 @@
 #   Not compatible with any other radar package
 substitutions:
   # SEN6X Temperature Compensation values as specific to the LD2410S radar module
-  sen66_tc_offset: "-1.152"
-  sen66_tc_normalized_offset_slope: "-0.033"
-  sen66_tc_time_constant: "1233"
+  sen66_to_offset: "-1.152"
+  sen66_to_slope: "-0.033"
+  sen66_to_time_constant: "1233"
+  # by default this is the tag to retrieve from github for the ld2410s component, can be overridden
+  ld2410s_tag: "01186d2d0838267d02ad93535eab051819738c36"  # 2026.07.0
 
 external_components:
-  - source: github://mikelawrence/esphome-component-ld2410s
+  - source: github://mikelawrence/esphome-component-ld2410s@${ld2410s_tag}
 
 uart:
   - id: ld2410s_uart

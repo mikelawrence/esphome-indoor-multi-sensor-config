@@ -9,9 +9,11 @@ substitutions:
   # SEN66 sensor readings are dropped for the first 5 minutes, allows
   sen66_skip_initial: "300"
   sen66_throttle_average: "60s"
+  # by default this is the tag to retrieve from github for the sen6x component, can be overridden
+  sen6x_tag: "611a2334b3b0e77034daefb9eb3b20019626f163"  # 2026.08.0
 
 external_components:
-  - source: github://mikelawrence/esphome-component-sen6x
+  - source: github://mikelawrence/esphome-component-sen6x@{sen6x_tag}
 
 esphome:
   on_boot:
@@ -95,14 +97,14 @@ number:
     restore_value: true
     on_value:
       then:
-        - sen6x.set_temperature_compensation:
+        - sen6x.set_temperature_offset:
             id: sen66_sensor
             slot: 1
             offset: !lambda "return x;"
-            normalized_offset_slope: 0
+            slope: 0
             time_constant: 10
         - logger.log:
-            format: "SEN66 temperature compensation updated"
+            format: "SEN66 temperature offset updated"
             level: DEBUG
 
 sensor:
@@ -118,10 +120,10 @@ sensor:
       t2: 300
       k: 20
       p: 20
-    temperature_compensation:
-      offset: ${sen66_tc_offset}
-      normalized_offset_slope: ${sen66_tc_normalized_offset_slope}
-      time_constant: ${sen66_tc_time_constant}
+    temperature_offset:
+      offset: ${sen66_to_offset}
+      slope: ${sen66_to_slope}
+      time_constant: ${sen66_to_time_constant}
     temperature:
       # temperature 1s interval averaged to once a minute, first 5 minutes ignored
       id: temperature_internal
@@ -188,7 +190,7 @@ sensor:
         then:
           - lambda: |-
               if (id(pressure_hpa_var) > 0.0)
-                id(sen66_sensor).set_ambient_pressure_compensation(id(pressure_hpa_var));
+                id(sen66_sensor).set_ambient_pressure(id(pressure_hpa_var));
               if (x > 2000.0)
                 id(co2_warning_var) = true;
               if (x < 1800.0)
