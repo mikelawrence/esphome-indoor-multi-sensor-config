@@ -1,0 +1,19 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "ESPHome sen6x external component",
+      "managerFilePatterns": ["/^common/[^/]+\\.ya?ml$/"],
+      "matchStrings": [
+        "sen6x_tag:\\s*\"(?<currentDigest>[0-9a-f]{40})\"\\s*#\\s*(?<currentValue>\\d{2,4}\\.\\d{1,2}\\.\\d+)"
+      ],
+      "depNameTemplate": "sen6x",
+      "packageNameTemplate": "mikelawrence/esphome-component-sen6x",
+      "datasourceTemplate": "github-tags",
+      "versioningTemplate": "regex:^(?<major>\\d{2,4})\\.(?<minor>\\d{1,2})\\.(?<patch>\\d+)$",
+      "autoReplaceStringTemplate": "sen6x_tag: \"{{{newDigest}}}\"  # {{{newValue}}}"
+    }
+  ]
+}
