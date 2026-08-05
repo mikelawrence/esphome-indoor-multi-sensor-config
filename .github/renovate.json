@@ -1,8 +1,15 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
   "timezone": "America/Chicago",
   "schedule": ["* 0-4 * * *"],
+  "packageRules": [
+    {
+      "description": "Group all GitHub Actions updates",
+      "matchManagers": ["github-actions"],
+      "groupName": "github-actions"
+    }
+  ],
   "customManagers": [
     {
       "customType": "regex",
@@ -43,4 +50,5 @@
       "versioningTemplate": "regex:^(?<major>\\d{2,4})\\.(?<minor>\\d{1,2})\\.(?<patch>\\d+)$",
       "autoReplaceStringTemplate": "sen6x_tag: \"{{{newDigest}}}\"  # {{{newValue}}}"
     }
+  ]
 }
