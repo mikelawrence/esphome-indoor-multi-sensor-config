@@ -1,0 +1,54 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
+  "timezone": "America/Chicago",
+  "schedule": ["* 0-4 * * *"],
+  "packageRules": [
+    {
+      "description": "Group all GitHub Actions updates",
+      "matchManagers": ["github-actions"],
+      "groupName": "github-actions"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "ESPHome dfrobot-c4001 external component",
+      "managerFilePatterns": ["/^common/[^/]+\\.ya?ml$/"],
+      "matchStrings": [
+        "c4001_tag:\\s*\"(?<currentDigest>[0-9a-f]{40})\"\\s*#\\s*(?<currentValue>\\d{2,4}\\.\\d{1,2}\\.\\d+)"
+      ],
+      "depNameTemplate": "c4001",
+      "packageNameTemplate": "mikelawrence/esphome-component-dfrobot-c4001",
+      "datasourceTemplate": "github-tags",
+      "versioningTemplate": "regex:^(?<major>\\d{2,4})\\.(?<minor>\\d{1,2})\\.(?<patch>\\d+)$",
+      "autoReplaceStringTemplate": "c4001_tag: \"{{{newDigest}}}\"  # {{{newValue}}}"
+    },
+    {
+      "customType": "regex",
+      "description": "ESPHome ld2410s external component",
+      "managerFilePatterns": ["/^common/[^/]+\\.ya?ml$/"],
+      "matchStrings": [
+        "ld2410s_tag:\\s*\"(?<currentDigest>[0-9a-f]{40})\"\\s*#\\s*(?<currentValue>\\d{2,4}\\.\\d{1,2}\\.\\d+)"
+      ],
+      "depNameTemplate": "ld2410s",
+      "packageNameTemplate": "mikelawrence/esphome-component-ld2410s",
+      "datasourceTemplate": "github-tags",
+      "versioningTemplate": "regex:^(?<major>\\d{2,4})\\.(?<minor>\\d{1,2})\\.(?<patch>\\d+)$",
+      "autoReplaceStringTemplate": "ld2410s_tag: \"{{{newDigest}}}\"  # {{{newValue}}}"
+    },
+    {
+      "customType": "regex",
+      "description": "ESPHome sen6x external component",
+      "managerFilePatterns": ["/^common/[^/]+\\.ya?ml$/"],
+      "matchStrings": [
+        "sen6x_tag:\\s*\"(?<currentDigest>[0-9a-f]{40})\"\\s*#\\s*(?<currentValue>\\d{2,4}\\.\\d{1,2}\\.\\d+)"
+      ],
+      "depNameTemplate": "sen6x",
+      "packageNameTemplate": "mikelawrence/esphome-component-sen6x",
+      "datasourceTemplate": "github-tags",
+      "versioningTemplate": "regex:^(?<major>\\d{2,4})\\.(?<minor>\\d{1,2})\\.(?<patch>\\d+)$",
+      "autoReplaceStringTemplate": "sen6x_tag: \"{{{newDigest}}}\"  # {{{newValue}}}"
+    }
+  ]
+}

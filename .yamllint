@@ -5,6 +5,9 @@ ignore-from-file: .gitignore
 
 rules:
   document-start: disable
+  comments:
+    min-spaces-from-content: 1
+    require-starting-space: true
   empty-lines:
     level: error
     max: 1
