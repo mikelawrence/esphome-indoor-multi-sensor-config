@@ -19,7 +19,7 @@ If you are really new to ESPHome I would recommend searching on Youtube for gett
 
 # PCB Rev B Web Installation
 
-Use the buttons below to install pre-built firmware directly to your Rev-B hardware via USB. 
+Use the buttons below to install pre-built firmware directly to your Rev-B hardware via USB.
 
 > This will install version <span id="current-version">unknown</span>.
 
@@ -43,13 +43,13 @@ I have perfomed this calibration procedure on each of the radar configurations s
 
 - [Seedling Heat Mat](https://a.co/d/0hUoT6jo) is intended to be used with the seedling tray. The low wattage works well for this application but be wary of the included controller. It does not regulate the temperature very well. As in more than +/- 2°F which is not that back but but is oscillates between the min and max and is clearly not a PID controller. In the end I used a separate PID controller as indicated below.
 
-- [PID Temperature Controller](https://a.co/d/08tquZl0) is a significant improvement of the on/off contoller above with hysterysis. It has Auto-Tuning which works quite well. Letting temperature stabilize in my blanket wrapped Seedling Tray with this controller resulted in very little oscillation.
+- [PID Temperature Controller](https://a.co/d/08tquZl0) is a significant improvement of the on/off controller above with hysteresis. It has Auto-Tuning which works quite well. Letting temperature stabilize in my blanket wrapped Seedling Tray with this controller resulted in very little oscillation.
 
 - [SEK SensorBridge](https://sensirion.com/products/catalog/SEK-SensorBridge) is used to capture temperature data from separate SHT45 sensor and the internal SEN66 sensor embedded in Multi-Sensor platform.
 
 Following the Sensirion procedure the computed values for each radar configuration are stored in the SEN66 Temperature Compensation Slot 0. Temperature Cal Offset is stored in Slot 1 and it used to further calibrate the temperature and humidity additional heating or cooling sources outside the the sensor module.
 
-Here is a picture of the inside calibration setup. I printed a small platform to hold the sensor behind a corner wall. The corner wall purpose is two fold, first is provide a convenient mounting surface and it block drafts from the small circulation fan attached to the underside of the printed platform. Also under the platform is the SEK Sensorbridge
+Here is a picture of the inside calibration setup. I printed a small platform to hold the sensor behind a corner wall. The corner wall purpose is two fold, first is provide a convenient mounting surface and it block drafts from the small circulation fan attached to the underside of the printed platform. Also under the platform is the SEK Sensorbridge.
 
 ![Inside](https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/main/static/inside.jpg)
 
@@ -64,6 +64,10 @@ Here is a screen capture of the Sensirion Dataviewer with the data from the LD24
 ## Package B
 
 The SHT45 sensor does not have built in temperature and humidity compensation. However, the temperature can still be adjusted with the Temperature Cal Offset number in Home Assistant. The humidity is also temperature compensated by the Temperature Cal Offset with the Magnus formula.
+
+## Additional Calibration Steps
+
+The calibration settings determined by the testing above are automatically applied by the configuration. This makes the sensor more accurate but there are other influences that will cause you to need additional calibration. To that end there are two numbers `Temperature Cal Offset` and  `Humidity Cal Offset` that added with an offset filter for final calibration. Remember that Humidity is affected temperature so it is always best to get temperature calibrated before attempting Humidity calibration.
 
 # Next Steps
 
