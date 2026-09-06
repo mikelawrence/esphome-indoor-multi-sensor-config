@@ -3,7 +3,7 @@
 #     Temperature and Humidity
 #   Not compatible with PACKAGE A package
 external_components:
-  - source: github://pr#17422
+  - source: github://pr#18287
     components: [sensor]
     refresh: 1h
 
