@@ -10,7 +10,7 @@ substitutions:
   sen66_skip_initial: "300"
   sen66_throttle_average: "60s"
   # by default this is the tag to retrieve from github for the sen6x component, can be overridden
-  sen6x_tag: "611a2334b3b0e77034daefb9eb3b20019626f163"  # 2026.08.0
+  sen6x_tag: "020393f9b5baa71699c88b507eb6e2e968043107"  # 2026.9.0
 
 external_components:
   - source: github://mikelawrence/esphome-component-sen6x@${sen6x_tag}
