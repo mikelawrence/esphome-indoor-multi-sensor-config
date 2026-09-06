@@ -1,6 +1,8 @@
 substitutions:
   name: "multi-sensor-pkga-2410s"
   friendly_name: "Multi-Sensor Pkg-A LD2410S"
+  # In general just leave at "main" unless you want to use a specific branch or tag.
+  ref: "main"
 
   # Settings
   # Voice name allows you to change the voice of spoken announcements to fit your preferences.
@@ -24,7 +26,7 @@ packages:
   remote:
     url: https://github.com/mikelawrence/esphome-indoor-multi-sensor-config
     refresh: 1min
-    ref: main
+    ref: ${ref}
     files:
       # Main Config Files
       - common/common.yaml

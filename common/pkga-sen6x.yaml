@@ -13,7 +13,7 @@ substitutions:
   sen6x_tag: "611a2334b3b0e77034daefb9eb3b20019626f163"  # 2026.08.0
 
 external_components:
-  - source: github://mikelawrence/esphome-component-sen6x@{sen6x_tag}
+  - source: github://mikelawrence/esphome-component-sen6x@${sen6x_tag}
 
 esphome:
   on_boot:
