@@ -212,7 +212,7 @@ sensor:
                 id(co2_warning_var) = true;
               if (x < 1800.0)
                 id(co2_warning_var) = false;
-    nox:
+    nox_index:
       # NOₓ 1s interval averaged to once a minute, first 5 minutes ignored
       name: "NOx"
       id: nox
@@ -221,7 +221,7 @@ sensor:
         - skip_initial: ${sen66_skip_initial}
         - filter_out: NAN
         - throttle_average: ${sen66_throttle_average}
-    voc:
+    voc_index:
       # VOC 1s interval averaged to once a minute, first 5 minutes ignored
       name: "VOC"
       id: voc

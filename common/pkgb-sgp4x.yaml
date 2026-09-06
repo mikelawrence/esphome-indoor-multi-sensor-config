@@ -10,13 +10,13 @@ sensor:
     compensation:
       temperature_source: temperature
       humidity_source: humidity
-    voc:
+    voc_index:
       name: "VOC"
       id: voc
       filters:
         - filter_out: NAN
         - throttle_average: 60s
-    nox:
+    nox_index:
       name: "NOₓ"
       id: nox
       filters:
