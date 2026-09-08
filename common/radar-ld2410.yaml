@@ -1,10 +1,7 @@
 # Adds Hi-Link LD2410 mmWave Radar
 #   Not compatible with any other radar package
 substitutions:
-  # SEN6X Temperature Compensation values as specific to the LD2410 radar module
-  sen66_to_offset: "-2.207"
-  sen66_to_slope: "-0.015"
-  sen66_to_time_constant: "1360"
+  radar: "LD2410"
 
 power_supply:
   # this enables power to the ld2410 module
@@ -209,4 +206,4 @@ text_sensor:
     id: radar_included
     entity_category: diagnostic
     update_interval: 600s
-    lambda: !lambda return {"Hi-Link LD2410"};
+    lambda: !lambda return {"${radar}"};
