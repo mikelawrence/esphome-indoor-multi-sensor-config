@@ -3,10 +3,7 @@
 #   Not compatible with any other radar package
 #   This sensor is mounted upside down target x and angle sensors are inverted
 substitutions:
-  # SEN6X Temperature Compensation values as specific to the LD2450 radar module
-  sen66_to_offset: "-2.28"
-  sen66_to_slope: "-0.027"
-  sen66_to_time_constant: "1180"
+  radar: "LD2450"
 
 interval:
   - interval: 250ms
@@ -619,4 +616,4 @@ text_sensor:
     id: radar_included
     entity_category: diagnostic
     update_interval: 600s
-    lambda: !lambda return {"Hi-Link LD2450"};
+    lambda: !lambda return {"${radar}"};
