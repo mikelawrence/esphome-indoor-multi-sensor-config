@@ -2,7 +2,7 @@
 #   Not compatible with any other radar package
 substitutions:
   radar: "LD2410S"
-    # by default this is the tag to retrieve from github for the ld2410s component, can be overridden
+  # by default this is the tag to retrieve from github for the ld2410s component, can be overridden
   ld2410s_tag: "fdb674a6f960004cf342cd9e41701b45592458ae" # 2026.8.0
 
 external_components:
