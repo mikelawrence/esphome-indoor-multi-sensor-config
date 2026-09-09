@@ -146,13 +146,13 @@ select:
             if (strncmp(id(enclosure_type).current_option().c_str(), "None", 4) == 0) {
               id(sen66_sensor).set_temperature_offset(0.0, 0.0, 0, 0);
             } else if (strncmp(id(enclosure_type).current_option().c_str(), "Wallplate Left", 14) == 0) {
-              id(sen66_sensor).set_temperature_offset(0.0, 0.0, 0, 0);
+              id(sen66_sensor).set_temperature_offset(-2.03, 0.011, 1701, 0);
             } else if (strncmp(id(enclosure_type).current_option().c_str(), "Wallplate Right", 15) == 0) {
-              id(sen66_sensor).set_temperature_offset(0.0, 0.0, 0, 0);
+              id(sen66_sensor).set_temperature_offset(-2.19, 0.001, 1818, 0);
             } else if (strncmp(id(enclosure_type).current_option().c_str(), "Wallplate Center", 16) == 0) {
-              id(sen66_sensor).set_temperature_offset(0.0, 0.0, 0, 0);
+              id(sen66_sensor).set_temperature_offset(-2.56, 0.015, 1696, 0);
             } else if (strncmp(id(enclosure_type).current_option().c_str(), "Corner", 6) == 0) {
-              id(sen66_sensor).set_temperature_offset(0.0, 0.0, 0, 0);
+              id(sen66_sensor).set_temperature_offset(-2.26, 0.005, 1594, 0);
             }
             ESP_LOGD(ESP_LOG_TAG,  "Temperature offset for slot 0 updated for enclosure type %s", id(enclosure_type).current_option().c_str());
             // Slot 1 is used for the radar temperature offset
