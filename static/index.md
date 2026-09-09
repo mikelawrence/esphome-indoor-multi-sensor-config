@@ -57,6 +57,12 @@ This is the whole assembly wrapped up all nice an cozy ia couple of balnkets.
 
 ![Inside](https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/main/static/blanket-covered.jpg)
 
+Here are the calibration results for each of the enclosures available in this ![Github Repository](https://github.com/mikelawrence/esphome-indoor-multi-sensor-hardware/tree/main/enclosure).
+
+| Wallplate Right | Wallplate Left | Wallplate Center | Corner |
+| --- | --- | --- | --- |
+| ![Calibration Wallplate Right](https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/main/static/calibration-wallplate-right-none.png) | ![Calibration Wallplate Left](https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/main/static/calibration-wallplate-left-none.png) | ![Calibration Wallplate Center](https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/main/static/calibration-wallplate-right-none.png) | ![Corner](https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/main/static/calibration-corner-none.png) |
+
 Here is a screen capture of the Sensirion Dataviewer with the data from the LD2410 test. It shows the computed compensation values effect on the the temperature and humidity data.
 
 ![Data Viewer](https://raw.githubusercontent.com/mikelawrence/esphome-indoor-multi-sensor-config/main/static/data-ld2410.png)
