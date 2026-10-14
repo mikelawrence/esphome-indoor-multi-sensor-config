@@ -132,7 +132,7 @@ jobs:
     name: Build Firmware
     needs:
       - info
-    uses: esphome/workflows/.github/workflows/build.yml@0fdd5e311b7e744069166696072a1a9cbc5fbeb6  # 2026.8.1
+    uses: esphome/workflows/.github/workflows/build.yml@31d160e5f0ffa0ee65d5b27cb55c153d415f2abe  # 2026.10.2
     with:
       files: |
         multi-sensor-pkga-none-esp32-s3.factory.yaml
