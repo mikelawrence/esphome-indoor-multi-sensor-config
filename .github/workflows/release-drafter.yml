@@ -20,4 +20,4 @@ jobs:
     # Computes the next CalVer version (YY.M.N, reusing the current draft's
     # sequence number) and runs release-drafter with it. Reads this repo's
     # .github/release-drafter.yml for the changelog categories.
-    uses: esphome/workflows/.github/workflows/draft-calver-release.yml@0fdd5e311b7e744069166696072a1a9cbc5fbeb6  # 2026.8.1
+    uses: esphome/workflows/.github/workflows/draft-calver-release.yml@e1432c7b31fec7d24a13dc192953ebac836ed98a  # 2026.10.3
