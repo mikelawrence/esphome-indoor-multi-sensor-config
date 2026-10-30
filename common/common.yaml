@@ -10,6 +10,7 @@ substitutions:
   status_nighttime_lux: "3.0"
 
 esphome:
+  min_version: 2026.10.0
   on_boot:
     - priority: 500.0
       then:
