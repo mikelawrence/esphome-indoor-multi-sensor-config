@@ -2,11 +2,20 @@
 #   Adds SHT45 sensors:
 #     Temperature and Humidity
 #   Not compatible with PACKAGE A package
+# external_components:
+#   - source: github://pr#18287
+#     components: [sensor]
+#     refresh: 1h
+# this was added to make the build work below 2026.11.0
+# todo: remove when ESPHome stable version is 2026.11.0 or higher
+# Be sure to update the min required version when removing this workaround
 external_components:
-  - source: github://pr#18287
+  - source:
+      type: git
+      url: https://github.com/esphome/esphome
+      ref: f1c4de4485481f8adbb5a3c9d1443118fdae5c7c
     components: [sensor]
     refresh: 1h
-
 number:
   - platform: template
     name: "Temperature Cal Offset (°C)"
