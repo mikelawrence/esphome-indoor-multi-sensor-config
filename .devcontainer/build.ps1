@@ -2,7 +2,8 @@ param(
     [string]$ConfigDirectory = ".",
     [string[]]$Versions = @("stable", "beta", "dev"),
     [string]$Image,
-    [string[]]$Include = @("*")
+    [string[]]$Include = @("*"),
+    [switch]$SkipValidation
 )
 
 $ErrorActionPreference = "Stop"
@@ -14,6 +15,11 @@ $docker = Get-Command docker.exe -ErrorAction SilentlyContinue
 
 if (-not $docker) {
     throw "docker.exe was not found. Install or start Docker Desktop, then retry."
+}
+
+# Lint and auto-fix the repository before building so problems surface before a long compile.
+if (-not $SkipValidation) {
+    & (Join-Path $PSScriptRoot "validate.ps1")
 }
 
 $configDirectoryPath = Join-Path $repoRoot $ConfigDirectory
