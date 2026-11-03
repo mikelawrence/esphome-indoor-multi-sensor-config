@@ -1,0 +1,15 @@
+{
+  "name": "ESPHome component development",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "esphome",
+  "workspaceFolder": "/workspaces/component",
+  "shutdownAction": "stopCompose",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-python.python"
+      ]
+    }
+  }
+}

@@ -35,3 +35,4 @@ __pycache__/
 
 */production/backups
 *.esphome
+.esphome/
