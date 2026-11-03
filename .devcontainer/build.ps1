@@ -325,7 +325,8 @@ try {
         }
         $lines = [System.Collections.Generic.List[string]]::new()
         $lines.Add((& $paint "Building ESPHome $($titles -join ', ')" "1;36"))
-        $lines.Add((& $paint "Configs: $(($configs | ForEach-Object { $_.BaseName }) -join ', ')" "90"))
+        # A single short line: a wrapped line would break the cursor-up redraw
+        $lines.Add((& $paint "Configs: $($configs.Count)" "90"))
         $lines.Add((& $borderLine $box.TL $box.TM $box.TR))
         $lines.Add((& $rowLine @($columns | ForEach-Object { @{ Text = $_.Title; Color = "1;36" } })))
         $lines.Add((& $borderLine $box.ML $box.MM $box.MR))
