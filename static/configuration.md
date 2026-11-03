@@ -9,7 +9,7 @@ description: Configuration in ESPHome after taking control
 Once you take control in ESPHome, there are two sections you need to configure, `substitutions:` and `packages:`. In the `substitutions:` section you will find settings for many of the available sensors.
 You only need to declare substitutions if you need a value other than default.
 
-> With yaml all substitutions are strings and should be in `'single quotes'` or  
+> With yaml all substitutions are strings and should be in `'single quotes'` or\
 > `"double quotes"` even if the value is a float or a boolean value.
 
 ```yaml

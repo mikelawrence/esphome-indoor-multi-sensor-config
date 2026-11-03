@@ -1,0 +1,15 @@
+{
+    "configurations": [
+        {
+            "includePath": [
+                "${workspaceFolder}/../esphome",
+                "C:\\Users\\mike\\OneDrive\\Documents\\GitHub\\esphome"
+            ],
+            "intelliSenseMode": "windows-msvc-x64",
+            "compilerPath": "C:\\Program Files\\LLVM\\bin\\clang.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++20"
+        }
+    ],
+    "version": 4
+}

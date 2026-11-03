@@ -1,0 +1,23 @@
+services:
+  esphome:
+    image: ${ESPHOME_IMAGE:-ghcr.io/esphome/esphome:dev}
+    entrypoint: []
+    command: ["sleep", "infinity"]
+    working_dir: /workspaces/component
+    volumes:
+      - ..:/workspaces/component:cached
+      - esphome-cache:/root/.cache/esphome
+      - platformio-cache:/root/.platformio
+      - validation-cache:/root/.cache/pip
+      # Per-image build output: incremental compiles, and managed components are not downloaded again
+      - esphome-data:/esphome-data
+
+volumes:
+  esphome-data:
+    name: esphome-components-data${ESPHOME_CACHE_SUFFIX:-}
+  esphome-cache:
+    name: esphome-components-esphome-cache${ESPHOME_CACHE_SUFFIX:-}
+  platformio-cache:
+    name: esphome-components-platformio-cache${ESPHOME_CACHE_SUFFIX:-}
+  validation-cache:
+    name: esphome-components-validation-cache
