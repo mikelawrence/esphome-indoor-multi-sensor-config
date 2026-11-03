@@ -3,6 +3,9 @@
   "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
   "timezone": "America/Chicago",
   "schedule": ["* 0-4 * * *"],
+  "ignorePaths": [
+    ".devcontainer/**"
+  ],
   "packageRules": [
     {
       "description": "Group all GitHub Actions updates",
