@@ -19,7 +19,7 @@ Other tasks (**Terminal > Run Task...**):
 | --- | --- |
 | ML ESPHome: Build ESPHome test configs | Compile all top-level configs with ESPHome `stable`, `beta` and `dev` |
 | ML ESPHome: Clear cached downloads | Remove cached ESPHome/PlatformIO data and downloaded images; use this when builds behave oddly |
-| ML ESPHome: Validate ESPHome component | Component-repository lint/format checks (inherited from the component template; not used for this repository's configs) |
+| ML ESPHome: Validate ESPHome component | Runs yamllint, Ruff, and the file-hygiene checks (LF endings, no tabs or trailing whitespace) over the whole repository, auto-fixing what it can; the build task runs it first |
 
 ## Run from a terminal
 

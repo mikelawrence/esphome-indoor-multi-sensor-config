@@ -54,30 +54,27 @@ mapfile -t yaml_files < <(
   find . \( -name .git -o -name .esphome -o -name node_modules \) -prune -o \
     -type f \( -name '*.yaml' -o -name '*.yml' -o -name '.yamllint' \) -print | sort
 )
-# Component checks only apply to repositories that have a components or test directory.
-component_dirs=()
-for dir in components test; do
-  if [[ -d $dir ]]; then
-    component_dirs+=("$dir")
-  fi
-done
-has_components=0
+# Component repos lint components/ and test/; other repos (such as config repos) lint the whole checkout.
 if [[ -d components ]]; then
-  has_components=1
+  roots=(components test)
+else
+  roots=(.)
 fi
+ruff_excludes=.devcontainer,.esphome,.git,.ruff_cache,node_modules
+
 mapfile -t cpp_files < <(
-  if [[ -d components ]]; then find components -type f \( -name '*.c' -o -name '*.cpp' -o -name '*.h' -o -name '*.hpp' -o -name '*.tcc' \) -print; fi
+  find "${roots[@]}" \( -name .git -o -name .esphome -o -name node_modules -o -name .ruff_cache -o -name .devcontainer -o -name .vscode \) -prune -o -type f \( -name '*.c' -o -name '*.cpp' -o -name '*.h' -o -name '*.hpp' -o -name '*.tcc' \) -print
 )
-mapfile -t python_files < <(if [[ -d components ]]; then find components -type f -name '*.py' -print | sort; fi)
+mapfile -t python_files < <(find "${roots[@]}" \( -name .git -o -name .esphome -o -name node_modules -o -name .ruff_cache -o -name .devcontainer -o -name .vscode \) -prune -o -type f -name '*.py' -print | sort)
 mapfile -t convention_files < <(
-  if ((has_components)); then find "${component_dirs[@]}" \( -name .esphome -o -name .git -o -name node_modules \) -prune -o -type f \( \
+  find "${roots[@]}" \( -name .git -o -name .esphome -o -name node_modules -o -name .ruff_cache -o -name .devcontainer -o -name .vscode \) -prune -o -type f \( \
     -iname '*.c' -o -iname '*.cfg' -o -iname '*.conf' -o -iname '*.cpp' -o -iname '*.css' \
     -o -iname '*.h' -o -iname '*.html' -o -iname '*.ini' -o -iname '*.js' -o -iname '*.json' \
     -o -iname '*.md' -o -iname '*.py' -o -iname '*.ps1' -o -iname '*.proto' -o -iname '*.sh' \
     -o -iname '*.tcc' -o -iname '*.toml' -o -iname '*.txt' -o -iname '*.yaml' -o -iname '*.yml' \
     -o -name '.clang-format' -o -name '.clang-tidy' -o -name '.editorconfig' -o -name '.flake8' \
     -o -name '.gitattributes' -o -name '.gitignore' -o -name '.yamllint' -o -name 'LICENSE' \
-  \) -print | sort; fi
+  \) -print | sort
 )
 all_checked_files=$(printf '%s\n' \
   "${yaml_files[@]}" "${cpp_files[@]}" "${python_files[@]}" "${convention_files[@]}" |
@@ -113,7 +110,7 @@ if [[ -t 1 ]]; then
   fi
 fi
 
-check_total=0
+check_total=3
 if ((${#yaml_files[@]})); then
   check_total=$((check_total + 1))
 fi
@@ -121,9 +118,6 @@ if ((${#cpp_files[@]})); then
   check_total=$((check_total + 1))
 fi
 if ((${#python_files[@]})); then
-  check_total=$((check_total + 3))
-fi
-if ((has_components)); then
   check_total=$((check_total + 3))
 fi
 
@@ -239,13 +233,13 @@ import sys
 
 for root in sys.argv[1:]:
     for directory, dirnames, filenames in os.walk(root):
-        dirnames[:] = [name for name in dirnames if name not in {".esphome", ".git", "node_modules"}]
+        dirnames[:] = [name for name in dirnames if name not in {".esphome", ".git", "node_modules", ".ruff_cache", ".devcontainer", ".vscode"}]
         for filename in filenames:
             path = os.path.join(directory, filename)
             with open(path, "rb") as source:
                 digest = hashlib.sha256(source.read()).hexdigest()
             print(f"{path}\t{digest}")
-' "${component_dirs[@]}" | sort
+' "${roots[@]}" | sort
 }
 
 # Preparation runs under a "Prep" step so the table shows activity before the first check
@@ -278,14 +272,12 @@ if ((fix_mode)); then
     fi
   fi
 
-  if ((has_components)); then
-    prepare_phase "Fix Ruff"
-    if ! run_logged "Auto-fix: Ruff format" ruff format components; then
-      prepare_failed "Ruff formatting failed."
-    fi
-    if ! run_logged "Auto-fix: Ruff lint" ruff check --fix components; then
-      prepare_failed "Ruff lint fixes failed."
-    fi
+  prepare_phase "Fix Ruff"
+  if ! run_logged "Auto-fix: Ruff format" ruff format --exclude "${ruff_excludes}" "${roots[@]}"; then
+    prepare_failed "Ruff formatting failed."
+  fi
+  if ! run_logged "Auto-fix: Ruff lint" ruff check --fix --exclude "${ruff_excludes}" "${roots[@]}"; then
+    prepare_failed "Ruff lint fixes failed."
   fi
 
   if ((${#python_files[@]})); then
@@ -295,12 +287,10 @@ if ((fix_mode)); then
     fi
   fi
 
-  if ((has_components)); then
-    prepare_phase "Fix conventions"
-    if ! run_logged "Auto-fix: component conventions" \
-      python .devcontainer/check_component_conventions.py --fix; then
-      prepare_failed "Component convention auto-fix failed."
-    fi
+  prepare_phase "Fix conventions"
+  if ! run_logged "Auto-fix: component conventions" \
+    python .devcontainer/check_component_conventions.py --fix; then
+    prepare_failed "Component convention auto-fix failed."
   fi
 fi
 
@@ -369,10 +359,8 @@ fi
 if ((${#cpp_files[@]})); then
   run_check "C/C++" clang-format "${#cpp_files[@]}" clang-format --dry-run -Werror "${cpp_files[@]}"
 fi
-if ((has_components)); then
-  run_check Python "Ruff format" "${#python_files[@]}" ruff format --check components
-  run_check Python "Ruff lint" "${#python_files[@]}" ruff check components
-fi
+run_check Python "Ruff format" "${#python_files[@]}" ruff format --check --exclude "${ruff_excludes}" "${roots[@]}"
+run_check Python "Ruff lint" "${#python_files[@]}" ruff check --exclude "${ruff_excludes}" "${roots[@]}"
 
 if ((${#python_files[@]})); then
   run_check Python flake8 "${#python_files[@]}" flake8 "${python_files[@]}"
@@ -398,10 +386,8 @@ if ((${#python_files[@]})); then
   run_check Python pyupgrade "${#python_files[@]}" check_pyupgrade
 fi
 
-if ((has_components)); then
-  run_check Conventions "component conventions" "${#convention_files[@]}" \
-    python .devcontainer/check_component_conventions.py
-fi
+run_check Conventions "component conventions" "${#convention_files[@]}" \
+  python .devcontainer/check_component_conventions.py
 
 table_end=$(now_ms)
 current_name=Finished

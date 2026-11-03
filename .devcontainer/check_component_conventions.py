@@ -45,13 +45,24 @@ def main() -> int:
         stdout=subprocess.PIPE,
     )
     errors: list[str] = []
+    # Component repos check components/ and test/; other repos check the whole checkout.
+    if Path("components").is_dir():
+        roots = {"components", "test"}
+        excluded_roots = set()
+    else:
+        roots = None
+        excluded_roots = {".devcontainer", ".esphome", ".git", ".ruff_cache", ".vscode"}
 
     for raw_path in result.stdout.split(b"\0"):
         if not raw_path:
             continue
 
         path = Path(os.fsdecode(raw_path))
-        if not path.parts or path.parts[0] not in {"components", "test"}:
+        if not path.parts:
+            continue
+        if roots is not None and path.parts[0] not in roots:
+            continue
+        if path.parts[0] in excluded_roots:
             continue
         if path.suffix.lower() not in TEXT_EXTENSIONS and path.name not in {
             ".clang-format",
