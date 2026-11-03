@@ -12,10 +12,16 @@ elif (($#)); then
 fi
 script_start=${EPOCHREALTIME/./}
 
-mkdir -p test/.esphome
+# Component repos log next to their test builds; other repos log next to the build logs in .esphome
+if [[ -d components ]]; then
+  log_dir=test/.esphome
+else
+  log_dir=.esphome
+fi
+mkdir -p "$log_dir"
 # Only the latest run is kept, like the build logs
-validation_log="test/.esphome/validate-$(date +%Y-%m-%d).log"
-rm -f test/.esphome/validate-*.log
+validation_log="$log_dir/validate-$(date +%Y-%m-%d).log"
+rm -f "$log_dir"/validate-*.log
 : > "$validation_log"
 command_log=$(mktemp)
 warning_files=$(mktemp)
