@@ -4,7 +4,8 @@
 # force these line endings
 *.yaml      text eol=lf
 *.yml       text eol=lf
-*.md        text eol=lf diff=markdown
+.yamllint   text eol=lf
+*.md         text eol=lf diff=markdown
 *.mdx       text eol=lf diff=markdown
 
 # Common settings that generally should always be used with your language specific settings
