@@ -1,0 +1,235 @@
+name: Normalize PR type and labels
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+      - labeled
+      - unlabeled
+
+permissions:
+  pull-requests: write
+  issues: write
+
+# Serialize updates for each PR without interrupting an in-progress update.
+concurrency:
+  group: pr-type-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  normalize:
+    name: Normalize change type
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Normalize checkboxes and synchronize labels
+        uses: actions/github-script@v9
+        with:
+          retries: 3
+          script: |
+            const { owner, repo } = context.repo;
+            const pull_number = context.payload.pull_request.number;
+            const issue_number = pull_number;
+
+            // Priority follows the order in your PR template.
+            const types = [
+              { name: "Bugfix",                    label: "bug" },
+              { name: "New feature",               label: "enhancement" },
+              { name: "Breaking change",           label: "breaking" },
+              { name: "Code quality improvements", label: "quality" },
+              { name: "Dependency change",         label: "dependencies" },
+              { name: "Documentation",             label: "documentation" },
+              { name: "Chore",                     label: "chore" }
+            ];
+
+            const managedLabels = new Set(types.map(type => type.label));
+
+            // Fetch current state instead of relying on a potentially stale
+            // event payload.
+            const { data: pr } = await github.rest.pulls.get({
+              owner,
+              repo,
+              pull_number
+            });
+
+            if (pr.state !== "open") {
+              core.info("PR is closed; nothing to do.");
+              return;
+            }
+
+            const body = pr.body ?? "";
+            const lines = body.split("\n");
+
+            // Limit checkbox changes to the Type of change section.
+            const sectionStart = lines.findIndex(line =>
+              /^##[ \t]+Type of change\b/i.test(line)
+            );
+
+            if (sectionStart === -1) {
+              core.setFailed(
+                'Missing "## Type of change" section. ' +
+                "Restore the PR template and select one change type."
+              );
+              return;
+            }
+
+            let sectionEnd = lines.length;
+
+            for (let i = sectionStart + 1; i < lines.length; i++) {
+              if (/^#{1,2}(?:[ \t]+|$)/.test(lines[i])) {
+                sectionEnd = i;
+                break;
+              }
+            }
+
+            const escapeRegex = text =>
+              text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+            const typePatterns = types.map(type => new RegExp(
+              `^(?:[^\\p{L}\\p{N}]*?)${escapeRegex(type.name)}(?:\\s|\\(|$)`,
+              "iu"
+            ));
+
+            const entries = [];
+
+            for (let i = sectionStart + 1; i < sectionEnd; i++) {
+              const match = lines[i].match(
+                /^([ \t]*[-*+][ \t]+\[)([ xX])(\][ \t]+)(.*?)(\r?)$/
+              );
+
+              if (!match) continue;
+
+              // Match the type name while allowing its leading emoji.
+              const typeIndex = typePatterns.findIndex(pattern =>
+                pattern.test(match[4])
+              );
+
+              if (typeIndex === -1) continue;
+
+              entries.push({
+                lineIndex: i,
+                typeIndex,
+                checked: match[2].toLowerCase() === "x",
+                prefix: match[1],
+                suffix: match[3] + match[4] + match[5]
+              });
+            }
+
+            // Choose by configured priority, not by checkbox position.
+            const selected = entries
+              .filter(entry => entry.checked)
+              .sort((a, b) =>
+                a.typeIndex - b.typeIndex || a.lineIndex - b.lineIndex
+              )[0];
+
+            const desiredLabel = selected
+              ? types[selected.typeIndex].label
+              : null;
+
+            // Verify the selected label exists before modifying the PR.
+            if (desiredLabel) {
+              await github.rest.issues.getLabel({
+                owner,
+                repo,
+                name: desiredLabel
+              });
+            }
+
+            if (selected) {
+              for (const entry of entries) {
+                lines[entry.lineIndex] =
+                  entry.prefix +
+                  (entry === selected ? "x" : " ") +
+                  entry.suffix;
+              }
+
+              const updatedBody = lines.join("\n");
+
+              if (updatedBody !== body) {
+                // Avoid overwriting an edit detected before the update.
+                const { data: latest } = await github.rest.pulls.get({
+                  owner,
+                  repo,
+                  pull_number
+                });
+
+                if ((latest.body ?? "") !== body) {
+                  core.setFailed(
+                    "PR description changed during this run. " +
+                    "Rerun the workflow to process the latest description."
+                  );
+                  return;
+                }
+
+                await github.rest.pulls.update({
+                  owner,
+                  repo,
+                  pull_number,
+                  body: updatedBody
+                });
+
+                core.info("Normalized the change-type checkboxes.");
+              }
+            }
+
+            const labels = await github.paginate(
+              github.rest.issues.listLabelsOnIssue,
+              {
+                owner,
+                repo,
+                issue_number,
+                per_page: 100
+              }
+            );
+
+            const currentLabels = new Set(labels.map(label => label.name));
+
+            // Add the correct label without replacing unrelated labels.
+            if (desiredLabel && !currentLabels.has(desiredLabel)) {
+              await github.rest.issues.addLabels({
+                owner,
+                repo,
+                issue_number,
+                labels: [desiredLabel]
+              });
+
+              core.info(`Added label: ${desiredLabel}`);
+            }
+
+            // Remove only labels managed by this workflow.
+            for (const label of currentLabels) {
+              if (!managedLabels.has(label) || label === desiredLabel) {
+                continue;
+              }
+
+              try {
+                await github.rest.issues.removeLabel({
+                  owner,
+                  repo,
+                  issue_number,
+                  name: label
+                });
+
+                core.info(`Removed label: ${label}`);
+              } catch (error) {
+                // Another actor may already have removed it.
+                if (error.status !== 404) throw error;
+              }
+            }
+
+            if (!selected) {
+              core.setFailed(
+                "Select exactly one checkbox under Type of change. " +
+                "No type was selected, so managed type labels were removed."
+              );
+              return;
+            }
+
+            core.info(
+              `Selected type: ${types[selected.typeIndex].name}; ` +
+              `label: ${desiredLabel}`
+            );
