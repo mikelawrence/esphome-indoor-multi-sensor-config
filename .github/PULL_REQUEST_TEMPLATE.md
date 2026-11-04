@@ -4,12 +4,13 @@
 
 ## Type of change (choose one)
 
-- [ ] Bugfix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (A bugfix or feature that disrupts current functionality)
-- [ ] Code quality improvements to existing code
-- [ ] Dependency change (an update that changes a dependency file)
-- [ ] Chore (general maintenance)
+- [ ] 🐛 Bugfix (non-breaking change which fixes an issue)
+- [ ] 🚀 New feature (non-breaking change which adds functionality)
+- [ ] 💥 Breaking change (a bugfix or feature that disrupts current functionality)
+- [ ] 🧹 Code quality improvements to existing code
+- [ ] ➕ Dependency change (an update that changes a dependency file)
+- [ ] 💁 Documentation (changes to documentation)
+- [ ] 🧰 Chore (general maintenance)
 
 ## Testing
 
