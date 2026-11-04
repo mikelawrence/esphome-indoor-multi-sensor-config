@@ -1,23 +1,33 @@
 categories:
-  - title: '🚀 Features'
-    semver-increment: minor
+  - title: '🐛 Bug Fixes'
+    when:
+      labels:
+        - 'bug'
+  - title: '🚀 New Features'
+    when:
+      labels:
+        - 'enhancement'
+  - title: '💥 Breaking Changes'
     when:
       labels:
         - 'feature'
         - 'enhancement'
-  - title: '🐛 Bug Fixes'
+  - title: '🧹 Code Quality Improvements'
+    when:
+      label: 'quality'
+  - title: '➕ Dependencies'
+    collapse-after: 1
     when:
       labels:
-        - 'fix'
-        - 'bugfix'
-        - 'bug'
+        - 'dependencies'
+  - title: '💁 Documentation'
+    collapse-after: 1
+    when:
+      labels: 
+        - 'documentation'
   - title: '🧰 Maintenance'
     when:
       label: 'chore'
-  - title: "Dependencies"
-    collapse-after: 1
-    when:
-      label: "type: dependencies"
 
 template: |
   ## What's Changed
