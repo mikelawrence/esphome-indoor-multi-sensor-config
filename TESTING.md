@@ -17,7 +17,7 @@ Other tasks (**Terminal > Run Task...**):
 
 | Task | Purpose |
 | --- | --- |
-| ML ESPHome: Build ESPHome test configs | Lint/auto-fix the repository (yamllint, Ruff, file hygiene), then compile all top-level configs with ESPHome `stable`, `beta` and `dev` |
+| ML ESPHome: Build ESPHome test configs | Lint/auto-fix the repository (yamllint, Ruff, file hygiene), then compile all top-level configs with ESPHome `stable` and `dev` |
 | ML ESPHome: Clear cached downloads | Remove cached ESPHome/PlatformIO data and downloaded images; use this when builds behave oddly |
 
 ## Run from a terminal
@@ -25,13 +25,13 @@ Other tasks (**Terminal > Run Task...**):
 Run from the repository root:
 
 ```powershell
-.\.devcontainer\build.ps1                                        # all configs, stable + beta + dev
+.\.devcontainer\build.ps1                                        # all configs, stable + dev
 .\.devcontainer\build.ps1 -Versions @("dev")                     # one ESPHome tag
 .\.devcontainer\build.ps1 -Image ghcr.io/esphome/esphome:2026.10.1
 .\.devcontainer\build.ps1 -Include "multi-sensor-pkga-ld2450*"   # only matching configs
 ```
 
-`-Include` takes wildcard patterns that match the file name with or without the extension. Beta is skipped automatically when it is the same image as stable.
+`-Include` takes wildcard patterns that match the file name with or without the extension. Beta is not built by default; add it with `-Versions @("stable", "beta", "dev")` (it is skipped when it is the same image as stable).
 
 ## How it works
 

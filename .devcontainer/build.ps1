@@ -1,6 +1,6 @@
 param(
     [string]$ConfigDirectory = ".",
-    [string[]]$Versions = @("stable", "beta", "dev"),
+    [string[]]$Versions = @("stable", "dev"),
     [string]$Image,
     [string[]]$Include = @("*"),
     [switch]$SkipValidation
