@@ -23,7 +23,7 @@ categories:
   - title: '💁 Documentation'
     collapse-after: 1
     when:
-      labels: 
+      labels:
         - 'documentation'
   - title: '🧰 Maintenance'
     when:

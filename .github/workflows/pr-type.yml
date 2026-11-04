@@ -63,13 +63,14 @@ jobs:
 
             const body = pr.body ?? "";
             const lines = body.split("\n");
+            const isRenovate = pr.user?.login === "renovate[bot]";
 
             // Limit checkbox changes to the Type of change section.
             const sectionStart = lines.findIndex(line =>
               /^##[ \t]+Type of change\b/i.test(line)
             );
 
-            if (sectionStart === -1) {
+            if (sectionStart === -1 && !isRenovate) {
               core.setFailed(
                 'Missing "## Type of change" section. ' +
                 "Restore the PR template and select one change type."
@@ -96,7 +97,7 @@ jobs:
 
             const entries = [];
 
-            for (let i = sectionStart + 1; i < sectionEnd; i++) {
+            for (let i = sectionStart + 1; !isRenovate && i < sectionEnd; i++) {
               const match = lines[i].match(
                 /^([ \t]*[-*+][ \t]+\[)([ xX])(\][ \t]+)(.*?)(\r?)$/
               );
@@ -126,9 +127,11 @@ jobs:
                 a.typeIndex - b.typeIndex || a.lineIndex - b.lineIndex
               )[0];
 
-            const desiredLabel = selected
-              ? types[selected.typeIndex].label
-              : null;
+            const desiredLabel = isRenovate
+              ? "dependencies"
+              : selected
+                ? types[selected.typeIndex].label
+                : null;
 
             // Verify the selected label exists before modifying the PR.
             if (desiredLabel) {
@@ -221,10 +224,18 @@ jobs:
               }
             }
 
-            if (!selected) {
+            if (!selected && !isRenovate) {
               core.setFailed(
                 "Select exactly one checkbox under Type of change. " +
                 "No type was selected, so managed type labels were removed."
+              );
+              return;
+            }
+
+            if (isRenovate) {
+              core.info(
+                "Selected type: Dependency change (Renovate); " +
+                `label: ${desiredLabel}`
               );
               return;
             }
