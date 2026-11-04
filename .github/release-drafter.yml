@@ -1,10 +1,23 @@
 categories:
-  - title: "Breaking Changes"
-    label: "breaking-change"
+  - title: '🚀 Features'
+    semver-increment: minor
+    when:
+      labels:
+        - 'feature'
+        - 'enhancement'
+  - title: '🐛 Bug Fixes'
+    when:
+      labels:
+        - 'fix'
+        - 'bugfix'
+        - 'bug'
+  - title: '🧰 Maintenance'
+    when:
+      label: 'chore'
   - title: "Dependencies"
     collapse-after: 1
-    labels:
-      - "dependencies"
+    when:
+      label: "type: dependencies"
 
 template: |
   ## What's Changed
