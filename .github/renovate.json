@@ -24,7 +24,7 @@
       "depNameTemplate": "c4001",
       "packageNameTemplate": "mikelawrence/esphome-component-dfrobot-c4001",
       "datasourceTemplate": "github-tags",
-      "versioningTemplate": "regex:^(?<major>\\d{2,4})\\.(?<minor>\\d{1,2})\\.(?<patch>\\d+)$",
+      "versioningTemplate": "regex:^(?:20)?(?<major>\\d{2})\\.(?<minor>\\d{1,2})\\.(?<patch>\\d+)$",
       "autoReplaceStringTemplate": "c4001_tag: \"{{{newDigest}}}\"  # {{{newValue}}}"
     },
     {
@@ -37,7 +37,7 @@
       "depNameTemplate": "ld2410s",
       "packageNameTemplate": "mikelawrence/esphome-component-ld2410s",
       "datasourceTemplate": "github-tags",
-      "versioningTemplate": "regex:^(?<major>\\d{2,4})\\.(?<minor>\\d{1,2})\\.(?<patch>\\d+)$",
+      "versioningTemplate": "regex:^(?:20)?(?<major>\\d{2})\\.(?<minor>\\d{1,2})\\.(?<patch>\\d+)$",
       "autoReplaceStringTemplate": "ld2410s_tag: \"{{{newDigest}}}\"  # {{{newValue}}}"
     },
     {
@@ -50,7 +50,7 @@
       "depNameTemplate": "sen6x",
       "packageNameTemplate": "mikelawrence/esphome-component-sen6x",
       "datasourceTemplate": "github-tags",
-      "versioningTemplate": "regex:^(?<major>\\d{2,4})\\.(?<minor>\\d{1,2})\\.(?<patch>\\d+)$",
+      "versioningTemplate": "regex:^(?:20)?(?<major>\\d{2})\\.(?<minor>\\d{1,2})\\.(?<patch>\\d+)$",
       "autoReplaceStringTemplate": "sen6x_tag: \"{{{newDigest}}}\"  # {{{newValue}}}"
     }
   ]
