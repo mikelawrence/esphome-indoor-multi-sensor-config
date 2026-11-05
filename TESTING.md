@@ -17,7 +17,7 @@ Other tasks (**Terminal > Run Task...**):
 
 | Task | Purpose |
 | --- | --- |
-| ML ESPHome: Build ESPHome test configs | Lint/auto-fix the repository (yamllint, Ruff, file hygiene), then compile all top-level configs with ESPHome `stable` and `dev` |
+| ML ESPHome: Build ESPHome test configs | Lint/auto-fix the repository (yamllint, file hygiene), then compile all top-level configs with ESPHome `stable` and `dev` |
 | ML ESPHome: Clear cached downloads | Remove cached ESPHome/PlatformIO data and downloaded images; use this when builds behave oddly |
 
 ## Run from a terminal

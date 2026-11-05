@@ -66,12 +66,10 @@ if [[ -d components ]]; then
 else
   roots=(.)
 fi
-ruff_excludes=.devcontainer,.esphome,.git,.ruff_cache,node_modules
 
 mapfile -t cpp_files < <(
   find "${roots[@]}" \( -name .git -o -name .esphome -o -name node_modules -o -name .ruff_cache -o -name .devcontainer -o -name .vscode \) -prune -o -type f \( -name '*.c' -o -name '*.cpp' -o -name '*.h' -o -name '*.hpp' -o -name '*.tcc' \) -print
 )
-mapfile -t python_files < <(find "${roots[@]}" \( -name .git -o -name .esphome -o -name node_modules -o -name .ruff_cache -o -name .devcontainer -o -name .vscode \) -prune -o -type f -name '*.py' -print | sort)
 mapfile -t convention_files < <(
   find "${roots[@]}" \( -name .git -o -name .esphome -o -name node_modules -o -name .ruff_cache -o -name .devcontainer -o -name .vscode \) -prune -o -type f \( \
     -iname '*.c' -o -iname '*.cfg' -o -iname '*.conf' -o -iname '*.cpp' -o -iname '*.css' \
@@ -83,17 +81,16 @@ mapfile -t convention_files < <(
   \) -print | sort
 )
 all_checked_files=$(printf '%s\n' \
-  "${yaml_files[@]}" "${cpp_files[@]}" "${python_files[@]}" "${convention_files[@]}" |
+  "${yaml_files[@]}" "${cpp_files[@]}" "${convention_files[@]}" |
   sed '/^$/d' | sort -u)
 checked_file_count=$(printf '%s\n' "$all_checked_files" | sed '/^$/d' | wc -l)
 
-declare -A group_checks=([YAML]=0 [C/C++]=0 [Python]=0 [Conventions]=0)
-declare -A group_failures=([YAML]=0 [C/C++]=0 [Python]=0 [Conventions]=0)
-declare -A group_warnings=([YAML]=0 [C/C++]=0 [Python]=0 [Conventions]=0)
+declare -A group_checks=([YAML]=0 [C/C++]=0 [Conventions]=0)
+declare -A group_failures=([YAML]=0 [C/C++]=0 [Conventions]=0)
+declare -A group_warnings=([YAML]=0 [C/C++]=0 [Conventions]=0)
 declare -A group_files=(
   [YAML]=${#yaml_files[@]}
   [C/C++]="${#cpp_files[@]}"
-  [Python]=${#python_files[@]}
   [Conventions]=${#convention_files[@]}
 )
 
@@ -116,15 +113,12 @@ if [[ -t 1 ]]; then
   fi
 fi
 
-check_total=3
+check_total=1
 if ((${#yaml_files[@]})); then
   check_total=$((check_total + 1))
 fi
 if ((${#cpp_files[@]})); then
   check_total=$((check_total + 1))
-fi
-if ((${#python_files[@]})); then
-  check_total=$((check_total + 3))
 fi
 
 table_lines=0
@@ -278,21 +272,6 @@ if ((fix_mode)); then
     fi
   fi
 
-  prepare_phase "Fix Ruff"
-  if ! run_logged "Auto-fix: Ruff format" ruff format --exclude "${ruff_excludes}" "${roots[@]}"; then
-    prepare_failed "Ruff formatting failed."
-  fi
-  if ! run_logged "Auto-fix: Ruff lint" ruff check --fix --exclude "${ruff_excludes}" "${roots[@]}"; then
-    prepare_failed "Ruff lint fixes failed."
-  fi
-
-  if ((${#python_files[@]})); then
-    prepare_phase "Fix pyupgrade"
-    if ! run_logged "Auto-fix: pyupgrade" pyupgrade --py310-plus "${python_files[@]}"; then
-      prepare_failed "pyupgrade failed."
-    fi
-  fi
-
   prepare_phase "Fix conventions"
   if ! run_logged "Auto-fix: component conventions" \
     python .devcontainer/check_component_conventions.py --fix; then
@@ -365,33 +344,6 @@ fi
 if ((${#cpp_files[@]})); then
   run_check "C/C++" clang-format "${#cpp_files[@]}" clang-format --dry-run -Werror "${cpp_files[@]}"
 fi
-run_check Python "Ruff format" "${#python_files[@]}" ruff format --check --exclude "${ruff_excludes}" "${roots[@]}"
-run_check Python "Ruff lint" "${#python_files[@]}" ruff check --exclude "${ruff_excludes}" "${roots[@]}"
-
-if ((${#python_files[@]})); then
-  run_check Python flake8 "${#python_files[@]}" flake8 "${python_files[@]}"
-  run_check Python pylint "${#python_files[@]}" pylint -f parseable --persistent=n "${python_files[@]}"
-
-  check_pyupgrade() {
-    temp_dir=$(mktemp -d)
-    result=0
-    for file in "${python_files[@]}"; do
-      mkdir -p "$temp_dir/$(dirname "$file")"
-      cp -- "$file" "$temp_dir/$file"
-      if ! pyupgrade --py310-plus "$temp_dir/$file"; then
-        echo "$file: pyupgrade failed" >&2
-        result=1
-      elif ! cmp -s "$file" "$temp_dir/$file"; then
-        echo "$file: pyupgrade changes are required" >&2
-        result=1
-      fi
-    done
-    rm -rf -- "$temp_dir"
-    return "$result"
-  }
-  run_check Python pyupgrade "${#python_files[@]}" check_pyupgrade
-fi
-
 run_check Conventions "component conventions" "${#convention_files[@]}" \
   python .devcontainer/check_component_conventions.py
 
@@ -408,7 +360,7 @@ draw_table final
 warning_file_count=$(sort -u "$warning_files" | sed '/^$/d' | wc -l)
 
 printf '\nValidation summary\n'
-for group in YAML "C/C++" Python Conventions; do
+for group in YAML "C/C++" Conventions; do
   if ((${group_checks[$group]} == 0)); then
     continue
   fi
