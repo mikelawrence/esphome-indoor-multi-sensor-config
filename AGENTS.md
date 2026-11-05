@@ -31,7 +31,7 @@ This command applies supported automatic fixes, then runs strict YAML linting, C
 
 ### Build test configurations
 
-In VS Code, use **Terminal > Run Build Task** and select **ML ESPHome: Build ESPHome test configs**. This is the default Build task. It compiles every top-level `.yaml` and `.yml` file in the repository root (including the `.factory.yaml` files) with ESPHome `stable`, `beta`, and `dev` images. See [TESTING.md](TESTING.md).
+In VS Code, use **Terminal > Run Build Task** and select **ML ESPHome: Build ESPHome test configs**. This is the default Build task. It compiles every top-level `.yaml` and `.yml` file in the repository root (including the `.factory.yaml` files) with ESPHome `stable` and `dev` images. See [TESTING.md](TESTING.md).
 
 To run compilation by itself, run:
 
