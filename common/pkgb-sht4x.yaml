@@ -34,11 +34,10 @@ sensor:
       accuracy_decimals: 2
       filters:
         - filter_out: NAN
-        # TODO: add this back in and force min esphome to 2026.11.0
-        # - rh_correction:
-        #     # use averaged temperature for humidity correction
-        #     sensor_id: temperature
-        #     temperature_offset: !lambda return id(temperature_calibration_offset).state;
+        - rh_correction:
+            # use averaged temperature for humidity correction
+            sensor_id: temperature
+            temperature_offset: !lambda return id(temperature_calibration_offset).state;
         - throttle_average: 60s
   - platform: copy
     # temperature median over last 5 minutes, output every minute
