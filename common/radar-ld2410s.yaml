@@ -3,7 +3,7 @@
 substitutions:
   radar: "LD2410S"
   # by default this is the tag to retrieve from github for the ld2410s component, can be overridden
-  ld2410s_tag: "9ed658409d5375e27010768c16d0bfb4bab47307"  # 2026.11.0
+  ld2410s_tag: "bf32b6e961dc1d9db3ac6ad823b109f46b2fc87e"  # 26.11.1
 
 external_components:
   - source: github://mikelawrence/esphome-component-ld2410s@${ld2410s_tag}
